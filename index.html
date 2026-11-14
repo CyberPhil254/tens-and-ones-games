@@ -229,6 +229,70 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
 }
+
+/* ================= version 2 ================= */
+.today{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:16px;display:grid;gap:14px}
+.today h2{margin:0;font-size:26px}
+.today p{margin:4px 0 12px;font-size:18px}
+.today .next{margin:0;font-size:24px;padding:12px 30px}
+.today .next.quiet{background:var(--card);font-size:18px;padding:8px 20px;box-shadow:0 4px 0 var(--ink)}
+.trow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.store{border-top:2px dashed var(--grid);padding-top:12px}
+.shelf{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+.bbox,.btray{display:grid;grid-template-columns:repeat(5,auto);gap:3px 4px;padding:6px;border-radius:8px;font-size:11px;color:#C98A00;line-height:1}
+.bbox{border:2px solid var(--ink);background:#FFF3D0}
+.btray{border:2px dashed var(--soft)}
+.btray .empty{color:#DCE3EF}
+.crate{font-family:var(--display);font-weight:700;font-size:20px;border:2px solid var(--ink);background:var(--sun);border-radius:8px;padding:12px}
+.storecap{margin:8px 0 0 !important;font-size:17px !important}
+.shelfh{font-family:var(--display);font-weight:600;font-size:19px;color:var(--soft);margin:22px 0 8px}
+.station.next-up{background:#FFF8E1}
+.badge{display:inline-block;font-family:var(--display);font-weight:600;font-size:13px;background:var(--sun);border:1.5px solid var(--ink);border-radius:999px;padding:0 8px;margin-left:8px;vertical-align:2px}
+.station:disabled{opacity:.55;box-shadow:none;cursor:default}
+.station .no.tag{font-size:16px;background:var(--one)}
+.tt{color:var(--ten)} .oo{color:var(--one)}
+.wordy{white-space:nowrap} .wordy .t{color:var(--ten)} .wordy .o{color:var(--one)}
+
+/* number line */
+.nline{position:relative;width:calc(100% - 48px);max-width:560px;margin:58px 24px 26px}
+.nl-bar{display:flex;height:28px;border:2px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden}
+.hrod{flex:0 0 10%;background-color:var(--ten);box-shadow:inset -2px 0 0 #fff;background-image:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--ten-deep) calc(10% - 1px) 10%)}
+.hcube{flex:0 0 1%;background:var(--one);box-shadow:inset -1px 0 0 #fff}
+.nl-axis{position:relative;height:24px}
+.nl-axis span{position:absolute;top:8px;transform:translateX(-50%);font-family:var(--display);font-size:13px;font-weight:600}
+.nl-axis span::before{content:"";position:absolute;left:50%;top:-8px;width:2px;height:7px;margin-left:-1px;background:var(--ink)}
+.nline.sparse .minor{visibility:hidden}
+.nl-pup{position:absolute;left:0;top:-50px;width:46px;height:48px;transform:translateX(-50%);transition:left .35s ease;pointer-events:none}
+.nl-pup svg{width:100%;height:100%;overflow:visible}
+.nl-hit{position:absolute;left:-10px;right:-10px;top:-34px;height:96px;cursor:pointer}
+.nl-zoom{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;font-family:var(--display);font-weight:600;font-size:20px}
+.zcells{display:flex;gap:3px;padding:4px;border:2px solid var(--ink);border-radius:8px;background:#fff}
+.zcells i{width:clamp(14px,4.2vw,22px);height:clamp(14px,4.2vw,22px);border-radius:4px;border:1.5px dashed #AEBBD3}
+.zcells i.on{background:var(--one);border:0}
+.zcells i.on:nth-child(n+6){background:var(--one-lite)}
+.zcells i:nth-child(6){margin-left:7px}
+.nline.sparse .nl-zoom{visibility:hidden}
+
+/* sketch: the half-way picture between blocks and digits */
+.blocks.sketch .rod{background:none}
+.blocks.sketch .rod i{visibility:hidden}
+.blocks.sketch .rod::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;border-radius:2px;background:var(--ten)}
+.blocks.sketch .cube,.pile.sketch .cube{border-radius:50%;transform:scale(.62);box-shadow:none}
+.blocks.sketch .ghost{display:none}
+
+/* race */
+.hsq .p1{background:var(--sun);border:2.5px solid var(--ink);font-weight:700}
+.hsq .p2{background:#9BE3BD;border:2.5px solid var(--ink);font-weight:700}
+.hsq .p1.p2{background:linear-gradient(135deg,var(--sun) 50%,#9BE3BD 50%)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-family:var(--display);font-size:18px}
+.legend span{border:2px solid var(--ink);border-radius:999px;padding:2px 12px}
+.legend .p1{background:var(--sun)} .legend .p2{background:#9BE3BD}
+.legend .on{box-shadow:0 0 0 4px var(--one)}
+
+.prompt .storytxt{display:block;font-family:var(--body);font-weight:400;font-size:clamp(20px,5vw,26px);line-height:1.45;text-align:left;margin-bottom:8px}
+.eqline{font-family:var(--display);font-weight:600;font-size:30px;margin:0}
+.gprompt{margin:10px auto 0;max-width:26em;text-align:center;font-size:16px;color:var(--soft);border:2px dashed var(--grid);border-radius:12px;padding:6px 12px}
+.timebig{font-family:var(--display);font-weight:700;font-size:44px;text-align:center;margin:0;line-height:1.1}
 </style>
 </head>
 <body>
@@ -239,8 +303,28 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
     <h1><span class="t">Tens</span> <span class="amp">&amp;</span> <span class="o">Ones</span></h1>
     <div class="pup idle" id="homepup"></div>
   </div>
-  <p class="lede">Every number is made of <b style="color:var(--ten)">tens</b> and <b style="color:var(--one)">ones</b>. Press the buttons and watch what happens.</p>
+  <p class="lede">Every number is made of <b class="tt">tens</b> and <b class="oo">ones</b>.</p>
 
+  <div class="today">
+    <div>
+      <h2>Today</h2>
+      <p id="todaytxt"></p>
+      <div class="trow">
+        <button class="next" id="todaybtn" type="button">Play today's games</button>
+        <button class="soundbtn" id="sound" type="button" aria-pressed="true">Sound on</button>
+      </div>
+    </div>
+    <div class="store">
+      <div class="shelf" id="store" role="img"></div>
+      <p class="storecap" id="storecap"></p>
+    </div>
+  </div>
+
+  <h2>All the games</h2>
+  <div id="shelves"></div>
+
+  <h2>Number machine</h2>
+  <p class="h2note">Press the buttons and watch the tens and ones change.</p>
   <div class="machine" id="machine">
     <div class="mread"><span id="mnum" class="n" aria-live="polite"></span><div id="mwords"></div></div>
     <div id="mblocks"></div>
@@ -252,20 +336,18 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
     </div>
   </div>
 
-  <div class="h2row"><h2>Eight games</h2><button class="soundbtn" id="sound" type="button" aria-pressed="true">Sound on</button></div>
-  <p class="h2note">Win a bone for the puppy every time you are right first go.</p>
-  <ol class="stations" id="stations"></ol>
-
   <div class="grown">
     <h2>For grown-ups</h2>
     <ul>
-      <li>Play the games in order, 1 to 8. Games 1 to 3 are the foundation: stay there until she stops counting one by one. Game 5 practises test question 12, game 6 question 18, game 7 question 14 and game 8 question 20.</li>
-      <li>Five to ten minutes a day, one or two games, then stop. Short and daily works better than long and weekly.</li>
-      <li>Ask &ldquo;How do you know?&rdquo; and let her explain it with tens and ones. Saying it aloud is where it sticks.</li>
+      <li><b>Play today's games</b> is the main button: a short warm-up from games she already knows, then two rounds of the next game. It takes about ten minutes. Then stop. Short and daily works better than long and weekly.</li>
+      <li>The game moves her up a level when she wins five or six bones in a round, and down again when a round is too hard. A perfect round skips a level. A game is finished after two good rounds at its last level, and it comes back if she misses it twice in a later warm-up. You can still pick any game and any level yourself.</li>
+      <li>A bone means right first time. A paw means right after a hint or with the help picture.</li>
+      <li>Sit with her when you can and ask &ldquo;How did you know?&rdquo;. Saying it in tens and ones is where it sticks.</li>
+      <li><b>Race to 100</b> is for two players. Say the numbers aloud and count on from where you stand, never from 1.</li>
       <li>Do the same with real things: bundles of ten straws and loose straws, or 10 and 1 shilling coins.</li>
-      <li>A bone means right first time, a paw means right after a hint. Go up a level when she gets five or six bones without counting one by one. Fingers are allowed, they fade by themselves.</li>
-      <li>Tens stand in groups of five, just like the ones. Eight tens should read as &ldquo;five and three&rdquo;, not be counted one by one.</li>
-      <li>There is no timer on purpose. A wrong answer gives a hint and another try.</li>
+      <li>The last level of the adding and taking away games hides the blocks on purpose. <b>Quick Paws</b> opens only when Friends of Ten and Jump in Tens are finished: speed comes after getting it right.</li>
+      <li>Tens stand in groups of five, like the ones. Eight tens should read as &ldquo;five and three&rdquo;. Fingers are allowed, they fade by themselves.</li>
+      <li>Jump in Tens practises test question 12, Fill the Ten question 18, Break a Ten question 14 and Mystery Box question 20.</li>
     </ul>
   </div>
 </section>
@@ -273,9 +355,7 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
 <section id="game" hidden>
   <div class="gbar">
     <button class="back" id="back" type="button">&larr; All games</button>
-    <div class="levels" id="levels" role="group" aria-label="Level">Level
-      <button type="button" data-l="1">1</button><button type="button" data-l="2">2</button><button type="button" data-l="3">3</button>
-    </div>
+    <div class="levels" id="levels" role="group" aria-label="Level"></div>
   </div>
   <p class="gtitle" id="gtitle"></p>
   <div class="dots" id="dots" aria-hidden="true"></div>
@@ -285,6 +365,7 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
     <div class="stage" id="stage"></div>
     <div class="answers" id="answers"></div>
     <div class="cheer"><div class="pup" id="pup" hidden></div><p class="fb" id="fb" aria-live="polite"></p></div>
+    <p class="gprompt" id="gprompt" hidden>For the grown-up: ask &ldquo;How did you know?&rdquo;</p>
     <button class="next" id="next" type="button" hidden>Next</button>
   </div>
 </section>
@@ -310,6 +391,13 @@ const box = '<span class="box">?</span>';
 const tensW = t => t === 1 ? '1 ten' : `${t} tens`;
 const onesW = o => o === 1 ? '1 one' : `${o} ones`;
 const PAD = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const pick = a => a[rnd(0, a.length - 1)];
+const W1 = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const W10 = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const word = n => n < 20 ? W1[n] : n === 100 ? 'one hundred' : W10[Math.floor(n / 10)] + (n % 10 ? '-' + W1[n % 10] : '');
+const wordHTML = n => n >= 20 && n < 100 && n % 10
+  ? `<span class="wordy"><b class="t">${W10[Math.floor(n / 10)]}</b>-<b class="o">${W1[n % 10]}</b></span>`
+  : `<span class="wordy">${word(n)}</span>`;
 function options(ans, cands) {
   const out = [];
   for (const c of shuffle(cands.slice())) {
@@ -326,6 +414,50 @@ function options(ans, cands) {
 
 /* ---------- question makers (pure) ---------- */
 const GEN = {
+  names(l) {
+    if (l === 2) {                         // "Which number has 6 tens?"
+      const k = rnd(1, 9), place = Math.random() < .65 ? 't' : 'o';
+      const nz = () => { let x; do x = rnd(1, 9); while (x === k); return x; };
+      const any = () => { let x; do x = rnd(0, 9); while (x === k); return x; };
+      for (;;) {
+        const ans = place === 't' ? k * 10 + any() : nz() * 10 + k;
+        const trap = place === 't' ? nz() * 10 + k : k * 10 + any();
+        const set = new Set([ans, trap, nz() * 10 + any(), nz() * 10 + any()]);
+        if (set.size === 4) return { k, place, n: ans, opts: [...set].sort((a, b) => a - b) };
+      }
+    }
+    const r = Math.random(), n = r < .35 ? rnd(13, 19) : r < .6 ? rnd(3, 9) * 10 : rnd(21, 99);
+    const t = Math.floor(n / 10), o = n % 10, c = [n + 10, n - 10, n + 1, n - 1];
+    if (n >= 13 && n <= 19) c.push((n - 10) * 10, (n - 10) * 10, (n - 10) * 10);   // sixteen / sixty
+    if (o === 0 && t >= 3) c.push(t + 10, t + 10, t + 10);
+    if (o && o !== t) c.push(o * 10 + t, o * 10 + t);                              // 17 / 71
+    return { n, opts: options(n, c) };
+  },
+  walk(l) {
+    if (l === 3) { const n = rnd(6, 94); return { n, t: Math.floor(n / 10), o: n % 10 }; }
+    const t = rnd(1, 9), o = rnd(1, 9), n = t * 10 + o, c = [n + 10, n - 10, n + 1, n - 1];
+    if (o !== t) c.push(o * 10 + t);
+    return { n, t, o, opts: options(n, c) };
+  },
+  story(l) {
+    const mk = (text, a, eq, ans, hint, cands) => ({ text, a, eq, ans, hint, opts: options(ans, cands || [ans + 10, ans - 10, ans + 1, ans - 1]) });
+    const v = rnd(0, 2);
+    if (l === 1) {
+      if (v === 0) { const a = rnd(11, 89); return mk(`The puppy has ${a} bones. He finds 10 more. How many bones does he have now?`, a, `${a} + 10`, a + 10, 'Ten more is one more ten. The ones stay the same.'); }
+      if (v === 1) { const a = rnd(21, 99); return mk(`The puppy has ${a} bones. He eats 10 of them. How many bones are left?`, a, `${a} − 10`, a - 10, 'Ten fewer is one ten gone. The ones stay the same.'); }
+      const p = rnd(1, 9); return mk(`The puppy wants 10 bones. He has ${p}. How many more does he need?`, p, `${p} + ? = 10`, 10 - p, 'Think of the friends of ten.', [11 - p, 9 - p, p, 10]);
+    }
+    if (l === 2) {
+      if (v === 0) { const k = rnd(2, 4), a = rnd(11, 99 - k * 10); return mk(`The puppy has ${a} bones. He finds ${k * 10} more. How many bones does he have now?`, a, `${a} + ${k * 10}`, a + k * 10, `${k * 10} is ${k} tens. Only the tens change.`); }
+      if (v === 1) { const k = rnd(2, 4), a = rnd(k * 10 + 11, 99); return mk(`The puppy has ${a} bones. He gives ${k * 10} bones to a friend. How many bones are left?`, a, `${a} − ${k * 10}`, a - k * 10, `${k * 10} is ${k} tens. Only the tens change.`); }
+      const t = rnd(1, 8), o = rnd(1, 9), a = t * 10 + o, b = 10 - o;
+      return mk(`The puppy has ${a} bones. He digs up ${b} more. How many bones does he have now?`, a, `${a} + ${b}`, a + b, `${o} and ${b} make a new ten.`);
+    }
+    if (v === 0) { const t = rnd(1, 8), o = rnd(5, 9), b = rnd(11 - o, 9), a = t * 10 + o; return mk(`The puppy has ${a} bones. He finds ${b} more. How many bones does he have now?`, a, `${a} + ${b}`, a + b, `Fill the ten first: ${a} + ${10 - o} = ${(t + 1) * 10}. Then ${b - (10 - o)} more.`); }
+    if (v === 1) { const k = rnd(1, 4), p = rnd(11, 99 - k * 10), T = p + k * 10; return mk(`The puppy wants ${T} bones. He has ${p}. How many more does he need?`, p, `${p} + ? = ${T}`, k * 10, 'The ones are the same. How many tens are missing?', [k * 10 + 10, k * 10 - 10, k, k * 10 + 1, k * 10 + 20]); }
+    const t = rnd(2, 9), o = rnd(2, 9), a = t * 10 + o, b = 10 * rnd(1, t - 1) + rnd(1, o);
+    return mk(`The puppy has ${a} bones. He hides ${b} of them. How many bones can he still see?`, a, `${a} − ${b}`, a - b, 'Take the tens away first, then the ones.');
+  },
   five(l) {
     const n = l === 1 ? rnd(1, 10) : rnd(3, 10);
     const near = [n - 1, n + 1, n - 2, n + 2, n - 3, n + 3].filter(v => v >= 1 && v <= 10).slice(0, 3);
@@ -350,13 +482,15 @@ const GEN = {
   },
   jump(l) {
     const o = rnd(1, 9), dir = Math.random() < .5 ? 1 : -1;
-    const k = l === 1 ? 1 : l === 2 ? rnd(2, 3) : 3;
+    const k = l === 1 ? 1 : l === 2 ? rnd(2, 3) : l === 4 ? rnd(1, 4) : 3;
     const t = dir > 0 ? rnd(0, 9 - k) : rnd(k, 9);
     const s = t * 10 + o;
     const targets = l === 3 ? [1, 2, 3].map(i => s + dir * 10 * i) : [s + dir * 10 * k];
-    return { s, o, dir, k, targets };
+    const e = targets[0];
+    return { s, o, dir, k, targets, opts: options(e, [e + 10, e - 10, e + 1, e - 1, s + dir * k, s]) };
   },
   fill(l) {
+    if (l === 4) return GEN.fill(Math.random() < .4 ? 1 : 3);   // in your head: a mix
     if (l === 1) {
       const t = rnd(1, 8), o = rnd(1, 9), a = t * 10 + o, b = 10 - o, sum = a + b;
       return { a, b, t, o, fill: b, rest: 0, next: sum, sum, opts: options(sum, [sum - 10, sum + 10, sum - 1, sum + 1]) };
@@ -365,6 +499,7 @@ const GEN = {
     return { a, b, t, o, fill, rest: b - fill, next: (t + 1) * 10, sum, opts: options(sum, [sum - 10, sum + 10, sum - 1, sum + 1, sum - 2]) };
   },
   take(l) {
+    if (l === 4) return GEN.take(Math.random() < .5 ? 2 : 3);
     let a, b;
     if (l === 1) { const t = rnd(2, 9), o = rnd(0, 9); a = t * 10 + o; b = 10 * rnd(1, t - 1); }
     else if (l === 2) { const t = rnd(2, 9), o = rnd(2, 9); a = t * 10 + o; b = 10 * rnd(1, t - 1) + rnd(1, o); }
@@ -404,20 +539,30 @@ const GEN = {
   }
 };
 
-const GAMES = [
-  { id: 'five', name: 'High Five', d: 'See five and some more. No counting!' },
-  { id: 'pack', name: 'Pack Ten', d: 'Pack loose ones into tens.' },
-  { id: 'look', name: 'Quick Look', d: 'See the number without counting.' },
-  { id: 'friends', name: 'Friends of Ten', d: 'Which two numbers make 10?' },
-  { id: 'jump', name: 'Jump in Tens', d: 'Hop up and down the hundred square.' },
-  { id: 'fill', name: 'Fill the Ten', d: 'Add by filling up the blue tower.' },
-  { id: 'take', name: 'Break a Ten', d: 'Take away. Break a ten when you need ones.' },
-  { id: 'mystery', name: 'Mystery Box', d: 'Find the hidden number.' }
-];
+const G = {
+  five: { name: 'High Five', d: 'See five and some more. No counting!' },
+  pack: { name: 'Pack Ten', d: 'Pack loose ones into tens.' },
+  look: { name: 'Quick Look', d: 'See the number without counting.' },
+  names: { name: 'Number Names', d: 'Hear a number and find it.' },
+  walk: { name: 'Puppy Walk', d: 'Find numbers on the number line.' },
+  friends: { name: 'Friends of Ten', d: 'Which two numbers make 10?' },
+  jump: { name: 'Jump in Tens', d: 'Hop up and down the hundred square.' },
+  fill: { name: 'Fill the Ten', d: 'Add by filling up the blue tower.' },
+  take: { name: 'Break a Ten', d: 'Take away. Break a ten when you need ones.' },
+  mystery: { name: 'Mystery Box', d: 'Find the hidden number.' },
+  story: { name: 'Puppy Stories', d: 'Little number stories about the puppy.' },
+  race: { name: 'Race to 100', d: 'A board game for two players.' },
+  quick: { name: 'Quick Paws', d: 'Ten fast questions. Beat your own time.' }
+};
+// the learning path, in order, and how many levels each game has
+const PATH = ['five', 'pack', 'look', 'names', 'walk', 'friends', 'jump', 'fill', 'take', 'mystery', 'story'];
+const MAXL = { five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
+const SHELVES = [['See the number', ['five', 'pack', 'look', 'names', 'walk']], ['Add and take away', ['friends', 'jump', 'fill', 'take']],
+  ['Puzzles and stories', ['mystery', 'story']], ['Play together', ['race', 'quick']]];
 const ROUNDS = 6;
 
 /* ---------- saved progress (this browser only) ---------- */
-const S = { stars: {}, level: {}, sound: true };
+const S = { stars: {}, level: {}, done: {}, pass: {}, miss: {}, sound: true, day: '', best: 0 };
 try { Object.assign(S, JSON.parse(localStorage.getItem('tens-ones') || '{}')); } catch (e) {}
 const save = () => { try { localStorage.setItem('tens-ones', JSON.stringify(S)); } catch (e) {} };
 
@@ -436,8 +581,12 @@ function chime() {
   } catch (e) {}
 }
 const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-function speak(text) {
-  try { const u = new SpeechSynthesisUtterance(text); u.rate = .85; u.lang = 'en-GB'; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+function speak(text, force) {
+  if (!canSpeak || !text || (!S.sound && !force)) return;
+  try {
+    const u = new SpeechSynthesisUtterance(String(text).replace(/−/g, ' take away ').replace(/\+/g, ' plus ').replace(/=/g, ' is ').replace(/\?\s*(?=is|=)/g, 'what '));
+    u.rate = .85; u.lang = 'en-GB'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch (e) {}
 }
 
 /* ---------- the puppy (our own drawing) ---------- */
@@ -510,28 +659,52 @@ function machine() {
     n = to; show(); busy = false;
   });
 }
-function stations() {
-  $('#stations').innerHTML = GAMES.map((g, i) => `<li><button class="station" type="button" data-g="${g.id}">
-    <span class="no">${i + 1}</span>
-    <span><strong>${g.name}</strong><span class="d">${g.d}</span></span>
-    <span class="st"><i>${BONE}</i> ${S.stars[g.id] || 0}<small>Level ${S.level[g.id] || 1}</small></span>
-  </button></li>`).join('');
+/* ---------- home ---------- */
+function renderHome() {
+  const f = frontier(), doneToday = S.day === today();
+  $('#todaytxt').innerHTML = doneToday ? 'Today&rsquo;s games are done. Well done! See you tomorrow.'
+    : f ? (warmPool().length ? 'A warm-up, then ' : 'Two rounds of ') + `<b>${G[f].name}</b>. About ten minutes.`
+    : 'You finished every game! Today is a mix of all of them.';
+  const tb = $('#todaybtn'); tb.textContent = doneToday ? 'Play again anyway' : 'Play today\'s games'; tb.classList.toggle('quiet', doneToday);
+  // the bone store: bones are packed in boxes of ten, like everything else here
+  const T = Object.values(S.stars).reduce((a, b) => a + b, 0), crates = Math.floor(T / 100), boxes = Math.floor(T % 100 / 10), loose = T % 10;
+  $('#store').innerHTML = '<div class="crate">100</div>'.repeat(crates) + `<div class="bbox">${BONE.repeat(10)}</div>`.repeat(boxes)
+    + `<div class="btray">${BONE.repeat(loose)}<span class="empty" style="display:contents">${BONE.repeat(10 - loose)}</span></div>`;
+  const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+  $('#store').setAttribute('aria-label', `${T} bones`);
+  $('#storecap').innerHTML = T ? `${crates ? plural(crates, 'crate') + ' of a hundred, ' : ''}<b class="tt">${plural(boxes, 'box').replace('boxs', 'boxes')} of ten</b> and <b class="oo">${plural(loose, 'bone')}</b>. That is ${num(T)} bones!`
+    : 'Your bone store is empty. Win a bone every time you are right first go.';
+  $('#shelves').innerHTML = SHELVES.map(([title, ids]) => `<p class="shelfh">${title}</p><ol class="stations">${ids.map(id => {
+    const g = G[id], i = PATH.indexOf(id), locked = id === 'quick' && !(S.done.friends && S.done.jump);
+    const st = i < 0 ? (id === 'quick' && S.best ? `Best: ${S.best} s` : '') : S.done[id] ? `${PAW} Finished` : `Level ${lvl(id)} of ${MAXL[id]}`;
+    return `<li><button class="station${id === f ? ' next-up' : ''}" type="button" data-g="${id}"${locked ? ' disabled' : ''}>
+      <span class="no${i < 0 ? ' tag' : ''}">${i < 0 ? (id === 'race' ? '2P' : 'GO') : i + 1}</span>
+      <span><strong>${g.name}${id === f ? '<span class="badge">Next</span>' : ''}</strong><span class="d">${locked ? 'Opens when Friends of Ten and Jump in Tens are finished.' : g.d}</span></span>
+      <span class="st">${i < 0 ? '' : `<i>${BONE}</i> ${S.stars[id] || 0}`}<small>${st}</small></span>
+    </button></li>`; }).join('')}</ol>`).join('');
 }
 
 /* ---------- game engine ---------- */
-let cur = null;
+let cur = null, queue = [];
 const stage = $('#stage'), answers = $('#answers'), nextBtn = $('#next');
-function fb(msg, kind) {
+const today = () => new Date().toDateString();
+const frontier = () => PATH.find(id => !S.done[id]) || null;
+const lvl = id => Math.max(1, Math.min(S.level[id] || 1, MAXL[id]));
+function warmPool() {                     // games she has already finished, for mixed retrieval practice
+  const f = frontier(), upto = f ? PATH.indexOf(f) : PATH.length;
+  return PATH.slice(0, upto).filter(id => id !== 'pack').map(id => ({ id, level: lvl(id) }));
+}
+function fb(msg, kind, quiet) {
   const f = $('#fb'), p = $('#pup');
   f.textContent = msg || ''; f.className = 'fb' + (kind ? ' ' + kind : '');
   p.hidden = !msg; p.className = 'pup';
-  if (msg) { void p.offsetWidth; p.classList.add(kind === 'ok' ? 'happy' : 'think'); }
+  if (msg) { void p.offsetWidth; p.classList.add(kind === 'ok' ? 'happy' : 'think'); if (!quiet) speak(msg); }
 }
 const ctx = {
   stage, answers, fb,
   prompt(html, say, sub) {
     $('#ptext').innerHTML = html;
-    if (say) cur.say = say;
+    if (say) { cur.say = say; if (cur.live) speak(say); }
     const p = $('#psub'); p.hidden = !sub; p.innerHTML = sub || '';
   },
   wrong(msg) { cur.clean = false; fb(msg, 'hint'); },
@@ -541,12 +714,23 @@ const ctx = {
   },
   win(msg) {
     if (cur.over) return;
-    cur.over = true; cur.results.push(cur.clean);
-    if (cur.clean) { S.stars[cur.g.id] = (S.stars[cur.g.id] || 0) + 1; save(); }
-    fb('Woof! ' + msg, 'ok'); chime();
+    cur.over = true;
+    if (cur.kind === 'free') { fb('Woof! ' + msg, 'ok'); chime(); return; }
+    cur.results.push(cur.clean);
+    const qid = cur.q.id;
+    if (cur.clean) S.stars[qid] = (S.stars[qid] || 0) + 1;
+    if (cur.kind === 'mix') {             // spaced check: two misses in the warm-ups bring a finished game back
+      S.miss[qid] = cur.clean ? 0 : (S.miss[qid] || 0) + 1;
+      if (S.miss[qid] >= 2 && S.done[qid]) { S.done[qid] = false; S.pass[qid] = 1; S.miss[qid] = 0; }
+    }
+    save();
+    const quick = cur.kind === 'quick', last = cur.results.length >= cur.n;
+    fb('Woof! ' + msg, 'ok', quick); chime();
     answers.querySelectorAll('button').forEach(x => x.disabled = true);
-    nextBtn.textContent = cur.results.length >= ROUNDS ? 'Finish' : 'Next';
-    nextBtn.hidden = false; dots();
+    dots();
+    if (quick) { const me = cur; setTimeout(() => { if (cur === me) last ? finish() : round(); }, 700); return; }
+    nextBtn.textContent = last ? 'Finish' : 'Next'; nextBtn.hidden = false;
+    $('#gprompt').hidden = last || cur.results.length % 3 !== 0;
   }
 };
 function ask(opts, ans, onRight, onWrong, pad) {
@@ -564,55 +748,101 @@ function ask(opts, ans, onRight, onWrong, pad) {
 }
 function dots() {
   let h = '';
-  for (let i = 0; i < ROUNDS; i++) {
+  for (let i = 0; i < cur.n; i++) {
     if (i < cur.results.length) h += cur.results[i] ? `<span class="star">${BONE}</span>` : `<span class="done">${PAW}</span>`;
     else h += `<span class="${i === cur.results.length ? 'now' : ''}">&#9675;</span>`;
   }
   $('#dots').innerHTML = h;
 }
-function openGame(id, level) {
-  const g = GAMES.find(x => x.id === id);
-  cur = { g, level: level || S.level[id] || 1, results: [] };
-  S.level[id] = cur.level; save();
+function begin(c) {
+  cur = Object.assign({ results: [], n: ROUNDS }, c);
   $('#home').hidden = true; $('#game').hidden = false;
-  $('#gtitle').textContent = `Game ${GAMES.indexOf(g) + 1}: ${g.name}`;
-  document.querySelectorAll('#levels button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.l === cur.level)));
+  const k = cur.kind;
+  $('#gtitle').textContent = k === 'game' ? `Game ${PATH.indexOf(cur.id) + 1}: ${G[cur.id].name}` : k === 'mix' ? 'Warm-up: a mix of games you know' : G[k === 'quick' ? 'quick' : cur.id].name;
+  const lv = $('#levels'); lv.hidden = k !== 'game';
+  if (k === 'game') lv.innerHTML = 'Level' + Array.from({ length: MAXL[cur.id] }, (_, i) => `<button type="button" data-l="${i + 1}" aria-pressed="${i + 1 === cur.level}">${i + 1}</button>`).join('');
+  $('#dots').hidden = k === 'free';
   $('#say').hidden = !canSpeak;
   window.scrollTo(0, 0);
   round();
 }
+function openGame(id, level) {
+  queue = [];
+  if (id === 'race') return begin({ kind: 'free', id });
+  if (id === 'quick') return begin({ kind: 'quick', n: 10, t0: Date.now(), pool: [{ id: 'friends', level: 2 }, { id: 'jump', level: 4 }, { id: 'names', level: 1 }] });
+  const L = level || lvl(id); S.level[id] = L; save();
+  begin({ kind: 'game', id, level: L });
+}
+function startToday() {
+  queue = warmPool().length ? ['mix', 'front', 'front'] : ['front', 'front'];
+  runNext();
+}
+function runNext() {
+  const seg = queue.shift(), f = frontier();
+  if (seg === 'front' && f) begin({ kind: 'game', id: f, level: lvl(f), today: true });
+  else begin({ kind: 'mix', n: 5, pool: warmPool(), today: true });
+}
 function round() {
-  cur.clean = true; cur.over = false; cur.say = '';
-  stage.innerHTML = ''; answers.innerHTML = ''; fb(''); nextBtn.hidden = true;
+  cur.clean = true; cur.over = false; cur.say = ''; cur.live = false;
+  stage.innerHTML = ''; answers.innerHTML = ''; fb(''); nextBtn.hidden = true; $('#gprompt').hidden = true;
   $('.prompt').hidden = false;
-  cur.d = GEN[cur.g.id](cur.level);
-  PLAY[cur.g.id](ctx, cur.d, cur.level);
-  dots();
+  if (cur.kind === 'free') { cur.live = true; PLAY[cur.id](ctx); return; }
+  if (cur.kind === 'game') cur.q = { id: cur.id, level: cur.level };
+  else { let q; do q = pick(cur.pool); while (cur.pool.length > 1 && cur.q && q.id === cur.q.id); cur.q = q; }
+  cur.d = GEN[cur.q.id](cur.q.level);
+  PLAY[cur.q.id](ctx, cur.d, cur.q.level);
+  cur.live = true; dots();
+  speak(cur.say);
 }
 function finish() {
-  const stars = cur.results.filter(Boolean).length, up = stars >= 5 && cur.level < 3;
-  $('.prompt').hidden = true; $('#psub').hidden = true; fb('');
-  nextBtn.hidden = true;
-  stage.innerHTML = `<p class="prompt">${stars >= 5 ? 'Brilliant!' : stars >= 3 ? 'Well done!' : 'Good trying!'}</p>
-    <div class="pup happy endpup">${puppySVG()}</div>
-    <div class="endstars" role="img" aria-label="${stars} bones out of ${ROUNDS}">${BONE.repeat(stars)}<span class="off">${BONE.repeat(ROUNDS - stars)}</span></div>
-    <p class="sub">${stars ? `The puppy got ${stars === 1 ? '1 bone' : stars + ' bones'}. ` : ''}${up ? 'You are ready for the next level.' : 'That was six. Time for a break, or one more go.'}</p>`;
-  answers.innerHTML = `<div class="controls">
-    ${up ? `<button class="ctl o" type="button" data-e="up">Level ${cur.level + 1}</button>` : ''}
-    <button class="ctl brk" type="button" data-e="again">Play again</button>
-    <button class="ctl brk" type="button" data-e="home">All games</button></div>`;
+  const bones = cur.results.filter(Boolean).length, n = cur.n, more = queue.length > 0;
+  let note = '';
+  if (cur.kind === 'game') {              // automatic levelling
+    const id = cur.id, L = cur.level;
+    if (bones >= n - 1) {
+      if (L < MAXL[id]) {
+        const to = Math.min(MAXL[id], L + (bones === n ? 2 : 1));   // a perfect round skips a level
+        S.level[id] = to; S.pass[id] = 0; note = to > L + 1 ? `Perfect! You jump up to level ${to}.` : `Level up! Next you play level ${to}.`;
+      } else {
+        S.pass[id] = (S.pass[id] || 0) + 1;
+        if (S.done[id]) note = 'Still great at this one.';
+        else if (S.pass[id] >= 2) { S.done[id] = true; note = 'You finished this game! The puppy is proud of you.'; }
+        else note = 'One more good round like this and the game is finished.';
+      }
+    } else if (bones <= 2 && L > 1) { S.level[id] = L - 1; S.pass[id] = 0; note = 'Next time we start with an easier level.'; }
+  }
+  let time = '';
+  if (cur.kind === 'quick') {
+    const secs = Math.round((Date.now() - cur.t0) / 1000);
+    time = `<p class="timebig">${secs} seconds</p>`;
+    if (bones >= n - 2 && (!S.best || secs < S.best)) { note = S.best ? `A new best! Before it was ${S.best} seconds.` : 'That is your first best time.'; S.best = secs; }
+    else note = bones < n - 2 ? 'Slow down a little and get them right first.' : `Your best is ${S.best} seconds.`;
+  }
+  const lastToday = cur.today && !more;
+  if (lastToday) S.day = today();
+  save();
+  const head = lastToday ? 'All done for today!' : bones >= n - 1 ? 'Brilliant!' : bones >= n / 2 ? 'Well done!' : 'Good trying!';
+  const tail = lastToday ? 'Time to stop. See you tomorrow!' : more ? 'Ready for the next one?' : '';
+  $('.prompt').hidden = true; $('#psub').hidden = true; fb(''); nextBtn.hidden = true; $('#gprompt').hidden = true;
+  stage.innerHTML = `<p class="prompt">${head}</p><div class="pup happy endpup">${puppySVG()}</div>${time}
+    <div class="endstars" role="img" aria-label="${bones} bones out of ${n}">${BONE.repeat(bones)}<span class="off">${BONE.repeat(n - bones)}</span></div>
+    <p class="sub">${[bones ? `The puppy got ${bones === 1 ? '1 bone' : bones + ' bones'}.` : '', note, tail].filter(Boolean).join(' ')}</p>`;
+  speak([head, note, tail].filter(Boolean).join(' '));
+  const again = cur.kind === 'game' ? () => openGame(cur.id) : cur.kind === 'quick' ? () => openGame('quick') : home;
+  answers.innerHTML = '<div class="controls">' + (more ? '<button class="ctl o" type="button" data-e="go">Keep going</button><button class="ctl brk" type="button" data-e="home">Stop for today</button>'
+    : lastToday ? '<button class="ctl o" type="button" data-e="home">Back to the start</button>'
+    : '<button class="ctl o" type="button" data-e="again">Play again</button><button class="ctl brk" type="button" data-e="home">All games</button>') + '</div>';
   $('.controls', answers).onclick = e => {
     const a = e.target.closest('button'); if (!a) return;
-    if (a.dataset.e === 'up') openGame(cur.g.id, cur.level + 1);
-    else if (a.dataset.e === 'again') openGame(cur.g.id, cur.level);
-    else home();
+    if (a.dataset.e === 'go') runNext(); else if (a.dataset.e === 'again') again(); else home();
   };
 }
 function home() {
-  cur = null; $('#game').hidden = true; $('#home').hidden = false; stations(); window.scrollTo(0, 0);
+  cur = null; queue = []; try { speechSynthesis.cancel(); } catch (e) {}
+  $('#game').hidden = true; $('#home').hidden = false; renderHome(); window.scrollTo(0, 0);
 }
 
-/* ---------- the six games ---------- */
+/* ---------- the games ---------- */
 function frame(n) {
   const f = el('div', 'frame'); f.setAttribute('role', 'img'); f.setAttribute('aria-label', `ten frame with ${n} counters`);
   for (let i = 0; i < 10; i++) { const c = el('div', 'cell'); if (i < n) c.append(el('div', 'dot')); f.append(c); }
@@ -626,7 +856,7 @@ function barModel(d) {
   return w;
 }
 
-function hands(n) {
+function hands(n, both) {
   const hand = (k, flip) => {
     const tops = [10, 4, 9, 20]; let g = '';
     for (let i = 0; i < 4; i++) {
@@ -640,7 +870,7 @@ function hands(n) {
     return `<svg viewBox="0 0 100 110" class="hand"${flip ? ' style="transform:scaleX(-1)"' : ''} aria-hidden="true"><g stroke="#1B2A4A" stroke-width="2.4" stroke-linejoin="round">${g}</g></svg>`;
   };
   const w = el('div', 'hands'); w.setAttribute('role', 'img'); w.setAttribute('aria-label', `${n} fingers`);
-  w.innerHTML = hand(Math.min(n, 5), false) + (n > 5 ? hand(n - 5, true) : '');
+  w.innerHTML = hand(Math.min(n, 5), false) + (n > 5 || both ? hand(Math.max(0, n - 5), true) : '');
   return w;
 }
 function flash(node, stageEl) {            // show briefly, then cover; a button lets her peek again
@@ -650,7 +880,178 @@ function flash(node, stageEl) {            // show briefly, then cover; a button
   stageEl.append(peek); setTimeout(hide, 1900);
 }
 
+function makeLine(sparse) {              // number line 0 to 100: tens and ones lie end to end along it
+  const w = el('div', 'nline' + (sparse ? ' sparse' : ''));
+  w.innerHTML = `<div class="nl-pup">${puppySVG()}</div><div class="nl-bar"></div><div class="nl-axis">${
+    Array.from({ length: 11 }, (_, i) => `<span style="left:${i * 10}%" class="${i % 5 ? 'minor' : ''}">${i * 10}</span>`).join('')}</div>
+    <div class="nl-zoom" aria-hidden="true"><span class="zl"></span><div class="zcells">${'<i></i>'.repeat(10)}</div><span class="zr"></span></div>`;
+  w._set = n => {
+    const t = Math.min(9, Math.floor(n / 10)), o = n - t * 10;
+    $('.nl-bar', w).innerHTML = '<div class="hrod"></div>'.repeat(Math.floor(n / 10)) + '<div class="hcube"></div>'.repeat(n % 10);
+    $('.nl-pup', w).style.left = n + '%'; w._n = n;
+    // the magnifier: the ones that lie between this ten and the next one
+    $('.zl', w).innerHTML = num(t * 10); $('.zr', w).innerHTML = num(t * 10 + 10);
+    w.querySelectorAll('.zcells i').forEach((c, i) => c.classList.toggle('on', i < o));
+  };
+  return w;
+}
+function helpBtn(c, label, fn) {          // "in your head" levels: the picture is there, but asking for it costs the bone
+  const b = el('button', 'ghostbtn'); b.type = 'button'; b.textContent = label;
+  b.onclick = () => { cur.clean = false; b.remove(); fn(); };
+  c.stage.append(b);
+}
+
 const PLAY = {
+  names(c, d, l) {
+    const n = d.n, w = word(n);
+    if (l === 2) {
+      const what = d.place === 't' ? tensW(d.k) : onesW(d.k);
+      c.prompt(`Which number has <b class="${d.place === 't' ? 'tt' : 'oo'}">${what}</b>?`, `Which number has ${what}?`);
+    } else if (l === 1) c.prompt(`Which is ${wordHTML(n)}?`, `Which number is ${w}?`);
+    else c.prompt('Listen. Which number is it?', w, canSpeak && S.sound ? 'Tap the speaker to hear it again.' : `The number is ${wordHTML(n)}.`);
+    const b = makeBlocks(n); b.classList.add('counted'); b.hidden = true; c.stage.append(b);
+    ask(d.opts, n, () => { b.hidden = false; c.win(`${n} is ${tensW(Math.floor(n / 10))} and ${onesW(n % 10)}. We say ${w}.`); },
+      v => c.wrong(`${v} is ${word(v)}: ${tensW(Math.floor(v / 10))} and ${onesW(v % 10)}. Try again.`));
+  },
+
+  walk(c, d, l) {
+    const line = makeLine(l === 3); c.stage.append(line);
+    if (l === 1) {
+      line._set(d.n);
+      c.prompt('Where is the puppy?', 'Where is the puppy? Which number?');
+      ask(d.opts, d.n, () => c.win(`${tensW(d.t)} and ${onesW(d.o)} along the line. That is ${d.n}.`),
+        () => c.wrong('Count the red tens along the line: 10, 20, 30. Then add the blue ones.'));
+    } else if (l === 2) {
+      let v = 0; line._set(0);
+      c.prompt(`Walk the puppy to ${num(d.n)}`, `Walk the puppy to ${d.n}.`, 'Jump in tens and step in ones. Then tap Done.');
+      const ctl = el('div', 'controls');
+      ctl.innerHTML = '<button class="ctl t" type="button" data-a="ten">Jump 10</button><button class="ctl o" type="button" data-a="one">Step 1</button><button class="ctl brk" type="button" data-a="clear">Back to start</button><button class="ctl brk" type="button" data-a="done" style="background:var(--sun)">Done</button>';
+      c.answers.append(ctl);
+      ctl.onclick = e => {
+        const a = e.target.closest('button'); if (!a || cur.over) return;
+        const k = a.dataset.a;
+        if (k === 'done') {
+          if (v === d.n) c.win(`${tensW(d.t)} and ${onesW(d.o)}. The puppy is on ${d.n}.`);
+          else c.wrong(v < d.n ? `The puppy is on ${v}. That is not far enough yet.` : `The puppy is on ${v}. That is too far. Go back to the start.`);
+          return;
+        }
+        if (k === 'ten' && v + 10 <= 100) v += 10; else if (k === 'one' && v + 1 <= 100) v += 1; else if (k === 'clear') { v = 0; c.fb(''); }
+        line._set(v);
+      };
+    } else {
+      line._set(0); let misses = 0;
+      c.prompt(`Where is ${num(d.n)}?`, `Where is ${d.n} on the line?`, 'Tap the line where the puppy should stand.');
+      const hit = el('div', 'nl-hit'); line.append(hit);
+      hit.onclick = e => {
+        if (cur.over) return;
+        const r = $('.nl-bar', line).getBoundingClientRect();
+        const v = Math.max(0, Math.min(100, Math.round((e.clientX - r.left) / r.width * 100)));
+        if (Math.abs(v - d.n) <= 5) { line.classList.remove('sparse'); line._set(d.n); c.win(`${d.n} is here: ${tensW(d.t)} and ${onesW(d.o)} along the line.`); return; }
+        misses++; line.classList.remove('sparse');
+        if (misses > 1) line._set(d.n); else $('.nl-pup', line).style.left = v + '%';
+        c.wrong(misses > 1 ? `Look: ${tensW(d.t)} and ${onesW(d.o)}. Tap where the blocks end.`
+          : `That is near ${v}. ${d.n} is ${v < d.n ? 'further along' : 'further back'}. Count the tens: 10, 20, 30.`);
+      };
+    }
+  },
+
+  story(c, d) {
+    c.prompt(`<span class="storytxt">${d.text.replace(/\d+/g, m => num(+m))}</span>`, d.text);
+    let b = null;
+    const showBlocks = () => { if (b) return; b = makeBlocks(d.a); b.classList.add('counted'); c.stage.prepend(b); const h = $('.ghostbtn', c.stage); if (h) h.remove(); };
+    const h = el('button', 'ghostbtn'); h.type = 'button'; h.textContent = 'Show the blocks'; h.onclick = showBlocks; c.stage.append(h);
+    ask(d.opts, d.ans, () => {
+      const p = el('p', 'eqline');
+      p.innerHTML = (d.eq.includes('?') ? d.eq.replace('?', `<span class="box found">${d.ans}</span>`) : `${d.eq} = <span class="box found">${d.ans}</span>`).replace(/\b\d+\b(?![^<]*<\/span>)/g, m => num(+m));
+      c.stage.append(p);
+      c.win(d.eq.includes('?') ? `${d.eq.replace('?', d.ans)}.` : `${d.eq} = ${d.ans}.`);
+    }, () => { showBlocks(); c.wrong(d.hint); });
+  },
+
+  jump4(c, d) {
+    const plus = d.dir > 0, sign = plus ? '+' : '−', jump = d.k * 10, end = d.targets[0];
+    c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, `${d.s} ${plus ? 'plus' : 'take away'} ${jump}.`, 'Try it in your head.');
+    helpBtn(c, 'Show the hundred square', () => {
+      const grid = el('div', 'hsq');
+      for (let v = 1; v <= 100; v++) { const x = el('button'); x.type = 'button'; x.disabled = true; x.textContent = v; if (v === d.s) x.classList.add('here'); else if (v % 10 === d.o) x.classList.add('col'); grid.append(x); }
+      c.stage.append(grid);
+    });
+    ask(d.opts, end, () => { c.reveal(end); c.win(`${d.s} ${sign} ${jump} = ${end}. Only the tens change.`); },
+      () => c.wrong(`${jump} is ${tensW(d.k)}. Change only the tens. The ones stay ${d.o}.`));
+  },
+
+  fill4(c, d) {
+    c.prompt(`${num(d.a)} + ${num(d.b)} = ${box}`, `${d.a} plus ${d.b}.`, 'Try it in your head.');
+    helpBtn(c, 'Show a picture', () => {
+      const b = makeBlocks(d.a), pile = el('div', 'pile sketch'), row = el('div', 'fillrow');
+      b.classList.add('sketch');
+      pile.innerHTML = `<span class="plus">+</span><div class="pcubes">${'<div class="cube sun"></div>'.repeat(d.b)}</div>`;
+      row.append(b, pile); c.stage.append(row);
+    });
+    ask(d.opts, d.sum, () => { c.reveal(d.sum); c.win(d.rest ? `First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.` : `${d.o} and ${d.b} make a new ten. ${d.a} + ${d.b} = ${d.sum}.`); },
+      () => c.wrong(d.rest ? `Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.` : `${d.o} and ${d.b} are friends of ten.`));
+  },
+
+  take4(c, d) {
+    c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, `${d.a} take away ${d.b}.`, 'Try it in your head.');
+    helpBtn(c, 'Use the blocks', () => { c.stage.innerHTML = ''; c.answers.innerHTML = ''; PLAY.take(c, d, 3); });
+    ask(d.opts, d.r, () => { c.reveal(d.r); c.win(`${d.a} − ${d.b} = ${d.r}.`); },
+      () => c.wrong('Take the tens away first, then the ones. Use the blocks if you like.'));
+  },
+
+  race(c) {                               // two players on the hundred board; you must say where you land
+    c.prompt('Race to 100', 'Race to one hundred. Who do you want to play with?', 'Who do you want to play with?');
+    const pre = el('div', 'controls');
+    pre.innerHTML = '<button class="ctl o" type="button" data-p="Grown-up">A grown-up</button><button class="ctl brk" type="button" data-p="Puppy">The puppy</button>';
+    c.answers.append(pre);
+    pre.onclick = e => { const b = e.target.closest('button'); if (b) go(b.dataset.p); };
+    const go = partner => {
+      const P = [{ name: 'You', pos: 0, cls: 'p1' }, { name: partner, pos: 0, cls: 'p2' }];
+      let turn = 0, move = 0, target = 0;
+      const legend = el('div', 'legend'), grid = el('div', 'hsq');
+      for (let v = 1; v <= 100; v++) { const x = el('button'); x.type = 'button'; x.dataset.v = v; x.textContent = v; grid.append(x); }
+      c.stage.innerHTML = ''; c.stage.append(legend, grid);
+      const paint = () => {
+        grid.querySelectorAll('button').forEach(x => x.classList.remove('p1', 'p2', 'col'));
+        P.forEach(p => { if (p.pos) $(`[data-v="${p.pos}"]`, grid).classList.add(p.cls); });
+        legend.innerHTML = P.map((p, i) => `<span class="${p.cls}${i === turn ? ' on' : ''}">${p.name}: ${p.pos || 'start'}</span>`).join('');
+      };
+      const next = () => {
+        const p = P[turn]; move = 0; paint(); c.fb('', '', true);
+        const who = turn ? `${p.name}'s turn` : 'Your turn';
+        c.prompt(who, `${who}. Spin!`, 'Tap Spin.');
+        c.answers.innerHTML = '<div class="controls"><button class="ctl o" type="button">Spin</button></div>';
+        $('button', c.answers).onclick = () => {
+          move = pick([1, 2, 3, 10, 10]); target = Math.min(100, p.pos + move);
+          const over = p.pos + move > 100;
+          c.prompt(`${num(p.pos)} + ${num(move)} = ${box}`, `${turn ? p.name + ' is' : 'You are'} on ${p.pos}. Go ${move} on. Where ${turn ? 'does ' + p.name + ' land' : 'do you land'}?`,
+            over ? 'That is past the end. Tap 100 to win!' : `Tap the square where ${turn ? 'the ' + p.name.toLowerCase() + ' lands' : 'you land'}.`);
+          c.answers.innerHTML = '';
+        };
+      };
+      grid.onclick = e => {
+        const t = e.target.closest('button'); if (!t || !move || cur.over) return;
+        const v = +t.dataset.v, p = P[turn];
+        if (v !== target) {
+          t.classList.add('miss'); setTimeout(() => t.classList.remove('miss'), 500);
+          if (move === 10 && p.pos) grid.querySelectorAll('button').forEach(x => { if (+x.dataset.v % 10 === p.pos % 10) x.classList.add('col'); });
+          return c.fb(move === 10 ? 'Ten on: go one row down. The ones stay the same.' : `Start at ${p.pos} and count on ${move}.`, 'hint');
+        }
+        p.pos = v; move = 0; c.reveal(v); chime();
+        if (v === 100) {
+          paint(); c.prompt(turn ? `${p.name} got to 100!` : 'You got to 100!');
+          c.win(turn ? 'What a race! Play again?' : 'You won the race!');
+          c.answers.innerHTML = '<div class="controls"><button class="ctl o" type="button" data-e="again">Play again</button><button class="ctl brk" type="button" data-e="home">All games</button></div>';
+          $('.controls', c.answers).onclick = ev => { const a = ev.target.closest('button'); if (a) a.dataset.e === 'again' ? openGame('race') : home(); };
+          return;
+        }
+        turn = 1 - turn; paint();
+        const me = cur; setTimeout(() => { if (cur === me && !cur.over) next(); }, 900);
+      };
+      next();
+    };
+  },
+
   five(c, d, l) {
     c.prompt('How many?', 'How many? Do not count. Look for the five.');
     const row = el('div', 'fiverow'); c.stage.append(row);
@@ -728,15 +1129,15 @@ const PLAY = {
 
   friends(c, d, l) {
     if (l < 3) {
-      const f = frame(d.n); c.stage.append(f);
+      const f = frame(d.n), row = el('div', 'fiverow'); row.append(hands(d.n, true), f); c.stage.append(row);
       if (l === 1) c.prompt('How many more to make 10?', `${d.n} and how many more make ten?`);
-      else { c.prompt(`${num(d.n)} + ${box} = ${num(10)}`, `${d.n} plus what makes ten?`); f.hidden = true; }
+      else { c.prompt(`${num(d.n)} + ${box} = ${num(10)}`, `${d.n} plus what makes ten?`); row.hidden = true; }
       ask(PAD, d.ans, () => {
-        f.hidden = false;
+        row.hidden = false;
         f.querySelectorAll('.cell').forEach((cell, i) => { if (i >= d.n) { const x = el('div', 'dot sun pop'); cell.append(x); } });
         c.reveal(d.ans);
-        c.win(`${d.n} and ${d.ans} are friends of ten.`);
-      }, () => { f.hidden = false; c.wrong('Count the empty places.'); }, true);
+        c.win(`${d.n} and ${d.ans} are friends of ten. ${d.n === 1 ? '1 finger' : d.n + ' fingers'} up, ${d.ans} down.`);
+      }, () => { row.hidden = false; c.wrong('Count the empty places, or the fingers that are down.'); }, true);
     } else {
       c.prompt(`${num(d.a)} + ${box} = ${num(d.next)}`, `${d.a} plus what makes ${d.next}?`);
       const b = makeBlocks(d.a); c.stage.append(b);
@@ -749,6 +1150,7 @@ const PLAY = {
   },
 
   jump(c, d, l) {
+    if (l === 4) return PLAY.jump4(c, d);
     const plus = d.dir > 0, sign = plus ? '+' : '−', jump = d.k * 10;
     if (l === 3) c.prompt(`Count ${plus ? 'on' : 'back'} in tens from ${num(d.s)}`, `Count ${plus ? 'on' : 'back'} in tens from ${d.s}.`, 'Tap the next three numbers.');
     else c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, `${d.s} ${plus ? 'plus' : 'take away'} ${jump}.`, 'Tap where you land.');
@@ -779,6 +1181,7 @@ const PLAY = {
   },
 
   fill(c, d, l) {
+    if (l === 4) return PLAY.fill4(c, d);
     const b = makeBlocks(d.a), pile = el('div', 'pile'), row = el('div', 'fillrow');
     pile.innerHTML = `<span class="plus">+</span><div class="pcubes">${'<div class="cube sun"></div>'.repeat(d.b)}</div>`;
     row.append(b, pile); c.stage.append(row);
@@ -787,13 +1190,15 @@ const PLAY = {
       if (!$('.cube', pile)) pile.classList.add('empty');
     };
     const eq = `${num(d.a)} + ${num(d.b)} = ${box}`, say = `${d.a} plus ${d.b}.`;
+    let miss = 0, shown = false;
+    const demo = async () => { if (shown) return; shown = true; await move(d.fill); await wait(300); await merge(b); await move(d.rest); b.classList.add('counted'); };
     if (l === 1) {
       c.prompt(eq, say);
       ask(d.opts, d.sum, async () => {
         c.reveal(d.sum);
         c.win(`The ones filled up a ten. ${d.a} + ${d.b} = ${d.sum}.`);
-        await move(d.b); await wait(300); await merge(b);
-      }, () => c.wrong('Look at the blue tower. The yellow ones fit in the empty places.'));
+        await demo();
+      }, () => { if (++miss === 2) { c.wrong('Watch the yellow ones fill up the ten. Now count the tens.'); demo(); } else c.wrong('Look at the blue tower. The yellow ones fit in the empty places.'); });
     } else if (l === 2) {
       c.prompt(eq, say, `First fill the ten: ${num(d.a)} + ${box} = ${num(d.next)}`);
       ask(PAD, d.fill, async () => {
@@ -811,12 +1216,13 @@ const PLAY = {
       ask(d.opts, d.sum, async () => {
         c.reveal(d.sum);
         c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`);
-        await move(d.fill); await wait(300); await merge(b); await move(d.rest);
-      }, () => c.wrong(`Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.`));
+        await demo();
+      }, () => { c.wrong(`Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.`); if (++miss === 2) demo(); });
     }
   },
 
   take(c, d, l) {
+    if (l === 4) return PLAY.take4(c, d);
     const bt = Math.floor(d.b / 10), bo = d.b % 10;
     let needT = bt, needO = bo, broke = false, busy = false;
     c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, `${d.a} take away ${d.b}.`);
@@ -875,17 +1281,19 @@ const PLAY = {
 /* ---------- wiring ---------- */
 function start(data) {
   if (data && data.S) Object.assign(S, data.S);
+  for (const k of ['stars', 'level', 'done', 'pass', 'miss']) if (!S[k] || typeof S[k] !== 'object') S[k] = {};
   const sb = $('#sound');
   const paintSound = () => { sb.textContent = S.sound ? 'Sound on' : 'Sound off'; sb.setAttribute('aria-pressed', String(!!S.sound)); };
   paintSound();
-  sb.onclick = () => { S.sound = !S.sound; save(); paintSound(); if (S.sound) chime(); };
+  sb.onclick = () => { S.sound = !S.sound; save(); paintSound(); if (S.sound) { chime(); speak('Sound on'); } else { try { speechSynthesis.cancel(); } catch (e) {} } };
   $('#homepup').innerHTML = puppySVG(); $('#pup').innerHTML = puppySVG();
-  machine(); stations();
-  $('#stations').onclick = e => { const b = e.target.closest('[data-g]'); if (b) openGame(b.dataset.g); };
+  machine(); renderHome();
+  $('#todaybtn').onclick = startToday;
+  $('#shelves').onclick = e => { const b = e.target.closest('[data-g]'); if (b && !b.disabled) openGame(b.dataset.g); };
   $('#back').onclick = home;
-  $('#levels').onclick = e => { const b = e.target.closest('[data-l]'); if (b && cur) openGame(cur.g.id, +b.dataset.l); };
-  $('#say').onclick = () => { if (cur && cur.say) speak(cur.say); };
-  nextBtn.onclick = () => { if (cur.results.length >= ROUNDS) finish(); else round(); };
+  $('#levels').onclick = e => { const b = e.target.closest('[data-l]'); if (b && cur && cur.kind === 'game') openGame(cur.id, +b.dataset.l); };
+  $('#say').onclick = () => { if (cur && cur.say) speak(cur.say, true); };
+  nextBtn.onclick = () => { if (cur.results.length >= cur.n) finish(); else round(); };
 }
 if (typeof window !== 'undefined') {
   const hot = window.claude && window.claude.hot;
