@@ -21,4 +21,4 @@ Each game has three levels and six questions per round. There is no timer; a wro
 
 One self-contained `index.html` (HTML, CSS and JavaScript, no build step). Fonts load from Google Fonts. Progress is stored in the browser's localStorage.
 
-To deploy, publish the folder as a static site (Netlify project `tens-and-ones-puppy`).
+Every push to `main` is deployed automatically by Netlify (project `tens-and-ones-puppy`, publish folder set in `netlify.toml`).
