@@ -291,6 +291,11 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
 
 .prompt .storytxt{display:block;font-family:var(--body);font-weight:400;font-size:clamp(20px,5vw,26px);line-height:1.45;text-align:left;margin-bottom:8px}
 .eqline{font-family:var(--display);font-weight:600;font-size:30px;margin:0}
+.voicepanel{margin-top:12px;border:2px dashed var(--grid);border-radius:12px;padding:8px 12px}
+.voicepanel p{font-size:15px !important;margin:6px 0 !important;color:var(--soft)}
+.voicepanel button{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:16px}
+.voicepanel button[aria-pressed="true"]{background:var(--sun);font-weight:700}
+.voicepanel small{color:var(--soft)}
 .gprompt{margin:10px auto 0;max-width:26em;text-align:center;font-size:16px;color:var(--soft);border:2px dashed var(--grid);border-radius:12px;padding:6px 12px}
 .timebig{font-family:var(--display);font-weight:700;font-size:44px;text-align:center;margin:0;line-height:1.1}
 </style>
@@ -312,7 +317,9 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
       <div class="trow">
         <button class="next" id="todaybtn" type="button">Play today's games</button>
         <button class="soundbtn" id="sound" type="button" aria-pressed="true">Sound on</button>
+        <button class="soundbtn" id="voicebtn" type="button" aria-expanded="false">Voice</button>
       </div>
+      <div class="voicepanel" id="voicepanel" hidden></div>
     </div>
     <div class="store">
       <div class="shelf" id="store" role="img"></div>
@@ -342,6 +349,7 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
       <li><b>Play today's games</b> is the main button: a short warm-up from games she already knows, then two rounds of the next game. It takes about ten minutes. Then stop. Short and daily works better than long and weekly.</li>
       <li>The game moves her up a level when she wins five or six bones in a round, and down again when a round is too hard. A perfect round skips a level. A game is finished after two good rounds at its last level, and it comes back if she misses it twice in a later warm-up. You can still pick any game and any level yourself.</li>
       <li>A bone means right first time. A paw means right after a hint or with the help picture.</li>
+      <li>The questions are read aloud. Tap <b>Voice</b> at the top to pick the most natural voice your device offers. On a Windows computer the best ones are in Microsoft Edge.</li>
       <li>Sit with her when you can and ask &ldquo;How did you know?&rdquo;. Saying it in tens and ones is where it sticks.</li>
       <li><b>Race to 100</b> is for two players. Say the numbers aloud and count on from where you stand, never from 1.</li>
       <li>Do the same with real things: bundles of ten straws and loose straws, or 10 and 1 shilling coins.</li>
@@ -562,7 +570,7 @@ const SHELVES = [['See the number', ['five', 'pack', 'look', 'names', 'walk']], 
 const ROUNDS = 6;
 
 /* ---------- saved progress (this browser only) ---------- */
-const S = { stars: {}, level: {}, done: {}, pass: {}, miss: {}, sound: true, day: '', best: 0 };
+const S = { stars: {}, level: {}, done: {}, pass: {}, miss: {}, sound: true, voice: '', day: '', best: 0 };
 try { Object.assign(S, JSON.parse(localStorage.getItem('tens-ones') || '{}')); } catch (e) {}
 const save = () => { try { localStorage.setItem('tens-ones', JSON.stringify(S)); } catch (e) {} };
 
@@ -581,12 +589,60 @@ function chime() {
   } catch (e) {}
 }
 const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+// Voices: every device offers different ones, from robotic to very natural. Rank them and use the best;
+// the Voice button on the start page lets a grown-up pick another.
+let VOICES = [];
+function scoreVoice(v) {
+  const n = v.name || '', l = (v.lang || '').replace('_', '-');
+  if (!/^en/i.test(l)) return -1;
+  let s = 0;
+  if (/natural|neural/i.test(n)) s += 60;                       // Microsoft Edge online voices
+  if (/^Google/i.test(n)) s += 45;                              // Chrome's own voices
+  if (/enhanced|premium|siri/i.test(n)) s += 40;                // Apple's better variants
+  if (/Samantha|Karen|Daniel|Serena|Martha|Moira|Tessa|Kate|Stephanie/i.test(n)) s += 20;
+  if (/Sonia|Libby|Maisie|Jenny|Aria|Emma|Ana\b/i.test(n)) s += 8;
+  if (/female/i.test(n)) s += 4;
+  if (/en-GB/i.test(l)) s += 12; else if (/en-(KE|ZA|AU|IE|NZ|IN|TZ|NG)/i.test(l)) s += 6; else if (/en-US/i.test(l)) s += 5;
+  if (v.localService === false) s += 6;
+  if (/desktop|espeak|compact|eloquence|albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|junior|ralph|fred|kathy|eddy|flo\b|grandma|grandpa|reed|rocko|sandy|shelley/i.test(n)) s -= 50;
+  return s;
+}
+function loadVoices() {
+  try { VOICES = speechSynthesis.getVoices().filter(v => scoreVoice(v) >= 0).sort((a, b) => scoreVoice(b) - scoreVoice(a)); } catch (e) { VOICES = []; }
+}
+const theVoice = () => VOICES.find(v => v.name === S.voice) || VOICES[0] || null;
+let speakTimer = 0;
 function speak(text, force) {
   if (!canSpeak || !text || (!S.sound && !force)) return;
   try {
-    const u = new SpeechSynthesisUtterance(String(text).replace(/−/g, ' take away ').replace(/\+/g, ' plus ').replace(/=/g, ' is ').replace(/\?\s*(?=is|=)/g, 'what '));
-    u.rate = .85; u.lang = 'en-GB'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+    if (!VOICES.length) loadVoices();
+    const v = theVoice(), natural = v && scoreVoice(v) >= 40;
+    const clean = String(text).replace(/−/g, ' take away ').replace(/\+/g, ' plus ').replace(/=/g, ' is ').replace(/\?\s*(?=is)/g, 'what ').replace(/\s+/g, ' ').trim();
+    const parts = clean.match(/[^.!?]+[.!?]*/g) || [clean];      // one sentence at a time gives natural pauses
+    clearTimeout(speakTimer); speechSynthesis.cancel();
+    speakTimer = setTimeout(() => {
+      for (const part of parts) {
+        if (!part.trim()) continue;
+        try {
+          const u = new SpeechSynthesisUtterance(part.trim());
+          if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'en-GB';
+          u.rate = natural ? .95 : .9; u.pitch = natural ? 1 : 1.05;
+          speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+    }, 70);                                                       // a short gap after cancel(), or Chrome drops the next sentence
   } catch (e) {}
+}
+function voicePanel() {
+  const box = $('#voicepanel'); if (box.hidden) return;
+  loadVoices();
+  const cur0 = theVoice(), best = VOICES[0] ? scoreVoice(VOICES[0]) : -1;
+  const nice = n => n.replace(/^Microsoft\s+/, '').replace(/\s*Online \(Natural\)\s*-\s*/, ', ').replace(/\s*-\s*English/, ', English');
+  box.innerHTML = !canSpeak || !VOICES.length
+    ? '<p>This browser has no English voice for reading aloud. On a Windows computer, try Microsoft Edge or Google Chrome.</p>'
+    : '<p><b>Choose a voice.</b> Tap one to hear it. The most natural ones are at the top.</p>'
+      + VOICES.slice(0, 10).map(v => `<button type="button" data-v="${v.name.replace(/"/g, '&quot;')}" aria-pressed="${cur0 && v.name === cur0.name}">${nice(v.name)} <small>(${v.lang})</small></button>`).join('')
+      + (best < 40 ? '<p>This browser only offers basic voices. On a Windows computer, Microsoft Edge has much more natural ones (look for &ldquo;Natural&rdquo;). On a phone or tablet, the voice comes from the text-to-speech settings of the device.</p>' : '');
 }
 
 /* ---------- the puppy (our own drawing) ---------- */
@@ -1287,6 +1343,13 @@ function start(data) {
   paintSound();
   sb.onclick = () => { S.sound = !S.sound; save(); paintSound(); if (S.sound) { chime(); speak('Sound on'); } else { try { speechSynthesis.cancel(); } catch (e) {} } };
   $('#homepup').innerHTML = puppySVG(); $('#pup').innerHTML = puppySVG();
+  if (canSpeak) { loadVoices(); try { speechSynthesis.addEventListener('voiceschanged', () => { loadVoices(); voicePanel(); }); } catch (e) {} }
+  $('#voicebtn').onclick = () => { const box = $('#voicepanel'); box.hidden = !box.hidden; $('#voicebtn').setAttribute('aria-expanded', String(!box.hidden)); voicePanel(); };
+  $('#voicepanel').onclick = e => {
+    const b = e.target.closest('[data-v]'); if (!b) return;
+    S.voice = b.dataset.v; save(); voicePanel();
+    speak('Hello! I am the puppy. 3 tens and 4 ones make 34.', true);
+  };
   machine(); renderHome();
   $('#todaybtn').onclick = startToday;
   $('#shelves').onclick = e => { const b = e.target.closest('[data-g]'); if (b && !b.disabled) openGame(b.dataset.g); };
