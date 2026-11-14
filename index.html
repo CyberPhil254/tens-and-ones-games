@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tens and Ones Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: a squared maths exercise book. One column, big stage, big buttons.
+     Tens are always red rods, ones are always blue cubes (same as the school test). */
+  --paper:#F3F6FB;
+  --grid:#D6E0EF;
+  --ink:#1B2A4A;
+  --ten:#E5484D;
+  --ten-deep:#B5303A;
+  --one:#2B6DE8;
+  --one-lite:#86B4FF;
+  --sun:#FFC53D;
+  --ok:#17875A;
+  --card:#FFFFFF;
+  --soft:#5A6B8C;
+  --display:"Fredoka","Trebuchet MS","Segoe UI",sans-serif;
+  --body:"Andika","Verdana","Segoe UI",sans-serif;
+  --u:clamp(13px,3.3vw,19px);
+  --g:3px;
+  --mid:6px;
+  --H:calc(var(--u)*10 + var(--g)*9 + var(--mid) + 1px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+main{max-width:720px;margin:0 auto;padding:20px 16px 56px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible,a:focus-visible{outline:3px solid var(--one);outline-offset:3px}
+[hidden]{display:none !important}
+
+/* numbers: tens digit red, ones digit blue */
+.n{font-family:var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.n b{font-weight:inherit}
+.n .t{color:var(--ten)}
+.n .o{color:var(--one)}
+.box{display:inline-block;min-width:1.5em;padding:0 .2em;border:3px dashed var(--ink);border-radius:10px;background:var(--sun);text-align:center;font-family:var(--display)}
+.box.found{border-style:solid;background:#fff}
+
+/* ---------- home ---------- */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.top .pup{width:clamp(84px,22vw,116px);height:clamp(84px,22vw,116px);margin-bottom:-6px}
+.h2row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.h2note{margin:-4px 0 12px;font-size:17px;color:var(--soft)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(42px,11vw,72px);line-height:.95;margin:8px 0 0;letter-spacing:-.01em}
+h1 .t{color:var(--ten)} h1 .o{color:var(--one)} h1 .amp{font-weight:500;font-size:.6em;vertical-align:.12em}
+.soundbtn{background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-size:15px}
+.lede{font-size:20px;max-width:30em;margin:14px 0 18px}
+
+.machine{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:18px 16px;display:grid;grid-template-columns:auto 1fr;gap:8px 22px;align-items:center}
+.mread{text-align:center;min-width:120px}
+#mnum{font-size:clamp(64px,17vw,104px);font-weight:700;line-height:1;display:block}
+#mwords{font-size:16px;color:var(--soft);margin-top:4px}
+.mbtns{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.mbtn{font-family:var(--display);font-weight:600;font-size:24px;min-width:74px;height:56px;border-radius:14px;border:2px solid var(--ink);box-shadow:0 4px 0 var(--ink);color:#fff}
+.mbtn:active{transform:translateY(4px);box-shadow:none}
+.mbtn.ten{background:var(--ten)} .mbtn.one{background:var(--one)}
+
+h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
+.stations{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.station{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:12px 16px 12px 12px;box-shadow:0 4px 0 var(--ink)}
+.station:active{transform:translateY(4px);box-shadow:none}
+.station .no{font-family:var(--display);font-weight:700;font-size:28px;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+.station strong{font-family:var(--display);font-weight:600;font-size:22px;display:block;line-height:1.2}
+.station span.d{font-size:16px;color:var(--soft)}
+.station .st{font-family:var(--display);font-size:18px;text-align:right;white-space:nowrap}
+.station .st i{font-style:normal;color:#C98A00}
+.station .st small{display:block;font-family:var(--body);font-size:13px;color:var(--soft)}
+
+.grown{background:var(--card);border:2px dashed var(--soft);border-radius:16px;padding:6px 20px 14px;margin-top:34px}
+.grown h2{margin-top:14px;font-size:22px}
+.grown ul{margin:0;padding-left:20px;max-width:60ch;font-size:16px}
+.grown li{margin:6px 0}
+
+/* ---------- blocks ---------- */
+.blocks,.pile{--H:calc(var(--u)*10 + var(--g)*9 + var(--mid) + 1px)}
+.blocks{display:inline-flex;align-items:flex-end;gap:calc(var(--u)*1.2);min-height:var(--H)}
+.blocks.small{--u:9px;--g:2px;--mid:4px}
+.rods{display:flex;gap:6px;align-items:flex-end}
+.rod{display:flex;flex-direction:column-reverse;gap:var(--g);background:var(--ten-deep);border-radius:4px;height:var(--H);justify-content:flex-start;padding-top:1px}
+.rod i{display:block;width:var(--u);height:var(--u);background:var(--ten);border-radius:3px}
+.rod i:nth-child(6){margin-bottom:var(--mid)}
+.rod:nth-child(5n+6){margin-left:calc(var(--u)*.8)}
+.rod{position:relative}
+.blocks.counted{margin-bottom:calc(var(--u)*1.4)}
+.blocks.counted .rod::after,.blocks.counted .oneswrap[data-n]::after{content:attr(data-n);position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);font-family:var(--display);font-weight:600;font-size:calc(var(--u)*.74);line-height:1;letter-spacing:-.04em;color:var(--ten-deep)}
+.blocks.counted .oneswrap[data-n]::after{color:var(--one);font-size:calc(var(--u)*1.05);top:calc(100% + 2px)}
+.oneswrap{position:relative;min-width:var(--u)}
+.ones,.ghost{display:flex;flex-direction:column-reverse;flex-wrap:wrap;align-content:flex-start;gap:var(--g) 6px;height:var(--H)}
+.ghost{position:absolute;left:0;bottom:0}
+.slot{width:var(--u);height:var(--u);border:1.5px dashed #AEBBD3;border-radius:3px}
+.slot:nth-child(6),.cube:nth-child(10n+6){margin-bottom:var(--mid)}
+.ones{position:relative}
+.cube{width:var(--u);height:var(--u);background:var(--one);border-radius:3px}
+.cube:nth-child(10n+6),.cube:nth-child(10n+7),.cube:nth-child(10n+8),.cube:nth-child(10n+9),.cube:nth-child(10n){background:var(--one-lite)}
+.cube.sun{background:var(--sun);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.ones.merge .cube{background:var(--ten);box-shadow:none;transition:background .3s}
+.pop{animation:pop .28s ease-out}
+.crack{animation:crack .35s ease-in forwards}
+@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
+@keyframes crack{30%{transform:rotate(-4deg)}60%{transform:rotate(4deg)}to{transform:none;background:var(--one)}}
+.covered:not(.stay){filter:blur(14px) saturate(0);opacity:.2}
+.hands{display:flex;gap:6px;justify-content:center}
+.hand{width:86px;height:94px;display:block}
+.fiverow{display:flex;align-items:flex-end;justify-content:center;gap:22px;flex-wrap:wrap}
+.packrow{display:flex;align-items:flex-end;justify-content:center;gap:16px;flex-wrap:wrap}
+.heap{display:flex;flex-wrap:wrap;gap:5px;width:calc(var(--u)*9 + 40px);align-content:flex-end;justify-content:center;min-height:var(--u);padding:8px;border:2px dashed #AEBBD3;border-radius:14px}
+.heap:empty{visibility:hidden}
+.arrow{font-family:var(--display);font-size:30px;color:var(--soft);align-self:center}
+.blabels{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--display);font-size:20px;margin-top:10px}
+.blabels .lt{color:var(--ten)} .blabels .lo{color:var(--one)}
+
+/* ---------- game ---------- */
+.gbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.back{background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:8px 16px;font-size:16px}
+.levels{display:flex;align-items:center;gap:6px;font-size:15px;color:var(--soft)}
+.levels button{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--card);font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink)}
+.levels button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.gtitle{font-family:var(--display);font-weight:600;font-size:20px;margin:16px 0 4px;color:var(--soft)}
+.dots{display:flex;gap:8px;align-items:center;margin:0 0 10px;font-size:22px;line-height:1;height:26px}
+.dots span{color:#B9C5DA}
+.dots .star{color:#E0A100}
+.dots .done{color:var(--soft)}
+.dots .now{color:var(--ink)}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:18px 14px 20px}
+.prompt{font-family:var(--display);font-weight:600;font-size:clamp(30px,8vw,46px);line-height:1.15;margin:0;text-align:center;text-wrap:balance}
+.prompt .say{vertical-align:middle;margin-left:8px;width:44px;height:44px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);font-size:20px;line-height:1}
+.sub{text-align:center;font-size:19px;margin:6px 0 0;color:var(--soft)}
+.stage{display:flex;flex-direction:column;align-items:center;gap:10px;margin:18px 0 6px;min-height:120px}
+.answers{margin-top:12px}
+.choices{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.choice{font-family:var(--display);font-weight:600;font-size:32px;min-width:84px;height:68px;padding:0 14px;border-radius:16px;border:2px solid var(--ink);background:var(--card);box-shadow:0 5px 0 var(--ink)}
+.choice:active{transform:translateY(5px);box-shadow:none}
+.pad .choice{min-width:58px;width:58px;height:60px;font-size:30px;padding:0}
+.choice.yes{background:#D7F5E5;border-color:var(--ok);box-shadow:0 5px 0 var(--ok)}
+.choice.no{opacity:.3;box-shadow:none;transform:translateY(5px)}
+.choice:disabled{cursor:default}
+.cheer{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;min-height:96px}
+.fb{font-size:19px;margin:0;font-weight:700;max-width:21em;background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:8px 14px}
+.fb:empty{display:none}
+.fb.ok{color:var(--ok);border-color:var(--ok)} .fb.hint{color:#9A5B00}
+.pup{width:96px;height:96px;flex:none}
+.pup svg{width:100%;height:100%;display:block;overflow:visible}
+.pup .tail{transform-box:fill-box;transform-origin:0% 100%}
+.pup .head{transform-box:fill-box;transform-origin:50% 90%;transition:transform .25s}
+.pup .tongue{display:none}
+.pup.happy .tongue{display:block}
+.pup.happy{animation:hop .5s ease-out}
+.pup.happy .tail{animation:wag .16s ease-in-out infinite alternate}
+.pup.idle .tail{animation:wag .55s ease-in-out infinite alternate}
+.pup.think .head{transform:rotate(-11deg)}
+@keyframes wag{from{transform:rotate(-14deg)}to{transform:rotate(22deg)}}
+@keyframes hop{0%{transform:translateY(14px) scale(.7);opacity:0}55%{transform:translateY(-10px)}100%{transform:none;opacity:1}}
+.ic{display:inline-block;width:1.7em;height:.85em;fill:currentColor;vertical-align:-.05em}
+.ic.paw{width:1em;height:1em;vertical-align:-.12em}
+.next{display:block;margin:14px auto 0;font-family:var(--display);font-weight:600;font-size:26px;padding:12px 44px;border-radius:999px;border:2px solid var(--ink);background:var(--sun);box-shadow:0 5px 0 var(--ink)}
+.next:active{transform:translateY(5px);box-shadow:none}
+.ghostbtn{background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:6px 16px;font-size:16px}
+
+/* ten frame */
+.frame{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:3px solid var(--ink);border-radius:8px;overflow:hidden;width:min(100%,340px)}
+.frame .cell{aspect-ratio:1;border:1.5px solid var(--ink);display:grid;place-items:center;background:#fff}
+.frame .dot{width:68%;height:68%;border-radius:50%;background:var(--one)}
+.frame .dot.sun{background:var(--sun);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* hundred square */
+.hsq{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:min(100%,470px)}
+.hsq button{aspect-ratio:1;padding:0;border:1.5px solid #B9C5DA;border-radius:6px;background:#fff;font-family:var(--display);font-weight:500;font-size:clamp(12px,3.1vw,18px);color:var(--ink)}
+.hsq .col{background:#E3EDFF}
+.hsq .was{background:#FFF0C2;border-color:#E0A100}
+.hsq .here{background:var(--sun);border:2.5px solid var(--ink);font-weight:700}
+.hsq .hop{animation:pop .3s ease-out}
+.hsq .miss{border-color:var(--ten);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+
+/* fill the ten */
+.fillrow{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;justify-content:center}
+.pile{display:flex;align-items:flex-end;gap:8px;min-height:var(--H)}
+.pile .plus{font-family:var(--display);font-weight:600;font-size:34px;line-height:1}
+.pcubes{display:flex;flex-direction:column-reverse;flex-wrap:wrap;gap:var(--g) 6px;max-height:var(--H)}
+.pile.empty{visibility:hidden}
+
+/* take away */
+.chips{font-size:18px;text-align:center}
+.chips b{font-family:var(--display);font-weight:600;padding:2px 10px;border-radius:999px;color:#fff;margin-left:4px;white-space:nowrap}
+.chips .ct{background:var(--ten)} .chips .co{background:var(--one)}
+.controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ctl{font-family:var(--display);font-weight:600;font-size:21px;height:60px;padding:0 20px;border-radius:16px;border:2px solid var(--ink);box-shadow:0 5px 0 var(--ink);color:#fff}
+.ctl:active{transform:translateY(5px);box-shadow:none}
+.ctl.t{background:var(--ten)} .ctl.o{background:var(--one)} .ctl.brk{background:var(--card);color:var(--ink)}
+.ctl.pulse{animation:pulse .8s ease-in-out infinite;background:var(--sun)}
+@keyframes pulse{50%{transform:scale(1.07)}}
+
+/* bar model */
+.bar{width:min(100%,460px);display:grid;gap:4px;font-family:var(--display);font-weight:600;font-size:28px;text-align:center}
+.bar .whole,.bar .part{border:2.5px solid var(--ink);border-radius:10px;padding:10px 4px;background:#EEF3FB;min-width:52px}
+.bar .parts{display:flex;gap:4px}
+.bar .unk{background:var(--sun);border-style:dashed}
+.bar .unk.found{background:#D7F5E5;border-style:solid;border-color:var(--ok)}
+.barcap{font-size:15px;color:var(--soft);text-align:center;margin:0}
+
+/* end */
+.endstars{font-size:30px;color:#E0A100;text-align:center;line-height:1.2;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.endpup{width:130px;height:130px}
+.endstars .off{color:#D0D9E8;display:flex;gap:6px}
+
+@media (max-width:460px){
+  .machine{grid-template-columns:1fr;justify-items:center}
+  .station{grid-template-columns:44px 1fr;gap:10px}
+  .station .no{width:44px;height:44px;font-size:24px}
+  .station .st{grid-column:2;text-align:left}
+  .station .st small{display:inline;margin-left:8px}
+  .choice{min-width:72px}
+  .pad .choice{width:52px;min-width:52px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<main>
+
+<section id="home">
+  <div class="top">
+    <h1><span class="t">Tens</span> <span class="amp">&amp;</span> <span class="o">Ones</span></h1>
+    <div class="pup idle" id="homepup"></div>
+  </div>
+  <p class="lede">Every number is made of <b style="color:var(--ten)">tens</b> and <b style="color:var(--one)">ones</b>. Press the buttons and watch what happens.</p>
+
+  <div class="machine" id="machine">
+    <div class="mread"><span id="mnum" class="n" aria-live="polite"></span><div id="mwords"></div></div>
+    <div id="mblocks"></div>
+    <div class="mbtns">
+      <button class="mbtn ten" type="button" data-d="-10" aria-label="take away ten">− 10</button>
+      <button class="mbtn one" type="button" data-d="-1" aria-label="take away one">− 1</button>
+      <button class="mbtn one" type="button" data-d="1" aria-label="add one">+ 1</button>
+      <button class="mbtn ten" type="button" data-d="10" aria-label="add ten">+ 10</button>
+    </div>
+  </div>
+
+  <div class="h2row"><h2>Eight games</h2><button class="soundbtn" id="sound" type="button" aria-pressed="true">Sound on</button></div>
+  <p class="h2note">Win a bone for the puppy every time you are right first go.</p>
+  <ol class="stations" id="stations"></ol>
+
+  <div class="grown">
+    <h2>For grown-ups</h2>
+    <ul>
+      <li>Play the games in order, 1 to 8. Games 1 to 3 are the foundation: stay there until she stops counting one by one. Game 5 practises test question 12, game 6 question 18, game 7 question 14 and game 8 question 20.</li>
+      <li>Five to ten minutes a day, one or two games, then stop. Short and daily works better than long and weekly.</li>
+      <li>Ask &ldquo;How do you know?&rdquo; and let her explain it with tens and ones. Saying it aloud is where it sticks.</li>
+      <li>Do the same with real things: bundles of ten straws and loose straws, or 10 and 1 shilling coins.</li>
+      <li>A bone means right first time, a paw means right after a hint. Go up a level when she gets five or six bones without counting one by one. Fingers are allowed, they fade by themselves.</li>
+      <li>Tens stand in groups of five, just like the ones. Eight tens should read as &ldquo;five and three&rdquo;, not be counted one by one.</li>
+      <li>There is no timer on purpose. A wrong answer gives a hint and another try.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="game" hidden>
+  <div class="gbar">
+    <button class="back" id="back" type="button">&larr; All games</button>
+    <div class="levels" id="levels" role="group" aria-label="Level">Level
+      <button type="button" data-l="1">1</button><button type="button" data-l="2">2</button><button type="button" data-l="3">3</button>
+    </div>
+  </div>
+  <p class="gtitle" id="gtitle"></p>
+  <div class="dots" id="dots" aria-hidden="true"></div>
+  <div class="card">
+    <p class="prompt"><span id="ptext"></span><button class="say" id="say" type="button" aria-label="Read it to me">&#128266;</button></p>
+    <p class="sub" id="psub" hidden></p>
+    <div class="stage" id="stage"></div>
+    <div class="answers" id="answers"></div>
+    <div class="cheer"><div class="pup" id="pup" hidden></div><p class="fb" id="fb" aria-live="polite"></p></div>
+    <button class="next" id="next" type="button" hidden>Next</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wait = ms => new Promise(r => setTimeout(r, reduced ? 0 : ms));
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rnd(0, i); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const num = n => {
+  const s = String(n);
+  if (s.length === 1) return `<span class="n"><b class="o">${s}</b></span>`;
+  if (s.length === 2) return `<span class="n"><b class="t">${s[0]}</b><b class="o">${s[1]}</b></span>`;
+  return `<span class="n">${s}</span>`;
+};
+const box = '<span class="box">?</span>';
+const tensW = t => t === 1 ? '1 ten' : `${t} tens`;
+const onesW = o => o === 1 ? '1 one' : `${o} ones`;
+const PAD = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+function options(ans, cands) {
+  const out = [];
+  for (const c of shuffle(cands.slice())) {
+    if (c !== ans && c > 0 && c <= 100 && !out.includes(c)) out.push(c);
+    if (out.length === 3) break;
+  }
+  let k = 2;
+  while (out.length < 3) {
+    for (const c of [ans + k, ans - k]) if (out.length < 3 && c > 0 && c <= 100 && !out.includes(c)) out.push(c);
+    k++;
+  }
+  return [...out, ans].sort((a, b) => a - b);
+}
+
+/* ---------- question makers (pure) ---------- */
+const GEN = {
+  five(l) {
+    const n = l === 1 ? rnd(1, 10) : rnd(3, 10);
+    const near = [n - 1, n + 1, n - 2, n + 2, n - 3, n + 3].filter(v => v >= 1 && v <= 10).slice(0, 3);
+    return { n, opts: [...near, n].sort((a, b) => a - b) };
+  },
+  pack(l) {
+    const t = l === 1 ? rnd(1, 3) : l === 2 ? rnd(3, 6) : rnd(1, 9), o = rnd(1, 9), n = t * 10 + o;
+    const c = [n + 10, n - 10, n + 1, n - 1];
+    if (o !== t) c.push(o * 10 + t, o * 10 + t);
+    return { n, t, o, opts: options(n, c) };
+  },
+  look(l) {
+    const n = rnd(11, l === 1 ? 59 : 99), t = Math.floor(n / 10), o = n % 10;
+    const c = [n + 10, n - 10, n + 1, n - 1];
+    if (o && o !== t) c.push(o * 10 + t, o * 10 + t, o * 10 + t);
+    return { n, t, o, opts: options(n, c) };
+  },
+  friends(l) {
+    if (l < 3) { const n = rnd(1, 9); return { n, ans: 10 - n }; }
+    const t = rnd(1, 8), o = rnd(1, 9);
+    return { a: t * 10 + o, t, o, ans: 10 - o, next: (t + 1) * 10 };
+  },
+  jump(l) {
+    const o = rnd(1, 9), dir = Math.random() < .5 ? 1 : -1;
+    const k = l === 1 ? 1 : l === 2 ? rnd(2, 3) : 3;
+    const t = dir > 0 ? rnd(0, 9 - k) : rnd(k, 9);
+    const s = t * 10 + o;
+    const targets = l === 3 ? [1, 2, 3].map(i => s + dir * 10 * i) : [s + dir * 10 * k];
+    return { s, o, dir, k, targets };
+  },
+  fill(l) {
+    if (l === 1) {
+      const t = rnd(1, 8), o = rnd(1, 9), a = t * 10 + o, b = 10 - o, sum = a + b;
+      return { a, b, t, o, fill: b, rest: 0, next: sum, sum, opts: options(sum, [sum - 10, sum + 10, sum - 1, sum + 1]) };
+    }
+    const t = rnd(1, 8), o = rnd(5, 9), fill = 10 - o, b = rnd(fill + 1, 9), a = t * 10 + o, sum = a + b;
+    return { a, b, t, o, fill, rest: b - fill, next: (t + 1) * 10, sum, opts: options(sum, [sum - 10, sum + 10, sum - 1, sum + 1, sum - 2]) };
+  },
+  take(l) {
+    let a, b;
+    if (l === 1) { const t = rnd(2, 9), o = rnd(0, 9); a = t * 10 + o; b = 10 * rnd(1, t - 1); }
+    else if (l === 2) { const t = rnd(2, 9), o = rnd(2, 9); a = t * 10 + o; b = 10 * rnd(1, t - 1) + rnd(1, o); }
+    else { const t = rnd(3, 9), o = rnd(0, 8); a = t * 10 + o; b = 10 * rnd(1, t - 2) + rnd(o + 1, 9); }
+    const r = a - b;
+    return { a, b, r, opts: options(r, [r + 10, r - 10, r + 1, r - 1, r + 10]) };
+  },
+  mystery(l) {
+    if (l === 1) {
+      const T = Math.random() < .7 ? 10 : 20, p = T === 10 ? rnd(1, 9) : rnd(11, 19), first = Math.random() < .5;
+      return { whole: T, parts: first ? [null, p] : [p, null], ans: T - p, pad: true,
+        eq: first ? `${box} + ${num(p)} = ${num(T)}` : `${num(p)} + ${box} = ${num(T)}` };
+    }
+    if (l === 2) {
+      let x, y, ans, T;
+      do { x = rnd(1, 7); y = rnd(1, 7); ans = rnd(1, 9); T = x + y + ans; } while (T < 10 || T > 20);
+      return { whole: T, parts: [x, null, y], ans, pad: true, eq: `${num(x)} + ${box} + ${num(y)} = ${num(T)}` };
+    }
+    const b = 10 * rnd(1, 4), v = rnd(0, 2);
+    let c; do { c = rnd(11, 59); } while (c % 10 === 0);
+    if (v === 0) {
+      const ans = b + c;
+      return { whole: null, parts: [c, b], ans, eq: `${box} − ${num(b)} = ${num(c)}`,
+        opts: options(ans, [ans - 10, ans + 10, ans - 1, ans + 1]),
+        hint: `The mystery number is the whole. Put the two parts together: ${c} and ${b}.` };
+    }
+    if (v === 1) {
+      const ans = c, w = c + b;
+      return { whole: w, parts: [null, b], ans, eq: `${box} + ${num(b)} = ${num(w)}`,
+        opts: options(ans, [ans - 10, ans + 10, ans + 1, ans - 1]),
+        hint: `Take ${b} away from ${w}. Only the tens change.` };
+    }
+    const a = c + b;
+    return { whole: a, parts: [c, null], ans: b, eq: `${num(a)} − ${box} = ${num(c)}`,
+      opts: options(b, [b + 10, b - 10, b + 20, b + 1]),
+      hint: 'The ones are the same. How many tens are gone?' };
+  }
+};
+
+const GAMES = [
+  { id: 'five', name: 'High Five', d: 'See five and some more. No counting!' },
+  { id: 'pack', name: 'Pack Ten', d: 'Pack loose ones into tens.' },
+  { id: 'look', name: 'Quick Look', d: 'See the number without counting.' },
+  { id: 'friends', name: 'Friends of Ten', d: 'Which two numbers make 10?' },
+  { id: 'jump', name: 'Jump in Tens', d: 'Hop up and down the hundred square.' },
+  { id: 'fill', name: 'Fill the Ten', d: 'Add by filling up the blue tower.' },
+  { id: 'take', name: 'Break a Ten', d: 'Take away. Break a ten when you need ones.' },
+  { id: 'mystery', name: 'Mystery Box', d: 'Find the hidden number.' }
+];
+const ROUNDS = 6;
+
+/* ---------- saved progress (this browser only) ---------- */
+const S = { stars: {}, level: {}, sound: true };
+try { Object.assign(S, JSON.parse(localStorage.getItem('tens-ones') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('tens-ones', JSON.stringify(S)); } catch (e) {} };
+
+/* ---------- sound and speech ---------- */
+let AC;
+function chime() {
+  if (!S.sound) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    [520, 600].forEach((f, i) => {            // two little yips
+      const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime + i * .17;
+      o.type = 'triangle'; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 1.7, t + .09); o.connect(g); g.connect(AC.destination);
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.16, t + .015); g.gain.exponentialRampToValueAtTime(.0001, t + .13);
+      o.start(t); o.stop(t + .16);
+    });
+  } catch (e) {}
+}
+const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+function speak(text) {
+  try { const u = new SpeechSynthesisUtterance(text); u.rate = .85; u.lang = 'en-GB'; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+}
+
+/* ---------- the puppy (our own drawing) ---------- */
+const BONE = '<svg class="ic" viewBox="0 0 32 16" aria-hidden="true"><circle cx="5" cy="4.5" r="4.5"/><circle cx="5" cy="11.5" r="4.5"/><circle cx="27" cy="4.5" r="4.5"/><circle cx="27" cy="11.5" r="4.5"/><rect x="5" y="4.5" width="22" height="7"/></svg>';
+const PAW = '<svg class="ic paw" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16.5" rx="6.5" ry="5.5"/><circle cx="4.5" cy="10" r="2.6"/><circle cx="9.3" cy="5.6" r="2.8"/><circle cx="14.7" cy="5.6" r="2.8"/><circle cx="19.5" cy="10" r="2.6"/></svg>';
+function puppySVG() {
+  const A = '#E2A557', B = '#9C5F2A', C = '#FFF4DF', K = '#1B2A4A';
+  return `<svg viewBox="0 0 120 124" aria-hidden="true"><g stroke="${K}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path class="tail" d="M84 98 q22 -4 20 -28 q-10 8 -14 18 z" fill="${B}"/>
+    <ellipse cx="60" cy="92" rx="27" ry="24" fill="${A}"/>
+    <ellipse cx="60" cy="98" rx="13" ry="16" fill="${C}" stroke="none"/>
+    <ellipse cx="46" cy="114" rx="10" ry="7" fill="${C}"/><ellipse cx="74" cy="114" rx="10" ry="7" fill="${C}"/>
+    <g class="head">
+      <ellipse cx="31" cy="50" rx="10" ry="19" fill="${B}" transform="rotate(14 31 50)"/>
+      <ellipse cx="89" cy="50" rx="10" ry="19" fill="${B}" transform="rotate(-14 89 50)"/>
+      <circle cx="60" cy="46" r="29" fill="${A}"/>
+      <ellipse cx="73" cy="41" rx="10" ry="11" fill="${B}" stroke="none"/>
+      <ellipse cx="60" cy="59" rx="16" ry="12" fill="${C}" stroke="none"/>
+      <circle cx="47" cy="42" r="4" fill="${K}" stroke="none"/><circle cx="73" cy="42" r="4" fill="${K}" stroke="none"/>
+      <circle cx="48.4" cy="40.6" r="1.3" fill="#fff" stroke="none"/><circle cx="74.4" cy="40.6" r="1.3" fill="#fff" stroke="none"/>
+      <ellipse cx="60" cy="53" rx="5.5" ry="4" fill="${K}" stroke="none"/>
+      <path d="M60 57 v4 M60 61 q-6 6 -11 1 M60 61 q6 6 11 1" fill="none" stroke-width="2.2"/>
+      <path class="tongue" d="M55 64 q5 11 10 0 z" fill="#F2768A" stroke-width="2"/>
+    </g></g></svg>`;
+}
+
+/* ---------- blocks ---------- */
+function makeBlocks(n, small) {
+  const b = el('div', 'blocks' + (small ? ' small' : ''));
+  b.setAttribute('role', 'img');
+  b.innerHTML = `<div class="rods"></div><div class="oneswrap"><div class="ghost">${'<div class="slot"></div>'.repeat(10)}</div><div class="ones"></div></div>`;
+  setBlocks(b, Math.floor(n / 10), n % 10, { instant: true });
+  return b;
+}
+function setBlocks(b, t, o, { instant = false, cls = '' } = {}) {
+  const R = $('.rods', b), O = $('.ones', b);
+  while (R.children.length < t) { const r = el('div', 'rod' + (instant ? '' : ' pop')); r.innerHTML = '<i></i>'.repeat(10); R.append(r); r.dataset.n = R.children.length * 10; }
+  while (R.children.length > t) R.lastChild.remove();
+  while (O.children.length < o) O.append(el('div', 'cube' + (instant ? '' : ' pop') + (cls ? ' ' + cls : '')));
+  while (O.children.length > o) O.lastChild.remove();
+  b._t = t; b._o = o;
+  if (o) O.parentNode.dataset.n = o; else delete O.parentNode.dataset.n;
+  b.setAttribute('aria-label', `${tensW(t)} and ${onesW(o)}`);
+}
+async function merge(b) {               // ten loose ones turn into one red ten
+  const O = $('.ones', b);
+  O.classList.add('merge'); await wait(450); O.classList.remove('merge');
+  setBlocks(b, b._t + 1, b._o - 10);
+}
+async function crack(b) {               // one red ten turns into ten loose ones
+  const rod = $('.rods .rod:last-child', b);
+  if (rod) { rod.classList.add('crack'); await wait(350); }
+  setBlocks(b, b._t - 1, b._o + 10);
+}
+
+/* ---------- home: the number machine ---------- */
+function machine() {
+  const b = makeBlocks(34); $('#mblocks').append(b);
+  let n = 34, busy = false;
+  const show = () => { $('#mnum').innerHTML = num(n); $('#mwords').textContent = `${tensW(Math.floor(n / 10))} and ${onesW(n % 10)}`; };
+  show();
+  $('#machine').addEventListener('click', async e => {
+    const btn = e.target.closest('button[data-d]'); if (!btn || busy) return;
+    const d = +btn.dataset.d, to = n + d; if (to < 0 || to > 99) return;
+    busy = true;
+    if (d === 10) setBlocks(b, b._t + 1, b._o);
+    else if (d === -10) setBlocks(b, b._t - 1, b._o);
+    else if (d === 1) { setBlocks(b, b._t, b._o + 1); if (b._o === 10) { n = to; show(); await wait(350); await merge(b); } }
+    else { if (b._o === 0) { await crack(b); await wait(250); } setBlocks(b, b._t, b._o - 1); }
+    n = to; show(); busy = false;
+  });
+}
+function stations() {
+  $('#stations').innerHTML = GAMES.map((g, i) => `<li><button class="station" type="button" data-g="${g.id}">
+    <span class="no">${i + 1}</span>
+    <span><strong>${g.name}</strong><span class="d">${g.d}</span></span>
+    <span class="st"><i>${BONE}</i> ${S.stars[g.id] || 0}<small>Level ${S.level[g.id] || 1}</small></span>
+  </button></li>`).join('');
+}
+
+/* ---------- game engine ---------- */
+let cur = null;
+const stage = $('#stage'), answers = $('#answers'), nextBtn = $('#next');
+function fb(msg, kind) {
+  const f = $('#fb'), p = $('#pup');
+  f.textContent = msg || ''; f.className = 'fb' + (kind ? ' ' + kind : '');
+  p.hidden = !msg; p.className = 'pup';
+  if (msg) { void p.offsetWidth; p.classList.add(kind === 'ok' ? 'happy' : 'think'); }
+}
+const ctx = {
+  stage, answers, fb,
+  prompt(html, say, sub) {
+    $('#ptext').innerHTML = html;
+    if (say) cur.say = say;
+    const p = $('#psub'); p.hidden = !sub; p.innerHTML = sub || '';
+  },
+  wrong(msg) { cur.clean = false; fb(msg, 'hint'); },
+  reveal(v, where) {                      // write the answer into the ? box of the question
+    const bx = $((where || '#ptext') + ' .box:not(.found)');
+    if (bx) { bx.innerHTML = num(v); bx.classList.add('found', 'pop'); }
+  },
+  win(msg) {
+    if (cur.over) return;
+    cur.over = true; cur.results.push(cur.clean);
+    if (cur.clean) { S.stars[cur.g.id] = (S.stars[cur.g.id] || 0) + 1; save(); }
+    fb('Woof! ' + msg, 'ok'); chime();
+    answers.querySelectorAll('button').forEach(x => x.disabled = true);
+    nextBtn.textContent = cur.results.length >= ROUNDS ? 'Finish' : 'Next';
+    nextBtn.hidden = false; dots();
+  }
+};
+function ask(opts, ans, onRight, onWrong, pad) {
+  answers.innerHTML = '';
+  const wrap = el('div', 'choices' + (pad ? ' pad' : ''));
+  opts.forEach(v => {
+    const b = el('button', 'choice'); b.type = 'button'; b.innerHTML = num(v);
+    b.onclick = () => {
+      if (v === ans) { b.classList.add('yes'); wrap.querySelectorAll('button').forEach(x => x.disabled = true); onRight(); }
+      else { b.classList.add('no'); b.disabled = true; if (onWrong) onWrong(v); }
+    };
+    wrap.append(b);
+  });
+  answers.append(wrap);
+}
+function dots() {
+  let h = '';
+  for (let i = 0; i < ROUNDS; i++) {
+    if (i < cur.results.length) h += cur.results[i] ? `<span class="star">${BONE}</span>` : `<span class="done">${PAW}</span>`;
+    else h += `<span class="${i === cur.results.length ? 'now' : ''}">&#9675;</span>`;
+  }
+  $('#dots').innerHTML = h;
+}
+function openGame(id, level) {
+  const g = GAMES.find(x => x.id === id);
+  cur = { g, level: level || S.level[id] || 1, results: [] };
+  S.level[id] = cur.level; save();
+  $('#home').hidden = true; $('#game').hidden = false;
+  $('#gtitle').textContent = `Game ${GAMES.indexOf(g) + 1}: ${g.name}`;
+  document.querySelectorAll('#levels button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.l === cur.level)));
+  $('#say').hidden = !canSpeak;
+  window.scrollTo(0, 0);
+  round();
+}
+function round() {
+  cur.clean = true; cur.over = false; cur.say = '';
+  stage.innerHTML = ''; answers.innerHTML = ''; fb(''); nextBtn.hidden = true;
+  $('.prompt').hidden = false;
+  cur.d = GEN[cur.g.id](cur.level);
+  PLAY[cur.g.id](ctx, cur.d, cur.level);
+  dots();
+}
+function finish() {
+  const stars = cur.results.filter(Boolean).length, up = stars >= 5 && cur.level < 3;
+  $('.prompt').hidden = true; $('#psub').hidden = true; fb('');
+  nextBtn.hidden = true;
+  stage.innerHTML = `<p class="prompt">${stars >= 5 ? 'Brilliant!' : stars >= 3 ? 'Well done!' : 'Good trying!'}</p>
+    <div class="pup happy endpup">${puppySVG()}</div>
+    <div class="endstars" role="img" aria-label="${stars} bones out of ${ROUNDS}">${BONE.repeat(stars)}<span class="off">${BONE.repeat(ROUNDS - stars)}</span></div>
+    <p class="sub">${stars ? `The puppy got ${stars === 1 ? '1 bone' : stars + ' bones'}. ` : ''}${up ? 'You are ready for the next level.' : 'That was six. Time for a break, or one more go.'}</p>`;
+  answers.innerHTML = `<div class="controls">
+    ${up ? `<button class="ctl o" type="button" data-e="up">Level ${cur.level + 1}</button>` : ''}
+    <button class="ctl brk" type="button" data-e="again">Play again</button>
+    <button class="ctl brk" type="button" data-e="home">All games</button></div>`;
+  $('.controls', answers).onclick = e => {
+    const a = e.target.closest('button'); if (!a) return;
+    if (a.dataset.e === 'up') openGame(cur.g.id, cur.level + 1);
+    else if (a.dataset.e === 'again') openGame(cur.g.id, cur.level);
+    else home();
+  };
+}
+function home() {
+  cur = null; $('#game').hidden = true; $('#home').hidden = false; stations(); window.scrollTo(0, 0);
+}
+
+/* ---------- the six games ---------- */
+function frame(n) {
+  const f = el('div', 'frame'); f.setAttribute('role', 'img'); f.setAttribute('aria-label', `ten frame with ${n} counters`);
+  for (let i = 0; i < 10; i++) { const c = el('div', 'cell'); if (i < n) c.append(el('div', 'dot')); f.append(c); }
+  return f;
+}
+function barModel(d) {
+  const total = d.whole == null ? d.ans : d.whole;
+  const w = el('div', 'bar'); w.setAttribute('role', 'img'); w.setAttribute('aria-label', 'whole and parts');
+  w.innerHTML = `<div class="whole${d.whole == null ? ' unk' : ''}">${d.whole == null ? '?' : num(total)}</div>
+    <div class="parts">${d.parts.map(p => `<div class="part${p == null ? ' unk' : ''}" style="flex:${p == null ? d.ans : p} 1 0">${p == null ? '?' : num(p)}</div>`).join('')}</div>`;
+  return w;
+}
+
+function hands(n) {
+  const hand = (k, flip) => {
+    const tops = [10, 4, 9, 20]; let g = '';
+    for (let i = 0; i < 4; i++) {
+      const x = 30 + i * 14;
+      g += k > i ? `<rect x="${x}" y="${tops[i]}" width="12" height="${70 - tops[i]}" rx="6" fill="#FFC53D"/>`
+                 : `<rect x="${x}" y="50" width="12" height="20" rx="6" fill="#EADFC2"/>`;
+    }
+    g += k >= 5 ? '<rect x="6" y="52" width="30" height="13" rx="6.5" fill="#FFC53D" transform="rotate(28 30 62)"/>'
+                : '<rect x="20" y="66" width="18" height="12" rx="6" fill="#EADFC2"/>';
+    g += '<rect x="26" y="58" width="62" height="46" rx="16" fill="#FFC53D"/>';
+    return `<svg viewBox="0 0 100 110" class="hand"${flip ? ' style="transform:scaleX(-1)"' : ''} aria-hidden="true"><g stroke="#1B2A4A" stroke-width="2.4" stroke-linejoin="round">${g}</g></svg>`;
+  };
+  const w = el('div', 'hands'); w.setAttribute('role', 'img'); w.setAttribute('aria-label', `${n} fingers`);
+  w.innerHTML = hand(Math.min(n, 5), false) + (n > 5 ? hand(n - 5, true) : '');
+  return w;
+}
+function flash(node, stageEl) {            // show briefly, then cover; a button lets her peek again
+  const hide = () => node.classList.add('covered');
+  const peek = el('button', 'ghostbtn'); peek.type = 'button'; peek.textContent = 'Peek again';
+  peek.onclick = () => { node.classList.remove('covered'); setTimeout(hide, 1600); };
+  stageEl.append(peek); setTimeout(hide, 1900);
+}
+
+const PLAY = {
+  five(c, d, l) {
+    c.prompt('How many?', 'How many? Do not count. Look for the five.');
+    const row = el('div', 'fiverow'); c.stage.append(row);
+    let pic;
+    if (l === 3) pic = frame(d.n);
+    else { pic = makeBlocks(0); setBlocks(pic, 0, d.n, { instant: true }); }
+    const h = hands(d.n);
+    if (l === 1) row.append(h, pic); else { row.append(pic); flash(pic, c.stage); }
+    ask(d.opts, d.n, () => {
+      pic.classList.add('stay'); if (l !== 1) row.prepend(h);
+      c.win(d.n < 5 ? `${d.n}. You just saw it!` : d.n === 5 ? '5. One whole hand!' : d.n === 10 ? '5 and 5 make 10. Two whole hands!' : `5 and ${d.n - 5} make ${d.n}.`);
+    }, () => c.wrong(l === 3 ? 'Do not count them all. The top row is 5. How many more?' : 'Do not count them all. The dark blue ones are 5. How many more?'));
+  },
+
+  pack(c, d, l) {
+    const b = makeBlocks(0), row = el('div', 'packrow');
+    if (l === 3) {
+      c.prompt(`Build ${num(d.n)}`, `Build ${d.n} with tens and ones.`, 'Use tens and ones, then tap Done.');
+      b.classList.add('counted'); c.stage.append(b);
+      const ctl = el('div', 'controls');
+      ctl.innerHTML = '<button class="ctl t" type="button" data-a="ten">+ a ten</button><button class="ctl o" type="button" data-a="one">+ a one</button><button class="ctl brk" type="button" data-a="clear">Start again</button><button class="ctl brk" type="button" data-a="done" style="background:var(--sun)">Done</button>';
+      c.answers.append(ctl);
+      let busy = false;
+      ctl.onclick = async e => {
+        const a = e.target.closest('button'); if (!a || busy || cur.over) return;
+        const v = b._t * 10 + b._o, k = a.dataset.a;
+        if (k === 'ten' && v + 10 <= 99) setBlocks(b, b._t + 1, b._o);
+        else if (k === 'one' && v + 1 <= 99) {
+          setBlocks(b, b._t, b._o + 1);
+          if (b._o === 10) { busy = true; c.fb('Ten ones! They pack into a ten.', 'ok'); await wait(450); await merge(b); busy = false; }
+        } else if (k === 'clear') { setBlocks(b, 0, 0); c.fb(''); }
+        else if (k === 'done') {
+          if (v === d.n) c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`);
+          else c.wrong(v < d.n ? `You built ${v}. That is not enough yet.` : `You built ${v}. That is too many. Start again.`);
+        }
+      };
+      return;
+    }
+    c.prompt('Pack them in tens', 'Pack the ones in tens. Then say how many there are.', 'Tap Pack 10 until no more tens fit.');
+    const heap = el('div', 'heap');
+    for (let i = 0; i < d.n; i++) { const x = el('div', 'cube'); x.style.transform = `rotate(${rnd(-25, 25)}deg) translateY(${rnd(-3, 3)}px)`; x.style.background = 'var(--one)'; heap.append(x); }
+    const arrow = el('div', 'arrow'); arrow.textContent = '\u2192';
+    row.append(heap, arrow, b); c.stage.append(row);
+    const ctl = el('div', 'controls');
+    ctl.innerHTML = '<button class="ctl o" type="button">Pack 10</button>';
+    c.answers.append(ctl);
+    let busy = false;
+    const moveN = async (n, ms) => { for (let i = 0; i < n; i++) { heap.lastChild.remove(); setBlocks(b, b._t, b._o + 1); await wait(ms); } };
+    $('button', ctl).onclick = async () => {
+      if (busy) return; busy = true;
+      await moveN(10, 55); await wait(250); await merge(b);
+      const left = heap.children.length;
+      if (left >= 10) { c.fb(`${tensW(b._t)}. Keep packing!`, 'ok'); busy = false; return; }
+      c.fb(`Only ${left} left. Not enough for a ten, so they stay ones.`, 'ok');
+      await wait(500); await moveN(left, 90); arrow.hidden = true;
+      c.prompt('How many?', 'How many are there?');
+      ask(d.opts, d.n, () => { b.classList.add('counted'); c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`); },
+        () => { b.classList.add('counted'); c.wrong('Count the red tens: 10, 20, 30. Then add the ones.'); });
+    };
+  },
+
+  look(c, d, l) {
+    c.prompt('How many?', 'How many blocks do you see?');
+    const b = makeBlocks(d.n); c.stage.append(b);
+    const lab = el('div', 'blabels'); lab.hidden = true;
+    lab.innerHTML = `<span class="lt">${tensW(d.t)} = ${d.t * 10}</span><span class="lo">${onesW(d.o)} = ${d.o}</span>`;
+    c.stage.append(lab);
+    if (l === 1) b.classList.add('counted');
+    if (l === 3) flash(b, c.stage);
+    ask(d.opts, d.n, () => {
+      b.classList.add('stay', 'counted'); lab.hidden = false;
+      c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`);
+    }, () => { if (l < 3) b.classList.add('counted'); c.wrong('Do not count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.'); });
+  },
+
+  friends(c, d, l) {
+    if (l < 3) {
+      const f = frame(d.n); c.stage.append(f);
+      if (l === 1) c.prompt('How many more to make 10?', `${d.n} and how many more make ten?`);
+      else { c.prompt(`${num(d.n)} + ${box} = ${num(10)}`, `${d.n} plus what makes ten?`); f.hidden = true; }
+      ask(PAD, d.ans, () => {
+        f.hidden = false;
+        f.querySelectorAll('.cell').forEach((cell, i) => { if (i >= d.n) { const x = el('div', 'dot sun pop'); cell.append(x); } });
+        c.reveal(d.ans);
+        c.win(`${d.n} and ${d.ans} are friends of ten.`);
+      }, () => { f.hidden = false; c.wrong('Count the empty places.'); }, true);
+    } else {
+      c.prompt(`${num(d.a)} + ${box} = ${num(d.next)}`, `${d.a} plus what makes ${d.next}?`);
+      const b = makeBlocks(d.a); c.stage.append(b);
+      ask(PAD, d.ans, async () => {
+        setBlocks(b, d.t, 10, { cls: 'sun' }); c.reveal(d.ans);
+        c.win(`${d.a} + ${d.ans} = ${d.next}. The same friends: ${d.o} and ${d.ans}.`);
+        await wait(700); await merge(b);
+      }, () => c.wrong('Count the empty places in the blue tower.'), true);
+    }
+  },
+
+  jump(c, d, l) {
+    const plus = d.dir > 0, sign = plus ? '+' : '−', jump = d.k * 10;
+    if (l === 3) c.prompt(`Count ${plus ? 'on' : 'back'} in tens from ${num(d.s)}`, `Count ${plus ? 'on' : 'back'} in tens from ${d.s}.`, 'Tap the next three numbers.');
+    else c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, `${d.s} ${plus ? 'plus' : 'take away'} ${jump}.`, 'Tap where you land.');
+    const grid = el('div', 'hsq');
+    for (let v = 1; v <= 100; v++) { const x = el('button'); x.type = 'button'; x.dataset.v = v; x.textContent = v; if (v === d.s) x.classList.add('here'); grid.append(x); }
+    const b = makeBlocks(d.s, true);
+    c.stage.append(grid, b);
+    let k = 0, pos = d.s;
+    grid.onclick = e => {
+      const t = e.target.closest('button'); if (!t || cur.over) return;
+      const v = +t.dataset.v; if (v === pos) return;
+      if (v === d.targets[k]) {
+        const old = $(`[data-v="${pos}"]`, grid); old.classList.remove('here', 'hop'); old.classList.add('was');
+        t.classList.add('here', 'hop'); pos = v; k++;
+        setBlocks(b, Math.floor(v / 10), v % 10);
+        if (k === d.targets.length) {
+          grid.querySelectorAll('button').forEach(x => { if (+x.dataset.v % 10 === d.o) x.classList.add('col'); });
+          c.reveal(v);
+          c.win(l === 3 ? `Only the tens change. The ${onesW(d.o)} stay the same.` : `${d.s} ${sign} ${jump} = ${v}. Only the tens change.`);
+        } else c.fb('Yes! Keep going.', 'ok');
+      } else {
+        t.classList.add('miss'); setTimeout(() => t.classList.remove('miss'), 500);
+        grid.querySelectorAll('button').forEach(x => { if (+x.dataset.v % 10 === d.o) x.classList.add('col'); });
+        const rows = l === 2 ? `${d.k} rows` : 'one row';
+        c.wrong(`A jump of ten goes straight ${plus ? 'down' : 'up'}. Go ${rows} ${plus ? 'down' : 'up'} the blue line.`);
+      }
+    };
+  },
+
+  fill(c, d, l) {
+    const b = makeBlocks(d.a), pile = el('div', 'pile'), row = el('div', 'fillrow');
+    pile.innerHTML = `<span class="plus">+</span><div class="pcubes">${'<div class="cube sun"></div>'.repeat(d.b)}</div>`;
+    row.append(b, pile); c.stage.append(row);
+    const move = async n => {
+      for (let i = 0; i < n; i++) { const x = $('.cube', pile); if (x) x.remove(); setBlocks(b, b._t, b._o + 1, { cls: 'sun' }); await wait(140); }
+      if (!$('.cube', pile)) pile.classList.add('empty');
+    };
+    const eq = `${num(d.a)} + ${num(d.b)} = ${box}`, say = `${d.a} plus ${d.b}.`;
+    if (l === 1) {
+      c.prompt(eq, say);
+      ask(d.opts, d.sum, async () => {
+        c.reveal(d.sum);
+        c.win(`The ones filled up a ten. ${d.a} + ${d.b} = ${d.sum}.`);
+        await move(d.b); await wait(300); await merge(b);
+      }, () => c.wrong('Look at the blue tower. The yellow ones fit in the empty places.'));
+    } else if (l === 2) {
+      c.prompt(eq, say, `First fill the ten: ${num(d.a)} + ${box} = ${num(d.next)}`);
+      ask(PAD, d.fill, async () => {
+        c.fb(''); c.reveal(d.fill, '#psub');
+        await move(d.fill); await wait(300); await merge(b);
+        c.prompt(eq, null, `${d.b} is ${d.fill} and ${d.rest}. Now ${num(d.next)} + ${num(d.rest)} = ?`);
+        ask(d.opts, d.sum, async () => {
+          c.reveal(d.sum);
+          c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`);
+          await move(d.rest);
+        }, () => c.wrong(`${d.next} and ${d.rest} more. The tens stay, just add the ones.`));
+      }, () => c.wrong('Count the empty places in the blue tower.'), true);
+    } else {
+      c.prompt(eq, say);
+      ask(d.opts, d.sum, async () => {
+        c.reveal(d.sum);
+        c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`);
+        await move(d.fill); await wait(300); await merge(b); await move(d.rest);
+      }, () => c.wrong(`Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.`));
+    }
+  },
+
+  take(c, d, l) {
+    const bt = Math.floor(d.b / 10), bo = d.b % 10;
+    let needT = bt, needO = bo, broke = false, busy = false;
+    c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, `${d.a} take away ${d.b}.`);
+    const b = makeBlocks(d.a), chips = el('div', 'chips');
+    c.stage.append(b, chips);
+    const upd = () => {
+      chips.innerHTML = 'Still to take away:' + (bt ? ` <b class="ct">${tensW(needT)}</b>` : '') + (bo ? ` <b class="co">${onesW(needO)}</b>` : '');
+    };
+    upd();
+    const ctl = el('div', 'controls');
+    ctl.innerHTML = `<button class="ctl t" type="button" data-a="ten">Take a ten</button>`
+      + (bo ? `<button class="ctl o" type="button" data-a="one">Take a one</button>` : '')
+      + (l === 3 ? `<button class="ctl brk" type="button" data-a="brk">Break a ten</button>` : '');
+    c.answers.append(ctl);
+    const brk = $('[data-a="brk"]', ctl);
+    const act = async a => {
+      if (busy || cur.over || (!needT && !needO)) return;
+      c.fb('');
+      if (a === 'ten') {
+        if (!needT) return c.fb('You have taken all the tens.', 'hint');
+        setBlocks(b, b._t - 1, b._o); needT--;
+      } else if (a === 'one') {
+        if (!needO) return c.fb('You have taken all the ones.', 'hint');
+        if (!b._o) { if (brk) brk.classList.add('pulse'); return c.fb('No ones left! Break a ten into 10 ones.', 'hint'); }
+        setBlocks(b, b._t, b._o - 1); needO--;
+      } else {
+        if (b._o >= needO) return c.fb('You have enough ones. No need to break a ten.', 'hint');
+        busy = true; broke = true; brk.classList.remove('pulse');
+        await crack(b); busy = false;
+        c.fb('One ten is now 10 ones.', 'ok');
+      }
+      upd();
+      if (!needT && !needO) {
+        chips.textContent = 'All taken away. How many are left?';
+        ask(d.opts, d.r, () => { c.reveal(d.r); b.classList.add('counted'); c.win(`${d.a} − ${d.b} = ${d.r}.` + (broke ? ' You broke a ten to get more ones.' : '')); },
+          () => { b.classList.add('counted'); c.wrong('Count what is left. Red tens in tens: 10, 20, 30. Then the blue ones.'); });
+      }
+    };
+    ctl.onclick = e => { const x = e.target.closest('button'); if (x) act(x.dataset.a); };
+    b.onclick = e => { if (e.target.closest('.rod')) act('ten'); else if (e.target.closest('.cube')) act('one'); };
+  },
+
+  mystery(c, d) {
+    c.prompt(d.eq, 'Find the mystery number.');
+    const bar = barModel(d), cap = el('p', 'barcap');
+    cap.textContent = 'The long bar is the whole. The short bars are its parts.';
+    c.stage.append(bar, cap);
+    ask(d.pad ? PAD : d.opts, d.ans, () => {
+      const u = $('.unk', bar); u.innerHTML = num(d.ans); u.classList.add('found');
+      c.reveal(d.ans);
+      c.win(`You found it. The mystery number is ${d.ans}.`);
+    }, () => c.wrong(d.hint || 'The parts together are as long as the whole. What is missing?'), d.pad);
+  }
+};
+
+/* ---------- wiring ---------- */
+function start(data) {
+  if (data && data.S) Object.assign(S, data.S);
+  const sb = $('#sound');
+  const paintSound = () => { sb.textContent = S.sound ? 'Sound on' : 'Sound off'; sb.setAttribute('aria-pressed', String(!!S.sound)); };
+  paintSound();
+  sb.onclick = () => { S.sound = !S.sound; save(); paintSound(); if (S.sound) chime(); };
+  $('#homepup').innerHTML = puppySVG(); $('#pup').innerHTML = puppySVG();
+  machine(); stations();
+  $('#stations').onclick = e => { const b = e.target.closest('[data-g]'); if (b) openGame(b.dataset.g); };
+  $('#back').onclick = home;
+  $('#levels').onclick = e => { const b = e.target.closest('[data-l]'); if (b && cur) openGame(cur.g.id, +b.dataset.l); };
+  $('#say').onclick = () => { if (cur && cur.say) speak(cur.say); };
+  nextBtn.onclick = () => { if (cur.results.length >= ROUNDS) finish(); else round(); };
+}
+if (typeof window !== 'undefined') {
+  const hot = window.claude && window.claude.hot;
+  if (hot && hot.snapshot) hot.snapshot(() => ({ S }));
+  if (hot && hot.ready) hot.ready(start); else start((hot && hot.data) || {});
+}
+</script>
+</body>
+</html>
