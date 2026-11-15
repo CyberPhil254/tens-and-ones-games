@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { PATH } from '../maths/questions';
+import { PATH, type GameId } from '../maths/questions';
 import { dice, seededRng } from '../maths/random';
 import { CLIP_BY_ID } from '../speech/catalogue';
 import { addAttempt, KEEP, type Attempt } from './attempts';
 import {
   answered, boneStore, chooseLevel, doneToday, finishToday, frontier, levelOf, newProgress, quickFinished, quickOpen,
-  nextSlot, roundFinished, roundWords, segment, todaySegments, warmPool, type Progress,
+  nextSlot, roundFinished, roundWords, segment, todaySegments, warmPool, type Progress, type Slot,
 } from './progress';
 import { load, readProgress, save } from './store';
 
@@ -103,10 +103,10 @@ describe('bones and the warm-up', () => {
 
 describe('the mix', () => {
   it('never asks the same game twice running, and uses every game in the pool', () => {
-    const pool = [{ id: 'five', level: 3 }, { id: 'look', level: 2 }, { id: 'names', level: 1 }] as const;
+    const pool: Slot[] = [{ id: 'five', level: 3 }, { id: 'look', level: 2 }, { id: 'names', level: 1 }];
     const d = dice(seededRng(5));
     const seen = new Set<string>();
-    let last: (typeof pool)[number]['id'] | null = null;
+    let last: GameId | null = null;
     for (let i = 0; i < 300; i++) {
       const s = nextSlot(pool, last, d);
       expect(s.id).not.toBe(last);
