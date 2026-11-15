@@ -119,6 +119,12 @@ export const FIXED = {
   // Friends of 20 and 100.
   'count-the-empty-places-in-both': "Count the empty places in both frames.",
   'ten-tens-make-100-count-the': "Ten tens make 100. Count the tens that are missing.",
+  // Ten and some more, and another way to make a number.
+  'start-at-ten-then-count-on': "Start at ten. Then count on the ones.",
+  'a-teen-number-is-one-ten': "A teen number is one ten and some ones.",
+  'and-how-many-ones': "And how many ones?",
+  'one-ten-was-broken-into-10': "One ten was broken into 10 ones. Count on from 10.",
+  'breaking-a-ten-does-not-change': "Breaking a ten does not change the number.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { day, seed } from './helpers';
 
-const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
+const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, teens: 3, regroup: 2, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
 const RED = 'rgb(229, 72, 77)', BLUE = 'rgb(43, 109, 232)';
 
 test('every game level: buttons a child taps are at least 72 px, the screen is plain, nothing scrolls sideways', async ({ page }) => {

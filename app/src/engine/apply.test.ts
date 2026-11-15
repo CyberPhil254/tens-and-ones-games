@@ -42,16 +42,16 @@ describe('the starting check', () => {
   it('asks about one lesson from each unit below her stage and the first of each unit of her own', () => {
     const stage2 = checkLessons(2, UNITS).map((l) => l.id);
     // With the lessons that exist today. The list grows as lessons are built, up to ten.
-    expect(stage2).toEqual(['s1-see', 's1-calc20', 's2-count', 's2-skip', 's2-bonds']);
-    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-add']);
+    expect(stage2).toEqual(['s1-see', 's1-teens', 's1-calc20', 's2-count', 's2-skip', 's2-bonds']);
+    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-teens', 's1-add']);
     expect(stage2.length).toBeLessThanOrEqual(10);
   });
   it('marks what she got right first time as known, with what it is built on, and gives no bones', () => {
-    const given = [...answers('s1-ten', 2, [true]), ...answers('s2-count', 1, [false]), ...answers('s2-bonds', 0, [true])];
+    const given = [...answers('s1-ten', 2, [true]), ...answers('s1-teens', 2, [true]), ...answers('s2-count', 1, [false]), ...answers('s2-bonds', 0, [true])];
     const r = applyRound(fresh(), 'check', false, given, D);
     expect(r.data.checked).toBe(true);
     expect(r.data.bones).toBe(0);
-    for (const id of ['s1-ten', 's1-see', 's2-bonds']) expect(lessonState(r.data.child, id)).toMatchObject({ mastered: D, placed: true });
+    for (const id of ['s1-ten', 's1-see', 's1-teens', 's2-bonds']) expect(lessonState(r.data.child, id)).toMatchObject({ mastered: D, placed: true });
     expect(lessonState(r.data.child, 's2-count').mastered).toBeUndefined();
     expect(statusOf(r.data.child, LESSON.get('s2-count')!, D)).toBe('open');
     expect(r.data.attempts.every((a) => a.part === 'check')).toBe(true);

@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-607 clips.
+612 clips.
 
 Whole sentences:
 
@@ -115,6 +115,11 @@ Whole sentences:
 - Tens with tens, and ones with ones.
 - Count the empty places in both frames.
 - Ten tens make 100. Count the tens that are missing.
+- Start at ten. Then count on the ones.
+- A teen number is one ten and some ones.
+- And how many ones?
+- One ten was broken into 10 ones. Count on from 10.
+- Breaking a ten does not change the number.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
