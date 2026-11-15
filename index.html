@@ -349,7 +349,7 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
       <li><b>Play today's games</b> is the main button: a short warm-up from games she already knows, then two rounds of the next game. It takes about ten minutes. Then stop. Short and daily works better than long and weekly.</li>
       <li>The game moves her up a level when she wins five or six bones in a round, and down again when a round is too hard. A perfect round skips a level. A game is finished after two good rounds at its last level, and it comes back if she misses it twice in a later warm-up. You can still pick any game and any level yourself.</li>
       <li>A bone means right first time. A paw means right after a hint or with the help picture.</li>
-      <li>The questions are read aloud. Tap <b>Voice</b> at the top to pick the most natural voice your device offers. On a Windows computer the best ones are in Microsoft Edge.</li>
+      <li>The questions and hints are read aloud by a recorded voice. Tap the speaker next to a question to hear it again.</li>
       <li>Sit with her when you can and ask &ldquo;How did you know?&rdquo;. Saying it in tens and ones is where it sticks.</li>
       <li><b>Race to 100</b> is for two players. Say the numbers aloud and count on from where you stand, never from 1.</li>
       <li>Do the same with real things: bundles of ten straws and loose straws, or 10 and 1 shilling coins.</li>
@@ -420,6 +420,72 @@ function options(ans, cands) {
   return [...out, ans].sort((a, b) => a - b);
 }
 
+/* ---------- the speech script ----------
+   Everything the voice says is a recorded clip. A sentence is a list of pieces: whole recorded sentences,
+   small joining pieces ("plus", "is") and numbers. speechCatalogue() lists every clip that must exist. */
+const SP = {
+  isTO: n => `${n} is ${tensW(Math.floor(n / 10))} and ${onesW(n % 10)}.`,
+  which: n => `Which number is ${n}?`,
+  has: (k, place) => `Which number has ${place === 't' ? tensW(k) : onesW(k)}?`,
+  friendsQ: n => `${n} and how many more make ten?`,
+  friends: n => `${n} and ${10 - n} are friends of ten.`,
+  newTen: o => `${o} and ${10 - o} make a new ten.`,
+  puppyHas: a => `The puppy has ${a} bones.`,
+  finds: b => `He finds ${b} more.`,
+  digs: b => `He digs up ${b} more.`,
+  gives: k => `He gives ${k} bones to a friend.`,
+  tensOnly: k => `${k * 10} is ${k} tens. Only the tens change.`,
+  five: k => `5 and ${k} make ${5 + k}.`,
+  tens: k => `${tensW(k)}.`,
+  levelUp: to => `Level up! Next you play level ${to}.`,
+  jumpTo: to => `Perfect! You jump up to level ${to}.`,
+  rows: (plus, k) => `A jump of ten goes straight ${plus ? 'down' : 'up'}. Go ${k === 1 ? 'one row' : k + ' rows'} ${plus ? 'down' : 'up'} the blue line.`
+};
+const PRAISE = ['Yes!', 'Well done!', 'Great!', 'You got it!', 'Super!', "That's right!", 'Brilliant!', 'Nice one!'];
+const PRAISE2 = ['There you go!', 'Now you have it!', 'Good, you found it!'];
+const FRAGS = ['plus', 'take away', 'is', 'and how many more make', 'of them.', 'bones.', 'and count on',
+  'Build the number', 'Walk the puppy to', 'Show me on the line:', 'You built', 'The puppy is on', 'Count on in tens from', 'Count back in tens from',
+  'You found it! The mystery number is', 'He hides', 'The puppy wants', 'He has', 'Start at'];
+const FIXED = [
+  'How many? Do not count. Look for the five.', 'Pack the ones in tens. Then say how many there are.', 'How many are there?', 'How many blocks do you see?',
+  'Where is the puppy? Which number?', 'Find the mystery number.', 'Race to one hundred. Who do you want to play with?', 'Your turn. Spin!',
+  "The puppy's turn. Spin!", "The grown-up's turn. Spin!", 'Where do you land?', 'Where does the puppy land?', 'Where does the grown-up land?',
+  'All taken away. How many are left?', 'He eats 10 of them.', 'The puppy wants 10 bones.', 'How many bones does he have now?', 'How many bones are left?',
+  'How many more does he need?', 'How many bones can he still see?',
+  'You just saw it!', '5. One whole hand!', '5 and 5 make 10. Two whole hands!', 'Only the tens change.', 'Only the tens change. The ones stay the same.',
+  'The same friends of ten.', 'The ones filled up a ten.', 'First fill the ten, then add the rest.', 'You broke a ten to get more ones.',
+  'What a race! Play again?', 'You won the race!', 'Keep packing!', 'Yes! Keep going.', 'Ten ones! They pack into a ten.',
+  'Not enough left for a ten. They stay ones.', 'One ten is now 10 ones.',
+  'Try again.', 'Count the red tens along the line: 10, 20, 30. Then add the blue ones.', 'That is not far enough yet.', 'That is too far. Go back to the start.',
+  'Look at the blocks. Tap where they end.', 'Not quite. Count the tens along the line: 10, 20, 30.', 'Change only the tens. The ones stay the same.',
+  'Fill the ten first. Then add the rest.', 'Take the tens away first, then the ones. Use the blocks if you like.', 'Ten on: go one row down. The ones stay the same.',
+  'Do not count them all. The top row is 5. How many more?', 'Do not count them all. The dark blue ones are 5. How many more?',
+  'That is not enough yet.', 'That is too many. Start again.', 'Count the red tens: 10, 20, 30. Then add the ones.',
+  'Do not count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.', 'Count the empty places, or the fingers that are down.',
+  'Count the empty places in the blue tower.', 'Watch the yellow ones fill up the ten. Now count the tens.',
+  'Look at the blue tower. The yellow ones fit in the empty places.', 'The tens stay. Just add the ones.', 'You have taken all the tens.',
+  'You have taken all the ones.', 'No ones left! Break a ten into 10 ones.', 'You have enough ones. No need to break a ten.',
+  'Count what is left. Red tens in tens: 10, 20, 30. Then the blue ones.', 'The parts together are as long as the whole. What is missing?',
+  'The mystery number is the whole. Put the two parts together.', 'Take the part away from the whole. Only the tens change.',
+  'The ones are the same. How many tens are gone?', 'Ten more is one more ten. The ones stay the same.', 'Ten fewer is one ten gone. The ones stay the same.',
+  'Think of the friends of ten.', 'The ones are the same. How many tens are missing?', 'Take the tens away first, then the ones.',
+  'All done for today!', 'Good trying!', 'Still great at this one.', 'You finished this game! The puppy is proud of you.',
+  'One more good round like this and the game is finished.', 'Next time we start with an easier level.', 'A new best time!', 'That is your first best time.',
+  'Slow down a little and get them right first.', 'Time to stop. See you tomorrow!', 'Ready for the next one?', 'Sound on!'
+];
+function speechCatalogue() {
+  const set = new Set([...FIXED, ...PRAISE, ...PRAISE2]), R = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  R(0, 100).forEach(n => set.add(SP.isTO(n)));
+  R(10, 99).forEach(n => set.add(SP.which(n)));
+  R(1, 99).forEach(a => set.add(SP.puppyHas(a)));
+  R(1, 9).forEach(k => [SP.has(k, 't'), SP.has(k, 'o'), SP.friendsQ(k), SP.friends(k), SP.newTen(k), SP.finds(k), SP.digs(k), SP.tens(k)].forEach(x => set.add(x)));
+  [10, 20, 30, 40].forEach(k => set.add(SP.finds(k))); [20, 30, 40].forEach(k => set.add(SP.gives(k)));
+  [2, 3, 4].forEach(k => { set.add(SP.tensOnly(k)); set.add(SP.levelUp(k)); }); [3, 4].forEach(k => set.add(SP.jumpTo(k)));
+  R(1, 4).forEach(k => set.add(SP.five(k)));
+  [true, false].forEach(p => [1, 2, 3].forEach(k => set.add(SP.rows(p, k))));
+  return { fixed: [...set], frags: FRAGS, numbers: R(0, 100) };
+}
+
 /* ---------- question makers (pure) ---------- */
 const GEN = {
   names(l) {
@@ -448,23 +514,24 @@ const GEN = {
     return { n, t, o, opts: options(n, c) };
   },
   story(l) {
-    const mk = (text, a, eq, ans, hint, cands) => ({ text, a, eq, ans, hint, opts: options(ans, cands || [ans + 10, ans - 10, ans + 1, ans - 1]) });
+    const mk = (text, say, a, eq, sayEq, ans, hint, cands) => ({ text, say, a, eq, sayEq, ans, hint, opts: options(ans, cands || [ans + 10, ans - 10, ans + 1, ans - 1]) });
+    const NOW = 'How many bones does he have now?', LEFT = 'How many bones are left?', NEED = 'How many more does he need?';
     const v = rnd(0, 2);
     if (l === 1) {
-      if (v === 0) { const a = rnd(11, 89); return mk(`The puppy has ${a} bones. He finds 10 more. How many bones does he have now?`, a, `${a} + 10`, a + 10, 'Ten more is one more ten. The ones stay the same.'); }
-      if (v === 1) { const a = rnd(21, 99); return mk(`The puppy has ${a} bones. He eats 10 of them. How many bones are left?`, a, `${a} − 10`, a - 10, 'Ten fewer is one ten gone. The ones stay the same.'); }
-      const p = rnd(1, 9); return mk(`The puppy wants 10 bones. He has ${p}. How many more does he need?`, p, `${p} + ? = 10`, 10 - p, 'Think of the friends of ten.', [11 - p, 9 - p, p, 10]);
+      if (v === 0) { const a = rnd(11, 89); return mk(`${SP.puppyHas(a)} ${SP.finds(10)} ${NOW}`, [SP.puppyHas(a), SP.finds(10), NOW], a, `${a} + 10`, [a, 'plus', 10, 'is', a + 10], a + 10, 'Ten more is one more ten. The ones stay the same.'); }
+      if (v === 1) { const a = rnd(21, 99); return mk(`${SP.puppyHas(a)} He eats 10 of them. ${LEFT}`, [SP.puppyHas(a), 'He eats 10 of them.', LEFT], a, `${a} − 10`, [a, 'take away', 10, 'is', a - 10], a - 10, 'Ten fewer is one ten gone. The ones stay the same.'); }
+      const p = rnd(1, 9); return mk(`The puppy wants 10 bones. He has ${p}. ${NEED}`, ['The puppy wants 10 bones.', 'He has', p, NEED], p, `${p} + ? = 10`, [p, 'plus', 10 - p, 'is', 10], 10 - p, 'Think of the friends of ten.', [11 - p, 9 - p, p, 10]);
     }
     if (l === 2) {
-      if (v === 0) { const k = rnd(2, 4), a = rnd(11, 99 - k * 10); return mk(`The puppy has ${a} bones. He finds ${k * 10} more. How many bones does he have now?`, a, `${a} + ${k * 10}`, a + k * 10, `${k * 10} is ${k} tens. Only the tens change.`); }
-      if (v === 1) { const k = rnd(2, 4), a = rnd(k * 10 + 11, 99); return mk(`The puppy has ${a} bones. He gives ${k * 10} bones to a friend. How many bones are left?`, a, `${a} − ${k * 10}`, a - k * 10, `${k * 10} is ${k} tens. Only the tens change.`); }
+      if (v === 0) { const k = rnd(2, 4), a = rnd(11, 99 - k * 10); return mk(`${SP.puppyHas(a)} ${SP.finds(k * 10)} ${NOW}`, [SP.puppyHas(a), SP.finds(k * 10), NOW], a, `${a} + ${k * 10}`, [a, 'plus', k * 10, 'is', a + k * 10], a + k * 10, SP.tensOnly(k)); }
+      if (v === 1) { const k = rnd(2, 4), a = rnd(k * 10 + 11, 99); return mk(`${SP.puppyHas(a)} ${SP.gives(k * 10)} ${LEFT}`, [SP.puppyHas(a), SP.gives(k * 10), LEFT], a, `${a} − ${k * 10}`, [a, 'take away', k * 10, 'is', a - k * 10], a - k * 10, SP.tensOnly(k)); }
       const t = rnd(1, 8), o = rnd(1, 9), a = t * 10 + o, b = 10 - o;
-      return mk(`The puppy has ${a} bones. He digs up ${b} more. How many bones does he have now?`, a, `${a} + ${b}`, a + b, `${o} and ${b} make a new ten.`);
+      return mk(`${SP.puppyHas(a)} ${SP.digs(b)} ${NOW}`, [SP.puppyHas(a), SP.digs(b), NOW], a, `${a} + ${b}`, [a, 'plus', b, 'is', a + b], a + b, SP.newTen(o));
     }
-    if (v === 0) { const t = rnd(1, 8), o = rnd(5, 9), b = rnd(11 - o, 9), a = t * 10 + o; return mk(`The puppy has ${a} bones. He finds ${b} more. How many bones does he have now?`, a, `${a} + ${b}`, a + b, `Fill the ten first: ${a} + ${10 - o} = ${(t + 1) * 10}. Then ${b - (10 - o)} more.`); }
-    if (v === 1) { const k = rnd(1, 4), p = rnd(11, 99 - k * 10), T = p + k * 10; return mk(`The puppy wants ${T} bones. He has ${p}. How many more does he need?`, p, `${p} + ? = ${T}`, k * 10, 'The ones are the same. How many tens are missing?', [k * 10 + 10, k * 10 - 10, k, k * 10 + 1, k * 10 + 20]); }
+    if (v === 0) { const t = rnd(1, 8), o = rnd(5, 9), b = rnd(11 - o, 9), a = t * 10 + o; return mk(`${SP.puppyHas(a)} ${SP.finds(b)} ${NOW}`, [SP.puppyHas(a), SP.finds(b), NOW], a, `${a} + ${b}`, [a, 'plus', b, 'is', a + b], a + b, 'Fill the ten first. Then add the rest.'); }
+    if (v === 1) { const k = rnd(1, 4), p = rnd(11, 99 - k * 10), T = p + k * 10; return mk(`The puppy wants ${T} bones. He has ${p}. ${NEED}`, ['The puppy wants', T, 'bones.', 'He has', p, NEED], p, `${p} + ? = ${T}`, [p, 'plus', k * 10, 'is', T], k * 10, 'The ones are the same. How many tens are missing?', [k * 10 + 10, k * 10 - 10, k, k * 10 + 1, k * 10 + 20]); }
     const t = rnd(2, 9), o = rnd(2, 9), a = t * 10 + o, b = 10 * rnd(1, t - 1) + rnd(1, o);
-    return mk(`The puppy has ${a} bones. He hides ${b} of them. How many bones can he still see?`, a, `${a} − ${b}`, a - b, 'Take the tens away first, then the ones.');
+    return mk(`${SP.puppyHas(a)} He hides ${b} of them. How many bones can he still see?`, [SP.puppyHas(a), 'He hides', b, 'of them.', 'How many bones can he still see?'], a, `${a} − ${b}`, [a, 'take away', b, 'is', a - b], a - b, 'Take the tens away first, then the ones.');
   },
   five(l) {
     const n = l === 1 ? rnd(1, 10) : rnd(3, 10);
@@ -532,13 +599,13 @@ const GEN = {
       const ans = b + c;
       return { whole: null, parts: [c, b], ans, eq: `${box} − ${num(b)} = ${num(c)}`,
         opts: options(ans, [ans - 10, ans + 10, ans - 1, ans + 1]),
-        hint: `The mystery number is the whole. Put the two parts together: ${c} and ${b}.` };
+        hint: 'The mystery number is the whole. Put the two parts together.' };
     }
     if (v === 1) {
       const ans = c, w = c + b;
       return { whole: w, parts: [null, b], ans, eq: `${box} + ${num(b)} = ${num(w)}`,
         opts: options(ans, [ans - 10, ans + 10, ans + 1, ans - 1]),
-        hint: `Take ${b} away from ${w}. Only the tens change.` };
+        hint: 'Take the part away from the whole. Only the tens change.' };
     }
     const a = c + b;
     return { whole: a, parts: [c, null], ans: b, eq: `${num(a)} − ${box} = ${num(c)}`,
@@ -612,8 +679,8 @@ function loadVoices() {
 }
 const theVoice = () => VOICES.find(v => v.name === S.voice) || VOICES[0] || null;
 let speakTimer = 0;
-function speak(text, force) {
-  if (!canSpeak || !text || (!S.sound && !force)) return;
+function speakTTS(text) {               // fallback only: the browser's own voice, when the recorded voice cannot load
+  if (!canSpeak || !text) return;
   try {
     if (!VOICES.length) loadVoices();
     const v = theVoice(), natural = v && scoreVoice(v) >= 40;
@@ -643,6 +710,65 @@ function voicePanel() {
     : '<p><b>Choose a voice.</b> Tap one to hear it. The most natural ones are at the top.</p>'
       + VOICES.slice(0, 10).map(v => `<button type="button" data-v="${v.name.replace(/"/g, '&quot;')}" aria-pressed="${cur0 && v.name === cur0.name}">${nice(v.name)} <small>(${v.lang})</small></button>`).join('')
       + (best < 40 ? '<p>This browser only offers basic voices. On a Windows computer, Microsoft Edge has much more natural ones (look for &ldquo;Natural&rdquo;). On a phone or tablet, the voice comes from the text-to-speech settings of the device.</p>' : '');
+}
+
+// The recorded voice: all clips sit in one file (audio/voice.mp3) with an index (audio/voice.json).
+const VOX = { state: 'idle', idx: null, raw: null, bufs: {}, live: [], promise: null, seq: 0, missed: [] };
+function audioCtx() {
+  AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+  if (AC.state === 'suspended') AC.resume();
+  return AC;
+}
+function loadVox() {
+  if (VOX.state !== 'idle') return VOX.promise;
+  VOX.state = 'loading';
+  const get = (u, kind) => fetch(u).then(r => { if (!r.ok) throw new Error(u); return r[kind](); });
+  return VOX.promise = Promise.all([get('audio/voice.json', 'json'), get('audio/voice.mp3', 'arrayBuffer')])
+    .then(([idx, raw]) => { VOX.idx = idx; VOX.raw = raw; VOX.state = 'ready'; })
+    .catch(() => { VOX.state = 'failed'; })
+    .then(() => { const vb = $('#voicebtn'); if (vb) vb.hidden = VOX.state !== 'failed' || !canSpeak; });
+}
+const voiceOn = () => S.sound && (VOX.state !== 'failed' || canSpeak);
+function clipKey(tokens, i) {             // a number sounds different in the middle of a sentence and at its end
+  const t = tokens[i];
+  if (typeof t !== 'number') return t;
+  const nx = tokens[i + 1];
+  return '#' + t + (nx === undefined || (typeof nx === 'string' && /^[A-Z"]/.test(nx)) ? '.' : ',');
+}
+function clipBuf(key) {
+  if (VOX.bufs[key]) return Promise.resolve(VOX.bufs[key]);
+  const e = VOX.idx[key];
+  if (!e) { VOX.missed.push(key); try { console.warn('no clip for', key); } catch (x) {} return Promise.resolve(null); }
+  return new Promise(res => {
+    try { const p = audioCtx().decodeAudioData(VOX.raw.slice(e[0], e[0] + e[1]), b => res(VOX.bufs[key] = b), () => res(null)); if (p && p.catch) p.catch(() => res(null)); }
+    catch (x) { res(null); }
+  });
+}
+function stopSpeech() {
+  VOX.seq++;
+  VOX.live.forEach(src => { try { src.stop(); } catch (e) {} }); VOX.live = [];
+  try { clearTimeout(speakTimer); speechSynthesis.cancel(); } catch (e) {}
+}
+async function speak(tokens, force, delay) {
+  if (tokens == null || tokens === '' || (!S.sound && !force)) return;
+  if (!Array.isArray(tokens)) tokens = [tokens];
+  tokens = tokens.filter(t => t !== '' && t != null);
+  if (!tokens.length) return;
+  stopSpeech();
+  const my = VOX.seq;
+  try { audioCtx(); } catch (e) {}
+  if (VOX.state === 'idle' || VOX.state === 'loading') { await loadVox(); if (my !== VOX.seq) return; }
+  if (VOX.state === 'failed') return speakTTS(tokens.join(' '));
+  const keys = tokens.map((_, i) => clipKey(tokens, i));
+  const bufs = await Promise.all(keys.map(clipBuf));
+  if (my !== VOX.seq) return;
+  const ac = audioCtx();
+  let t = ac.currentTime + (delay || 0) + .03;
+  bufs.forEach((b, i) => {
+    if (!b) return;
+    const src = ac.createBufferSource(); src.buffer = b; src.connect(ac.destination); src.start(t); VOX.live.push(src);
+    t += b.duration + (/[.!?]$/.test(keys[i]) ? .26 : .04);     // a breath after a sentence, almost none inside one
+  });
 }
 
 /* ---------- the puppy (our own drawing) ---------- */
@@ -750,11 +876,11 @@ function warmPool() {                     // games she has already finished, for
   const f = frontier(), upto = f ? PATH.indexOf(f) : PATH.length;
   return PATH.slice(0, upto).filter(id => id !== 'pack').map(id => ({ id, level: lvl(id) }));
 }
-function fb(msg, kind, quiet) {
+function fb(msg, kind, say) {            // say: pieces to speak; false for silence; default is the message itself
   const f = $('#fb'), p = $('#pup');
   f.textContent = msg || ''; f.className = 'fb' + (kind ? ' ' + kind : '');
   p.hidden = !msg; p.className = 'pup';
-  if (msg) { void p.offsetWidth; p.classList.add(kind === 'ok' ? 'happy' : 'think'); if (!quiet) speak(msg); }
+  if (msg) { void p.offsetWidth; p.classList.add(kind === 'ok' ? 'happy' : 'think'); if (say !== false) speak(say || [msg]); }
 }
 const ctx = {
   stage, answers, fb,
@@ -763,15 +889,16 @@ const ctx = {
     if (say) { cur.say = say; if (cur.live) speak(say); }
     const p = $('#psub'); p.hidden = !sub; p.innerHTML = sub || '';
   },
-  wrong(msg) { cur.clean = false; fb(msg, 'hint'); },
+  wrong(msg, say) { cur.clean = false; fb(msg, 'hint', say); },
   reveal(v, where) {                      // write the answer into the ? box of the question
     const bx = $((where || '#ptext') + ' .box:not(.found)');
     if (bx) { bx.innerHTML = num(v); bx.classList.add('found', 'pop'); }
   },
-  win(msg) {
+  win(msg, say) {
     if (cur.over) return;
     cur.over = true;
-    if (cur.kind === 'free') { fb('Woof! ' + msg, 'ok', true); chime(); speak(msg); return; }
+    const pieces = [pick(cur.clean ? PRAISE : PRAISE2), ...(say || [msg])];
+    if (cur.kind === 'free') { fb('Woof! ' + msg, 'ok', false); chime(); speak(say || [msg], false, .3); return; }
     cur.results.push(cur.clean);
     const qid = cur.q.id;
     if (cur.clean) S.stars[qid] = (S.stars[qid] || 0) + 1;
@@ -781,7 +908,7 @@ const ctx = {
     }
     save();
     const quick = cur.kind === 'quick', last = cur.results.length >= cur.n;
-    fb('Woof! ' + msg, 'ok', true); chime(); if (!quick) speak(msg);
+    fb('Woof! ' + msg, 'ok', false); chime(); if (!quick) speak(pieces, false, .3);
     answers.querySelectorAll('button').forEach(x => x.disabled = true);
     dots();
     if (quick) { const me = cur; setTimeout(() => { if (cur === me) last ? finish() : round(); }, 700); return; }
@@ -852,13 +979,13 @@ function round() {
 }
 function finish() {
   const bones = cur.results.filter(Boolean).length, n = cur.n, more = queue.length > 0;
-  let note = '';
+  let note = '', noteSay;
   if (cur.kind === 'game') {              // automatic levelling
     const id = cur.id, L = cur.level;
     if (bones >= n - 1) {
       if (L < MAXL[id]) {
         const to = Math.min(MAXL[id], L + (bones === n ? 2 : 1));   // a perfect round skips a level
-        S.level[id] = to; S.pass[id] = 0; note = to > L + 1 ? `Perfect! You jump up to level ${to}.` : `Level up! Next you play level ${to}.`;
+        S.level[id] = to; S.pass[id] = 0; note = to > L + 1 ? SP.jumpTo(to) : SP.levelUp(to);
       } else {
         S.pass[id] = (S.pass[id] || 0) + 1;
         if (S.done[id]) note = 'Still great at this one.';
@@ -871,8 +998,8 @@ function finish() {
   if (cur.kind === 'quick') {
     const secs = Math.round((Date.now() - cur.t0) / 1000);
     time = `<p class="timebig">${secs} seconds</p>`;
-    if (bones >= n - 2 && (!S.best || secs < S.best)) { note = S.best ? `A new best! Before it was ${S.best} seconds.` : 'That is your first best time.'; S.best = secs; }
-    else note = bones < n - 2 ? 'Slow down a little and get them right first.' : `Your best is ${S.best} seconds.`;
+    if (bones >= n - 2 && (!S.best || secs < S.best)) { if (S.best) noteSay = 'A new best time!'; note = S.best ? `A new best! Before it was ${S.best} seconds.` : 'That is your first best time.'; S.best = secs; }
+    else if (bones < n - 2) note = 'Slow down a little and get them right first.'; else { note = `Your best is ${S.best} seconds.`; noteSay = ''; }
   }
   const lastToday = cur.today && !more;
   if (lastToday) S.day = today();
@@ -883,7 +1010,7 @@ function finish() {
   stage.innerHTML = `<p class="prompt">${head}</p><div class="pup happy endpup">${puppySVG()}</div>${time}
     <div class="endstars" role="img" aria-label="${bones} bones out of ${n}">${BONE.repeat(bones)}<span class="off">${BONE.repeat(n - bones)}</span></div>
     <p class="sub">${[bones ? `The puppy got ${bones === 1 ? '1 bone' : bones + ' bones'}.` : '', note, tail].filter(Boolean).join(' ')}</p>`;
-  speak([head, note, tail].filter(Boolean).join(' '));
+  speak([head, noteSay === undefined ? note : noteSay, tail].filter(Boolean), false, .2);
   const again = cur.kind === 'game' ? () => openGame(cur.id) : cur.kind === 'quick' ? () => openGame('quick') : home;
   answers.innerHTML = '<div class="controls">' + (more ? '<button class="ctl o" type="button" data-e="go">Keep going</button><button class="ctl brk" type="button" data-e="home">Stop for today</button>'
     : lastToday ? '<button class="ctl o" type="button" data-e="home">Back to the start</button>'
@@ -894,7 +1021,7 @@ function finish() {
   };
 }
 function home() {
-  cur = null; queue = []; try { speechSynthesis.cancel(); } catch (e) {}
+  cur = null; queue = []; stopSpeech();
   $('#game').hidden = true; $('#home').hidden = false; renderHome(); window.scrollTo(0, 0);
 }
 
@@ -967,11 +1094,11 @@ const PLAY = {
     if (l === 2) {
       const what = d.place === 't' ? tensW(d.k) : onesW(d.k);
       c.prompt(`Which number has <b class="${d.place === 't' ? 'tt' : 'oo'}">${what}</b>?`, `Which number has ${what}?`);
-    } else if (l === 1) c.prompt(`Which is ${wordHTML(n)}?`, `Which number is ${w}?`);
-    else c.prompt('Listen. Which number is it?', w, canSpeak && S.sound ? 'Tap the speaker to hear it again.' : `The number is ${wordHTML(n)}.`);
+    } else if (l === 1) c.prompt(`Which is ${wordHTML(n)}?`, [SP.which(n)]);
+    else c.prompt('Listen. Which number is it?', [n], voiceOn() ? 'Tap the speaker to hear it again.' : `The number is ${wordHTML(n)}.`);
     const b = makeBlocks(n); b.classList.add('counted'); b.hidden = true; c.stage.append(b);
-    ask(d.opts, n, () => { b.hidden = false; c.win(`${n} is ${tensW(Math.floor(n / 10))} and ${onesW(n % 10)}. We say ${w}.`); },
-      v => c.wrong(`${v} is ${word(v)}: ${tensW(Math.floor(v / 10))} and ${onesW(v % 10)}. Try again.`));
+    ask(d.opts, n, () => { b.hidden = false; c.win(`${n} is ${tensW(Math.floor(n / 10))} and ${onesW(n % 10)}. We say ${w}.`, [SP.isTO(n)]); },
+      v => c.wrong(`${v} is ${word(v)}: ${tensW(Math.floor(v / 10))} and ${onesW(v % 10)}. Try again.`, [SP.isTO(v), 'Try again.']));
   },
 
   walk(c, d, l) {
@@ -979,11 +1106,11 @@ const PLAY = {
     if (l === 1) {
       line._set(d.n);
       c.prompt('Where is the puppy?', 'Where is the puppy? Which number?');
-      ask(d.opts, d.n, () => c.win(`${tensW(d.t)} and ${onesW(d.o)} along the line. That is ${d.n}.`),
+      ask(d.opts, d.n, () => c.win(`${tensW(d.t)} and ${onesW(d.o)} along the line. That is ${d.n}.`, [SP.isTO(d.n)]),
         () => c.wrong('Count the red tens along the line: 10, 20, 30. Then add the blue ones.'));
     } else if (l === 2) {
       let v = 0; line._set(0);
-      c.prompt(`Walk the puppy to ${num(d.n)}`, `Walk the puppy to ${d.n}.`, 'Jump in tens and step in ones. Then tap Done.');
+      c.prompt(`Walk the puppy to ${num(d.n)}`, ['Walk the puppy to', d.n], 'Jump in tens and step in ones. Then tap Done.');
       const ctl = el('div', 'controls');
       ctl.innerHTML = '<button class="ctl t" type="button" data-a="ten">Jump 10</button><button class="ctl o" type="button" data-a="one">Step 1</button><button class="ctl brk" type="button" data-a="clear">Back to start</button><button class="ctl brk" type="button" data-a="done" style="background:var(--sun)">Done</button>';
       c.answers.append(ctl);
@@ -991,8 +1118,9 @@ const PLAY = {
         const a = e.target.closest('button'); if (!a || cur.over) return;
         const k = a.dataset.a;
         if (k === 'done') {
-          if (v === d.n) c.win(`${tensW(d.t)} and ${onesW(d.o)}. The puppy is on ${d.n}.`);
-          else c.wrong(v < d.n ? `The puppy is on ${v}. That is not far enough yet.` : `The puppy is on ${v}. That is too far. Go back to the start.`);
+          if (v === d.n) c.win(`${tensW(d.t)} and ${onesW(d.o)}. The puppy is on ${d.n}.`, [SP.isTO(d.n)]);
+          else c.wrong(v < d.n ? `The puppy is on ${v}. That is not far enough yet.` : `The puppy is on ${v}. That is too far. Go back to the start.`,
+            ['The puppy is on', v, v < d.n ? 'That is not far enough yet.' : 'That is too far. Go back to the start.']);
           return;
         }
         if (k === 'ten' && v + 10 <= 100) v += 10; else if (k === 'one' && v + 1 <= 100) v += 1; else if (k === 'clear') { v = 0; c.fb(''); }
@@ -1000,23 +1128,22 @@ const PLAY = {
       };
     } else {
       line._set(0); let misses = 0;
-      c.prompt(`Where is ${num(d.n)}?`, `Where is ${d.n} on the line?`, 'Tap the line where the puppy should stand.');
+      c.prompt(`Where is ${num(d.n)}?`, ['Show me on the line:', d.n], 'Tap the line where the puppy should stand.');
       const hit = el('div', 'nl-hit'); line.append(hit);
       hit.onclick = e => {
         if (cur.over) return;
         const r = $('.nl-bar', line).getBoundingClientRect();
         const v = Math.max(0, Math.min(100, Math.round((e.clientX - r.left) / r.width * 100)));
-        if (Math.abs(v - d.n) <= 5) { line.classList.remove('sparse'); line._set(d.n); c.win(`${d.n} is here: ${tensW(d.t)} and ${onesW(d.o)} along the line.`); return; }
+        if (Math.abs(v - d.n) <= 5) { line.classList.remove('sparse'); line._set(d.n); c.win(`${d.n} is here: ${tensW(d.t)} and ${onesW(d.o)} along the line.`, [SP.isTO(d.n)]); return; }
         misses++; line.classList.remove('sparse');
         if (misses > 1) line._set(d.n); else $('.nl-pup', line).style.left = v + '%';
-        c.wrong(misses > 1 ? `Look: ${tensW(d.t)} and ${onesW(d.o)}. Tap where the blocks end.`
-          : `That is near ${v}. ${d.n} is ${v < d.n ? 'further along' : 'further back'}. Count the tens: 10, 20, 30.`);
+        c.wrong(misses > 1 ? 'Look at the blocks. Tap where they end.' : 'Not quite. Count the tens along the line: 10, 20, 30.');
       };
     }
   },
 
   story(c, d) {
-    c.prompt(`<span class="storytxt">${d.text.replace(/\d+/g, m => num(+m))}</span>`, d.text);
+    c.prompt(`<span class="storytxt">${d.text.replace(/\d+/g, m => num(+m))}</span>`, d.say);
     let b = null;
     const showBlocks = () => { if (b) return; b = makeBlocks(d.a); b.classList.add('counted'); c.stage.prepend(b); const h = $('.ghostbtn', c.stage); if (h) h.remove(); };
     const h = el('button', 'ghostbtn'); h.type = 'button'; h.textContent = 'Show the blocks'; h.onclick = showBlocks; c.stage.append(h);
@@ -1024,38 +1151,39 @@ const PLAY = {
       const p = el('p', 'eqline');
       p.innerHTML = (d.eq.includes('?') ? d.eq.replace('?', `<span class="box found">${d.ans}</span>`) : `${d.eq} = <span class="box found">${d.ans}</span>`).replace(/\b\d+\b(?![^<]*<\/span>)/g, m => num(+m));
       c.stage.append(p);
-      c.win(d.eq.includes('?') ? `${d.eq.replace('?', d.ans)}.` : `${d.eq} = ${d.ans}.`);
+      c.win(d.eq.includes('?') ? `${d.eq.replace('?', d.ans)}.` : `${d.eq} = ${d.ans}.`, d.sayEq);
     }, () => { showBlocks(); c.wrong(d.hint); });
   },
 
   jump4(c, d) {
     const plus = d.dir > 0, sign = plus ? '+' : '−', jump = d.k * 10, end = d.targets[0];
-    c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, `${d.s} ${plus ? 'plus' : 'take away'} ${jump}.`, 'Try it in your head.');
+    c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, [d.s, plus ? 'plus' : 'take away', jump], 'Try it in your head.');
     helpBtn(c, 'Show the hundred square', () => {
       const grid = el('div', 'hsq');
       for (let v = 1; v <= 100; v++) { const x = el('button'); x.type = 'button'; x.disabled = true; x.textContent = v; if (v === d.s) x.classList.add('here'); else if (v % 10 === d.o) x.classList.add('col'); grid.append(x); }
       c.stage.append(grid);
     });
-    ask(d.opts, end, () => { c.reveal(end); c.win(`${d.s} ${sign} ${jump} = ${end}. Only the tens change.`); },
-      () => c.wrong(`${jump} is ${tensW(d.k)}. Change only the tens. The ones stay ${d.o}.`));
+    ask(d.opts, end, () => { c.reveal(end); c.win(`${d.s} ${sign} ${jump} = ${end}. Only the tens change.`, [d.s, plus ? 'plus' : 'take away', jump, 'is', end, 'Only the tens change.']); },
+      () => c.wrong(`${jump} is ${tensW(d.k)}. Change only the tens. The ones stay ${d.o}.`, ['Change only the tens. The ones stay the same.']));
   },
 
   fill4(c, d) {
-    c.prompt(`${num(d.a)} + ${num(d.b)} = ${box}`, `${d.a} plus ${d.b}.`, 'Try it in your head.');
+    c.prompt(`${num(d.a)} + ${num(d.b)} = ${box}`, [d.a, 'plus', d.b], 'Try it in your head.');
     helpBtn(c, 'Show a picture', () => {
       const b = makeBlocks(d.a), pile = el('div', 'pile sketch'), row = el('div', 'fillrow');
       b.classList.add('sketch');
       pile.innerHTML = `<span class="plus">+</span><div class="pcubes">${'<div class="cube sun"></div>'.repeat(d.b)}</div>`;
       row.append(b, pile); c.stage.append(row);
     });
-    ask(d.opts, d.sum, () => { c.reveal(d.sum); c.win(d.rest ? `First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.` : `${d.o} and ${d.b} make a new ten. ${d.a} + ${d.b} = ${d.sum}.`); },
-      () => c.wrong(d.rest ? `Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.` : `${d.o} and ${d.b} are friends of ten.`));
+    ask(d.opts, d.sum, () => { c.reveal(d.sum); c.win(d.rest ? `First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.` : `${d.o} and ${d.b} make a new ten. ${d.a} + ${d.b} = ${d.sum}.`,
+      [d.rest ? 'First fill the ten, then add the rest.' : SP.newTen(d.o), d.a, 'plus', d.b, 'is', d.sum]); },
+      () => c.wrong(d.rest ? `Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.` : SP.friends(d.o), [d.rest ? 'Fill the ten first. Then add the rest.' : SP.friends(d.o)]));
   },
 
   take4(c, d) {
-    c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, `${d.a} take away ${d.b}.`, 'Try it in your head.');
+    c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, [d.a, 'take away', d.b], 'Try it in your head.');
     helpBtn(c, 'Use the blocks', () => { c.stage.innerHTML = ''; c.answers.innerHTML = ''; PLAY.take(c, d, 3); });
-    ask(d.opts, d.r, () => { c.reveal(d.r); c.win(`${d.a} − ${d.b} = ${d.r}.`); },
+    ask(d.opts, d.r, () => { c.reveal(d.r); c.win(`${d.a} − ${d.b} = ${d.r}.`, [d.a, 'take away', d.b, 'is', d.r]); },
       () => c.wrong('Take the tens away first, then the ones. Use the blocks if you like.'));
   },
 
@@ -1077,14 +1205,15 @@ const PLAY = {
         legend.innerHTML = P.map((p, i) => `<span class="${p.cls}${i === turn ? ' on' : ''}">${p.name}: ${p.pos || 'start'}</span>`).join('');
       };
       const next = () => {
-        const p = P[turn]; move = 0; paint(); c.fb('', '', true);
+        const p = P[turn]; move = 0; paint(); c.fb('', '', false);
         const who = turn ? `${p.name}'s turn` : 'Your turn';
-        c.prompt(who, `${who}. Spin!`, 'Tap Spin.');
+        const pup = p.name === 'Puppy';
+        c.prompt(who, turn ? (pup ? "The puppy's turn. Spin!" : "The grown-up's turn. Spin!") : 'Your turn. Spin!', 'Tap Spin.');
         c.answers.innerHTML = '<div class="controls"><button class="ctl o" type="button">Spin</button></div>';
         $('button', c.answers).onclick = () => {
           move = pick([1, 2, 3, 10, 10]); target = Math.min(100, p.pos + move);
           const over = p.pos + move > 100;
-          c.prompt(`${num(p.pos)} + ${num(move)} = ${box}`, `${turn ? p.name + ' is' : 'You are'} on ${p.pos}. Go ${move} on. Where ${turn ? 'does ' + p.name + ' land' : 'do you land'}?`,
+          c.prompt(`${num(p.pos)} + ${num(move)} = ${box}`, [p.pos, 'plus', move, turn ? (pup ? 'Where does the puppy land?' : 'Where does the grown-up land?') : 'Where do you land?'],
             over ? 'That is past the end. Tap 100 to win!' : `Tap the square where ${turn ? 'the ' + p.name.toLowerCase() + ' lands' : 'you land'}.`);
           c.answers.innerHTML = '';
         };
@@ -1095,7 +1224,7 @@ const PLAY = {
         if (v !== target) {
           t.classList.add('miss'); setTimeout(() => t.classList.remove('miss'), 500);
           if (move === 10 && p.pos) grid.querySelectorAll('button').forEach(x => { if (+x.dataset.v % 10 === p.pos % 10) x.classList.add('col'); });
-          return c.fb(move === 10 ? 'Ten on: go one row down. The ones stay the same.' : `Start at ${p.pos} and count on ${move}.`, 'hint');
+          return c.fb(move === 10 ? 'Ten on: go one row down. The ones stay the same.' : `Start at ${p.pos} and count on ${move}.`, 'hint', move === 10 ? undefined : ['Start at', p.pos, 'and count on', move]);
         }
         p.pos = v; move = 0; c.reveal(v); chime();
         if (v === 100) {
@@ -1122,14 +1251,14 @@ const PLAY = {
     if (l === 1) row.append(h, pic); else { row.append(pic); flash(pic, c.stage); }
     ask(d.opts, d.n, () => {
       pic.classList.add('stay'); if (l !== 1) row.prepend(h);
-      c.win(d.n < 5 ? `${d.n}. You just saw it!` : d.n === 5 ? '5. One whole hand!' : d.n === 10 ? '5 and 5 make 10. Two whole hands!' : `5 and ${d.n - 5} make ${d.n}.`);
+      c.win(d.n < 5 ? `${d.n}. You just saw it!` : d.n === 5 ? '5. One whole hand!' : d.n === 10 ? '5 and 5 make 10. Two whole hands!' : SP.five(d.n - 5), d.n < 5 ? [d.n, 'You just saw it!'] : undefined);
     }, () => c.wrong(l === 3 ? 'Do not count them all. The top row is 5. How many more?' : 'Do not count them all. The dark blue ones are 5. How many more?'));
   },
 
   pack(c, d, l) {
     const b = makeBlocks(0), row = el('div', 'packrow');
     if (l === 3) {
-      c.prompt(`Build ${num(d.n)}`, `Build ${d.n} with tens and ones.`, 'Use tens and ones, then tap Done.');
+      c.prompt(`Build ${num(d.n)}`, ['Build the number', d.n], 'Use tens and ones, then tap Done.');
       b.classList.add('counted'); c.stage.append(b);
       const ctl = el('div', 'controls');
       ctl.innerHTML = '<button class="ctl t" type="button" data-a="ten">+ a ten</button><button class="ctl o" type="button" data-a="one">+ a one</button><button class="ctl brk" type="button" data-a="clear">Start again</button><button class="ctl brk" type="button" data-a="done" style="background:var(--sun)">Done</button>';
@@ -1144,8 +1273,8 @@ const PLAY = {
           if (b._o === 10) { busy = true; c.fb('Ten ones! They pack into a ten.', 'ok'); await wait(450); await merge(b); busy = false; }
         } else if (k === 'clear') { setBlocks(b, 0, 0); c.fb(''); }
         else if (k === 'done') {
-          if (v === d.n) c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`);
-          else c.wrong(v < d.n ? `You built ${v}. That is not enough yet.` : `You built ${v}. That is too many. Start again.`);
+          if (v === d.n) c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`, [SP.isTO(d.n)]);
+          else c.wrong(v < d.n ? `You built ${v}. That is not enough yet.` : `You built ${v}. That is too many. Start again.`, ['You built', v, v < d.n ? 'That is not enough yet.' : 'That is too many. Start again.']);
         }
       };
       return;
@@ -1164,11 +1293,11 @@ const PLAY = {
       if (busy) return; busy = true;
       await moveN(10, 55); await wait(250); await merge(b);
       const left = heap.children.length;
-      if (left >= 10) { c.fb(`${tensW(b._t)}. Keep packing!`, 'ok'); busy = false; return; }
-      c.fb(`Only ${left} left. Not enough for a ten, so they stay ones.`, 'ok');
+      if (left >= 10) { c.fb(`${tensW(b._t)}. Keep packing!`, 'ok', [SP.tens(b._t), 'Keep packing!']); busy = false; return; }
+      c.fb(`Only ${left} left. Not enough for a ten, so they stay ones.`, 'ok', ['Not enough left for a ten. They stay ones.']);
       await wait(500); await moveN(left, 90); arrow.hidden = true;
       c.prompt('How many?', 'How many are there?');
-      ask(d.opts, d.n, () => { b.classList.add('counted'); c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`); },
+      ask(d.opts, d.n, () => { b.classList.add('counted'); c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`, [SP.isTO(d.n)]); },
         () => { b.classList.add('counted'); c.wrong('Count the red tens: 10, 20, 30. Then add the ones.'); });
     };
   },
@@ -1183,27 +1312,27 @@ const PLAY = {
     if (l === 3) flash(b, c.stage);
     ask(d.opts, d.n, () => {
       b.classList.add('stay', 'counted'); lab.hidden = false;
-      c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`);
+      c.win(`${tensW(d.t)} and ${onesW(d.o)}. ${d.t * 10} + ${d.o} = ${d.n}.`, [SP.isTO(d.n)]);
     }, () => { if (l < 3) b.classList.add('counted'); c.wrong('Do not count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.'); });
   },
 
   friends(c, d, l) {
     if (l < 3) {
       const f = frame(d.n), row = el('div', 'fiverow'); row.append(hands(d.n, true), f); c.stage.append(row);
-      if (l === 1) c.prompt('How many more to make 10?', `${d.n} and how many more make ten?`);
-      else { c.prompt(`${num(d.n)} + ${box} = ${num(10)}`, `${d.n} plus what makes ten?`); row.hidden = true; }
+      if (l === 1) c.prompt('How many more to make 10?', [SP.friendsQ(d.n)]);
+      else { c.prompt(`${num(d.n)} + ${box} = ${num(10)}`, [SP.friendsQ(d.n)]); row.hidden = true; }
       ask(PAD, d.ans, () => {
         row.hidden = false;
         f.querySelectorAll('.cell').forEach((cell, i) => { if (i >= d.n) { const x = el('div', 'dot sun pop'); cell.append(x); } });
         c.reveal(d.ans);
-        c.win(`${d.n} and ${d.ans} are friends of ten. ${d.n === 1 ? '1 finger' : d.n + ' fingers'} up, ${d.ans} down.`);
+        c.win(`${d.n} and ${d.ans} are friends of ten. ${d.n === 1 ? '1 finger' : d.n + ' fingers'} up, ${d.ans} down.`, [SP.friends(d.n)]);
       }, () => { row.hidden = false; c.wrong('Count the empty places, or the fingers that are down.'); }, true);
     } else {
-      c.prompt(`${num(d.a)} + ${box} = ${num(d.next)}`, `${d.a} plus what makes ${d.next}?`);
+      c.prompt(`${num(d.a)} + ${box} = ${num(d.next)}`, [d.a, 'and how many more make', d.next]);
       const b = makeBlocks(d.a); c.stage.append(b);
       ask(PAD, d.ans, async () => {
         setBlocks(b, d.t, 10, { cls: 'sun' }); c.reveal(d.ans);
-        c.win(`${d.a} + ${d.ans} = ${d.next}. The same friends: ${d.o} and ${d.ans}.`);
+        c.win(`${d.a} + ${d.ans} = ${d.next}. The same friends: ${d.o} and ${d.ans}.`, [d.a, 'plus', d.ans, 'is', d.next, 'The same friends of ten.']);
         await wait(700); await merge(b);
       }, () => c.wrong('Count the empty places in the blue tower.'), true);
     }
@@ -1212,8 +1341,8 @@ const PLAY = {
   jump(c, d, l) {
     if (l === 4) return PLAY.jump4(c, d);
     const plus = d.dir > 0, sign = plus ? '+' : '−', jump = d.k * 10;
-    if (l === 3) c.prompt(`Count ${plus ? 'on' : 'back'} in tens from ${num(d.s)}`, `Count ${plus ? 'on' : 'back'} in tens from ${d.s}.`, 'Tap the next three numbers.');
-    else c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, `${d.s} ${plus ? 'plus' : 'take away'} ${jump}.`, 'Tap where you land.');
+    if (l === 3) c.prompt(`Count ${plus ? 'on' : 'back'} in tens from ${num(d.s)}`, [plus ? 'Count on in tens from' : 'Count back in tens from', d.s], 'Tap the next three numbers.');
+    else c.prompt(`${num(d.s)} ${sign} ${num(jump)} = ${box}`, [d.s, plus ? 'plus' : 'take away', jump], 'Tap where you land.');
     const grid = el('div', 'hsq');
     for (let v = 1; v <= 100; v++) { const x = el('button'); x.type = 'button'; x.dataset.v = v; x.textContent = v; if (v === d.s) x.classList.add('here'); grid.append(x); }
     const b = makeBlocks(d.s, true);
@@ -1229,13 +1358,13 @@ const PLAY = {
         if (k === d.targets.length) {
           grid.querySelectorAll('button').forEach(x => { if (+x.dataset.v % 10 === d.o) x.classList.add('col'); });
           c.reveal(v);
-          c.win(l === 3 ? `Only the tens change. The ${onesW(d.o)} stay the same.` : `${d.s} ${sign} ${jump} = ${v}. Only the tens change.`);
+          c.win(l === 3 ? `Only the tens change. The ${onesW(d.o)} stay the same.` : `${d.s} ${sign} ${jump} = ${v}. Only the tens change.`,
+            l === 3 ? ['Only the tens change. The ones stay the same.'] : [d.s, plus ? 'plus' : 'take away', jump, 'is', v, 'Only the tens change.']);
         } else c.fb('Yes! Keep going.', 'ok');
       } else {
         t.classList.add('miss'); setTimeout(() => t.classList.remove('miss'), 500);
         grid.querySelectorAll('button').forEach(x => { if (+x.dataset.v % 10 === d.o) x.classList.add('col'); });
-        const rows = l === 2 ? `${d.k} rows` : 'one row';
-        c.wrong(`A jump of ten goes straight ${plus ? 'down' : 'up'}. Go ${rows} ${plus ? 'down' : 'up'} the blue line.`);
+        c.wrong(SP.rows(plus, l === 2 ? d.k : 1));
       }
     };
   },
@@ -1249,14 +1378,14 @@ const PLAY = {
       for (let i = 0; i < n; i++) { const x = $('.cube', pile); if (x) x.remove(); setBlocks(b, b._t, b._o + 1, { cls: 'sun' }); await wait(140); }
       if (!$('.cube', pile)) pile.classList.add('empty');
     };
-    const eq = `${num(d.a)} + ${num(d.b)} = ${box}`, say = `${d.a} plus ${d.b}.`;
+    const eq = `${num(d.a)} + ${num(d.b)} = ${box}`, say = [d.a, 'plus', d.b];
     let miss = 0, shown = false;
     const demo = async () => { if (shown) return; shown = true; await move(d.fill); await wait(300); await merge(b); await move(d.rest); b.classList.add('counted'); };
     if (l === 1) {
       c.prompt(eq, say);
       ask(d.opts, d.sum, async () => {
         c.reveal(d.sum);
-        c.win(`The ones filled up a ten. ${d.a} + ${d.b} = ${d.sum}.`);
+        c.win(`The ones filled up a ten. ${d.a} + ${d.b} = ${d.sum}.`, ['The ones filled up a ten.', d.a, 'plus', d.b, 'is', d.sum]);
         await demo();
       }, () => { if (++miss === 2) { c.wrong('Watch the yellow ones fill up the ten. Now count the tens.'); demo(); } else c.wrong('Look at the blue tower. The yellow ones fit in the empty places.'); });
     } else if (l === 2) {
@@ -1264,20 +1393,20 @@ const PLAY = {
       ask(PAD, d.fill, async () => {
         c.fb(''); c.reveal(d.fill, '#psub');
         await move(d.fill); await wait(300); await merge(b);
-        c.prompt(eq, null, `${d.b} is ${d.fill} and ${d.rest}. Now ${num(d.next)} + ${num(d.rest)} = ?`);
+        c.prompt(eq, [d.next, 'plus', d.rest], `${d.b} is ${d.fill} and ${d.rest}. Now ${num(d.next)} + ${num(d.rest)} = ?`);
         ask(d.opts, d.sum, async () => {
           c.reveal(d.sum);
-          c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`);
+          c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`, ['First fill the ten, then add the rest.', d.a, 'plus', d.b, 'is', d.sum]);
           await move(d.rest);
-        }, () => c.wrong(`${d.next} and ${d.rest} more. The tens stay, just add the ones.`));
+        }, () => c.wrong(`${d.next} and ${d.rest} more. The tens stay, just add the ones.`, ['The tens stay. Just add the ones.']));
       }, () => c.wrong('Count the empty places in the blue tower.'), true);
     } else {
       c.prompt(eq, say);
       ask(d.opts, d.sum, async () => {
         c.reveal(d.sum);
-        c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`);
+        c.win(`First to ${d.next}, then ${d.rest} more. ${d.a} + ${d.b} = ${d.sum}.`, ['First fill the ten, then add the rest.', d.a, 'plus', d.b, 'is', d.sum]);
         await demo();
-      }, () => { c.wrong(`Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.`); if (++miss === 2) demo(); });
+      }, () => { c.wrong(`Fill the ten first: ${d.a} + ${d.fill} = ${d.next}. Then ${d.rest} more.`, ['Fill the ten first. Then add the rest.']); if (++miss === 2) demo(); });
     }
   },
 
@@ -1285,7 +1414,7 @@ const PLAY = {
     if (l === 4) return PLAY.take4(c, d);
     const bt = Math.floor(d.b / 10), bo = d.b % 10;
     let needT = bt, needO = bo, broke = false, busy = false;
-    c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, `${d.a} take away ${d.b}.`);
+    c.prompt(`${num(d.a)} − ${num(d.b)} = ${box}`, [d.a, 'take away', d.b]);
     const b = makeBlocks(d.a), chips = el('div', 'chips');
     c.stage.append(b, chips);
     const upd = () => {
@@ -1316,8 +1445,8 @@ const PLAY = {
       }
       upd();
       if (!needT && !needO) {
-        chips.textContent = 'All taken away. How many are left?';
-        ask(d.opts, d.r, () => { c.reveal(d.r); b.classList.add('counted'); c.win(`${d.a} − ${d.b} = ${d.r}.` + (broke ? ' You broke a ten to get more ones.' : '')); },
+        chips.textContent = 'All taken away. How many are left?'; speak(['All taken away. How many are left?']);
+        ask(d.opts, d.r, () => { c.reveal(d.r); b.classList.add('counted'); c.win(`${d.a} − ${d.b} = ${d.r}.` + (broke ? ' You broke a ten to get more ones.' : ''), [d.a, 'take away', d.b, 'is', d.r, ...(broke ? ['You broke a ten to get more ones.'] : [])]); },
           () => { b.classList.add('counted'); c.wrong('Count what is left. Red tens in tens: 10, 20, 30. Then the blue ones.'); });
       }
     };
@@ -1333,7 +1462,7 @@ const PLAY = {
     ask(d.pad ? PAD : d.opts, d.ans, () => {
       const u = $('.unk', bar); u.innerHTML = num(d.ans); u.classList.add('found');
       c.reveal(d.ans);
-      c.win(`You found it. The mystery number is ${d.ans}.`);
+      c.win(`You found it. The mystery number is ${d.ans}.`, ['You found it! The mystery number is', d.ans]);
     }, () => c.wrong(d.hint || 'The parts together are as long as the whole. What is missing?'), d.pad);
   }
 };
@@ -1345,15 +1474,16 @@ function start(data) {
   const sb = $('#sound');
   const paintSound = () => { sb.textContent = S.sound ? 'Sound on' : 'Sound off'; sb.setAttribute('aria-pressed', String(!!S.sound)); };
   paintSound();
-  sb.onclick = () => { S.sound = !S.sound; save(); paintSound(); if (S.sound) { chime(); speak('Sound on'); } else { try { speechSynthesis.cancel(); } catch (e) {} } };
+  sb.onclick = () => { S.sound = !S.sound; save(); paintSound(); if (S.sound) { chime(); speak(['Sound on!'], false, .3); } else stopSpeech(); };
   $('#homepup').innerHTML = puppySVG(); $('#pup').innerHTML = puppySVG();
   if (canSpeak) { loadVoices(); try { speechSynthesis.addEventListener('voiceschanged', () => { loadVoices(); voicePanel(); }); } catch (e) {} }
   $('#voicebtn').onclick = () => { const box = $('#voicepanel'); box.hidden = !box.hidden; $('#voicebtn').setAttribute('aria-expanded', String(!box.hidden)); voicePanel(); };
   $('#voicepanel').onclick = e => {
     const b = e.target.closest('[data-v]'); if (!b) return;
     S.voice = b.dataset.v; save(); voicePanel();
-    speak('Hello! I am the puppy. 3 tens and 4 ones make 34.', true);
+    speakTTS('Hello! I am the puppy. 3 tens and 4 ones make 34.');
   };
+  $('#voicebtn').hidden = true; loadVox();
   machine(); renderHome();
   $('#todaybtn').onclick = startToday;
   $('#shelves').onclick = e => { const b = e.target.closest('[data-g]'); if (b && !b.disabled) openGame(b.dataset.g); };

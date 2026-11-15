@@ -51,6 +51,12 @@ Everywhere, tens are red and stand in groups of five; ones are blue, with the fi
 
 ## Technical
 
-One self-contained `index.html` (HTML, CSS and JavaScript, no build step). Fonts load from Google Fonts. Progress is stored in the browser's localStorage, per device. Reading aloud uses the browser's speech synthesis where available.
+One `index.html` (HTML, CSS and JavaScript, no build step) plus the recorded voice in `audio/`. Fonts load from Google Fonts. Progress is stored in the browser's localStorage, per device.
+
+### The voice
+
+Everything the game says is a pre-recorded clip, so it sounds the same on every device. The 702 clips (whole sentences, joining words such as "plus" and "is", and the numbers 0 to 100 in two intonations) are packed into `audio/voice.mp3`, with byte offsets in `audio/voice.json`. Sentences with free numbers, such as "47 plus 10 is 57", are stitched from pieces at play time.
+
+The clips were generated with the open-source Kokoro text-to-speech model (voice `af_heart`). The script lives in the game code: `speechCatalogue()` in `index.html` lists every clip. To re-record after changing the script, export that list to `catalogue.json`, then run `tools/voice/record.py` and `tools/voice/pack.py` (they need `kokoro-onnx`, the Kokoro model files and `ffmpeg`). If the audio files cannot be loaded, the game falls back to the browser's own speech synthesis.
 
 Every push to `main` is deployed automatically by Netlify (project `tens-and-ones-puppy`, publish folder set in `netlify.toml`).
