@@ -8,6 +8,10 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-11-15 | Fonts: Fredoka and Andika ship with the app. No request to Google Fonts | Philipp. No third-party request from a child's device; works offline |
+| 2026-11-15 | Voice v2 scope: instructions and feedback are recorded as whole sentences; equations stay stitched from number clips. Nothing is recorded now (closes question 9) | Philipp, after the count: 9,269 equation sentences against 702 clips today |
+| 2026-11-15 | The source files under `app/` stay reachable on the family site at `/app/...` | Philipp. Harmless: source only |
+| 2026-11-15 | Philipp creates the second Netlify site himself, with base directory `app` | |
 | 2026-11-15 | Front-end stack confirmed: TypeScript, React, Vite, Vitest, Playwright. Not Svelte. Keep the bundle lean anyway | Philipp: ecosystem and handover matter more than bundle size here |
 | 2026-11-15 | The rating sits above the bones rule. Bones pick the level inside a game, exactly as today; the rating decides mastery, unlocks and what gets repeated (answers question 8) | Philipp |
 | 2026-11-15 | Whole-sentence equations: count them per game and report in `status.md`. Record nothing yet (answers question 9) | Philipp; the size decides the approach |
@@ -46,7 +50,7 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 Questions 8 to 14 were raised by Claude Code on 15 November 2026 and answered by Philipp the same day; the answers are rows in the table above. What is still open from them:
 
 8. Answered: the rating sits above the bones rule.
-9. Answered in part: count the distinct equation sentences per game first. Whether to record them all or narrow the ranges is decided once the counts are in `status.md`.
+9. Answered: record nothing. Equations stay stitched from number clips; only instructions and feedback become whole sentences in voice v2.
 10. Answered: a second Netlify site built from `app/`.
 11. Answered: import the existing progress. Open: the transfer mechanism between the two sites, to be proposed by Claude Code at work package 5.
 12. Answered: emailed link. Open: the Supabase region, decided at work package 5.
