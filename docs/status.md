@@ -31,9 +31,10 @@ The root game, `audio/` and the root `netlify.toml` are untouched.
 
 ## For the planning chat
 
-- **The second Netlify site does not exist yet.** The Netlify account has only `tens-and-ones-puppy`, and only that site comments on pull requests. Until the new site is there, nothing can be played on a deploy preview of it. Settings: same repository, base directory `app`, deploy previews on; the rest is in `app/netlify.toml`.
-- **Deploy previews and stacked pull requests.** Netlify builds a preview only for a pull request that points at `main`. Pull requests 7 and 8 point at the one before, so they get a preview only after the earlier ones are merged and I have pointed them at `main`. From now on I will open one game pull request at a time against `main`, so each has its preview.
-- The preview of the old site (`deploy-preview-N--tens-and-ones-puppy`) shows the old game, not the new app.
+- **Hosting is Cloudflare now.** `app/netlify.toml` is gone. Its settings live here: the fallback to the app for any address in `app/wrangler.jsonc`, the Node version in `app/.nvmrc` (22), and `wrangler` 4.162 as a dev dependency so preview links are posted. New: `app/public/_headers` lets phones keep the fingerprinted files for a year; the page, the service worker and the voice pack are still checked every time.
+- **Preview links.** See the note on pull request 6 below "Last session" in the chat: whether Cloudflare posted one is reported there, not guessed here.
+- The pull requests still get a comment from Netlify's `tens-and-ones-puppy` site, which builds the old game. That stops when the repository is disconnected from Netlify.
+- The build of the new app reads the recording from `audio/` at the repository root, so Cloudflare must check out the whole repository (root directory `app` does that; a sparse checkout of `app/` only would break the build).
 
 ## Next
 
