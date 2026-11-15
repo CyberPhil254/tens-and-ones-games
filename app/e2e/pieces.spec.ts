@@ -100,8 +100,10 @@ test('Oreo: all nine poses load, and the icon is her head', async ({ page }) => 
   await page.goto('/#pieces');
   const poses = page.getByTestId('oreo').locator('.pup img');
   await expect(poses).toHaveCount(9);
-  const loaded = await poses.evaluateAll((imgs) => imgs.map((i) => (i as HTMLImageElement).naturalWidth > 100));
-  expect(loaded).toEqual(Array(9).fill(true));
+  // On a real connection the pictures arrive a moment after the page.
+  await expect
+    .poll(() => poses.evaluateAll((imgs) => imgs.map((i) => (i as HTMLImageElement).naturalWidth > 100)))
+    .toEqual(Array(9).fill(true));
   const icon = await page.request.get('/icon-192.png');
   expect(icon.ok()).toBe(true);
 });
