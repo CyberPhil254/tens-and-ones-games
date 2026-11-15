@@ -407,3 +407,19 @@ body.plain { background-image: none; }
 .adots i { width: clamp(16px, 4.6vw, 24px); height: clamp(16px, 4.6vw, 24px); border-radius: 50%; background: var(--one); flex: none; }
 .adots i.gap { margin-left: 8px; }
 .array .running { min-width: 30px; text-align: left; }
+
+/* Fair shares: a heap, bowls, and groups in a row */
+.sharing { display: grid; gap: 10px; justify-items: center; width: 100%; }
+.heap { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; min-height: 34px; max-width: 300px; padding: 6px 10px; border: 2px dashed var(--soft); border-radius: 12px; }
+.heap .ic, .bowl .ic, .grpbones .ic { width: 24px; height: 12px; fill: #c98a00; }
+.bowls { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.bowls:has(.bowl:nth-child(2):last-child) { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.bowl { width: 58px; min-height: 58px; padding: 6px 4px; border: 3px solid var(--ink); border-top-width: 2px; border-radius: 6px 6px 26px 26px; background: #fff; display: flex; flex-direction: column-reverse; align-items: center; gap: 3px; }
+.grouping { display: flex; flex-wrap: wrap; gap: 10px 8px; justify-content: center; max-width: 330px; }
+.grp { display: grid; justify-items: center; gap: 2px; }
+.grpbones { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; max-width: 86px; padding: 5px; border: 3px solid transparent; border-radius: 12px; }
+.grouping.ringed .grpbones { border-color: var(--sun); border-style: dashed; }
+/* Until she has answered, the bones stand in one plain row: making the groups is her job. */
+.grouping:not(.ringed) { gap: 4px; }
+.grouping:not(.ringed) .grp, .grouping:not(.ringed) .grpbones { display: contents; }
+.grouping:not(.ringed) .running { display: none; }

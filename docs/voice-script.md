@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-691 clips.
+699 clips.
 
 Whole sentences:
 
@@ -148,6 +148,12 @@ Whole sentences:
 - Which number is missing?
 - Find the step from one number to the next. It is the same every time.
 - Count the groups in steps, one group at a time.
+- Give one to each bowl until the bones are gone.
+- How many are in each bowl?
+- How many does each get?
+- How many groups?
+- Deal them out: one for each bowl, again and again.
+- Make the groups, then count the groups.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -205,6 +211,8 @@ Joining pieces for sums, said with number clips:
 - Start at
 - Double
 - groups of
+- shared between
+- in groups of
 - times
 - is more than
 - is less than

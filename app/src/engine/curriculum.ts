@@ -136,7 +136,7 @@ export const UNITS: Unit[] = [
     lessons: [
       lesson('s2-times', 'Equal groups', 'Multiplying as equal groups, repeated adding and rows and columns', ['s2-skip'], [see(a('groups', 1)), sketch(a('groups', 2)), head(a('groups', 3))]),
       lesson('s2-tables', 'Times tables', 'The 1, 2, 5 and 10 times tables', ['s2-times'], [see(a('groups', 4)), head(a('groups', 5))]),
-      lesson('s2-divide', 'Fair shares', 'Dividing as sharing equally and as making groups', ['s2-times']),
+      lesson('s2-divide', 'Fair shares', 'Dividing as sharing equally and as making groups', ['s2-times'], [see(a('share', 1)), sketch(a('share', 2)), head(a('share', 3))]),
     ],
   },
   { id: 's2-u6', stage: 2, title: 'Quarters', lessons: [lesson('s2-quarter', 'Quarters', 'Quarters and three quarters: of a shape, of a set, as sharing; two quarters are a half; halves and quarters put together', ['s1-half', 's2-divide'])] },

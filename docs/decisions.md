@@ -171,3 +171,7 @@ Claude Code adds a line here for every detail it had to decide itself: the date,
 | 2026-11-15 | Plates hold two to five bones, on two to five plates; rows and tables are dots, blue, in fives | Every bone has to be seen to be counted; the bones are drawn in code |
 | 2026-11-15 | A miss writes the running total beside each group (5, 10, 15), and the right answer says the steps first: "5, 10, 15. 3 × 5 = 15." | "The groups are counted in steps"; the steps are the hops from Skip and spot |
 | 2026-11-15 | The wrong choices for a times question are one group too many or too few, the two numbers added, and the number of groups alone | The slips children make |
+| 2026-11-15 | "Fair shares" (s2-divide) is three steps: she deals the bones into bowls herself ("Give one to each bowl" until none are left), then says how many are in each; bones in a row are put into groups of a size and she says how many groups; both in her head as "20 ÷ 5" on the number pad | Sharing first, then grouping, as the research row says. Dealing is done by tapping, one round at a time |
+| 2026-11-15 | Only exact answers, with 2, 5 and 10; never "one each"; at most 30 bones | The spec; every bone is drawn |
+| 2026-11-15 | In the grouping step the bones stand in one plain row until she has answered; then the groups get rings and are counted 1, 2, 3 | With the groups already apart there would be nothing to work out |
+| 2026-11-15 | A wrong answer after dealing empties the bowls and deals again, one round at a time | "The dealing is replayed" |
