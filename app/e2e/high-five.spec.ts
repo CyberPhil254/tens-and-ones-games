@@ -55,7 +55,7 @@ test("today's games for a new child: two rounds of High Five, levels, bones, and
   }
   const end = page.getByTestId('end');
   await expect(end).toContainText('Brilliant!');
-  await expect(end).toContainText('The puppy got 6 bones. Perfect! You jump up to level 3. Ready for the next one?');
+  await expect(end).toContainText('Oreo got 6 bones. Perfect! You jump up to level 3. Ready for the next one?');
   await end.getByRole('button', { name: 'Keep going' }).click();
 
   // Round 2, level 3: a ten frame, seen for a moment. One miss, so five bones and a paw.
@@ -75,7 +75,7 @@ test("today's games for a new child: two rounds of High Five, levels, bones, and
   }
   await expect(page.locator('.dots .done')).toHaveCount(1);
   await expect(end).toContainText('All done for today!');
-  await expect(end).toContainText('The puppy got 5 bones. One more good round like this and the game is finished. Time to stop. See you tomorrow!');
+  await expect(end).toContainText('Oreo got 5 bones. One more good round like this and the game is finished. Time to stop. See you tomorrow!');
   await end.getByRole('button', { name: 'Back to the start' }).click();
 
   // Home: today is done, 11 bones packed as a box of ten and one loose, level 3.
@@ -145,21 +145,21 @@ test('a weak round moves down a level, and "Play again" starts there', async ({ 
   const end = page.getByTestId('end');
   await expect(end).toContainText('Good trying!');
   await expect(end.locator('.pup')).toHaveAttribute('data-pose', 'proud');
-  await expect(end).toContainText('The puppy got 2 bones. Next time we start with an easier level.');
+  await expect(end).toContainText('Oreo got 2 bones. Next time we start with an easier level.');
   await end.getByRole('button', { name: 'Play again' }).click();
   await expect(level(page, 1)).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.dots .star, .dots .done')).toHaveCount(0);
 });
 
 test('without the voice pack the game is silent, playable, and offers to try again', async ({ page }) => {
-  await page.route('**/voice/voice.mp3', (r) => r.abort());
+  await page.route('**/voice/*.mp3', (r) => r.abort());
   await page.goto('/');
   await page.getByRole('button', { name: /High Five/ }).click();
   await expect(page.getByText('The voice did not load.')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Read it to me' })).toBeHidden();
   await answer(page);
 
-  await page.unroute('**/voice/voice.mp3');
+  await page.unroute('**/voice/*.mp3');
   await page.getByRole('button', { name: 'Try again' }).click();
   await expect(page.getByText('The voice did not load.')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Read it to me' })).toBeVisible();

@@ -17,16 +17,20 @@ function fakeAudio(now = 5) {
 }
 
 const index: VoiceIndex = {
-  'num.47.mid': [0, 10], 'frag.plus': [10, 20], 'num.10.mid': [30, 30], 'frag.is': [60, 40], 'num.57.end': [100, 50],
-  'only-the-tens-change': [150, 60], 'try-again': [210, 70],
+  packs: ['core', 'extra'],
+  clips: {
+    'num.47.mid': [0, 0, 10], 'frag.plus': [0, 10, 20], 'num.10.mid': [0, 30, 30], 'frag.is': [0, 60, 40], 'num.57.end': [0, 100, 50],
+    'only-the-tens-change': [0, 150, 60], 'try-again': [0, 210, 70], 'well-done': [1, 0, 80],
+  },
 };
 const source = (fail = false) => {
-  let loads = 0;
+  const loaded: string[] = [];
   return {
-    loads: () => loads,
+    loads: () => loaded.length,
+    loaded,
     loadIndex: async () => index,
-    loadAudio: async () => {
-      loads++;
+    loadPack: async (name: string) => {
+      loaded.push(name);
       if (fail) throw new Error('offline');
       return new ArrayBuffer(300);
     },
@@ -68,6 +72,16 @@ describe('VoicePlayer', () => {
     }
   });
 
+  it('fetches a pack only when something in it is said', async () => {
+    const a = fakeAudio(), s = source();
+    const player = new VoicePlayer(s, () => a.out);
+    await player.say(['try-again']);
+    expect(s.loaded).toEqual(['core']);
+    await player.say(['well-done']);
+    expect(s.loaded).toEqual(['core', 'extra']);
+    expect(a.started.at(-1)!.bytes).toBe(80);
+  });
+
   it('loads the pack once', async () => {
     const a = fakeAudio(), s = source();
     const player = new VoicePlayer(s, () => a.out);
@@ -107,7 +121,7 @@ describe('VoicePlayer', () => {
     let online = false;
     const changes: boolean[] = [];
     const player = new VoicePlayer(
-      { loadIndex: async () => index, loadAudio: async () => { if (!online) throw new Error('offline'); return new ArrayBuffer(300); } },
+      { loadIndex: async () => index, loadPack: async () => { if (!online) throw new Error('offline'); return new ArrayBuffer(300); } },
       () => a.out,
     );
     player.onChange(() => changes.push(player.silent));
@@ -117,7 +131,7 @@ describe('VoicePlayer', () => {
     await player.retry();
     expect(player.silent).toBe(false);
     expect(await player.say(['try-again'])).toEqual(['try-again']);
-    expect(changes.filter((s, i) => s !== changes[i - 1])).toEqual([true, false]);
+    expect(changes.filter((s, i) => s !== (changes[i - 1] ?? false))).toEqual([true, false]);
   });
 
   it('stays silent when the device has no audio', async () => {

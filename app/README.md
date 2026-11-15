@@ -20,6 +20,15 @@ The app that will replace the single-file game at the repository root. Until Phi
 - `src/art/oreo/`: the poses of Oreo the app uses, made by `tools/art/app.py` from `art/puppy/`. Do not edit them by hand; add a pose to that script and to `src/ui/Oreo.tsx`.
 - `e2e/`: browser tests. Every screen is checked on a phone-sized and a laptop-sized viewport, with no console errors allowed.
 
+## The voice
+
+- The wording lives in `src/speech/sentences.ts` (whole sentences and joining pieces) and `src/speech/script.ts` (sentences with a number). `src/speech/catalogue.ts` lists every clip.
+- `voice/script.json` and `docs/voice-script.md` are written from those by the tests: after changing wording run `npx vitest run src/speech -u`.
+- A changed or new sentence needs a recording. `npm run voice:todo` lists what is missing in `voice/to-record.json`; then, from the repository root, `python3 tools/voice/record.py <folder with the Kokoro model> app/voice/to-record.json app/voice/clips 0 1` records them (needs `kokoro-onnx`, the model files `kokoro-v1.0.int8.onnx` and `voices-v1.0.bin`, and `ffmpeg`). Commit the new files in `voice/clips/`.
+- If recording is not possible, add the clip's key to `voice/missing.json` and say so in `docs/status.md`. The app is silent for that sentence.
+- `npm run voice` (run automatically before `dev` and `build`) packs everything into `public/voice/`.
+- `E2E_BASE_URL=https://... npm run e2e` plays the browser tests on a deployed preview.
+
 ## Deployment
 
 Cloudflare (Workers with static assets), built from GitHub with root directory `app`.

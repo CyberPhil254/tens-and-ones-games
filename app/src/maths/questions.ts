@@ -103,12 +103,12 @@ const MAKE: Makers = {
   story(l, d) {
     const mk = (text: string, say: Piece[], a: number, eq: string, sayEq: Piece[], ans: number, hint: string, cands?: number[]): StoryQ =>
       ({ text, say, a, eq, sayEq, ans, hint, opts: options(d, ans, cands ?? [ans + 10, ans - 10, ans + 1, ans - 1]) });
-    const NOW = 'How many bones does he have now?', LEFT = 'How many bones are left?', NEED = 'How many more does he need?';
+    const NOW = 'How many bones does she have now?', LEFT = 'How many bones are left?', NEED = 'How many more does she need?';
     const v = d.rnd(0, 2);
     if (l === 1) {
       if (v === 0) { const a = d.rnd(11, 89); return mk(`${SP.puppyHas(a)} ${SP.finds(10)} ${NOW}`, [SP.puppyHas(a), SP.finds(10), NOW], a, `${a} + 10`, [a, 'plus', 10, 'is', a + 10], a + 10, 'Ten more is one more ten. The ones stay the same.'); }
-      if (v === 1) { const a = d.rnd(21, 99); return mk(`${SP.puppyHas(a)} He eats 10 of them. ${LEFT}`, [SP.puppyHas(a), 'He eats 10 of them.', LEFT], a, `${a} − 10`, [a, 'take away', 10, 'is', a - 10], a - 10, 'Ten fewer is one ten gone. The ones stay the same.'); }
-      const p = d.rnd(1, 9); return mk(`The puppy wants 10 bones. He has ${p}. ${NEED}`, ['The puppy wants 10 bones.', 'He has', p, NEED], p, `${p} + ? = 10`, [p, 'plus', 10 - p, 'is', 10], 10 - p, 'Think of the friends of ten.', [11 - p, 9 - p, p, 10]);
+      if (v === 1) { const a = d.rnd(21, 99); return mk(`${SP.puppyHas(a)} She eats 10 of them. ${LEFT}`, [SP.puppyHas(a), 'She eats 10 of them.', LEFT], a, `${a} − 10`, [a, 'take away', 10, 'is', a - 10], a - 10, 'Ten fewer is one ten gone. The ones stay the same.'); }
+      const p = d.rnd(1, 9); return mk(`Oreo wants 10 bones. She has ${p}. ${NEED}`, ['Oreo wants 10 bones.', 'She has', p, NEED], p, `${p} + ? = 10`, [p, 'plus', 10 - p, 'is', 10], 10 - p, 'Think of the friends of ten.', [11 - p, 9 - p, p, 10]);
     }
     if (l === 2) {
       if (v === 0) { const k = d.rnd(2, 4), a = d.rnd(11, 99 - k * 10); return mk(`${SP.puppyHas(a)} ${SP.finds(k * 10)} ${NOW}`, [SP.puppyHas(a), SP.finds(k * 10), NOW], a, `${a} + ${k * 10}`, [a, 'plus', k * 10, 'is', a + k * 10], a + k * 10, SP.tensOnly(k)); }
@@ -117,9 +117,9 @@ const MAKE: Makers = {
       return mk(`${SP.puppyHas(a)} ${SP.digs(b)} ${NOW}`, [SP.puppyHas(a), SP.digs(b), NOW], a, `${a} + ${b}`, [a, 'plus', b, 'is', a + b], a + b, SP.newTen(o));
     }
     if (v === 0) { const t = d.rnd(1, 8), o = d.rnd(5, 9), b = d.rnd(11 - o, 9), a = t * 10 + o; return mk(`${SP.puppyHas(a)} ${SP.finds(b)} ${NOW}`, [SP.puppyHas(a), SP.finds(b), NOW], a, `${a} + ${b}`, [a, 'plus', b, 'is', a + b], a + b, 'Fill the ten first. Then add the rest.'); }
-    if (v === 1) { const k = d.rnd(1, 4), p = d.rnd(11, 99 - k * 10), T = p + k * 10; return mk(`The puppy wants ${T} bones. He has ${p}. ${NEED}`, ['The puppy wants', T, 'bones.', 'He has', p, NEED], p, `${p} + ? = ${T}`, [p, 'plus', k * 10, 'is', T], k * 10, 'The ones are the same. How many tens are missing?', [k * 10 + 10, k * 10 - 10, k, k * 10 + 1, k * 10 + 20]); }
+    if (v === 1) { const k = d.rnd(1, 4), p = d.rnd(11, 99 - k * 10), T = p + k * 10; return mk(`Oreo wants ${T} bones. She has ${p}. ${NEED}`, ['Oreo wants', T, 'bones.', 'She has', p, NEED], p, `${p} + ? = ${T}`, [p, 'plus', k * 10, 'is', T], k * 10, 'The ones are the same. How many tens are missing?', [k * 10 + 10, k * 10 - 10, k, k * 10 + 1, k * 10 + 20]); }
     const t = d.rnd(2, 9), o = d.rnd(2, 9), a = t * 10 + o, b = 10 * d.rnd(1, t - 1) + d.rnd(1, o);
-    return mk(`${SP.puppyHas(a)} He hides ${b} of them. How many bones can he still see?`, [SP.puppyHas(a), 'He hides', b, 'of them.', 'How many bones can he still see?'], a, `${a} − ${b}`, [a, 'take away', b, 'is', a - b], a - b, 'Take the tens away first, then the ones.');
+    return mk(`${SP.puppyHas(a)} She hides ${b} of them. How many bones can she still see?`, [SP.puppyHas(a), 'She hides', b, 'of them.', 'How many bones can she still see?'], a, `${a} − ${b}`, [a, 'take away', b, 'is', a - b], a - b, 'Take the tens away first, then the ones.');
   },
   five(l, d) {
     const n = l === 1 ? d.rnd(1, 10) : d.rnd(3, 10);

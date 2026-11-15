@@ -8,3 +8,4 @@ playwright-report
 .env.*.local
 public/voice
 .wrangler
+voice/to-record.json

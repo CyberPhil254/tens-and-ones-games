@@ -13,7 +13,9 @@ const levels = PATH.flatMap((id) => Array.from({ length: LEVELS[id] }, (_, i) =>
 const plain = (q: Q): unknown => {
   const eq = q.eq;
   const text = Array.isArray(eq) ? eq.join(' ') : typeof eq === 'string' ? eq.replace(/<[^>]+>/g, '') : eq;
-  return JSON.parse(JSON.stringify({ ...q, eq: text }));
+  // The live game says "the puppy" and "he"; the app says "Oreo" and "she". Nothing else differs.
+  const oreo = (t: string) => t.replace(/[Tt]he puppy/g, 'Oreo').replace(/\bHe\b/g, 'She').replace(/\bhe\b/g, 'she');
+  return JSON.parse(JSON.stringify({ ...q, eq: text }), (_k, v: unknown) => (typeof v === 'string' ? oreo(v) : v));
 };
 
 describe('the ported question makers', () => {
