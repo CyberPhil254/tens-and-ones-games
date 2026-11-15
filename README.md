@@ -2,7 +2,7 @@
 
 Maths practice for a 6 year old: seeing numbers as tens and ones, and using that to add and subtract up to 100 without counting one by one.
 
-Live: https://tens-and-ones-puppy.netlify.app
+Live: https://tens-and-ones-puppy.philipp-79a.workers.dev
 
 ## How it is meant to be used
 
@@ -59,4 +59,4 @@ Everything the game says is a pre-recorded clip, so it sounds the same on every 
 
 The clips were generated with the open-source Kokoro text-to-speech model (voice `af_heart`). The script lives in the game code: `speechCatalogue()` in `index.html` lists every clip. To re-record after changing the script, export that list to `catalogue.json`, then run `tools/voice/record.py` and `tools/voice/pack.py` (they need `kokoro-onnx`, the Kokoro model files and `ffmpeg`). If the audio files cannot be loaded, the game falls back to the browser's own speech synthesis.
 
-Every push to `main` is deployed automatically by Netlify (project `tens-and-ones-puppy`, publish folder set in `netlify.toml`).
+Every push to `main` is deployed automatically by Cloudflare (project `tens-and-ones-puppy`, settings in `wrangler.jsonc`). The old Netlify address forwards to the new one.

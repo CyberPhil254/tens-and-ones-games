@@ -1,6 +1,6 @@
 # Tens and Ones: the new app
 
-The app that will replace the single-file game at the repository root. Until Philipp says so, the root `index.html` stays the live game and this folder deploys to its own Netlify site.
+The app that will replace the single-file game at the repository root. Until Philipp says so, the root `index.html` stays the live game and this folder deploys to its own Cloudflare project.
 
 ## Commands (run inside `app/`)
 
@@ -21,4 +21,11 @@ The app that will replace the single-file game at the repository root. Until Phi
 
 ## Deployment
 
-A second Netlify site with base directory `app` (settings in `app/netlify.toml`). Secrets never go in the repository: use `.env.local` or the host's environment settings.
+Cloudflare (Workers with static assets), built from GitHub with root directory `app`.
+
+- `wrangler.jsonc`: the project name, the folder to publish (`dist`) and the fallback to the app for any address.
+- `.nvmrc`: the Node version Cloudflare builds with.
+- `public/_headers`: response headers.
+- `wrangler` is a dev dependency so that Cloudflare uses a version that posts preview links on pull requests (4.135 or later).
+
+Every push to `main` deploys https://tens-and-ones-app.philipp-79a.workers.dev. Every other branch gets a preview. Secrets never go in the repository: use `.env.local` or Cloudflare's settings.

@@ -22,7 +22,8 @@ Strategy and product decisions are made by Philipp, usually in a separate planni
 
 - `index.html` is the live game (version 2): eleven games on a learning path, automatic levelling, a daily session, Race to 100, Quick Paws. One file, no build step.
 - `audio/voice.mp3` plus `audio/voice.json` hold 702 recorded voice clips. `speechCatalogue()` in `index.html` lists every clip; `tools/voice/` records and packs them.
-- Every push to `main` deploys to Netlify (https://tens-and-ones-puppy.netlify.app). The family uses this link every day: do not break it.
+- Hosting is Cloudflare (Workers with static assets, builds from GitHub). Every push to `main` deploys the live game to https://tens-and-ones-puppy.philipp-79a.workers.dev (config: `wrangler.jsonc` at the root) and the new app to https://tens-and-ones-app.philipp-79a.workers.dev (config: `app/wrangler.jsonc`, root directory `app`, preview builds on). The family uses the game link every day: do not break it.
+- The old Netlify address only forwards to the new one and carries saved progress across (see the top of the script in `index.html`). Netlify is being retired: do not add Netlify config.
 
 ## Rules for the build
 
