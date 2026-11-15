@@ -38,6 +38,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 42 | **Halves and quarters**: two lessons (Halves, Quarters), seven levels. 35 of 41 lessons are playable |
 | 43 | **Money**: two lessons (Coins and notes, Amounts of money), five levels, Kenyan shillings drawn in code. 37 of 41 lessons are playable |
 | 44 | **Count and guess**: four lessons (Count to 20, Zero, Guess then check, Guess a heap), seven levels. **All 41 lessons are playable.** The starting check now marks a whole Stage 1 unit as known for a Stage 2 child |
+| 45 | The whole-path test: four simulated children play 200 days through the app's own rules; gating, mastery, review and rewards are checked for each |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -103,3 +104,19 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - Money: the sentences say "shillings". The currency setting has one entry; a second currency needs its own recordings.
 - The starting check asks ten questions at most. A Stage 2 child gets six about Stage 1 and the first lessons of four Stage 2 units; the last three Stage 2 units (Equal groups, Quarters, Money) are not asked about.
 - Which Stage 1 lesson stands for its unit in the starting check is my judgement (see decisions); worth a look.
+
+## The whole-path test (200 days, `app/src/engine/path.test.ts`)
+
+| Child | Mastered | Steps up (jumped) | Steps down | Reopened by review | Tricks |
+|---|---|---|---|---|---|
+| Always right | 41 of 41, the last on day 59 | 40 (23) | 0 | 0 | 14 |
+| Right 3 times in 4 | 41 of 41, the last on day 122 | 62 (8) | 7 | 46 | 14 |
+| Right 3 times in 5, at every step | 0 of 41 at the end | 69 (8) | 73 | 58 | 1 |
+| 85 percent at the first step, 7 points less each step | 38 of 41 | 92 (14) | 46 | 52 | 14 |
+
+For all four: never a lesson that was not open, never a day with nothing to do, never more than four rounds a day, no lesson mastered on the day its last step was first passed, reviews at 1, 3, 7, 14 and 30 days, each reward once and only for mastery.
+
+What it shows, honestly:
+- **A child who is right only three times in five at every step keeps nothing.** She masters lessons and loses them again in review (two misses in a row reopen a lesson), and is given a step back 73 times. The app holds her back as the spec says, but it does not help her forward, and nothing tells her parent. A real child is not equally weak at every step, so this is the worst case; still, a "stuck" sign in the parents' area is the first thing I would add.
+- **Reopening is frequent even for a good child**: 46 times in 200 days at 75 percent. Each costs only one good day to win back, but it may feel like going backwards. Worth trying "two misses on two different days" instead of two in a row.
+- A child who is always right needs about two months at one session a day for all 41 lessons.
