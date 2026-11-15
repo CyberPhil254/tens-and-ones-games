@@ -3,6 +3,7 @@ import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
 import { HighFive } from './HighFive';
 import { PackTen } from './PackTen';
+import { QuickLook } from './QuickLook';
 
 export interface GameProps<G extends GameId> {
   q: QuestionOf[G];
@@ -38,6 +39,7 @@ export const SHELVES: [string, (GameId | 'race' | 'quick')[]][] = [
 export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   five: HighFive,
   pack: PackTen,
+  look: QuickLook,
 };
 
 /** The learning path, cut down to the games that exist. Grows with every game pull request. */
