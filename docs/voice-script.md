@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-624 clips.
+670 clips.
 
 Whole sentences:
 
@@ -122,6 +122,19 @@ Whole sentences:
 - Breaking a ten does not change the number.
 - How many? Look for groups you know.
 - Do not count them all. Look for small groups you know.
+- Which is more?
+- Which is less?
+- Tap the smallest first, then the next, then the biggest.
+- From the smallest to the biggest.
+- Which ten is nearer?
+- Which place is the yellow one in?
+- On the number line, the number further along is more.
+- The tens are the same. Look at the ones.
+- Look at the tens first. More tens is more.
+- Look at the tens first. If they are the same, look at the ones.
+- Look where it is on the line. Which ten is closer?
+- Count from the front: first, second, third.
+- The first row is ten. Count on from the eleventh.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -152,6 +165,8 @@ Sentences with a number, one clip for each number:
 - Perfect! You jump up to level 3. (2 clips)
 - 5 and 1 make 6. (4 clips)
 - A jump of ten goes straight down. Go one row down the blue line. (6 clips)
+- Tap the first one. (10 clips)
+- It is the first. (20 clips)
 
 Joining pieces for sums, said with number clips:
 
@@ -175,6 +190,9 @@ Joining pieces for sums, said with number clips:
 - She has
 - Start at
 - Double
+- is more than
+- is less than
+- is nearer to
 
 ## Pack: stories
 

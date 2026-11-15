@@ -128,6 +128,20 @@ export const FIXED = {
   // See how many, new patterns.
   'how-many-look-for-groups-you': "How many? Look for groups you know.",
   'do-not-count-them-all-look': "Do not count them all. Look for small groups you know.",
+  // More or less.
+  'which-is-more': "Which is more?",
+  'which-is-less': "Which is less?",
+  'tap-the-smallest-first-then-the': "Tap the smallest first, then the next, then the biggest.",
+  'from-the-smallest-to-the-biggest': "From the smallest to the biggest.",
+  'which-ten-is-nearer': "Which ten is nearer?",
+  'which-place-is-the-yellow-one': "Which place is the yellow one in?",
+  'on-the-number-line-the-number': "On the number line, the number further along is more.",
+  'the-tens-are-the-same-look': "The tens are the same. Look at the ones.",
+  'look-at-the-tens-first-more': "Look at the tens first. More tens is more.",
+  'look-at-the-tens-first-if': "Look at the tens first. If they are the same, look at the ones.",
+  'look-where-it-is-on-the': "Look where it is on the line. Which ten is closer?",
+  'count-from-the-front-first-second': "Count from the front: first, second, third.",
+  'the-first-row-is-ten-count': "The first row is ten. Count on from the eleventh.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
@@ -176,4 +190,7 @@ export const FRAGMENTS = {
   'he-has': "She has",
   'start-at': "Start at",
   'double': "Double",
+  'is-more-than': "is more than",
+  'is-less-than': "is less than",
+  'is-nearer-to': "is nearer to",
 } as const;

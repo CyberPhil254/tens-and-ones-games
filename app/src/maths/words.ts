@@ -12,3 +12,13 @@ export function word(n: number): string {
 
 export const tensW = (t: number) => (t === 1 ? '1 ten' : `${t} tens`);
 export const onesW = (o: number) => (o === 1 ? '1 one' : `${o} ones`);
+
+const ORD = ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth',
+  'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth', 'twentieth'] as const;
+/** A place from 1 to 20 as a word: 3 is "third". */
+export function ordinal(k: number): string {
+  if (!Number.isInteger(k) || k < 1 || k > 20) throw new RangeError(`ordinal expects 1 to 20, got ${k}`);
+  return ORD[k]!;
+}
+/** A place as it is written short: 1st, 2nd, 3rd, 14th. */
+export const nth = (k: number) => `${k}${k === 1 ? 'st' : k === 2 ? 'nd' : k === 3 ? 'rd' : 'th'}`;

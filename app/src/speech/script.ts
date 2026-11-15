@@ -3,7 +3,7 @@
  * Every one of these exists as a whole recorded clip. Do not change the wording here
  * without adding the new sentence to the speech script: see docs/status.md.
  */
-import { onesW, tensW } from '../maths/words';
+import { onesW, ordinal, tensW } from '../maths/words';
 
 /** What the voice says: whole sentences, joining pieces such as "plus", and numbers. */
 export type Piece = string | number;
@@ -18,6 +18,8 @@ export const SP = {
   puppyHas: (a: number) => `Oreo has ${a} bones.`,
   finds: (b: number) => `She finds ${b} more.`,
   digs: (b: number) => `She digs up ${b} more.`,
+  tapNth: (k: number) => `Tap the ${ordinal(k)} one.`,
+  nthPlace: (k: number) => `It is the ${ordinal(k)}.`,
   eats: (k: number) => `She eats ${k} of them.`,
   gives: (k: number) => `She gives ${k} bones to a friend.`,
   tensOnly: (k: number) => `${k * 10} is ${k} tens. Only the tens change.`,
