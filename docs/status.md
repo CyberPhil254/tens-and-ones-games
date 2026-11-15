@@ -6,7 +6,7 @@ Claude Code's memory for the full build (`docs/build-spec.md`). After a break: r
 
 1. Branch from `main`, one lesson or engine piece. A new lesson gets a design note in the pull request before the code.
 2. `npm run check` in `app/` (lint, types, unit tests, build, browser tests at 400 px and laptop width).
-3. **Path, rewards, parents' area, the notes (in progress):** ~~the garden path~~; next: rewards (a treasure per lesson, a trick per unit, an award per stage, the "which reward?" card); then the parents' area behind an adult check, the parent note per lesson, the page about the approach; then the look-and-feel pass (72 px buttons, red and blue only for tens and ones).
+3. Push, open the pull request, wait for CI and the Cloudflare build to be green.
 4. Play it on the preview: `E2E_BASE_URL=https://<branch>-tens-and-ones-app.philipp-79a.workers.dev npm run e2e` (branch name with `/` as `-`).
 5. Merge, then start the next from the new `main`. This file is updated in every pull request.
 
@@ -41,7 +41,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 
 1. ~~Finish the port~~ done.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
-3. Path (garden), rewards, parents' area, parent notes.
+3. **Path, rewards, parents' area, the notes (in progress):** ~~the garden path~~; next: rewards (a treasure per lesson, a trick per unit, an award per stage, the "which reward?" card); then the parents' area behind an adult check, the parent note per lesson, the page about the approach; then the look-and-feel pass (72 px buttons, red and blue only for tens and ones).
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.
 6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.
