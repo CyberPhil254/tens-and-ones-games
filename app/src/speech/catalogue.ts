@@ -68,6 +68,7 @@ function build(): Clip[] {
   range(1, 4).forEach((k) => add(`five.${k}`, SP.five(k)));
   for (const plus of [true, false]) for (const k of [1, 2, 3]) add(`rows.${plus ? 'down' : 'up'}.${k}`, SP.rows(plus, k));
 
+  [1, 2, 3, 4, 5, 10].forEach((k) => add(`hops.${k}`, SP.hops(k)));
   range(1, 10).forEach((k) => add(`tapNth.${k}`, SP.tapNth(k)));
   range(1, 20).forEach((k) => add(`nthPlace.${k}`, SP.nthPlace(k)));
   for (const [id, text] of Object.entries(FRAGMENTS)) add(`frag.${id}`, text);

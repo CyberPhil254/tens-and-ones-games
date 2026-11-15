@@ -76,9 +76,9 @@ export const UNITS: Unit[] = [
   {
     id: 's1-u3', stage: 1, title: 'Patterns and steps',
     lessons: [
-      lesson('s1-pattern', 'What comes next', 'Say what comes next in a pattern of things', []),
-      lesson('s1-skip', 'Steps of one, two and ten', 'Count on and back in ones, twos and tens within 20, from any number', ['s1-count']),
-      lesson('s1-oddeven', 'Odd and even to 20', 'Odd and even as every other number, to 20', ['s1-skip']),
+      lesson('s1-pattern', 'What comes next', 'Say what comes next in a pattern of things', [], [see(a('skip', 1))]),
+      lesson('s1-skip', 'Steps of one, two and ten', 'Count on and back in ones, twos and tens within 20, from any number', ['s1-count'], [see(a('skip', 2)), head(a('skip', 3))]),
+      lesson('s1-oddeven', 'Odd and even to 20', 'Odd and even as every other number, to 20', ['s1-skip'], [see(a('skip', 4)), head(a('skip', 5))]),
     ],
   },
   {
@@ -115,9 +115,9 @@ export const UNITS: Unit[] = [
   {
     id: 's2-u3', stage: 2, title: 'Counting in steps',
     lessons: [
-      lesson('s2-skip', 'Steps of two, five and ten', 'Count on and back in ones, twos, fives and tens within 100, from any number', ['s1-skip', 's2-place'], [see(a('jump', 3))]),
-      lesson('s2-oddeven', 'Odd and even to 100', 'Tell odd from even to 100', ['s1-oddeven']),
-      lesson('s2-sequence', 'Number patterns', 'Continue and describe number patterns to 100', ['s2-skip']),
+      lesson('s2-skip', 'Steps of two, five and ten', 'Count on and back in ones, twos, fives and tens within 100, from any number', ['s1-skip', 's2-place'], [see(a('jump', 3)), see(a('skip', 6)), head(a('skip', 7))]),
+      lesson('s2-oddeven', 'Odd and even to 100', 'Tell odd from even to 100', ['s1-oddeven'], [head(a('skip', 8))]),
+      lesson('s2-sequence', 'Number patterns', 'Continue and describe number patterns to 100', ['s2-skip'], [head(a('skip', 9))]),
     ],
   },
   {

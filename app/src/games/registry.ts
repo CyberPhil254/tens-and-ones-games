@@ -16,6 +16,7 @@ import { OreosStories } from './OreosStories';
 import { OreosWalk } from './OreosWalk';
 import { PackTen } from './PackTen';
 import { QuickLook } from './QuickLook';
+import { SkipAndSpot } from './SkipAndSpot';
 import { SumsTo20 } from './SumsTo20';
 import { AnotherWay, TenAndMore } from './TenAndMore';
 import { TensOnesSums } from './TensOnesSums';
@@ -47,5 +48,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   hear: HearAndType,
   dots: NewPatterns,
   more: MoreOrLess,
+  skip: SkipAndSpot,
 };
 

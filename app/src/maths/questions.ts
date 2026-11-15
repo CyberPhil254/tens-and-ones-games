@@ -11,6 +11,7 @@ import { HEAR_LEVELS, makeHear, type HearQ } from './hear';
 import { makeMore, MORE_LEVELS, type MoreQ } from './more';
 import { makePlus, PLUS_LEVELS, type PlusQ } from './plus';
 import { dice, type Dice, type Rng } from './random';
+import { makeSkip, SKIP_LEVELS, type SkipQ } from './skip';
 import { makeRegroup, makeTeens, REGROUP_LEVELS, TEENS_LEVELS, type RegroupQ, type TeensQ } from './teens';
 import { makeSums, SUMS_LEVELS, type SumsQ } from './sums';
 
@@ -18,7 +19,7 @@ export const PATH = ['five', 'pack', 'look', 'names', 'walk', 'friends', 'jump',
 /** The games ported from the live game. Their questions are checked draw by draw against it. */
 export type PortedId = (typeof PATH)[number];
 /** Games made for the app, which the live game never had. */
-export const NEW_GAMES = ['sums', 'plus', 'bonds', 'teens', 'regroup', 'hear', 'dots', 'more'] as const;
+export const NEW_GAMES = ['sums', 'plus', 'bonds', 'teens', 'regroup', 'hear', 'dots', 'more', 'skip'] as const;
 export type GameId = PortedId | (typeof NEW_GAMES)[number];
 export const ALL_GAMES: readonly GameId[] = [...PATH, ...NEW_GAMES];
 
@@ -61,10 +62,10 @@ export interface StoryQ {
 }
 
 /** How many levels every game has, the new ones included. */
-export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS, plus: PLUS_LEVELS, bonds: BONDS_LEVELS, teens: TEENS_LEVELS, regroup: REGROUP_LEVELS, hear: HEAR_LEVELS, dots: DOTS_LEVELS, more: MORE_LEVELS };
+export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS, plus: PLUS_LEVELS, bonds: BONDS_LEVELS, teens: TEENS_LEVELS, regroup: REGROUP_LEVELS, hear: HEAR_LEVELS, dots: DOTS_LEVELS, more: MORE_LEVELS, skip: SKIP_LEVELS };
 
 export interface QuestionOf {
-  sums: SumsQ; plus: PlusQ; bonds: BondsQ; teens: TeensQ; regroup: RegroupQ; hear: HearQ; dots: DotsQ; more: MoreQ;
+  sums: SumsQ; plus: PlusQ; bonds: BondsQ; teens: TeensQ; regroup: RegroupQ; hear: HearQ; dots: DotsQ; more: MoreQ; skip: SkipQ;
   five: FiveQ; pack: BlocksQ; look: BlocksQ; names: NamesQ; walk: WalkQ; friends: FriendsQ;
   jump: JumpQ; fill: FillQ; take: TakeQ; mystery: MysteryQ; story: StoryQ;
 }
@@ -95,6 +96,7 @@ const MAKE: Makers = {
   hear: (l, d) => makeHear(l, d),
   dots: (l, d) => makeDots(l, d),
   more: (l, d) => makeMore(l, d),
+  skip: (l, d) => makeSkip(l, d),
   names(l, d) {
     if (l === 2) {
       // "Which number has 6 tens?"

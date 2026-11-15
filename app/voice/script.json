@@ -890,6 +890,90 @@
    "pack": "core"
   },
   {
+   "id": "what-comes-next",
+   "text": "What comes next?",
+   "key": "What comes next?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-pattern-starts-again",
+   "text": "The pattern starts again.",
+   "key": "The pattern starts again.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "say-the-pattern-out-loud-where",
+   "text": "Say the pattern out loud. Where does it start again?",
+   "key": "Say the pattern out loud. Where does it start again?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "look-at-the-hops-how-big",
+   "text": "Look at the hops. How big is each one?",
+   "key": "Look at the hops. How big is each one?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "going-back",
+   "text": "Going back.",
+   "key": "Going back.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "is-it-odd-or-even",
+   "text": "Is it odd or even?",
+   "key": "Is it odd or even?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "it-is-odd-one-is-left",
+   "text": "It is odd. One is left over.",
+   "key": "It is odd. One is left over.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "it-is-even-everything-has-a",
+   "text": "It is even. Everything has a partner.",
+   "key": "It is even. Everything has a partner.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "pair-them-up-if-one-is",
+   "text": "Pair them up. If one is left over, the number is odd.",
+   "key": "Pair them up. If one is left over, the number is odd.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "look-at-the-ones-even-numbers",
+   "text": "Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.",
+   "key": "Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-number-is-missing",
+   "text": "Which number is missing?",
+   "key": "Which number is missing?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "find-the-step-from-one-number",
+   "text": "Find the step from one number to the next. It is the same every time.",
+   "key": "Find the step from one number to the next. It is the same every time.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -3833,6 +3917,48 @@
    "id": "rows.up.3",
    "text": "A jump of ten goes straight up. Go 3 rows up the blue line.",
    "key": "A jump of ten goes straight up. Go 3 rows up the blue line.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "hops.1",
+   "text": "Hops of 1.",
+   "key": "Hops of 1.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "hops.2",
+   "text": "Hops of 2.",
+   "key": "Hops of 2.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "hops.3",
+   "text": "Hops of 3.",
+   "key": "Hops of 3.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "hops.4",
+   "text": "Hops of 4.",
+   "key": "Hops of 4.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "hops.5",
+   "text": "Hops of 5.",
+   "key": "Hops of 5.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "hops.10",
+   "text": "Hops of 10.",
+   "key": "Hops of 10.",
    "fragment": false,
    "pack": "core"
   },

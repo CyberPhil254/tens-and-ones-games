@@ -32,6 +32,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 36 | **Number names to 20** (read the word, hear and type: a new Stage 1 lesson) and **hear and type to 99** (a third step of Number names to 100). 19 of 41 lessons are playable |
 | 37 | **See how many, new patterns** (dots in dice patterns and in two loose groups, shown for a moment). 20 of 41 lessons are playable. The additions to the existing games are complete |
 | 38 | **More or less**: five lessons (More or less to 20 and to 100, The nearer ten, First to tenth, Eleventh and beyond), eight levels. 25 of 41 lessons are playable |
+| 39 | **Skip and spot**: six lessons (What comes next, Steps of one two and ten, Odd and even to 20, Steps of two five and ten, Odd and even to 100, Number patterns), nine levels. 30 of 41 lessons are playable |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -52,7 +53,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 1. ~~Finish the port~~ done.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
 3. ~~**Path, rewards, parents' area, the notes:** the garden path; rewards; the parents' area, the notes, the approach page; the look-and-feel pass.~~ Done.
-4. **Stage 2 gaps (in progress):** ~~Sums to 20~~; ~~Tens and ones sums (adding)~~; ~~the additions to existing games (Friends of Ten, Pack Ten, Number Names, High Five)~~; ~~More or less~~; next: Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
+4. **Stage 2 gaps (in progress):** ~~Sums to 20~~; ~~Tens and ones sums (adding)~~; ~~the additions to existing games (Friends of Ten, Pack Ten, Number Names, High Five)~~; ~~More or less~~; ~~Skip and spot~~; next: Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.
 6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.
 
@@ -64,6 +65,7 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 
 - Recorded so far in the build: 138 (the Oreo and "she" sentences).
 - Recorded in the rewards pull request: 4 more (treasure, thank you, trick, award).
+- Recorded with Skip and spot: 18 more.
 - Recorded with More or less: 46 more (questions, hints, "Tap the third one.", "It is the third." for first to twentieth).
 - Recorded with the new patterns: 2 more.
 - Recorded with the Number Names additions: 10 more ("Which number is 0?" to 9).

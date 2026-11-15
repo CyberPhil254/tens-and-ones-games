@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-670 clips.
+688 clips.
 
 Whole sentences:
 
@@ -135,6 +135,18 @@ Whole sentences:
 - Look where it is on the line. Which ten is closer?
 - Count from the front: first, second, third.
 - The first row is ten. Count on from the eleventh.
+- What comes next?
+- The pattern starts again.
+- Say the pattern out loud. Where does it start again?
+- Look at the hops. How big is each one?
+- Going back.
+- Is it odd or even?
+- It is odd. One is left over.
+- It is even. Everything has a partner.
+- Pair them up. If one is left over, the number is odd.
+- Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.
+- Which number is missing?
+- Find the step from one number to the next. It is the same every time.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -165,6 +177,7 @@ Sentences with a number, one clip for each number:
 - Perfect! You jump up to level 3. (2 clips)
 - 5 and 1 make 6. (4 clips)
 - A jump of ten goes straight down. Go one row down the blue line. (6 clips)
+- Hops of 1. (6 clips)
 - Tap the first one. (10 clips)
 - It is the first. (20 clips)
 
