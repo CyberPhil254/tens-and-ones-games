@@ -5,6 +5,7 @@ import { BreakATen } from './BreakATen';
 import { FillTheTen } from './FillTheTen';
 import { FriendsOf20 } from './FriendsOf20';
 import { FriendsOfTen } from './FriendsOfTen';
+import { HearAndType } from './HearAndType';
 import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
 import { MysteryBox } from './MysteryBox';
@@ -41,5 +42,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   bonds: FriendsOf20,
   teens: TenAndMore,
   regroup: AnotherWay,
+  hear: HearAndType,
 };
 

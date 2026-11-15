@@ -70,7 +70,6 @@ describe('the curriculum data', () => {
         "s1-count",
         "s1-zero",
         "s1-estimate",
-        "s1-names",
         "s1-compare",
         "s1-ordinal",
         "s1-pattern",

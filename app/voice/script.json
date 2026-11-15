@@ -2227,6 +2227,76 @@
    "pack": "core"
   },
   {
+   "id": "which.0",
+   "text": "Which number is 0?",
+   "key": "Which number is 0?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.1",
+   "text": "Which number is 1?",
+   "key": "Which number is 1?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.2",
+   "text": "Which number is 2?",
+   "key": "Which number is 2?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.3",
+   "text": "Which number is 3?",
+   "key": "Which number is 3?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.4",
+   "text": "Which number is 4?",
+   "key": "Which number is 4?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.5",
+   "text": "Which number is 5?",
+   "key": "Which number is 5?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.6",
+   "text": "Which number is 6?",
+   "key": "Which number is 6?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.7",
+   "text": "Which number is 7?",
+   "key": "Which number is 7?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.8",
+   "text": "Which number is 8?",
+   "key": "Which number is 8?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which.9",
+   "text": "Which number is 9?",
+   "key": "Which number is 9?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "puppyHas.1",
    "text": "Oreo has 1 bones.",
    "key": "Oreo has 1 bones.",

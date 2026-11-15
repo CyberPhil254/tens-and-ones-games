@@ -39,6 +39,7 @@ function build(): Clip[] {
 
   range(0, 100).forEach((n) => add(`isTO.${n}`, SP.isTO(n)));
   range(10, 99).forEach((n) => add(`which.${n}`, SP.which(n)));
+  range(0, 9).forEach((n) => add(`which.${n}`, SP.which(n))); // added for the names to 20
   pack = 'stories';
   range(1, 99).forEach((n) => add(`puppyHas.${n}`, SP.puppyHas(n)));
   pack = 'core';

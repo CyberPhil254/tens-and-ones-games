@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-612 clips.
+622 clips.
 
 Whole sentences:
 
@@ -139,7 +139,7 @@ Whole sentences:
 Sentences with a number, one clip for each number:
 
 - 0 is 0 tens and 0 ones. (101 clips)
-- Which number is 10? (90 clips)
+- Which number is 10? (100 clips)
 - Which number has 1 ten? (18 clips)
 - 1 and how many more make ten? (9 clips)
 - 1 and 9 are friends of ten. (9 clips)
