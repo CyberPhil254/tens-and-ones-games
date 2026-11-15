@@ -29,6 +29,16 @@ Pull requests 1 to 8 are merged: the new app has its home screen, the game scree
 
 Checked in a browser at 400 px and laptop width: each pose at its moment, no animation while a question is open, all nine pictures load, the icon. Looked at home, question, wrong, right, end of round and number line at 400 px.
 
+**Pull request 10, Pack Ten.** The second playable game, with the live game's wording and behaviour.
+
+- Levels 1 and 2: a heap of loose ones is packed ten at a time ("2 tens. Keep packing!"), the last few stay ones, then she says how many. The counting labels under the tens appear with the answer or the hint.
+- Level 3: she builds a given number with "+ a ten" and "+ a one"; ten ones pack themselves into a ten; "Done" with the wrong amount says what she built and whether it is too few or too many.
+- Oreo points beside "Keep packing!" and the other remarks that are not answers.
+- Today's games now go on to Pack Ten when High Five is finished, with a warm-up from High Five first.
+- No wording changed: no clips need recording.
+
+Played in a browser at 400 px and laptop width, as automated tests: levels 1 and 2 with a wrong and a right answer and a second question, level 3 with too few, too many, ten ones packing, start again and the right build, and today's games after High Five. Looked at each level at 400 px.
+
 ### Cloudflare, for the record
 
 - The clean-up asked for is in `main` since pull request 6: no `app/netlify.toml`, `wrangler` 4.162 in the app's dev dependencies, the page fallback in `app/wrangler.jsonc`, Node 22 in `app/.nvmrc`, `"previews": {}` and `"preview_urls": true` added so preview builds work.
@@ -43,7 +53,7 @@ Checked in a browser at 400 px and laptop width: each pose at its moment, no ani
 
 ## Next
 
-The games in path order, one pull request each against `main`: Pack Ten, Quick Look, Number Names, Puppy Walk, Friends of Ten, Jump in Tens, Fill the Ten, Break a Ten, Mystery Box, Puppy Stories. Then Race to 100 and Quick Paws.
+The games in path order, one pull request each: Quick Look, Number Names, Puppy Walk, Friends of Ten, Jump in Tens, Fill the Ten, Break a Ten, Mystery Box, Puppy Stories. Then Race to 100 and Quick Paws.
 
 ## Half done
 

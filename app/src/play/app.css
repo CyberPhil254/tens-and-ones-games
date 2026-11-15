@@ -136,3 +136,12 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 @media (prefers-reduced-motion: reduce) {
   .flash { transition: none; }
 }
+
+/* Pack Ten */
+.packrow { display: flex; align-items: flex-end; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.heap { display: flex; flex-wrap: wrap; gap: 5px; width: calc(var(--u) * 9 + 40px); align-content: flex-end; justify-content: center; min-height: var(--u); padding: 8px; border: 2px dashed #aebbd3; border-radius: 14px; }
+.heap:empty { visibility: hidden; }
+.heap .cube { width: var(--u); height: var(--u); background: var(--one); border-radius: 3px; }
+.arrow { font-family: var(--display); font-size: 30px; color: var(--soft); align-self: center; }
+.ctl.go { background: var(--sun); color: var(--ink); }
+.ctl:disabled { cursor: default; }

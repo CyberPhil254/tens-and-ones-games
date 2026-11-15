@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Piece } from '../speech/script';
 import { Num } from '../ui/Num';
 import type { RoundApi } from './round';
@@ -88,3 +88,31 @@ export function Flash({ stay, children }: { stay: boolean; children: ReactNode }
     </>
   );
 }
+
+const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * A pause between the steps of a little animation (move a block, wait, pack a ten).
+ * The pause never ends once the question is gone, so a step cannot act on a screen that has moved on.
+ * With reduced motion the steps follow each other at once.
+ */
+export function useWait(): (ms: number) => Promise<void> {
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+  return useCallback(
+    (ms: number) => new Promise<void>((done) => setTimeout(() => alive.current && done(), reducedMotion() ? 0 : ms)),
+    [],
+  );
+}
+
+/** A row of big buttons for games where the child builds the answer. */
+export const Controls = ({ children }: { children: ReactNode }) => (
+  <div className="answers">
+    <div className="controls">{children}</div>
+  </div>
+);

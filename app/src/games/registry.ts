@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
 import { HighFive } from './HighFive';
+import { PackTen } from './PackTen';
 
 export interface GameProps<G extends GameId> {
   q: QuestionOf[G];
@@ -36,6 +37,7 @@ export const SHELVES: [string, (GameId | 'race' | 'quick')[]][] = [
 /** The games that exist in the new app so far. The rest are still only in the live game. */
 export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   five: HighFive,
+  pack: PackTen,
 };
 
 /** The learning path, cut down to the games that exist. Grows with every game pull request. */
