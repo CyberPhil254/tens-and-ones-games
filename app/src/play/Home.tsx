@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { GAMES, GAME_INFO, READY, SHELVES } from '../games/registry';
-import { LEVELS, PATH, type GameId } from '../maths/questions';
-import { boneStore, doneToday, frontier, levelOf, quickOpen, warmPool } from '../session/progress';
-import type { Saved } from '../session/store';
+import type { ProfileData, Settings } from '../data/profile';
+import { doneToday } from '../engine/apply';
+import { LESSON, UNITS, type Lesson } from '../engine/curriculum';
+import { statusOf, waitsFor, type LessonStatus } from '../engine/rules';
+import { lessonState, type Day } from '../engine/state';
+import { planToday } from '../engine/today';
 import { chime } from '../speech/chime';
 import { Blocks } from '../ui/Blocks';
+import { FriendPicture } from '../ui/FriendPicture';
 import { Num } from '../ui/Num';
 import { Bone, Oreo, Paw } from '../ui/Oreo';
 import { VoiceRetry } from './Play';
@@ -12,24 +15,35 @@ import { speak, useVoiceSilent, voice } from './voice';
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-export function Home({ saved, onSave, onToday, onGame, onRace, onQuick }: {
-  saved: Saved;
-  onSave: (s: Saved) => void;
+/** Quick Paws is for speed, so it opens only once the two lessons its questions come from are mastered. */
+export const quickOpen = (d: ProfileData) => !!lessonState(d.child, 's1-ten').mastered && !!lessonState(d.child, 's2-calc').mastered;
+
+export interface HomeProps {
+  data: ProfileData;
+  settings: Settings;
+  today: Day;
+  /** More than one child uses this device. */
+  shared: boolean;
+  onSettings: (s: Settings) => void;
   onToday: () => void;
-  onGame: (id: GameId) => void;
+  /** Free play of a lesson, at the step she is on. */
+  onLesson: (lesson: Lesson) => void;
   onRace: () => void;
   onQuick: () => void;
-}) {
-  const p = saved.progress;
-  const f = frontier(p, READY);
-  const done = doneToday(p, new Date().toDateString());
-  const store = boneStore(p);
+  onSwitch: () => void;
+}
+
+export function Home({ data, settings, today, shared, onSettings, onToday, onLesson, onRace, onQuick, onSwitch }: HomeProps) {
+  const done = doneToday(data, today);
+  const plan = planToday(data.child, today);
   const silent = useVoiceSilent();
-  const allPorted = READY.length === PATH.length;
+  const total = data.bones, crates = Math.floor(total / 100), boxes = Math.floor((total % 100) / 10), loose = total % 10;
+  const fresh = plan.find((p) => p.kind === 'new');
+  const freshTitle = fresh && 'slot' in fresh ? LESSON.get(fresh.slot.lesson)!.title : null;
 
   const toggleSound = () => {
-    const soundOff = !saved.soundOff;
-    onSave({ ...saved, soundOff });
+    const soundOff = !settings.soundOff;
+    onSettings({ ...settings, soundOff });
     if (soundOff) voice.stop();
     else {
       chime();
@@ -43,78 +57,69 @@ export function Home({ saved, onSave, onToday, onGame, onRace, onQuick }: {
         <h1 className="title"><span className="t">Tens</span> <span className="amp">&amp;</span> <span className="o">Ones</span></h1>
         <Oreo pose="hello" className="toppup" />
       </div>
-      <p className="lede">Every number is made of <b className="tt">tens</b> and <b className="oo">ones</b>.</p>
+      <button type="button" className="whoami" onClick={onSwitch} disabled={!shared} aria-label={shared ? `${data.profile.nickname}. Change who is playing` : data.profile.nickname}>
+        <FriendPicture friend={data.profile.picture} size={40} />
+        <strong>{data.profile.nickname}</strong>
+      </button>
 
       <div className="today">
         <div>
           <h2>Today</h2>
           <p data-testid="today-text">
             {done ? 'Today’s games are done. Well done! See you tomorrow.'
-              : f ? <>{warmPool(p, READY).length ? 'A warm-up, then ' : 'Two rounds of '}<b>{GAME_INFO[f].name}</b>. About ten minutes.</>
-              : allPorted ? 'You finished every game! Today is a mix of all of them.'
-              : 'You finished every game that is here so far! Today is a mix of them.'}
+              : freshTitle ? <>{plan[0]!.kind === 'warm' ? 'A warm-up, then ' : 'Two rounds of '}<b>{freshTitle}</b>. About ten minutes.</>
+              : 'A warm-up and a round to stay strong. About ten minutes.'}
           </p>
           <div className="trow">
             <button className={done ? 'next quiet' : 'next'} type="button" onClick={onToday}>
               {done ? 'Play again anyway' : 'Play today’s games'}
             </button>
-            <button className="soundbtn" type="button" aria-pressed={!saved.soundOff} onClick={toggleSound}>
-              {saved.soundOff ? 'Sound off' : 'Sound on'}
+            <button className="soundbtn" type="button" aria-pressed={!settings.soundOff} onClick={toggleSound}>
+              {settings.soundOff ? 'Sound off' : 'Sound on'}
             </button>
           </div>
           {silent && <VoiceRetry />}
         </div>
         <div className="store">
-          <div className="shelf" role="img" aria-label={`${store.total} bones`} data-testid="store">
-            {Array.from({ length: store.crates }, (_, i) => <div key={`c${i}`} className="crate">100</div>)}
-            {Array.from({ length: store.boxes }, (_, i) => (
+          <div className="shelf" role="img" aria-label={`${total} bones`} data-testid="store">
+            {Array.from({ length: crates }, (_, i) => <div key={`c${i}`} className="crate">100</div>)}
+            {Array.from({ length: boxes }, (_, i) => (
               <div key={`b${i}`} className="bbox">{Array.from({ length: 10 }, (_, j) => <Bone key={j} />)}</div>
             ))}
             <div className="btray">
-              {Array.from({ length: store.loose }, (_, j) => <Bone key={j} />)}
-              <span className="empty">{Array.from({ length: 10 - store.loose }, (_, j) => <Bone key={j} />)}</span>
+              {Array.from({ length: loose }, (_, j) => <Bone key={j} />)}
+              <span className="empty">{Array.from({ length: 10 - loose }, (_, j) => <Bone key={j} />)}</span>
             </div>
           </div>
           <p className="storecap">
-            {store.total ? (
+            {total ? (
               <>
-                {store.crates ? `${plural(store.crates, 'crate', 'crates')} of a hundred, ` : ''}
-                <b className="tt">{plural(store.boxes, 'box', 'boxes')} of ten</b> and <b className="oo">{plural(store.loose, 'bone', 'bones')}</b>.
-                {' '}That is <Num n={store.total} /> bones!
+                {crates ? `${plural(crates, 'crate', 'crates')} of a hundred, ` : ''}
+                <b className="tt">{plural(boxes, 'box', 'boxes')} of ten</b> and <b className="oo">{plural(loose, 'bone', 'bones')}</b>.
+                {' '}That is <Num n={total} /> bones!
               </>
             ) : 'Your bone store is empty. Win a bone every time you are right first go.'}
           </p>
         </div>
       </div>
 
-      <h2>All the games</h2>
-      {SHELVES.map(([title, ids]) => (
-        <div key={title}>
-          <p className="shelfh">{title}</p>
+      <h2>The path</h2>
+      {!done && <p className="h2note" data-testid="free-note">Free play opens when today’s games are done.</p>}
+      {UNITS.map((u) => (
+        <div key={u.id} data-unit={u.id}>
+          <p className="shelfh">{u.stretch ? `Stretch: ${u.title}` : `Stage ${u.stage}: ${u.title}`}</p>
           <ol className="stations">
-            {ids.map((id) => {
-              const info = GAME_INFO[id];
-              const onPath = id !== 'race' && id !== 'quick';
-              const locked = id === 'quick' && !quickOpen(p);
-              const ready = (onPath ? !!GAMES[id] : true) && !locked;
+            {u.lessons.map((l) => {
+              const status = statusOf(data.child, l, today);
+              const playableNow = done && (status === 'open' || status === 'resting' || status === 'mastered');
               return (
-                <li key={id}>
-                  <button
-                    className={id === f ? 'station next-up' : 'station'} type="button" disabled={!ready}
-                    onClick={() => (onPath ? onGame(id) : id === 'race' ? onRace() : onQuick())}
-                  >
-                    <span className={onPath ? 'no' : 'no tag'}>{onPath ? PATH.indexOf(id) + 1 : id === 'race' ? '2P' : 'GO'}</span>
+                <li key={l.id}>
+                  <button className={`station ${status}`} type="button" disabled={!playableNow} data-lesson={l.id} data-status={status} onClick={() => onLesson(l)}>
+                    <span className="no">{status === 'mastered' ? <Paw /> : status === 'locked' || status === 'coming' ? '·' : lessonState(data.child, l.id).step + 1}</span>
                     <span>
-                      <strong>{info.name}{id === f && <span className="badge">Next</span>}</strong>
-                      <span className="d">{locked ? 'Opens when Friends of Ten and Jump in Tens are finished.' : info.d}</span>
+                      <strong>{l.title}</strong>
+                      <span className="d">{describe(status, l, data)}</span>
                     </span>
-                    {id === 'quick' && p.best > 0 && <span className="st"><small>Best: {p.best} s</small></span>}
-                    {ready && onPath && (
-                      <span className="st">
-                        <i><Bone /></i> {p.stars[id] ?? 0}
-                        <small>{p.done[id] ? <><Paw /> Finished</> : `Level ${levelOf(p, id)} of ${LEVELS[id]}`}</small>
-                      </span>
-                    )}
                   </button>
                 </li>
               );
@@ -123,25 +128,54 @@ export function Home({ saved, onSave, onToday, onGame, onRace, onQuick }: {
         </div>
       ))}
 
-      <h2>Number machine</h2>
-      <p className="h2note">Press the buttons and watch the tens and ones change.</p>
-      <Machine />
+      <h2>Play together</h2>
+      <ol className="stations">
+        <li>
+          <button className="station" type="button" disabled={!done} data-game="race" onClick={onRace}>
+            <span className="no tag">2P</span>
+            <span><strong>Race to 100</strong><span className="d">A board game for two players.</span></span>
+          </button>
+        </li>
+        <li>
+          <button className="station" type="button" disabled={!done || !quickOpen(data)} data-game="quick" onClick={onQuick}>
+            <span className="no tag">GO</span>
+            <span>
+              <strong>Quick Paws</strong>
+              <span className="d">{quickOpen(data) ? 'Ten fast questions. Beat your own time.' : 'Opens when Friends of ten and Tens and ones sums are mastered.'}</span>
+            </span>
+            {data.best > 0 && <span className="st"><small>Best: {data.best} s</small></span>}
+          </button>
+        </li>
+      </ol>
+
+      {done && (
+        <>
+          <h2>Number machine</h2>
+          <p className="h2note">Press the buttons and watch the tens and ones change.</p>
+          <Machine />
+        </>
+      )}
 
       <div className="grown">
         <h2>For grown-ups</h2>
         <ul>
-          <li><b>Play today’s games</b> is the main button: a short warm-up from games she already knows, then two rounds of the next game. It takes about ten minutes. Then stop. Short and daily works better than long and weekly.</li>
-          <li>The game moves her up a level when she wins five or six bones in a round, and down again when a round is too hard. A perfect round skips a level. A game is finished after two good rounds at its last level, and it comes back if she misses it twice in a later warm-up. You can still pick any game and any level yourself.</li>
+          <li><b>Play today’s games</b> is the main button: a short warm-up from what she already knows, two rounds of the next lesson, and one round on what she finds hardest. About ten minutes. Then stop. Short and daily works better than long and weekly.</li>
+          <li>The app decides what comes next. A step is passed with five or six bones in a round; a lesson is mastered when its last step is passed on two different days, and it comes back for review after that.</li>
           <li>A bone means right first time. A paw means right after a hint or with the help picture.</li>
-          <li>The questions and hints are read aloud by a recorded voice. Tap the speaker next to a question to hear it again.</li>
+          <li>Free play, Race to 100 and the number machine open when today’s games are done.</li>
           <li>Sit with her when you can and ask “How did you know?”. Saying it in tens and ones is where it sticks.</li>
-          <li><b>Race to 100</b> is for two players. Say the numbers aloud and count on from where you stand, never from 1.</li>
-          <li>The last level of the adding and taking away games hides the blocks on purpose. <b>Quick Paws</b> opens only when Friends of Ten and Jump in Tens are finished: speed comes after getting it right.</li>
-          <li>Tens stand in groups of five, like the ones. Eight tens should read as “five and three”. Fingers are allowed, they fade by themselves.</li>
         </ul>
       </div>
     </section>
   );
+}
+
+function describe(status: LessonStatus, l: Lesson, data: ProfileData): string {
+  if (status === 'coming') return 'Coming soon.';
+  if (status === 'locked') return `First: ${waitsFor(l).filter((n) => !lessonState(data.child, n.id).mastered && !lessonState(data.child, n.id).passedOn.length).map((n) => n.title).join(', ')}.`;
+  if (status === 'mastered') return 'Mastered. It comes back in the warm-ups.';
+  if (status === 'resting') return 'Last step done today. Once more on another day.';
+  return `Step ${lessonState(data.child, l.id).step + 1} of ${l.steps.length}.`;
 }
 
 /** Free play: a number from 0 to 99 as blocks, one ten or one one more or fewer. */

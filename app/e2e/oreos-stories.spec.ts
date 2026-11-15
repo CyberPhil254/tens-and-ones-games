@@ -16,8 +16,7 @@ async function story(page: Page): Promise<{ ans: number; eq: string; kind: strin
 for (const level of [1, 2, 3]) {
   test(`Oreo's Stories level ${level}: read, answer, see the number sentence`, async ({ page }) => {
     const errors = watch(page);
-    await openGame(page, /Oreo’s Stories/, level);
-    await expect(page.getByText('Game 11: Oreo’s Stories')).toBeVisible();
+    await openGame(page, 'story', level);
     await expect(page.getByTestId('prompt')).not.toContainText(/puppy|\bhe\b/i);
     const kinds = new Set<string>();
 

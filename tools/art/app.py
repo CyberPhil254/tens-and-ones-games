@@ -36,3 +36,14 @@ for size in (512, 192, 64):
     out = f'app/public/icon-{size}.png'
     icon.convert('RGB').save(out, optimize=True)
     print(f'{out}  {os.path.getsize(out) / 1000:.1f} kB')
+
+# The animal heads a child's profile can have, shown at up to 72 px.
+os.makedirs('app/src/art/friends', exist_ok=True)
+for f in sorted(os.listdir('art/friends')):
+    im = Image.open(f'art/friends/{f}').convert('RGBA')
+    im = im.crop(im.getbbox())
+    k = min(1, 160 / max(im.size))
+    im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+    out = f"app/src/art/friends/{f.replace('.png', '.webp')}"
+    im.save(out, 'WEBP', quality=86, method=6)
+    print(f'{out}  {im.width}x{im.height}  {os.path.getsize(out) / 1000:.1f} kB')

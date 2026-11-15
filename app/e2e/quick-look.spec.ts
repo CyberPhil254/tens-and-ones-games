@@ -6,8 +6,7 @@ const HINT = 'Do not count every block. Count the red tens in tens: 10, 20, 30. 
 for (const level of [1, 2, 3]) {
   test(`Quick Look level ${level}: wrong, then right, then right first time`, async ({ page }) => {
     const errors = watch(page);
-    await openGame(page, /Quick Look/, level);
-    await expect(page.getByText('Game 3: Quick Look')).toBeVisible();
+    await openGame(page, 'look', level);
     await expect(page.getByTestId('prompt')).toHaveText('How many?');
     const blocks = page.locator('.stage .blocks');
     const n = await blocksNumber(page);

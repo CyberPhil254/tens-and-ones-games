@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { dice } from '../maths/random';
-import type { Saved } from '../session/store';
 import { chime } from '../speech/chime';
 import type { Piece } from '../speech/script';
 import { HundredSquare, type SquareMark } from '../ui/HundredSquare';
@@ -22,7 +21,7 @@ interface Racer { name: string; pos: number }
  * Race to 100: a board game for two on the hundred square. After each spin the player taps the
  * square she lands on, counting on from where she stands, never from 1. No bones, no rounds.
  */
-export function Race({ saved, onHome }: { saved: Saved; onHome: () => void }) {
+export function Race({ soundOff, onHome }: { soundOff: boolean; onHome: () => void }) {
   const wait = useWait();
   const silent = useVoiceSilent();
   const speaking = useVoiceSpeaking();
@@ -40,8 +39,8 @@ export function Race({ saved, onHome }: { saved: Saved; onHome: () => void }) {
   useEffect(() => preloadPoses(), []);
 
   const say = useCallback((pieces: readonly Piece[], delay = 0, force = false) => {
-    if (force || !saved.soundOff) speak(pieces, delay);
-  }, [saved.soundOff]);
+    if (force || !soundOff) speak(pieces, delay);
+  }, [soundOff]);
   // Race has no rounds; this is just enough of a round for the shared question heading.
   const round: RoundApi = useMemo(() => ({
     over: false,
@@ -79,7 +78,7 @@ export function Race({ saved, onHome }: { saved: Saved; onHome: () => void }) {
     setRacers(next);
     setLanded(v);
     setColumn(false);
-    if (!saved.soundOff) chime();
+    if (!soundOff) chime();
     if (v === 100) {
       setWon(true);
       setMove(0);
@@ -105,7 +104,7 @@ export function Race({ saved, onHome }: { saved: Saved; onHome: () => void }) {
   return (
     <section key={game}>
       <div className="gbar">
-        <button className="back" type="button" onClick={() => { voice.stop(); onHome(); }}>← All games</button>
+        <button className="back" type="button" onClick={() => { voice.stop(); onHome(); }}>← Home</button>
       </div>
       <p className="gtitle">Race to 100</p>
       <div className="card game">
@@ -143,7 +142,7 @@ export function Race({ saved, onHome }: { saved: Saved; onHome: () => void }) {
             {won ? (
               <Controls>
                 <button className="ctl o" type="button" onClick={again}>Play again</button>
-                <button className="ctl brk" type="button" onClick={onHome}>All games</button>
+                <button className="ctl brk" type="button" onClick={onHome}>Home</button>
               </Controls>
             ) : !move ? (
               <Controls>

@@ -44,8 +44,7 @@ for (const level of [1, 2, 3]) {
     const errors = watch(page);
     // Level 3 is heard, not read. For the test the voice is blocked, so the app shows the word.
     if (level === 3) await page.route('**/voice/*.mp3', (r) => r.abort());
-    await openGame(page, /Number Names/, level);
-    await expect(page.getByText('Game 4: Number Names')).toBeVisible();
+    await openGame(page, 'names', level);
     if (level === 3) await expect(page.getByText('The voice did not load.')).toBeVisible();
     await play(page, level, true);
     await expect(paws(page)).toHaveCount(1);
@@ -58,7 +57,7 @@ for (const level of [1, 2, 3]) {
 }
 
 test('Number Names level 3 with the voice: the number is spoken and the word is not shown', async ({ page }) => {
-  await openGame(page, /Number Names/, 3);
+  await openGame(page, 'names', 3);
   await expect(page.getByTestId('prompt')).toHaveText('Listen. Which number is it?');
   await expect(page.locator('.card.game .sub')).toHaveText('Tap the speaker to hear it again.');
   await expect(oreo(page)).toHaveAttribute('data-pose', 'listening');

@@ -12,8 +12,7 @@ const square = (page: Page, n: number) => page.locator('.hsq').getByRole('button
 for (const level of [1, 2]) {
   test(`Jump in Tens level ${level}: tap where the jump lands`, async ({ page }) => {
     const errors = watch(page);
-    await openGame(page, /Jump in Tens/, level);
-    await expect(page.getByText('Game 7: Jump in Tens')).toBeVisible();
+    await openGame(page, 'jump', level);
     const { s, plus, jump, end, sign } = await sum(page);
     expect(level === 1 ? [10] : [20, 30]).toContain(jump);
     await expect(page.locator('.hsq .here')).toHaveText(String(s));
@@ -45,7 +44,7 @@ for (const level of [1, 2]) {
 
 test('Jump in Tens level 3: count on or back in tens, three numbers', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Jump in Tens/, 3);
+  await openGame(page, 'jump', 3);
   const m = /Count (on|back) in tens from (\d+)/.exec(await page.getByTestId('prompt').innerText())!;
   const dir = m[1] === 'on' ? 10 : -10, s = Number(m[2]);
   await square(page, s + dir).click();
@@ -64,7 +63,7 @@ test('Jump in Tens level 3: count on or back in tens, three numbers', async ({ p
 
 test('Jump in Tens level 4: in her head, the square only if she asks', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Jump in Tens/, 4);
+  await openGame(page, 'jump', 4);
   await expect(page.locator('.hsq')).toHaveCount(0);
   const a = await sum(page);
   await wrongChoice(page, a.end).click();
