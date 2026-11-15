@@ -5,6 +5,7 @@
  * Do not reorder the draws without reading that test.
  */
 import { SP, type Piece } from '../speech/script';
+import { makePlus, PLUS_LEVELS, type PlusQ } from './plus';
 import { dice, type Dice, type Rng } from './random';
 import { makeSums, SUMS_LEVELS, type SumsQ } from './sums';
 
@@ -12,7 +13,7 @@ export const PATH = ['five', 'pack', 'look', 'names', 'walk', 'friends', 'jump',
 /** The games ported from the live game. Their questions are checked draw by draw against it. */
 export type PortedId = (typeof PATH)[number];
 /** Games made for the app, which the live game never had. */
-export const NEW_GAMES = ['sums'] as const;
+export const NEW_GAMES = ['sums', 'plus'] as const;
 export type GameId = PortedId | (typeof NEW_GAMES)[number];
 export const ALL_GAMES: readonly GameId[] = [...PATH, ...NEW_GAMES];
 
@@ -55,10 +56,10 @@ export interface StoryQ {
 }
 
 /** How many levels every game has, the new ones included. */
-export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS };
+export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS, plus: PLUS_LEVELS };
 
 export interface QuestionOf {
-  sums: SumsQ;
+  sums: SumsQ; plus: PlusQ;
   five: FiveQ; pack: BlocksQ; look: BlocksQ; names: NamesQ; walk: WalkQ; friends: FriendsQ;
   jump: JumpQ; fill: FillQ; take: TakeQ; mystery: MysteryQ; story: StoryQ;
 }
@@ -82,6 +83,7 @@ type Makers = { [G in GameId]: (level: number, d: Dice, variant?: number) => Que
 
 const MAKE: Makers = {
   sums: (l, d) => makeSums(l, d),
+  plus: (l, d) => makePlus(l, d),
   names(l, d) {
     if (l === 2) {
       // "Which number has 6 tens?"

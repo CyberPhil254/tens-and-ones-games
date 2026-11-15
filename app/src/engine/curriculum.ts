@@ -126,7 +126,7 @@ export const UNITS: Unit[] = [
       lesson('s2-bonds', 'Friends of 20 and 100', 'Pairs that make 20; pairs of tens that make 100', ['s1-ten'], [see(a('friends', 3))]),
       lesson('s2-inverse', 'Mystery numbers', 'Adding and subtracting undo each other', ['s1-add', 's1-sub'], [see(a('mystery', 1)), see(a('mystery', 2)), head(a('mystery', 3))]),
       lesson('s2-calc', 'Tens and ones sums', 'Add and subtract two-digit numbers where no ten has to be made or broken', ['s2-place', 's1-calc20'], [
-        see(a('jump', 1)), see(a('jump', 2)), see(a('take', 1)), see(a('take', 2)), head(a('jump', 4)),
+        see(a('jump', 1), a('jump', 2)), see(a('plus', 1)), sketch(a('plus', 2)), see(a('take', 1), a('take', 2)), head(a('jump', 4), a('plus', 3)),
         apply(a('story', 1, 0), a('story', 1, 1), a('story', 2, 0), a('story', 2, 1), a('story', 3, 1), a('story', 3, 2)),
       ]),
     ],

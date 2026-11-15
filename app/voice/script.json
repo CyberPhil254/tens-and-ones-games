@@ -722,6 +722,20 @@
    "pack": "core"
   },
   {
+   "id": "add-the-tens-to-the-tens",
+   "text": "Add the tens to the tens. Add the ones to the ones.",
+   "key": "Add the tens to the tens. Add the ones to the ones.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tens-with-tens-and-ones-with",
+   "text": "Tens with tens, and ones with ones.",
+   "key": "Tens with tens, and ones with ones.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
