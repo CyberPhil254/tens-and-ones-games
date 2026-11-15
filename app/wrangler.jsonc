@@ -1,0 +1,9 @@
+// Cloudflare settings for the new app. In Cloudflare, the project's root directory is "app".
+{
+	"name": "tens-and-ones-app",
+	"compatibility_date": "2026-11-15",
+	"assets": {
+		"directory": "./dist",
+		"not_found_handling": "single-page-application"
+	}
+}
