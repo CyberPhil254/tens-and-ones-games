@@ -128,7 +128,12 @@ After the session the child may play on, but the app suggests stopping. Short an
 
 - There is no skip button. Leaving a round counts for nothing.
 - The path only moves forward through mastery. Free play (any unlocked lesson, Race to 100, the number machine, Quick Paws) opens only after today's games.
-- The child still chooses things that do not change the learning: which of two question sets of the same lesson to play, which treasure Oreo gets, which trick to watch. Two to four options, no more.
+- **The child gets to choose, but only between things the app has already decided she will do.** Every option on a choice card is something the engine wants today, so whatever she picks is right. Once or twice a session, not on every screen, and two or three options at most:
+  - **Which first?** Two of today's parts, as two cards ("Oreo's bones" or "the number line"). Both get done; she only sets the order.
+  - **Which stone?** When two lessons are open at once, she picks one. The other comes next.
+  - **Which story?** The same questions dressed differently (bones, balls, stepping stones).
+  - **Which reward?** The treasure Oreo gets, or the trick she shows.
+- There is never an option that means less work, an easier lesson than the engine chose, or no lesson. A choice she makes is always honoured: the app never shows one thing and gives another.
 - If the child is struggling, the app lowers the step and gives the picture back. It never repeats the same failed question endlessly.
 - Very fast wrong taps in a row are treated as guessing: Oreo says to take a moment, the answers pause briefly, and those answers do not count either way.
 
