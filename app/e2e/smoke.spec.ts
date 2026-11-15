@@ -73,3 +73,24 @@ test('the voice plays recorded clips by sentence id', async ({ page }) => {
   await expect(voice).toHaveAttribute('data-said', 'num.34.mid frag.plus num.10.mid frag.is num.44.end only-the-tens-change');
   expect(errors).toEqual([]);
 });
+
+test('pictures: the number line and the hundred square follow a tap and fit a phone', async ({ page }) => {
+  await page.goto('/');
+  // Tap the middle of the line: 50.
+  const hit = page.getByTestId('line-hit');
+  const box = (await page.getByTestId('line').locator('.nl-bar').boundingBox())!;
+  await hit.click({ position: { x: 10 + box.width / 2, y: 48 } });
+  await expect(page.getByTestId('line').locator('.hrod')).toHaveCount(5);
+  await expect(page.getByTestId('machine').getByRole('img')).toHaveAttribute('aria-label', '5 tens and 0 ones');
+
+  const square = page.getByTestId('square');
+  await square.getByRole('button', { name: '73', exact: true }).click();
+  await expect(square.locator('.here')).toHaveText('73');
+  await expect(square.locator('.col')).toHaveCount(9);
+
+  // Every square is big enough for a small finger, and nothing is wider than the screen.
+  const cell = (await square.getByRole('button', { name: '73', exact: true }).boundingBox())!;
+  expect(cell.width).toBeGreaterThanOrEqual(28);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+});

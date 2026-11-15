@@ -1,4 +1,5 @@
 import { tensOnes } from '../maths/placeValue';
+import './pictures.css';
 
 /** A number with the tens digit red and the ones digit blue, as on every screen. */
 export function Num({ n }: { n: number }) {
@@ -10,4 +11,9 @@ export function Num({ n }: { n: number }) {
       <span className="o">{ones}</span>
     </span>
   );
+}
+
+/** The place of a missing number: a yellow box with a question mark, or the number once it is found. */
+export function Box({ found }: { found?: number }) {
+  return found === undefined ? <span className="box">?</span> : <span className="box found"><Num n={found} /></span>;
 }
