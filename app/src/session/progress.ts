@@ -2,6 +2,7 @@
  * What the app remembers about one child, and the rules that change it: bones, levels,
  * finished games, the warm-up mix and today's session. Ported from the live game (index.html).
  * Pure functions: each takes the progress and returns the new one.
+ * `path` is the learning path; while the port is under way the app passes only the games that exist.
  *
  * A bone is a question right first time. A paw is right after a hint or with the help picture.
  */
@@ -37,7 +38,7 @@ export const newProgress = (): Progress => ({ stars: {}, level: {}, done: {}, pa
 export const levelOf = (p: Progress, id: GameId) => Math.max(1, Math.min(p.level[id] ?? 1, LEVELS[id]));
 
 /** The first game on the path that is not finished; null when all are. */
-export const frontier = (p: Progress): GameId | null => PATH.find((id) => !p.done[id]) ?? null;
+export const frontier = (p: Progress, path: readonly GameId[] = PATH): GameId | null => path.find((id) => !p.done[id]) ?? null;
 
 export interface Slot {
   id: GameId;
@@ -45,10 +46,10 @@ export interface Slot {
 }
 
 /** Games before the frontier, each at its own level, for mixed practice. Pack Ten is too slow for a mix. */
-export function warmPool(p: Progress): Slot[] {
-  const f = frontier(p);
-  const upto = f ? PATH.indexOf(f) : PATH.length;
-  return PATH.slice(0, upto).filter((id) => id !== 'pack').map((id) => ({ id, level: levelOf(p, id) }));
+export function warmPool(p: Progress, path: readonly GameId[] = PATH): Slot[] {
+  const f = frontier(p, path);
+  const upto = f ? path.indexOf(f) : path.length;
+  return path.slice(0, upto).filter((id) => id !== 'pack').map((id) => ({ id, level: levelOf(p, id) }));
 }
 
 /** The game for the next question of a mix: any from the pool, but not the same game twice running. */
@@ -69,13 +70,13 @@ export type Segment = { kind: 'mix'; n: number; pool: Slot[] } | { kind: 'game';
  * Today's games: a warm-up when there is something to warm up with, then two rounds of the next game.
  * Later segments are worked out when they start, because the first round can change the level.
  */
-export function todaySegments(p: Progress): ('mix' | 'front')[] {
-  return warmPool(p).length ? ['mix', 'front', 'front'] : ['front', 'front'];
+export function todaySegments(p: Progress, path: readonly GameId[] = PATH): ('mix' | 'front')[] {
+  return warmPool(p, path).length ? ['mix', 'front', 'front'] : ['front', 'front'];
 }
-export function segment(p: Progress, kind: 'mix' | 'front'): Segment {
-  const f = frontier(p);
+export function segment(p: Progress, kind: 'mix' | 'front', path: readonly GameId[] = PATH): Segment {
+  const f = frontier(p, path);
   if (kind === 'front' && f) return { kind: 'game', n: ROUND, id: f, level: levelOf(p, f) };
-  return { kind: 'mix', n: WARM_UP, pool: warmPool(p) };
+  return { kind: 'mix', n: WARM_UP, pool: warmPool(p, path) };
 }
 
 export const doneToday = (p: Progress, today: string) => p.day === today;

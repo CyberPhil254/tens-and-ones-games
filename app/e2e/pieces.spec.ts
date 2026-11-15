@@ -8,9 +8,10 @@ test('the app opens without console errors and fits the screen', async ({ page }
   const foreign: string[] = [];
   page.on('request', (r) => new URL(r.url()).host !== 'localhost:4173' && foreign.push(r.url()));
 
-  await page.goto('/');
+  await page.goto('/#pieces');
   await page.evaluate(() => document.fonts.ready);
   await expect(page.getByRole('heading', { name: 'Tens and Ones' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Blocks' })).toBeVisible();
 
   // Tens digit red, ones digit blue.
   await expect(page.locator('.num .t').first()).toHaveCSS('color', 'rgb(229, 72, 77)');
@@ -28,7 +29,7 @@ test('the app opens without console errors and fits the screen', async ({ page }
 });
 
 test('blocks: tens are red in groups of five, ones are blue, five dark then five light', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#pieces');
   const widest = page.getByTestId('widest');
   const rods = widest.locator('.rod');
   await expect(rods).toHaveCount(9);
@@ -49,7 +50,7 @@ test('blocks: tens are red in groups of five, ones are blue, five dark then five
 });
 
 test('blocks follow the number', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#pieces');
   const m = page.getByTestId('machine');
   await m.getByRole('button', { name: '+ 10' }).click();
   await m.getByRole('button', { name: '− 1', exact: true }).click();
@@ -62,7 +63,7 @@ test('the voice plays recorded clips by sentence id', async ({ page }) => {
   const errors: string[] = [];
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
+  await page.goto('/#pieces');
   const voice = page.getByTestId('voice');
 
   await voice.getByRole('button', { name: 'Hear the number' }).click();
@@ -75,7 +76,7 @@ test('the voice plays recorded clips by sentence id', async ({ page }) => {
 });
 
 test('pictures: the number line and the hundred square follow a tap and fit a phone', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#pieces');
   // Tap the middle of the line: 50.
   const hit = page.getByTestId('line-hit');
   const box = (await page.getByTestId('line').locator('.nl-bar').boundingBox())!;
