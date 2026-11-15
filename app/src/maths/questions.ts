@@ -8,13 +8,14 @@ import { SP, type Piece } from '../speech/script';
 import { BONDS_LEVELS, makeBonds, type BondsQ } from './bonds';
 import { makePlus, PLUS_LEVELS, type PlusQ } from './plus';
 import { dice, type Dice, type Rng } from './random';
+import { makeRegroup, makeTeens, REGROUP_LEVELS, TEENS_LEVELS, type RegroupQ, type TeensQ } from './teens';
 import { makeSums, SUMS_LEVELS, type SumsQ } from './sums';
 
 export const PATH = ['five', 'pack', 'look', 'names', 'walk', 'friends', 'jump', 'fill', 'take', 'mystery', 'story'] as const;
 /** The games ported from the live game. Their questions are checked draw by draw against it. */
 export type PortedId = (typeof PATH)[number];
 /** Games made for the app, which the live game never had. */
-export const NEW_GAMES = ['sums', 'plus', 'bonds'] as const;
+export const NEW_GAMES = ['sums', 'plus', 'bonds', 'teens', 'regroup'] as const;
 export type GameId = PortedId | (typeof NEW_GAMES)[number];
 export const ALL_GAMES: readonly GameId[] = [...PATH, ...NEW_GAMES];
 
@@ -57,10 +58,10 @@ export interface StoryQ {
 }
 
 /** How many levels every game has, the new ones included. */
-export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS, plus: PLUS_LEVELS, bonds: BONDS_LEVELS };
+export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS, plus: PLUS_LEVELS, bonds: BONDS_LEVELS, teens: TEENS_LEVELS, regroup: REGROUP_LEVELS };
 
 export interface QuestionOf {
-  sums: SumsQ; plus: PlusQ; bonds: BondsQ;
+  sums: SumsQ; plus: PlusQ; bonds: BondsQ; teens: TeensQ; regroup: RegroupQ;
   five: FiveQ; pack: BlocksQ; look: BlocksQ; names: NamesQ; walk: WalkQ; friends: FriendsQ;
   jump: JumpQ; fill: FillQ; take: TakeQ; mystery: MysteryQ; story: StoryQ;
 }
@@ -86,6 +87,8 @@ const MAKE: Makers = {
   sums: (l, d) => makeSums(l, d),
   plus: (l, d) => makePlus(l, d),
   bonds: (l, d) => makeBonds(l, d),
+  teens: (l, d) => makeTeens(l, d),
+  regroup: (l, d) => makeRegroup(l, d),
   names(l, d) {
     if (l === 2) {
       // "Which number has 6 tens?"

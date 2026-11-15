@@ -68,7 +68,7 @@ export const UNITS: Unit[] = [
     id: 's1-u2', stage: 1, title: 'Numbers to 20',
     lessons: [
       lesson('s1-names', 'Number names to 20', 'Say, read and write numbers 0 to 20', ['s1-count']),
-      lesson('s1-teens', 'Ten and some more', 'Numbers 10 to 20 as one ten and some ones', ['s1-count']),
+      lesson('s1-teens', 'Ten and some more', 'Numbers 10 to 20 as one ten and some ones', ['s1-count'], [see(a('teens', 1)), see(a('teens', 2)), head(a('teens', 3))]),
       lesson('s1-compare', 'More or less, to 20', 'Compare and order numbers to 20', ['s1-names']),
       lesson('s1-ordinal', 'First to tenth', 'First to tenth', ['s1-count']),
     ],
@@ -99,7 +99,7 @@ export const UNITS: Unit[] = [
       lesson('s2-count', 'Pack in tens', 'Count up to 100 things by grouping them in tens', ['s1-teens'], [see(a('pack', 1)), see(a('pack', 2))]),
       lesson('s2-place', 'Tens and ones', 'The place of a digit gives its value; zero holds a place', ['s2-count'], [see(a('look', 1)), see(a('look', 2)), sketch(a('look', 3)), see(a('walk', 1)), head(a('names', 2))]),
       lesson('s2-names', 'Number names to 100', 'Say, read and write numbers to 100', ['s1-names'], [see(a('names', 1)), head(a('names', 3))]),
-      lesson('s2-regroup', 'Build and split', 'Build, split and regroup two-digit numbers in tens and ones', ['s2-count'], [see(a('pack', 3)), see(a('walk', 2))]),
+      lesson('s2-regroup', 'Build and split', 'Build, split and regroup two-digit numbers in tens and ones', ['s2-count'], [see(a('pack', 3)), see(a('walk', 2)), see(a('regroup', 1)), head(a('regroup', 2))]),
     ],
   },
   {

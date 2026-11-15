@@ -14,6 +14,7 @@ import { OreosWalk } from './OreosWalk';
 import { PackTen } from './PackTen';
 import { QuickLook } from './QuickLook';
 import { SumsTo20 } from './SumsTo20';
+import { AnotherWay, TenAndMore } from './TenAndMore';
 import { TensOnesSums } from './TensOnesSums';
 
 export interface GameProps<G extends GameId> {
@@ -38,5 +39,7 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   sums: SumsTo20,
   plus: TensOnesSums,
   bonds: FriendsOf20,
+  teens: TenAndMore,
+  regroup: AnotherWay,
 };
 

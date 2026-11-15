@@ -750,6 +750,41 @@
    "pack": "core"
   },
   {
+   "id": "start-at-ten-then-count-on",
+   "text": "Start at ten. Then count on the ones.",
+   "key": "Start at ten. Then count on the ones.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "a-teen-number-is-one-ten",
+   "text": "A teen number is one ten and some ones.",
+   "key": "A teen number is one ten and some ones.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "and-how-many-ones",
+   "text": "And how many ones?",
+   "key": "And how many ones?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "one-ten-was-broken-into-10",
+   "text": "One ten was broken into 10 ones. Count on from 10.",
+   "key": "One ten was broken into 10 ones. Count on from 10.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "breaking-a-ten-does-not-change",
+   "text": "Breaking a ten does not change the number.",
+   "key": "Breaking a ten does not change the number.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",

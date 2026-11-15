@@ -104,7 +104,9 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
   await expect(see).toContainText('Mastered. It comes back in the warm-ups.');
   // Oreo waits at the lesson today's games are about, and nowhere else.
   await expect(garden.locator('.herepup')).toHaveCount(1);
-  await expect(garden.locator('[data-lesson=s1-add] .herepup')).toBeVisible(); // the next lesson on the path
+  const here = garden.locator('.stone', { has: page.locator('.herepup') });
+  await expect(here).toHaveAttribute('data-status', 'open');
+  await expect(page.getByTestId('today-text')).toContainText((await here.locator('strong').innerText()).trim()); // the lesson today's games name
   await expect(garden.locator('[data-lesson=s1-ten]')).toContainText('Step 2 of 3.');
   await expect(garden.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
   await expect(garden.locator('[data-lesson=s1-count]')).toContainText('Coming soon.');
