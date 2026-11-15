@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { browserVoice } from './speech/player';
+import { SP, type Piece } from './speech/script';
 import { Blocks } from './ui/Blocks';
 import { Num } from './ui/Num';
 
@@ -6,8 +8,12 @@ import { Num } from './ui/Num';
  * Placeholder screen: the shared pieces, one by one, so they can be looked at on a phone
  * and compared with the live game. The games arrive one pull request at a time.
  */
+const voice = browserVoice();
+
 export function App() {
   const [n, setN] = useState(34);
+  const [said, setSaid] = useState('');
+  const hear = (pieces: Piece[]) => void voice.say(pieces).then((ids) => setSaid(ids.join(' ') || 'silent'));
   const step = (d: number) => setN((v) => Math.max(0, Math.min(99, v + d)));
   return (
     <main>
@@ -30,6 +36,15 @@ export function App() {
           <button type="button" onClick={() => step(-1)}>− 1</button>{' '}
           <button type="button" onClick={() => step(1)}>+ 1</button>
         </p>
+      </div>
+
+      <h2>Voice</h2>
+      <p className="sub">The 702 recorded clips, addressed by sentence id.</p>
+      <div className="card" data-testid="voice" data-said={said}>
+        <button type="button" onClick={() => hear([SP.isTO(n)])}>Hear the number</button>{' '}
+        <button type="button" onClick={() => hear([n, 'plus', 10, 'is', n + 10, 'only-the-tens-change'])} disabled={n > 89}>
+          Hear {n} plus 10
+        </button>
       </div>
 
       <h2>The widest number</h2>

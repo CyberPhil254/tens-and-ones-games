@@ -2,23 +2,31 @@
 
 Claude Code updates this file at the end of each working session. The planning chat reads it.
 
-## Last session (2026-11-15, second session)
+## Last session (2026-11-15, third session)
 
-Three things, in two pull requests.
+Pull request 1 (scaffold) is merged. Four more are open, each built on the one before; merge them in order.
 
-**Pull request 1, the scaffold.** `app/` with TypeScript, React, Vite, Vitest, Playwright, ESLint, an installable-app manifest and service worker, and a GitHub Actions workflow that runs lint, type check, unit tests, build and browser tests on every pull request. The screen is a placeholder that only proves the pieces work together (red tens digit, blue ones digit, checked at 400 px and at laptop width with no console errors). First build: 69 kB of JavaScript after compression, almost all of it React.
+**Pull request 2, reference check and `docs/game-skills.md`.** Now also carries the skill ids of `docs/skill-map.md` level by level, a list of twelve rows of the skill map whose "Game" column should change, and Philipp's answers on fonts, question 9 and the second site in `decisions.md`.
 
-**Pull request 2, the reference check.** `app/src/reference/` loads the question makers straight out of `index.html`, unchanged, and draws every game and level until no new question turns up. For every question it checks: exactly one right answer among unique choices, four choices in rising order between 1 and 100, the accepted answer is the mathematically right one, and every spoken piece has a recorded clip.
+**Pull request 3, the question makers.** `app/src/maths/questions.ts`: the eleven games' question makers as pure functions with a seedable random source. Checked three ways: draw by draw against `index.html` (same seed, 20,000 draws for each of the 36 levels, all identical), against the recorded summary of pull request 2, and on its own (one right answer among unique choices, correct maths) so the check survives when `index.html` is retired.
 
-- Result: no faults in any of the 36 levels of the eleven games.
-- The check was tested by breaking the live game on purpose in two places; it caught both. The game was restored.
-- It also records how many different questions each level can ask and its number ranges (`app/src/reference/live-game-summary.json`). The port must reproduce that file exactly.
-- It runs in CI whenever `index.html` or `app/` changes, so a change to the live game is checked too.
-- Not covered: what happens on screen (animations, the order of hints). That is checked by playing each ported game against the live one.
+**Pull request 4, the blocks, and the fonts.** `app/src/ui/Blocks.tsx`: tens as red rods standing in groups of five, ones blue with five dark then five light, counting labels, the sketch and small forms, ones just added in yellow, a ten being made or broken. Compared with the live game at 400 px. Fredoka and Andika now ship with the app (about 87 kB, Latin letters only); a browser test fails if anything is fetched from another site.
 
-**`docs/game-skills.md`**: per game and level, what the child does, the number range, how she answers, and how many different questions there are. No curriculum wording. It ends with a plain list of what no game asks today.
+**Pull request 5, the audio player.** Every one of the 702 clips has an id (`try-again`, `isTO.47`, `frag.plus`, `num.47.mid`). `app/src/speech/sentences.ts` is the one place the fixed wording lives. The player takes ids, present wording or numbers, plays them with the live game's timing, and keeps equations stitched from number clips. The app's voice pack is made at build time from `audio/` at the repository root, so the recording exists once in the repository. No wording changed: no clips need recording.
+
+The placeholder screen now shows the blocks and two "hear it" buttons, so the pieces can be tried on a phone once the second Netlify site is up.
 
 The root game, `audio/` and the root `netlify.toml` are untouched.
+
+### Two things that differ from the live game, on purpose
+
+- No computer voice. The live game falls back to the browser's speech when the recording cannot be loaded. The new app stays silent instead (the words are on screen), following the rule that all speech comes from recorded clips.
+- A sentence without a recording is an error in the tests, not a silent gap.
+
+### Known and left for later
+
+- The voice pack is still one 6.4 MB file, fetched the first time something is said, as in the live game. Loading per game belongs to voice v2 (work package 7). It is not kept for offline use yet.
+- The story texts and hints inside the question makers still hold their wording; the player finds the id from the wording. When voice v2 changes wording they switch to ids, a mechanical change.
 
 ## Whole-sentence equations: the count (question 9)
 
@@ -50,8 +58,9 @@ Decided on 15 November: none of these are recorded; equations stay stitched from
 
 ## Next
 
-1. Shared pieces: the question makers as modules with a seedable random source (checked against the reference summary), the blocks and the other representations, the audio player with sentence ids over the 702 current clips.
-2. Then the games in path order, one small pull request each.
+1. The other representations as components: ten frame, hands, hundred square, number line, bar model.
+2. The round and session logic: bones and paws, levelling, warm-up mix, today's session, saved progress.
+3. Then the games in path order, one small pull request each, starting with High Five.
 
 ## Half done
 
