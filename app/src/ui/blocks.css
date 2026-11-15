@@ -1,0 +1,195 @@
+/* Tens and ones blocks, as in the live game.
+   Tens: red rods of ten with a gap after five, standing in groups of five.
+   Ones: blue, the first five dark and the next five light. */
+.blocks {
+  --H: calc(var(--u) * 10 + var(--g) * 9 + var(--mid) + 1px);
+  display: inline-flex;
+  align-items: flex-end;
+  gap: calc(var(--u) * 1.2);
+  min-height: var(--H);
+}
+.blocks.small {
+  --u: 9px;
+  --g: 2px;
+  --mid: 4px;
+}
+.blocks .rods {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+}
+.blocks .rod {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--g);
+  background: var(--ten-deep);
+  border-radius: 4px;
+  height: var(--H);
+  justify-content: flex-start;
+  padding-top: 1px;
+}
+.blocks .rod i {
+  display: block;
+  width: var(--u);
+  height: var(--u);
+  background: var(--ten);
+  border-radius: 3px;
+}
+.blocks .rod i:nth-child(6) {
+  margin-bottom: var(--mid);
+}
+.blocks .rod:nth-child(5n + 6) {
+  margin-left: calc(var(--u) * 0.8);
+}
+
+/* Counting labels under the tens (10, 20, 30) and the number of ones. */
+.blocks.counted {
+  margin-bottom: calc(var(--u) * 1.4);
+}
+.blocks.counted .rod::after,
+.blocks.counted .oneswrap[data-n]::after {
+  content: attr(data-n);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: calc(var(--u) * 0.74);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ten-deep);
+}
+.blocks.counted .oneswrap[data-n]::after {
+  color: var(--one);
+  font-size: calc(var(--u) * 1.05);
+  top: calc(100% + 2px);
+}
+
+.blocks .oneswrap {
+  position: relative;
+  min-width: var(--u);
+}
+.blocks .ones,
+.blocks .ghost {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: var(--g) 6px;
+  height: var(--H);
+}
+.blocks .ones {
+  position: relative;
+}
+.blocks .ghost {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.blocks .slot {
+  width: var(--u);
+  height: var(--u);
+  border: 1.5px dashed #aebbd3;
+  border-radius: 3px;
+}
+.blocks .slot:nth-child(6),
+.blocks .cube:nth-child(10n + 6) {
+  margin-bottom: var(--mid);
+}
+.blocks .cube {
+  width: var(--u);
+  height: var(--u);
+  background: var(--one);
+  border-radius: 3px;
+}
+.blocks .cube:nth-child(10n + 6),
+.blocks .cube:nth-child(10n + 7),
+.blocks .cube:nth-child(10n + 8),
+.blocks .cube:nth-child(10n + 9),
+.blocks .cube:nth-child(10n) {
+  background: var(--one-lite);
+}
+/* Ones that were just added in a sum. */
+.blocks .cube.sun {
+  background: var(--sun);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+/* Ten ones turning into a ten. */
+.blocks .ones.merge .cube {
+  background: var(--ten);
+  box-shadow: none;
+  transition: background 0.3s;
+}
+.blocks .pop {
+  animation: blocks-pop 0.28s ease-out;
+}
+/* A ten breaking into ten ones. */
+.blocks .crack {
+  animation: blocks-crack 0.35s ease-in forwards;
+}
+@keyframes blocks-pop {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes blocks-crack {
+  30% {
+    transform: rotate(-4deg);
+  }
+  60% {
+    transform: rotate(4deg);
+  }
+  to {
+    transform: none;
+    background: var(--one);
+  }
+}
+
+/* Sketch: the half-way picture between blocks and digits. A line for a ten, a dot for a one. */
+.blocks.sketch .rod {
+  background: none;
+}
+.blocks.sketch .rod i {
+  visibility: hidden;
+}
+.blocks.sketch .rod::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--ten);
+}
+.blocks.sketch .cube {
+  border-radius: 50%;
+  transform: scale(0.62);
+  box-shadow: none;
+}
+.blocks.sketch .ghost {
+  display: none;
+}
+
+.blocks button {
+  all: unset;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blocks .pop,
+  .blocks .crack {
+    animation: none;
+  }
+  .blocks .ones.merge .cube {
+    transition: none;
+  }
+}
