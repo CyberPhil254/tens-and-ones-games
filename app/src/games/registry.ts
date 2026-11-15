@@ -9,6 +9,7 @@ import { HearAndType } from './HearAndType';
 import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
 import { MysteryBox } from './MysteryBox';
+import { NewPatterns } from './NewPatterns';
 import { NumberNames } from './NumberNames';
 import { OreosStories } from './OreosStories';
 import { OreosWalk } from './OreosWalk';
@@ -43,5 +44,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   teens: TenAndMore,
   regroup: AnotherWay,
   hear: HearAndType,
+  dots: NewPatterns,
 };
 

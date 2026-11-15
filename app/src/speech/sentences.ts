@@ -125,6 +125,9 @@ export const FIXED = {
   'and-how-many-ones': "And how many ones?",
   'one-ten-was-broken-into-10': "One ten was broken into 10 ones. Count on from 10.",
   'breaking-a-ten-does-not-change': "Breaking a ten does not change the number.",
+  // See how many, new patterns.
+  'how-many-look-for-groups-you': "How many? Look for groups you know.",
+  'do-not-count-them-all-look': "Do not count them all. Look for small groups you know.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",

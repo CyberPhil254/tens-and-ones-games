@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { newProfile } from '../data/profile';
 import { ALL_GAMES as PATH, LEVELS_OF as LEVELS } from '../maths/questions';
 import { applyRound, checkLessons, doneToday, finishToday, lessonOfActivity, type Given } from './apply';
-import { LESSON, UNITS } from './curriculum';
+import { LESSON, UNITS, playable } from './curriculum';
 import { statusOf } from './rules';
 import { lessonState } from './state';
 
@@ -41,9 +41,17 @@ describe('a finished round', () => {
 describe('the starting check', () => {
   it('asks about one lesson from each unit below her stage and the first of each unit of her own', () => {
     const stage2 = checkLessons(2, UNITS).map((l) => l.id);
-    // With the lessons that exist today. The list grows as lessons are built, up to ten.
-    expect(stage2).toEqual(['s1-see', 's1-teens', 's1-calc20', 's2-count', 's2-skip', 's2-bonds']);
-    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-names', 's1-add']);
+    // The rule, whatever lessons exist: from each unit below her stage the last built lesson, from each of her own the first.
+    const built = (u: (typeof UNITS)[number]) => u.lessons.filter(playable).map((l) => l.id);
+    const rule = (stage: 1 | 2) =>
+      UNITS.filter((u) => !u.stretch && built(u).length && u.stage <= stage).map((u) => (u.stage < stage ? built(u).at(-1)! : built(u)[0]!)).slice(0, 10);
+    expect(stage2).toEqual(rule(2));
+    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(rule(1));
+    // And some things that stay true: it starts with the first lesson, asks nothing from the stretch unit, and no lesson twice.
+    expect(stage2[0]).toBe('s1-see');
+    expect(stage2.some((id) => id.startsWith('x-'))).toBe(false);
+    expect(new Set(stage2).size).toBe(stage2.length);
+    expect(checkLessons(1, UNITS).every((l) => l.id.startsWith('s1-'))).toBe(true);
     expect(stage2.length).toBeLessThanOrEqual(10);
   });
   it('marks what she got right first time as known, with what it is built on, and gives no bones', () => {

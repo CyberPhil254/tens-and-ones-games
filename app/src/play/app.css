@@ -339,3 +339,8 @@ body.plain { background-image: none; }
 .tensto100 .sub { flex-basis: 100%; }
 .suntens .rod { background: var(--sun); box-shadow: inset 0 0 0 2px var(--ink); }
 .suntens .rod i { background: transparent; border-color: rgba(27, 42, 74, 0.35); }
+
+/* Dots in new patterns. They are counted things: drawn in code, blue like every loose one. */
+.dotpic { width: min(78vw, 320px); height: auto; display: block; background: #fff; border: 3px solid var(--ink); border-radius: 14px; }
+.dotpic .pdot { fill: var(--one); }
+.dotpic .ring { fill: none; stroke: var(--sun); stroke-width: 4; stroke-dasharray: 8 6; }

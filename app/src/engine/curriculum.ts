@@ -105,7 +105,7 @@ export const UNITS: Unit[] = [
   {
     id: 's2-u2', stage: 2, title: 'Numbers on the line',
     lessons: [
-      lesson('s2-see', 'See how many, new patterns', 'See how many (up to 10) in a new pattern without counting', ['s1-see']),
+      lesson('s2-see', 'See how many, new patterns', 'See how many (up to 10) in a new pattern without counting', ['s1-see'], [see(a('dots', 1)), sketch(a('dots', 2))]),
       lesson('s2-estimate', 'Guess a heap', 'Guess how many, up to 100', ['s2-count']),
       lesson('s2-compare', 'More or less, to 100', 'Compare and order two-digit numbers', ['s2-place']),
       lesson('s2-ordinal', 'Eleventh and beyond', 'Ordinal numbers beyond tenth', ['s1-ordinal']),
