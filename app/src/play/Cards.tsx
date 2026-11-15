@@ -51,7 +51,7 @@ export function StartCheck({ name, n, soundOff, onStart, onSkip }: { name: strin
           <p className="sub">{n === 1 ? 'One question' : `${n} questions`} for {name}. What she gets right first time, she does not have to learn again; it still comes back in the warm-ups.</p>
         </div>
         <div className="controls">
-          <button className="ctl o" type="button" onClick={onStart}>Start</button>
+          <button className="ctl go" type="button" onClick={onStart}>Start</button>
           <button className="ctl brk" type="button" onClick={onSkip}>For a grown-up: skip, start at the beginning</button>
         </div>
       </div>

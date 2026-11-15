@@ -125,3 +125,9 @@ Claude Code adds a line here for every detail it had to decide itself: the date,
 | 2026-11-15 | Changing the stage in settings changes only the profile and the starting check; lessons already done stay done | Progress is the child's, whatever stage a parent picks |
 | 2026-11-15 | Currency setting has one entry, Kenyan shillings | The spec lists the setting; other currencies need their coins and notes drawn first |
 | 2026-11-15 | When a child is removed and one is left, that one is playing | The same rule as on start |
+| 2026-11-15 | Every button a child taps is at least 72 px both ways. Two exceptions: the squares of the hundred square (a hundred of them on a phone are about 31 px each) and the "Home" button, which is kept small on purpose | The hundred square is the maths itself and cannot be made bigger on a phone; leaving a round should not happen by accident |
+| 2026-11-15 | Blue and red are only on things that are ones and tens: blocks, digits, and the buttons that add or take a ten or a one. Ordinary buttons are yellow or white, the focus ring is dark yellow | The spec: red and blue mean tens and ones and nothing else |
+| 2026-11-15 | "Pack 10" is a yellow button, not a blue one | It turns ten ones into a ten; it is neither |
+| 2026-11-15 | The squared paper background is on the home screen and the grown-ups' pages; every question, choice and reward screen is plain | The spec: a question screen has a plain background |
+| 2026-11-15 | The voice packs are stored for offline use when the app is first opened (about 6.5 MB) | "Works offline once opened", voice included. The packs get smaller when they are split per unit in step 6 |
+| 2026-11-15 | Where the device asks for less motion, every animation and transition is switched off, not only Oreo's hop | The spec: honour the reduced-motion setting |

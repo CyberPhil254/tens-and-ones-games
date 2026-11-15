@@ -72,6 +72,11 @@ export function App() {
   useEffect(() => {
     window.scrollTo(0, 0); // every screen starts at its top
   }, [screen]);
+  // Question screens are plain; the squared paper is for the home screen and the grown-ups' pages.
+  const asking = screen.at === 'play' || screen.at === 'choose' || screen.at === 'reward' || screen.at === 'race' || /^#try=/.test(hash);
+  useEffect(() => {
+    document.body.classList.toggle('plain', asking);
+  }, [asking]);
 
   const home = useCallback(() => setScreen({ at: 'home' }), []);
   const run = screen.at === 'play' ? screen.run + 1 : 0;

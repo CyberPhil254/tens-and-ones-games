@@ -74,7 +74,7 @@ export function Reward({ earned, soundOff, onDone }: { earned: Earned; soundOff:
         </div>
         {(earned.kind !== 'treasure' || picked) && (
           <div className="controls">
-            <button className="ctl o" type="button" onClick={() => onDone(picked ?? undefined)}>Next</button>
+            <button className="ctl go" type="button" onClick={() => onDone(picked ?? undefined)}>Next</button>
           </div>
         )}
       </div>
