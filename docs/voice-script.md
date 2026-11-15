@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-591 clips.
+603 clips.
 
 Whole sentences:
 
@@ -100,6 +100,17 @@ Whole sentences:
 - Take a moment. Look again before you tap.
 - Which one would you like first? You will do both.
 - Let's see what you already know. Just try your best.
+- How many altogether?
+- How many are left?
+- How many is that?
+- How many more are in the long row?
+- Count on from the blue ones. The yellow ones come next.
+- The crossed-out ones are gone. Count the ones that are left.
+- Match them up, one to one. Count the ones with no partner.
+- Both rows are the same. Count one row, then count on.
+- Go down to ten first. Then take away the rest.
+- First down to ten, then take away the rest.
+- Type the number, then tap the tick.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -152,16 +163,18 @@ Joining pieces for sums, said with number clips:
 - Oreo wants
 - She has
 - Start at
+- Double
 
 ## Pack: stories
 
-124 clips.
+133 clips.
 
 Sentences with a number, one clip for each number:
 
 - Oreo has 1 bones. (99 clips)
 - She finds 1 more. (13 clips)
 - She digs up 1 more. (9 clips)
+- She eats 1 of them. (9 clips)
 - She gives 20 bones to a friend. (3 clips)
 
 ## Numbers

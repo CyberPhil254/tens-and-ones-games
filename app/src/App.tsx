@@ -7,7 +7,7 @@ import { UNITS, type Activity, type Lesson } from './engine/curriculum';
 import { give, nextEarned } from './engine/rewards';
 import { lessonState } from './engine/state';
 import { choiceToday, nextPart, type Choice, type Part } from './engine/today';
-import { LEVELS, PATH, type GameId } from './maths/questions';
+import { ALL_GAMES, LEVELS_OF, type GameId } from './maths/questions';
 import { Approach } from './parents/Approach';
 import { Gate, Parents } from './parents/Parents';
 import { Pieces } from './Pieces';
@@ -50,10 +50,10 @@ const asRound = (p: Part): Round => (p.kind === 'warm' ? p : p.kind === 'new' ? 
  * It is for looking at a level, and for the browser tests; nothing in the app links to it.
  */
 function tryFromHash(hash: string): Activity | null {
-  const m = /^#try=([a-z]+)\.(\d)(?:\.(\d))?$/.exec(hash);
-  if (!m || !(PATH as readonly string[]).includes(m[1]!)) return null;
+  const m = /^#try=([a-z]+)\.(\d{1,2})(?:\.(\d))?$/.exec(hash);
+  if (!m || !(ALL_GAMES as readonly string[]).includes(m[1]!)) return null;
   const game = m[1] as GameId, level = Number(m[2]);
-  if (level < 1 || level > LEVELS[game]) return null;
+  if (level < 1 || level > LEVELS_OF[game]) return null;
   return { game, level, ...(m[3] === undefined ? {} : { variant: Number(m[3]) }) };
 }
 

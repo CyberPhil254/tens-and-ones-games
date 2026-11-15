@@ -18,6 +18,7 @@ export const SP = {
   puppyHas: (a: number) => `Oreo has ${a} bones.`,
   finds: (b: number) => `She finds ${b} more.`,
   digs: (b: number) => `She digs up ${b} more.`,
+  eats: (k: number) => `She eats ${k} of them.`,
   gives: (k: number) => `She gives ${k} bones to a friend.`,
   tensOnly: (k: number) => `${k * 10} is ${k} tens. Only the tens change.`,
   five: (k: number) => `5 and ${k} make ${5 + k}.`,

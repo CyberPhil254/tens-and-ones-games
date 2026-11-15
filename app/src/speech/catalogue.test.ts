@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { LEVELS, PATH, makeQuestion } from '../maths/questions';
+import { ALL_GAMES as PATH, LEVELS_OF as LEVELS, makeQuestion } from '../maths/questions';
 import { seededRng } from '../maths/random';
 import { CLIPS, clipIds, wording } from './catalogue';
 
@@ -86,10 +86,11 @@ describe('clipIds', () => {
     for (const id of PATH) {
       for (let level = 1; level <= LEVELS[id]; level++) {
         for (let i = 0; i < 3000; i++) {
-          const q = makeQuestion(id, level, rng) as { say?: (string | number)[]; sayEq?: (string | number)[]; hint?: string };
+          const q = makeQuestion(id, level, rng) as { say?: (string | number)[]; sayEq?: (string | number)[]; sayHint?: (string | number)[]; hint?: string };
           if (q.say) clipIds(q.say);
+          if (q.sayHint) clipIds(q.sayHint);
+          else if (q.hint) clipIds([q.hint]);
           if (q.sayEq) clipIds(q.sayEq);
-          if (q.hint) clipIds([q.hint]);
         }
       }
     }

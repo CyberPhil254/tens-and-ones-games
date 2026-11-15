@@ -101,6 +101,18 @@ export const FIXED = {
   'take-a-moment-look-again-before': "Take a moment. Look again before you tap.",
   'which-one-would-you-like-first': "Which one would you like first? You will do both.",
   'lets-see-what-you-know': "Let's see what you already know. Just try your best.",
+  // Sums to 20: the questions, and what a wrong answer is told to look at.
+  'how-many-altogether': "How many altogether?",
+  'how-many-are-left': "How many are left?",
+  'how-many-is-that': "How many is that?",
+  'how-many-more-are-in-the-long': "How many more are in the long row?",
+  'count-on-from-the-blue-ones': "Count on from the blue ones. The yellow ones come next.",
+  'the-crossed-out-ones-are-gone': "The crossed-out ones are gone. Count the ones that are left.",
+  'match-them-up-one-to-one': "Match them up, one to one. Count the ones with no partner.",
+  'both-rows-are-the-same-count': "Both rows are the same. Count one row, then count on.",
+  'go-down-to-ten-first-then': "Go down to ten first. Then take away the rest.",
+  'first-down-to-ten-then-take': "First down to ten, then take away the rest.",
+  'type-the-number-then-tap-the': "Type the number, then tap the tick.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
@@ -148,4 +160,5 @@ export const FRAGMENTS = {
   'the-puppy-wants': "Oreo wants",
   'he-has': "She has",
   'start-at': "Start at",
+  'double': "Double",
 } as const;

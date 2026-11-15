@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { LEVELS, PATH, variantsOf } from '../maths/questions';
+import { ALL_GAMES as PATH, LEVELS_OF as LEVELS, variantsOf } from '../maths/questions';
 import { LESSON, LESSONS, UNITS, playable } from './curriculum';
 
 const doc = (name: string) => readFileSync(fileURLToPath(new URL(`../../../docs/${name}`, import.meta.url)), 'utf8');
@@ -77,10 +77,6 @@ describe('the curriculum data', () => {
         "s1-pattern",
         "s1-skip",
         "s1-oddeven",
-        "s1-add",
-        "s1-sub",
-        "s1-doubles",
-        "s1-calc20",
         "s1-half",
         "s1-money",
         "s2-see",

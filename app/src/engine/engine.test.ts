@@ -207,9 +207,12 @@ describe("today's games", () => {
     expect(plan.map((p) => p.kind)).toEqual(['warm', 'new', 'new', 'stronger']);
     expect((plan[0] as Extract<Part, { kind: 'warm' }>).slots.map((x) => x.lesson)).toEqual(['s1-see', 's1-ten']);
     expect(plan[0]!.n).toBe(5);
-    expect(plan[1]).toMatchObject({ slot: { lesson: 's2-count' } });
-    // The only other lesson she has started is mastered, so the stronger round does not move the path.
-    expect(plan[3]).toMatchObject({ kind: 'stronger', counts: false });
+    // The next lesson on the path is new; the one she has started and not finished is where she gets stronger.
+    expect(plan[1]).toMatchObject({ slot: { lesson: 's1-add' } });
+    expect(plan[3]).toMatchObject({ kind: 'stronger', counts: true, slot: { lesson: 's2-count' } });
+    // With nothing else started, the stronger round is on a mastered lesson and does not move the path.
+    const known = master(master(newChild(), 's1-see', D0), 's1-ten', addDays(D0, 5));
+    expect(planToday(known, day)[3]).toMatchObject({ kind: 'stronger', counts: false });
   });
   it('the second round is at the step the first one earned', () => {
     let s = newChild();
@@ -220,8 +223,8 @@ describe("today's games", () => {
   it('honours the lesson she chose when two are open', () => {
     const open = planToday(newChild(), D0);
     expect(open[0]).toMatchObject({ slot: { lesson: 's1-see' } });
-    // For a new child "See how many" and "Pack in tens" are both open.
-    expect(planToday(newChild(), D0, 's2-count')[0]).toMatchObject({ slot: { lesson: 's2-count' } });
+    // For a new child "See how many" and "Adding" are both open.
+    expect(planToday(newChild(), D0, 's1-add')[0]).toMatchObject({ slot: { lesson: 's1-add' } });
     expect(planToday(newChild(), D0, 'x-fill')[0]).toMatchObject({ slot: { lesson: 's1-see' } }); // a locked lesson cannot be chosen
   });
 });

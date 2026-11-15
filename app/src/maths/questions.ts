@@ -6,12 +6,18 @@
  */
 import { SP, type Piece } from '../speech/script';
 import { dice, type Dice, type Rng } from './random';
+import { makeSums, SUMS_LEVELS, type SumsQ } from './sums';
 
 export const PATH = ['five', 'pack', 'look', 'names', 'walk', 'friends', 'jump', 'fill', 'take', 'mystery', 'story'] as const;
-export type GameId = (typeof PATH)[number];
+/** The games ported from the live game. Their questions are checked draw by draw against it. */
+export type PortedId = (typeof PATH)[number];
+/** Games made for the app, which the live game never had. */
+export const NEW_GAMES = ['sums'] as const;
+export type GameId = PortedId | (typeof NEW_GAMES)[number];
+export const ALL_GAMES: readonly GameId[] = [...PATH, ...NEW_GAMES];
 
-/** How many levels each game has. */
-export const LEVELS: Record<GameId, number> = {
+/** How many levels each ported game has, as in the live game. */
+export const LEVELS: Record<PortedId, number> = {
   five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3,
 };
 
@@ -48,7 +54,11 @@ export interface StoryQ {
   text: string; say: Piece[]; a: number; eq: string; sayEq: Piece[]; ans: number; hint: string; opts: number[];
 }
 
+/** How many levels every game has, the new ones included. */
+export const LEVELS_OF: Record<GameId, number> = { ...LEVELS, sums: SUMS_LEVELS };
+
 export interface QuestionOf {
+  sums: SumsQ;
   five: FiveQ; pack: BlocksQ; look: BlocksQ; names: NamesQ; walk: WalkQ; friends: FriendsQ;
   jump: JumpQ; fill: FillQ; take: TakeQ; mystery: MysteryQ; story: StoryQ;
 }
@@ -71,6 +81,7 @@ export function options(d: Dice, ans: number, cands: number[]): number[] {
 type Makers = { [G in GameId]: (level: number, d: Dice, variant?: number) => QuestionOf[G] };
 
 const MAKE: Makers = {
+  sums: (l, d) => makeSums(l, d),
   names(l, d) {
     if (l === 2) {
       // "Which number has 6 tens?"
@@ -207,8 +218,8 @@ export const variantsOf = (game: GameId): number => (game === 'story' ? 3 : 1);
 
 /** One question for a game at a level. */
 export function makeQuestion<G extends GameId>(game: G, level: number, rng: Rng, variant?: number): QuestionOf[G] {
-  if (!Number.isInteger(level) || level < 1 || level > LEVELS[game]) {
-    throw new RangeError(`${game} has levels 1 to ${LEVELS[game]}, got ${level}`);
+  if (!Number.isInteger(level) || level < 1 || level > LEVELS_OF[game]) {
+    throw new RangeError(`${game} has levels 1 to ${LEVELS_OF[game]}, got ${level}`);
   }
   return MAKE[game](level, dice(rng), variant);
 }
