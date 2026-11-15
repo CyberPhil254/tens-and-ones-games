@@ -12,4 +12,4 @@ Nothing.
 
 ## Needs a decision
 
-See "Open questions" in `decisions.md`. Question 2 (tech stack) blocks the start of Phase 1.
+Nothing blocks the start: stack and scope were confirmed on 15 November 2026. Begin with work packages 1 and 2 in `phase-1-spec.md`.

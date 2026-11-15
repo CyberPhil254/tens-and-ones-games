@@ -9,7 +9,10 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 | Date | Decision | Why |
 |---|---|---|
 | 2026-11-15 | Strategy stays in the planning chat; Claude Code implements and builds | Keeps product decisions in one place |
-| 2026-11-15 | First scope for the real app: Cambridge Primary Stage 2, Number strand (proposed, Philipp to confirm) | It is where the first user is; one stage done well before widening |
+| 2026-11-15 | First scope: the Number strand of Cambridge Primary Stages 1 and 2 | Confirmed by Philipp. Covers the first user's level and the foundations below it |
+| 2026-11-15 | Phase 1 is a pilot for families (5 to 10), built so it can be sold later: accounts now, no payments yet | Confirmed by Philipp |
+| 2026-11-15 | Stack: installable web app (PWA) in TypeScript with React and Vite; Supabase for accounts and data; Netlify hosting with deploy previews; Vitest and Playwright for tests | Philipp delegated the choice. React for the largest ecosystem and the easiest handover to other developers later |
+| 2026-11-15 | Claude Code runs as a cloud session on the GitHub repo; results are reviewed through Netlify deploy previews | Philipp's choice, nothing installed locally |
 | 2026-11-15 | Hugging Face free tier is not the base for images or animation | Free credits are close to zero and the app should not generate assets while a child plays; assets are made once and shipped |
 | 2026-11-15 | Voice is pre-recorded, not browser speech | Browser voices sounded robotic and differ per device |
 | 2026-11-15 | Current voice: Kokoro `af_heart` (American, warm) | Picked by Philipp from four samples |
@@ -22,8 +25,8 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 
 ## Open questions (need Philipp)
 
-1. Is this a product for sale, or a free tool for a few families? It changes accounts, payments, legal work and how much to spend on art and voice.
-2. Tech stack for the new app. Proposed in `docs/phase-1-spec.md`; confirm or change before building.
+1. Monetisation is parked. Working idea, not decided: school licences first (per pupil per year, teacher dashboard), family subscription second, no ads and no selling to children.
+2. Skill map for Stages 1 and 2 Number: the planning chat drafts it; Philipp supplies or confirms against the official framework document. Until it lands, port the existing games and do not invent curriculum content.
 3. Voice engine for version 2 of the voice: choose from samples (OpenAI gpt-4o-mini-tts, ElevenLabs v3, Gemini TTS) or a human voice actor. Needs an account and API key from Philipp.
 4. Mascot: keep the current puppy drawing, generate a new consistent character, or commission an illustrator. Should the puppy be named after and look like the family dog?
 5. App name and positioning. Wording near "Cambridge" needs a legal check.
