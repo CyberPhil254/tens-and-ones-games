@@ -3,6 +3,7 @@ import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
 import { HighFive } from './HighFive';
 import { NumberNames } from './NumberNames';
+import { OreosWalk } from './OreosWalk';
 import { PackTen } from './PackTen';
 import { QuickLook } from './QuickLook';
 
@@ -42,6 +43,7 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   pack: PackTen,
   look: QuickLook,
   names: NumberNames,
+  walk: OreosWalk,
 };
 
 /** The learning path, cut down to the games that exist. Grows with every game pull request. */
