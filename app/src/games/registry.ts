@@ -8,6 +8,7 @@ import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
 import { MysteryBox } from './MysteryBox';
 import { NumberNames } from './NumberNames';
+import { OreosStories } from './OreosStories';
 import { OreosWalk } from './OreosWalk';
 import { PackTen } from './PackTen';
 import { QuickLook } from './QuickLook';
@@ -54,6 +55,7 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   fill: FillTheTen,
   take: BreakATen,
   mystery: MysteryBox,
+  story: OreosStories,
 };
 
 /** The learning path, cut down to the games that exist. Grows with every game pull request. */

@@ -176,3 +176,8 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 
 /* Mystery Box */
 .barcap { font-size: 15px; color: var(--soft); text-align: center; margin: 0; }
+
+/* Oreo's Stories */
+.prompt .storytxt { display: block; font-family: var(--body); font-weight: 400; font-size: clamp(20px, 5vw, 26px); line-height: 1.45; text-align: left; margin-bottom: 8px; }
+.card.game > .prompt:first-of-type:has(.storytxt) { padding: 0 44px 0 0; }
+.eqline { font-family: var(--display); font-weight: 600; font-size: 30px; margin: 0; }
