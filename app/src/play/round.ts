@@ -13,6 +13,8 @@ export interface RoundApi {
   wrong(msg: ReactNode, say?: Piece[]): void;
   /** A remark that is neither right nor wrong ("Keep packing!"). */
   note(msg: ReactNode, kind: 'ok' | 'hint', say?: Piece[] | false): void;
+  /** Takes the remark away again, when the child starts over. */
+  clear(): void;
   /** She asked for the help picture: the question no longer earns a bone. */
   helped(): void;
 }

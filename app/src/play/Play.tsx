@@ -89,6 +89,9 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
       setFb({ msg, kind: kind === 'ok' ? 'note-ok' : 'note-hint' });
       if (spoken !== false && spoken) say(spoken);
     },
+    clear() {
+      setFb(null);
+    },
     helped() {
       now.current.clean = false;
       now.current.helped = true;
