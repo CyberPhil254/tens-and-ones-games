@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { newProfile } from '../data/profile';
 import { ALL_GAMES as PATH, LEVELS_OF as LEVELS } from '../maths/questions';
 import { applyRound, checkLessons, doneToday, finishToday, lessonOfActivity, type Given } from './apply';
-import { LESSON, UNITS, playable } from './curriculum';
-import { statusOf } from './rules';
+import { LESSONS, UNITS, playable, unitOf } from './curriculum';
 import { lessonState } from './state';
+import { nextLessons } from './today';
 
 const D = '2026-11-16';
 const fresh = () => newProfile('child-1', 'Amani', 'zebra', 2, D);
@@ -41,28 +41,50 @@ describe('a finished round', () => {
 describe('the starting check', () => {
   it('asks about one lesson from each unit below her stage and the first of each unit of her own', () => {
     const stage2 = checkLessons(2, UNITS).map((l) => l.id);
-    // The rule, whatever lessons exist: from each unit below her stage the last built lesson, from each of her own the first.
+    // From each unit below her stage, the lesson named as its probe (or its last); from each unit of her own, the first. Ten at most.
     const built = (u: (typeof UNITS)[number]) => u.lessons.filter(playable).map((l) => l.id);
     const rule = (stage: 1 | 2) =>
-      UNITS.filter((u) => !u.stretch && built(u).length && u.stage <= stage).map((u) => (u.stage < stage ? built(u).at(-1)! : built(u)[0]!)).slice(0, 10);
+      UNITS.filter((u) => !u.stretch && built(u).length && u.stage <= stage).map((u) => (u.stage < stage ? u.probe ?? built(u).at(-1)! : built(u)[0]!)).slice(0, 10);
     expect(stage2).toEqual(rule(2));
     expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(rule(1));
-    // And some things that stay true: it starts with the first lesson, asks nothing from the stretch unit, and no lesson twice.
-    expect(stage2[0]).toBe('s1-see');
+    // What stays true: counting comes first, the stretch unit is never asked about, no lesson twice, every probe is a real lesson of its unit.
+    expect(stage2[0]).toBe('s1-count');
+    expect(stage2.slice(0, 6)).toEqual(['s1-count', 's1-teens', 's1-skip', 's1-calc20', 's1-half', 's1-money']);
     expect(stage2.some((id) => id.startsWith('x-'))).toBe(false);
     expect(new Set(stage2).size).toBe(stage2.length);
+    for (const u of UNITS) if (u.probe) expect(built(u)).toContain(u.probe);
     expect(checkLessons(1, UNITS).every((l) => l.id.startsWith('s1-'))).toBe(true);
     expect(stage2.length).toBeLessThanOrEqual(10);
   });
   it('marks what she got right first time as known, with what it is built on, and gives no bones', () => {
-    const given = [...answers('s1-ten', 2, [true]), ...answers('s1-teens', 2, [true]), ...answers('s2-count', 1, [false]), ...answers('s2-bonds', 0, [true])];
+    // A Stage 2 child: right about adding to 20 and about friends of 20 and 100, wrong about packing in tens.
+    const given = [...answers('s1-calc20', 2, [true]), ...answers('s2-count', 1, [false]), ...answers('s2-bonds', 0, [true])];
     const r = applyRound(fresh(), 'check', false, given, D);
     expect(r.data.checked).toBe(true);
     expect(r.data.bones).toBe(0);
-    for (const id of ['s1-ten', 's1-see', 's1-teens', 's2-bonds']) expect(lessonState(r.data.child, id)).toMatchObject({ mastered: D, placed: true });
+    // The whole unit below her stage is known, not only the lesson that was asked: she is not sent back through it.
+    for (const l of unitOf('s1-calc20').lessons) expect(lessonState(r.data.child, l.id), l.id).toMatchObject({ mastered: D, placed: true });
+    // And what those lessons are built on.
+    for (const id of ['s1-count', 's1-see']) expect(lessonState(r.data.child, id)).toMatchObject({ mastered: D, placed: true });
+    // In her own stage only the lesson asked, with what it needs.
+    expect(lessonState(r.data.child, 's2-bonds')).toMatchObject({ mastered: D, placed: true });
+    expect(lessonState(r.data.child, 's2-inverse').mastered).toBeUndefined();
+    // What she got wrong is not marked, and neither is a unit she was not right about.
     expect(lessonState(r.data.child, 's2-count').mastered).toBeUndefined();
-    expect(statusOf(r.data.child, LESSON.get('s2-count')!, D)).toBe('open');
+    expect(lessonState(r.data.child, 's1-teens').mastered).toBeUndefined();
     expect(r.data.attempts.every((a) => a.part === 'check')).toBe(true);
+  });
+  it('a Stage 1 child is never marked beyond the lesson she was asked', () => {
+    const one = { ...fresh(), profile: { ...fresh().profile, stage: 1 as const } };
+    const r = applyRound(one, 'check', false, answers('s1-add', 2, [true]), D);
+    expect(lessonState(r.data.child, 's1-add')).toMatchObject({ mastered: D, placed: true });
+    expect(lessonState(r.data.child, 's1-calc20').mastered).toBeUndefined();
+  });
+  it('a Stage 2 child who is right about every Stage 1 unit starts in Stage 2', () => {
+    const given = checkLessons(2, UNITS).filter((l) => l.id.startsWith('s1-')).flatMap((l) => answers(l.id, l.steps.length - 1, [true]));
+    const r = applyRound(fresh(), 'check', false, given, D);
+    for (const l of LESSONS.filter((x) => x.id.startsWith('s1-'))) expect(lessonState(r.data.child, l.id).mastered, l.id).toBe(D);
+    expect(nextLessons(r.data.child, D).every((l) => l.id.startsWith('s2-'))).toBe(true);
   });
 });
 

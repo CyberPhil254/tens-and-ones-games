@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
 import { BreakATen } from './BreakATen';
+import { CountAndGuess } from './CountAndGuess';
 import { EqualGroups } from './EqualGroups';
 import { FairShares } from './FairShares';
 import { FillTheTen } from './FillTheTen';
@@ -57,5 +58,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   share: FairShares,
   parts: HalvesAndQuarters,
   money: Money,
+  count: CountAndGuess,
 };
 

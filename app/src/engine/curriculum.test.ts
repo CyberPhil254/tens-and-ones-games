@@ -65,13 +65,6 @@ describe('the curriculum data', () => {
 
   it('knows which lessons have nothing to play yet', () => {
     // This list shrinks as the new lessons are built, and must be empty at the end of the build.
-    expect(LESSONS.filter((l) => !playable(l)).map((l) => l.id)).toMatchInlineSnapshot(`
-      [
-        "s1-count",
-        "s1-zero",
-        "s1-estimate",
-        "s2-estimate",
-      ]
-    `);
+    expect(LESSONS.filter((l) => !playable(l)).map((l) => l.id)).toMatchInlineSnapshot(`[]`);
   });
 });

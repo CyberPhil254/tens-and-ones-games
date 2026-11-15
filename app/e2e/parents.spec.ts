@@ -50,7 +50,7 @@ test('progress by unit, strong, weak and slow, time this week, and a note with i
   await expect(page.getByTestId('p-slow')).toHaveText('Number names to 100');
 
   const progress = page.getByTestId('p-progress');
-  await expect(progress.locator('[data-unit=s1-u1] h3')).toContainText('1 of 1 mastered, 3 more to come');
+  await expect(progress.locator('[data-unit=s1-u1] h3')).toContainText('1 of 4 mastered');
   await expect(progress.locator('.plesson')).toHaveCount(41);
   const ten = progress.locator('[data-lesson=s1-ten]');
   await expect(ten.locator('summary')).toContainText('Step 2 of 3');

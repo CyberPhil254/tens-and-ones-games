@@ -44,6 +44,8 @@ export interface Unit {
   /** Beyond Stage 2: kept because the first user's school already tests it. */
   stretch?: true;
   title: string;
+  /** The lesson the starting check asks about for a child of a later stage. Without it, the unit's last lesson. */
+  probe?: string;
   lessons: Lesson[];
 }
 
@@ -56,16 +58,16 @@ const lesson = (id: string, title: string, skill: string, needs: string[], steps
 
 export const UNITS: Unit[] = [
   {
-    id: 's1-u1', stage: 1, title: 'Counting',
+    id: 's1-u1', stage: 1, title: 'Counting', probe: 's1-count',
     lessons: [
-      lesson('s1-count', 'Count to 20', 'Count up to 20 things, one number per thing; the count stays the same when they are moved', []),
+      lesson('s1-count', 'Count to 20', 'Count up to 20 things, one number per thing; the count stays the same when they are moved', [], [see(a('count', 1)), see(a('count', 2)), sketch(a('count', 3))]),
       lesson('s1-see', 'See how many', 'See how many (up to 10) in a known pattern without counting', [], [see(a('five', 1)), see(a('five', 2)), sketch(a('five', 3))]),
-      lesson('s1-zero', 'Zero', 'Zero means none', ['s1-count']),
-      lesson('s1-estimate', 'Guess, then check', 'Guess how many (up to 20), then check', ['s1-count']),
+      lesson('s1-zero', 'Zero', 'Zero means none', ['s1-count'], [see(a('count', 4)), head(a('count', 5))]),
+      lesson('s1-estimate', 'Guess, then check', 'Guess how many (up to 20), then check', ['s1-count'], [see(a('count', 6))]),
     ],
   },
   {
-    id: 's1-u2', stage: 1, title: 'Numbers to 20',
+    id: 's1-u2', stage: 1, title: 'Numbers to 20', probe: 's1-teens',
     lessons: [
       lesson('s1-names', 'Number names to 20', 'Say, read and write numbers 0 to 20', ['s1-count'], [see(a('hear', 1)), head(a('hear', 2))]),
       lesson('s1-teens', 'Ten and some more', 'Numbers 10 to 20 as one ten and some ones', ['s1-count'], [see(a('teens', 1)), see(a('teens', 2)), head(a('teens', 3))]),
@@ -74,7 +76,7 @@ export const UNITS: Unit[] = [
     ],
   },
   {
-    id: 's1-u3', stage: 1, title: 'Patterns and steps',
+    id: 's1-u3', stage: 1, title: 'Patterns and steps', probe: 's1-skip',
     lessons: [
       lesson('s1-pattern', 'What comes next', 'Say what comes next in a pattern of things', [], [see(a('skip', 1))]),
       lesson('s1-skip', 'Steps of one, two and ten', 'Count on and back in ones, twos and tens within 20, from any number', ['s1-count'], [see(a('skip', 2)), head(a('skip', 3))]),
@@ -82,7 +84,7 @@ export const UNITS: Unit[] = [
     ],
   },
   {
-    id: 's1-u4', stage: 1, title: 'Adding and taking away to 20',
+    id: 's1-u4', stage: 1, title: 'Adding and taking away to 20', probe: 's1-calc20',
     lessons: [
       lesson('s1-add', 'Adding', 'Adding as putting together and as counting on', ['s1-count'], [see(a('sums', 1)), sketch(a('sums', 2)), head(a('sums', 3))]),
       lesson('s1-sub', 'Taking away', 'Subtracting as taking away, counting back and finding the difference', ['s1-add'], [see(a('sums', 4)), sketch(a('sums', 5)), head(a('sums', 6))]),
@@ -106,7 +108,7 @@ export const UNITS: Unit[] = [
     id: 's2-u2', stage: 2, title: 'Numbers on the line',
     lessons: [
       lesson('s2-see', 'See how many, new patterns', 'See how many (up to 10) in a new pattern without counting', ['s1-see'], [see(a('dots', 1)), sketch(a('dots', 2))]),
-      lesson('s2-estimate', 'Guess a heap', 'Guess how many, up to 100', ['s2-count']),
+      lesson('s2-estimate', 'Guess a heap', 'Guess how many, up to 100', ['s2-count'], [see(a('count', 7))]),
       lesson('s2-compare', 'More or less, to 100', 'Compare and order two-digit numbers', ['s2-place'], [see(a('more', 3)), head(a('more', 4))]),
       lesson('s2-ordinal', 'Eleventh and beyond', 'Ordinal numbers beyond tenth', ['s1-ordinal'], [see(a('more', 8))]),
       lesson('s2-round', 'The nearer ten', 'Round to the nearest ten', ['s2-compare'], [see(a('more', 5)), head(a('more', 6))]),

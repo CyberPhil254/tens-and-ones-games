@@ -474,3 +474,19 @@ body.plain { background-image: none; }
 .pursebox.mine { min-width: 240px; border-style: dashed; }
 .inpurse { min-width: 72px; min-height: 72px; padding: 0; border: 0; background: none; display: grid; place-items: center; }
 .moneypad { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+
+/* Count and guess: a field of bones to touch, a big plate, a heap */
+.field { position: relative; width: min(100%, 300px); }
+.fbone { position: absolute; width: 72px; height: 72px; margin: -36px 0 0 -36px; padding: 0; border: 0; background: none; display: grid; place-items: center; transition: left 0.5s ease, top 0.5s ease; }
+.fbone .ic { width: 46px; height: 23px; fill: #c98a00; }
+.fbone b { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 20px; color: var(--ink); text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff; }
+.fbone.counted .ic { fill: #f0d999; }
+.plate.big { width: 190px; min-height: 120px; padding: 18px; gap: 6px; }
+.plate.big .ic { width: 40px; height: 20px; }
+.heapfield { position: relative; width: min(74vw, 280px); height: 170px; border: 3px solid var(--ink); border-radius: 14px; background: #fff; }
+.hbone { position: absolute; margin: -7px 0 0 -14px; }
+.hbone .ic { width: 28px; height: 14px; fill: #c98a00; display: block; }
+.heapfield.many { width: min(80vw, 330px); height: 200px; }
+.heapfield.many .hbone { margin: -5px 0 0 -10px; }
+.heapfield.many .hbone .ic { width: 20px; height: 10px; }
+.checked { display: grid; justify-items: center; gap: 6px; }
