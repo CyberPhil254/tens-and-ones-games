@@ -91,7 +91,7 @@ function Pack({ q, round }: GameProps<'pack'>) {
         />
       ) : (
         <Controls>
-          <button className="ctl o" type="button" onClick={() => void pack()} aria-disabled={busy}>Pack 10</button>
+          <button className="ctl go" type="button" onClick={() => void pack()} aria-disabled={busy}>Pack 10</button>
         </Controls>
       )}
     </>

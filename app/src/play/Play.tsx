@@ -318,16 +318,16 @@ function End({ round, end, onHome, onNext, onAgain }: {
       <div className="controls">
         {more ? (
           <>
-            <button className="ctl o" type="button" onClick={onNext}>Keep going</button>
+            <button className="ctl go" type="button" onClick={onNext}>Keep going</button>
             <button className="ctl brk" type="button" onClick={onHome}>Stop for today</button>
           </>
         ) : again ? (
           <>
-            <button className="ctl o" type="button" onClick={onAgain}>Play again</button>
+            <button className="ctl go" type="button" onClick={onAgain}>Play again</button>
             <button className="ctl brk" type="button" onClick={onHome}>Home</button>
           </>
         ) : (
-          <button className="ctl o" type="button" onClick={onHome}>Back to the start</button>
+          <button className="ctl go" type="button" onClick={onHome}>Back to the start</button>
         )}
       </div>
     </div>

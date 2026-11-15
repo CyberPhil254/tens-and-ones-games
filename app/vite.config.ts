@@ -9,8 +9,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon-64.png'],
-      // Fonts and Oreo's pictures are kept for offline use too. Only woff2: every browser we support reads it.
-      workbox: { globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'] },
+      // Fonts, pictures and the voice are kept for offline use too. Only woff2: every browser we support reads it.
+      // The voice packs are the big files; the limit is raised for them.
+      workbox: { globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2,mp3,json}'], maximumFileSizeToCacheInBytes: 8 * 1024 * 1024 },
       manifest: {
         name: 'Tens and Ones',
         short_name: 'Tens and Ones',

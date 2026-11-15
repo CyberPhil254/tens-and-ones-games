@@ -113,7 +113,7 @@ export function Race({ soundOff, onHome }: { soundOff: boolean; onHome: () => vo
           <>
             <Prompt round={round} say={['race-to-one-hundred-who-do']} sub="Who do you want to play with?">Race to 100</Prompt>
             <Controls>
-              <button className="ctl o" type="button" onClick={() => start('Grown-up')}>A grown-up</button>
+              <button className="ctl go" type="button" onClick={() => start('Grown-up')}>A grown-up</button>
               <button className="ctl brk" type="button" onClick={() => start('Oreo')}>Oreo</button>
             </Controls>
           </>
@@ -141,12 +141,12 @@ export function Race({ soundOff, onHome }: { soundOff: boolean; onHome: () => vo
             </Stage>
             {won ? (
               <Controls>
-                <button className="ctl o" type="button" onClick={again}>Play again</button>
+                <button className="ctl go" type="button" onClick={again}>Play again</button>
                 <button className="ctl brk" type="button" onClick={onHome}>Home</button>
               </Controls>
             ) : !move ? (
               <Controls>
-                <button className="ctl o" type="button" onClick={() => { setFb(null); setMove(d.pick(SPINS)); }}>Spin</button>
+                <button className="ctl go" type="button" onClick={() => { setFb(null); setMove(d.pick(SPINS)); }}>Spin</button>
               </Controls>
             ) : null}
           </>
