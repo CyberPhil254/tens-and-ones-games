@@ -1,0 +1,13 @@
+# Settings for the second Netlify site (the new app). Set the site's base directory to "app".
+# The family's live game is a separate site that publishes the repository root.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
