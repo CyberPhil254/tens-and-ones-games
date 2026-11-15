@@ -80,7 +80,12 @@ describe('rewards follow mastery', () => {
   it('what the starting check marks as known is given without a card', () => {
     const d0 = fresh();
     const { data } = applyRound(d0, 'check', false, [{ lesson: 's1-ten', step: 2, clean: true, misses: 0, hint: false, ms: 3000, at: '2026-11-15T10:00:00.000Z' }], day);
-    expect(Object.keys(data.rewards.treasures).sort()).toEqual(['s1-see', 's1-ten']);
+    // Every lesson the check marked has its treasure: the lesson asked, the rest of its unit, and what they are built on.
+    const marked = Object.keys(data.child.lessons).filter((id) => data.child.lessons[id]!.mastered).sort();
+    expect(marked).toContain('s1-ten');
+    expect(marked).toContain('s1-see');
+    expect(marked.length).toBeGreaterThan(2);
+    expect(Object.keys(data.rewards.treasures).sort()).toEqual(marked);
     expect(nextEarned(data)).toBeNull();
   });
 });

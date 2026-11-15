@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-746 clips.
+759 clips.
 
 Whole sentences:
 
@@ -183,6 +183,19 @@ Whole sentences:
 - Count each purse. Start with the biggest.
 - That is not enough yet. Add some more.
 - That is too much. Take some away.
+- Tap each one once to count them.
+- Count again. Touch each one once and say one number.
+- They have moved. How many are there now?
+- Nothing was added and nothing was taken away. The number is the same.
+- How many bones are on the plate?
+- The plate is empty. Zero means none.
+- Take them all away and none are left. None is zero.
+- Zero is nothing. Adding nothing changes nothing.
+- One bone.
+- Guess how many. Do not count.
+- Let's check.
+- Let's check. Count them and see which number is nearest.
+- Let's check. Pack them in tens and see which number is nearest.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.

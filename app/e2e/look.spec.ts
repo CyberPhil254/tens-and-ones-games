@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { day, seed } from './helpers';
 
-const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, teens: 3, regroup: 2, hear: 3, dots: 2, more: 8, skip: 9, groups: 5, share: 3, parts: 7, money: 5, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
+const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, teens: 3, regroup: 2, hear: 3, dots: 2, more: 8, skip: 9, groups: 5, share: 3, parts: 7, money: 5, count: 7, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
 const RED = 'rgb(229, 72, 77)', BLUE = 'rgb(43, 109, 232)';
 
 test('every game level: buttons a child taps are at least 72 px, the screen is plain, nothing scrolls sideways', async ({ page }) => {
@@ -77,7 +77,7 @@ test('works offline once it has been opened, voice included', async ({ page, con
 
   await context.setOffline(true);
   await page.reload();
-  await expect(page.getByTestId('today-text')).toHaveText('Two rounds of See how many. About ten minutes.');
+  await expect(page.getByTestId('today-text')).toHaveText('Two rounds of Count to 20. About ten minutes.');
   await expect.poll(() => page.getByTestId('garden').locator('img').evaluateAll((all) => all.every((i) => (i as HTMLImageElement).naturalWidth > 0))).toBe(true);
   await page.goto('/#try=five.1');
   await expect(page.locator('.card.game')).toBeVisible();

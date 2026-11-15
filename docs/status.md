@@ -37,6 +37,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 41 | **Fair shares**: dealing bones into bowls, making groups, dividing in her head. 33 of 41 lessons are playable |
 | 42 | **Halves and quarters**: two lessons (Halves, Quarters), seven levels. 35 of 41 lessons are playable |
 | 43 | **Money**: two lessons (Coins and notes, Amounts of money), five levels, Kenyan shillings drawn in code. 37 of 41 lessons are playable |
+| 44 | **Count and guess**: four lessons (Count to 20, Zero, Guess then check, Guess a heap), seven levels. **All 41 lessons are playable.** The starting check now marks a whole Stage 1 unit as known for a Stage 2 child |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -58,8 +59,8 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
 3. ~~**Path, rewards, parents' area, the notes:** the garden path; rewards; the parents' area, the notes, the approach page; the look-and-feel pass.~~ Done.
 4. ~~**Stage 2 gaps:** Sums to 20; Tens and ones sums; the additions to existing games; More or less; Skip and spot; Equal groups; Fair shares; Halves and quarters; Money.~~ Done.
-5. **Stage 1 (next):** Count and guess (s1-count, s1-zero, s1-estimate, s2-estimate): the last four lessons without anything to play. The Stage 1 ranges and the Stage 1 parts of the shared lessons were built with their lessons in step 4.
-6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.
+5. ~~**Stage 1:** Count and guess; the Stage 1 ranges and the Stage 1 parts of the shared lessons (built with their lessons in step 4).~~ Done. Every lesson has something to play.
+6. **Voice pass, whole-path test, speed and offline, final report (next):** rewrite the oldest sentences into warm whole sentences; the two introductions of Oreo and the "Star's sister" switch; the voice in one pack per unit; prune clips nothing uses; the test that plays the whole path with children at 100, 75 and 60 percent; check speed; the final report in this file.
 
 ## Decisions made during the build
 
@@ -69,6 +70,7 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 
 - Recorded so far in the build: 138 (the Oreo and "she" sentences).
 - Recorded in the rewards pull request: 4 more (treasure, thank you, trick, award).
+- Recorded with Count and guess: 13 more.
 - Recorded with Money: 25 more.
 - Recorded with Halves and quarters: 22 more.
 - Recorded with Fair shares: 8 more.
@@ -99,3 +101,5 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - The sentence 'Type the number, then tap the tick.' is recorded but not used yet: the number pad has no spoken introduction. To decide with a real child whether it needs one.
 - First to tenth: the places of the queue are 64 px wide on a phone (72 px high). With the hundred square this is the second place under the 72 px rule.
 - Money: the sentences say "shillings". The currency setting has one entry; a second currency needs its own recordings.
+- The starting check asks ten questions at most. A Stage 2 child gets six about Stage 1 and the first lessons of four Stage 2 units; the last three Stage 2 units (Equal groups, Quarters, Money) are not asked about.
+- Which Stage 1 lesson stands for its unit in the starting check is my judgement (see decisions); worth a look.

@@ -15,7 +15,7 @@ describe('what the parents see', () => {
     let d = set(fresh(), 's1-see', { mastered: '2026-11-10', step: 2 });
     d = set(d, 's1-ten', { answers: 6 });
     const u1 = progressByUnit(d).find((p) => p.unit.id === 's1-u1')!;
-    expect(u1).toMatchObject({ built: 1, mastered: 1, started: 0 });
+    expect(u1).toMatchObject({ built: 4, mastered: 1, started: 0 });
     const u4 = progressByUnit(d).find((p) => p.unit.lessons.some((l) => l.id === 's1-ten'))!;
     expect(u4.started).toBe(1);
     expect(progressByUnit(fresh()).every((p) => p.mastered === 0 && p.started === 0)).toBe(true);

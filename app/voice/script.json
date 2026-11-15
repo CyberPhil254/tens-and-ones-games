@@ -1226,6 +1226,97 @@
    "pack": "core"
   },
   {
+   "id": "tap-each-one-once-to-count",
+   "text": "Tap each one once to count them.",
+   "key": "Tap each one once to count them.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "count-again-touch-each-one-once",
+   "text": "Count again. Touch each one once and say one number.",
+   "key": "Count again. Touch each one once and say one number.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "they-have-moved-how-many-now",
+   "text": "They have moved. How many are there now?",
+   "key": "They have moved. How many are there now?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nothing-was-added-and-nothing-was",
+   "text": "Nothing was added and nothing was taken away. The number is the same.",
+   "key": "Nothing was added and nothing was taken away. The number is the same.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-bones-are-on-the",
+   "text": "How many bones are on the plate?",
+   "key": "How many bones are on the plate?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-plate-is-empty-zero-means",
+   "text": "The plate is empty. Zero means none.",
+   "key": "The plate is empty. Zero means none.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "take-them-all-away-and-none",
+   "text": "Take them all away and none are left. None is zero.",
+   "key": "Take them all away and none are left. None is zero.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "zero-is-nothing-adding-nothing-changes",
+   "text": "Zero is nothing. Adding nothing changes nothing.",
+   "key": "Zero is nothing. Adding nothing changes nothing.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "one-bone",
+   "text": "One bone.",
+   "key": "One bone.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "guess-how-many-do-not-count",
+   "text": "Guess how many. Do not count.",
+   "key": "Guess how many. Do not count.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "lets-check",
+   "text": "Let's check.",
+   "key": "Let's check.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "lets-check-count-them-and-see",
+   "text": "Let's check. Count them and see which number is nearest.",
+   "key": "Let's check. Count them and see which number is nearest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "lets-check-pack-them-in-tens",
+   "text": "Let's check. Pack them in tens and see which number is nearest.",
+   "key": "Let's check. Pack them in tens and see which number is nearest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",

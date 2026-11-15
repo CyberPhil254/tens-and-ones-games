@@ -66,7 +66,7 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
   const errors = watch(page);
   await seed(page);
   await page.goto('/');
-  await expect(page.getByTestId('today-text')).toHaveText('Two rounds of See how many. About ten minutes.');
+  await expect(page.getByTestId('today-text')).toHaveText('Two rounds of Count to 20. About ten minutes.');
   await expect(page.locator('.toppup')).toHaveAttribute('data-pose', 'hello');
   // Free play is closed until today's games are done.
   await expect(page.getByTestId('free-note')).toBeVisible();
@@ -126,7 +126,8 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
     await expect(page.locator('[data-lesson=s1-ten]')).toBeEnabled();
     await expect(page.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
     await expect(page.locator('[data-lesson=s2-place]')).toBeDisabled();
-    await expect(page.locator('[data-lesson=s1-count]')).toContainText('Coming soon.');
+    await expect(page.locator('[data-lesson=s1-count]')).toContainText('Step 1 of 3.'); // the other lesson she could have chosen
+    await expect(page.locator('[data-status=coming]')).toHaveCount(0); // every lesson is built
     await expect(page.getByTestId('free-note')).toHaveCount(0);
     await expect(page.getByTestId('machine')).toBeVisible();
   };

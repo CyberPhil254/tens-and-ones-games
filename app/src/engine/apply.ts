@@ -4,7 +4,7 @@
  * A round that is left before its end is never handed over: leaving counts for nothing.
  */
 import { addAttempt, type ProfileData } from '../data/profile';
-import { LESSON, LESSONS, playable, type Activity, type Lesson } from './curriculum';
+import { LESSON, LESSONS, playable, unitOf, type Activity, type Lesson } from './curriculum';
 import { answered, place, reviewed, roundFinished, waitsFor, type RoundOutcome } from './rules';
 import { giveAll } from './rewards';
 import type { Day } from './state';
@@ -47,7 +47,14 @@ export function applyRound(data: ProfileData, kind: RoundKind, counts: boolean, 
   }
   if (kind === 'check') {
     // What she got right first time she already knows, and so does she what it is built on.
-    for (const g of given) if (g.clean) child = placeWithNeeds(child, g.lesson, today);
+    for (const g of given) {
+      if (!g.clean) continue;
+      // A unit of a stage below her own is known as a whole when its question is right: she is not sent
+      // back through its other lessons. In her own stage only that lesson is marked.
+      const unit = unitOf(g.lesson);
+      const whole = !unit.stretch && unit.stage < data.profile.stage;
+      for (const l of whole ? unit.lessons.filter(playable) : [LESSON.get(g.lesson)!]) child = placeWithNeeds(child, l.id, today);
+    }
   }
   const done: ProfileData = { ...out, child, bones: data.bones + (kind === 'check' ? 0 : bones), ...(kind === 'check' ? { checked: true } : {}) };
   // What the starting check found she already knows is simply there in the garden: no cards for it.
@@ -70,13 +77,14 @@ export const doneToday = (data: ProfileData, today: Day): boolean => data.child.
  * one lesson from every unit of the stage below, and the first lesson of every unit of her own stage.
  * About ten at most. A parent may skip the check; then she starts at the beginning.
  */
-export function checkLessons(stage: 1 | 2, units: readonly { stage: 1 | 2; stretch?: true; lessons: Lesson[] }[]): Lesson[] {
+export function checkLessons(stage: 1 | 2, units: readonly { stage: 1 | 2; stretch?: true; probe?: string; lessons: Lesson[] }[]): Lesson[] {
   const out: Lesson[] = [];
   for (const u of units) {
     if (u.stretch) continue;
     const ready = u.lessons.filter(playable);
     if (!ready.length) continue;
-    if (u.stage < stage) out.push(ready[ready.length - 1]!);
+    // A unit below her stage is asked about through the lesson that shows it best; her own, through their first lessons.
+    if (u.stage < stage) out.push(ready.find((l) => l.id === u.probe) ?? ready[ready.length - 1]!);
     else if (u.stage === stage) out.push(ready[0]!);
   }
   return out.slice(0, 10);

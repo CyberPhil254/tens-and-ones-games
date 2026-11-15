@@ -16,20 +16,21 @@ test('the starting check: offered once, leaving it counts for nothing, a grown-u
   await expect(intro.getByTestId('prompt')).toHaveText("Let's see what you already know. Just try your best.");
   await expect(intro).toContainText(/\d+ questions for Amani\./);
   await fitsTheScreen(page);
-  const n = Number(/(\d+) questions/.exec(await intro.innerText())![1]);
-  expect(n).toBeGreaterThanOrEqual(4);
-  expect(n).toBeLessThanOrEqual(10);
+  const questions = Number(/(\d+) questions/.exec(await intro.innerText())![1]);
+  expect(questions).toBeGreaterThanOrEqual(4);
+  expect(questions).toBeLessThanOrEqual(10);
 
   await intro.getByRole('button', { name: 'Start', exact: true }).click();
   await expect(page.getByTestId('title')).toHaveText('Let’s see what you know');
-  await expect(page.locator('.dots > span')).toHaveCount(n);
-  // One question per lesson, each at the lesson's last step. The first is See how many, on the ten frame.
-  await expect(game(page)).toHaveAttribute('data-lesson', 's1-see');
+  await expect(page.locator('.dots > span')).toHaveCount(questions);
+  // One question per unit, each at its lesson's last step. The first is counting: bones that are moved.
+  await expect(game(page)).toHaveAttribute('data-lesson', 's1-count');
   await expect(game(page)).toHaveAttribute('data-step', '2');
-  const v = await shown(page);
-  await page.locator('.choice').filter({ hasText: new RegExp(`^${v}$`) }).click();
+  const n = await page.getByTestId('field').locator('.fbone').count();
+  await page.getByRole('button', { name: 'Move them' }).click();
+  await page.locator('.choice').filter({ hasText: new RegExp(`^${n}$`) }).click();
   await page.getByRole('button', { name: 'Next' }).click();
-  await expect(game(page)).not.toHaveAttribute('data-lesson', 's1-see');
+  await expect(game(page)).not.toHaveAttribute('data-lesson', 's1-count');
 
   // Leaving: nothing is marked, and the check is offered again.
   await page.getByRole('button', { name: '← Home' }).click();
@@ -38,7 +39,7 @@ test('the starting check: offered once, leaving it counts for nothing, a grown-u
 
   // Skipped: she starts at the beginning, and is not asked again.
   await intro.getByRole('button', { name: /skip/ }).click();
-  await expect(page.getByTestId('today-text')).toHaveText('Two rounds of See how many. About ten minutes.');
+  await expect(page.getByTestId('today-text')).toHaveText('Two rounds of Count to 20. About ten minutes.');
   await page.reload();
   await expect(page.getByTestId('today-text')).toBeVisible();
   expect((await saved(page)).checked).toBe(true);
@@ -109,7 +110,7 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
   await expect(page.getByTestId('today-text')).toContainText((await here.locator('strong').innerText()).trim()); // the lesson today's games name
   await expect(garden.locator('[data-lesson=s1-ten]')).toContainText('Step 2 of 3.');
   await expect(garden.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
-  await expect(garden.locator('[data-lesson=s1-count]')).toContainText('Coming soon.');
+  await expect(garden.locator('[data-status=coming]')).toHaveCount(0); // every lesson is built
 
   // Every stone is big enough for a small finger, and the pictures have loaded.
   for (const id of ['s1-see', 's1-ten', 's2-place']) {
