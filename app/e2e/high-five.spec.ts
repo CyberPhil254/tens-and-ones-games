@@ -194,7 +194,8 @@ test('Oreo listens while the question is read, then thinks, and reacts only to a
 
   // Her pictures are loaded and shown whole.
   const img = oreo.locator('img');
-  expect(await img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 100)).toBe(true);
+  // The picture of a new pose arrives a moment after the pose changes.
+  await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 100)).toBe(true);
 });
 
 test('with the sound off Oreo goes straight to thinking', async ({ page }) => {
