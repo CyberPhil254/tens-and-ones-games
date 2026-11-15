@@ -4,7 +4,7 @@ Status: draft, 15 November 2026. Owner: Philipp.
 
 ## Goal
 
-Turn the Tens and Ones game into a maths app for primary school children following the Cambridge Primary curriculum. Start with one stage done well (Stage 2, Number), pilot it with a few families, then widen.
+Turn the Tens and Ones game into a maths app for primary school children following the Cambridge Primary curriculum. Start with the Number strand of Stages 1 and 2, pilot it with 5 to 10 families, then widen.
 
 ## What the app must do (six requirements)
 
@@ -44,7 +44,7 @@ A short legal review against the Kenyan regulator's guidance note on children's 
 
 1. Mirror the framework: six stages, three strands (Number; Geometry and Measure; Statistics and Probability), with Thinking and Working Mathematically running through them.
 2. A skill map: each learning objective is a node with prerequisites and one or more games.
-3. Stage 2 Number first, then Stages 1 and 3, then the other strands.
+3. Number in Stages 1 and 2 first, then Stage 3, then the other strands.
 4. Parents see the map by stage, strand and objective, and can select the topic the school is on.
 5. Naming: say "for learners following the Cambridge Primary curriculum". No logo, no "endorsed" (Cambridge's endorsement scheme excludes digital tools and question banks). Objectives in our own words.
 
@@ -69,7 +69,7 @@ A short legal review against the Kenyan regulator's guidance note on children's 
 | Phase | What | Rough effort |
 |---|---|---|
 | 0 | Decide scope, name, stack, voice and art budget; legal check | 1 to 2 weeks |
-| 1 | Real app: installable web app, accounts, Stage 2 Number skill map, adaptive engine, existing games ported, new voice | 4 to 6 weeks |
+| 1 | Real app: installable web app, accounts, skill map for Stages 1 and 2 Number, adaptive engine, existing games ported, new voice | 4 to 6 weeks |
 | 2 | Mascot and animation, puppy progression, parent dashboard, pilot with 5 to 10 families | 4 to 6 weeks |
 | 3 | More stages and strands, teacher mode, payments | ongoing |
 

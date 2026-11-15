@@ -22,6 +22,4 @@ Nothing.
 
 ## Needs a decision
 
-- Question 2 (stack) blocks everything. Only the front-end half is needed to start: TypeScript, Vite, Svelte.
-- Question 10 (where the new app deploys) blocks deploy previews.
-- Questions 8, 9, 11 to 14 block later work packages, not the start.
+Nothing blocks the start: stack and scope were confirmed on 15 November 2026. Begin with work packages 1 and 2 in `phase-1-spec.md`.
