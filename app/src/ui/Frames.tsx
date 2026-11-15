@@ -4,10 +4,11 @@ import './pictures.css';
  * One or two ten frames for numbers to 20, filled in order: `blue` counters, then `sun` (yellow)
  * ones added after them. The last `gone` of the blue ones are crossed out. Because the counters
  * fill the first frame before the second, adding and taking away through ten can be seen.
+ * `frames` asks for two frames even when one would hold the counters (the friends of 20).
  */
-export function Frames({ blue, sun = 0, gone = 0 }: { blue: number; sun?: number; gone?: number }) {
+export function Frames({ blue, sun = 0, gone = 0, frames: wanted }: { blue: number; sun?: number; gone?: number; frames?: 1 | 2 }) {
   const total = blue + sun;
-  const frames = total > 10 ? 2 : 1;
+  const frames = wanted ?? (total > 10 ? 2 : 1);
   const label = `ten ${frames === 1 ? 'frame' : 'frames'} with ${blue} blue${sun ? ` and ${sun} yellow` : ''} counters${gone ? `, ${gone} crossed out` : ''}`;
   return (
     <div className="frames" role="img" aria-label={label} data-blue={blue} data-sun={sun} data-gone={gone}>

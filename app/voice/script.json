@@ -736,6 +736,20 @@
    "pack": "core"
   },
   {
+   "id": "count-the-empty-places-in-both",
+   "text": "Count the empty places in both frames.",
+   "key": "Count the empty places in both frames.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "ten-tens-make-100-count-the",
+   "text": "Ten tens make 100. Count the tens that are missing.",
+   "key": "Ten tens make 100. Count the tens that are missing.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
