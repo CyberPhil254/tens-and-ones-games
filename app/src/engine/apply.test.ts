@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { newProfile } from '../data/profile';
-import { LEVELS, PATH } from '../maths/questions';
+import { ALL_GAMES as PATH, LEVELS_OF as LEVELS } from '../maths/questions';
 import { applyRound, checkLessons, doneToday, finishToday, lessonOfActivity, type Given } from './apply';
 import { LESSON, UNITS } from './curriculum';
 import { statusOf } from './rules';
@@ -42,8 +42,8 @@ describe('the starting check', () => {
   it('asks about one lesson from each unit below her stage and the first of each unit of her own', () => {
     const stage2 = checkLessons(2, UNITS).map((l) => l.id);
     // With the lessons that exist today. The list grows as lessons are built, up to ten.
-    expect(stage2).toEqual(['s1-see', 's1-ten', 's2-count', 's2-skip', 's2-bonds']);
-    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-ten']);
+    expect(stage2).toEqual(['s1-see', 's1-calc20', 's2-count', 's2-skip', 's2-bonds']);
+    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-add']);
     expect(stage2.length).toBeLessThanOrEqual(10);
   });
   it('marks what she got right first time as known, with what it is built on, and gives no bones', () => {

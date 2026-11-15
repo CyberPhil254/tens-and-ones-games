@@ -645,6 +645,83 @@
    "pack": "core"
   },
   {
+   "id": "how-many-altogether",
+   "text": "How many altogether?",
+   "key": "How many altogether?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-are-left",
+   "text": "How many are left?",
+   "key": "How many are left?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-is-that",
+   "text": "How many is that?",
+   "key": "How many is that?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-more-are-in-the-long",
+   "text": "How many more are in the long row?",
+   "key": "How many more are in the long row?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "count-on-from-the-blue-ones",
+   "text": "Count on from the blue ones. The yellow ones come next.",
+   "key": "Count on from the blue ones. The yellow ones come next.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-crossed-out-ones-are-gone",
+   "text": "The crossed-out ones are gone. Count the ones that are left.",
+   "key": "The crossed-out ones are gone. Count the ones that are left.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "match-them-up-one-to-one",
+   "text": "Match them up, one to one. Count the ones with no partner.",
+   "key": "Match them up, one to one. Count the ones with no partner.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "both-rows-are-the-same-count",
+   "text": "Both rows are the same. Count one row, then count on.",
+   "key": "Both rows are the same. Count one row, then count on.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "go-down-to-ten-first-then",
+   "text": "Go down to ten first. Then take away the rest.",
+   "key": "Go down to ten first. Then take away the rest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "first-down-to-ten-then-take",
+   "text": "First down to ten, then take away the rest.",
+   "key": "First down to ten, then take away the rest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "type-the-number-then-tap-the",
+   "text": "Type the number, then tap the tick.",
+   "key": "Type the number, then tap the tick.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -3172,6 +3249,13 @@
    "pack": "stories"
   },
   {
+   "id": "eats.1",
+   "text": "She eats 1 of them.",
+   "key": "She eats 1 of them.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
    "id": "finds.2",
    "text": "She finds 2 more.",
    "key": "She finds 2 more.",
@@ -3182,6 +3266,13 @@
    "id": "digs.2",
    "text": "She digs up 2 more.",
    "key": "She digs up 2 more.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
+   "id": "eats.2",
+   "text": "She eats 2 of them.",
+   "key": "She eats 2 of them.",
    "fragment": false,
    "pack": "stories"
   },
@@ -3200,6 +3291,13 @@
    "pack": "stories"
   },
   {
+   "id": "eats.3",
+   "text": "She eats 3 of them.",
+   "key": "She eats 3 of them.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
    "id": "finds.4",
    "text": "She finds 4 more.",
    "key": "She finds 4 more.",
@@ -3210,6 +3308,13 @@
    "id": "digs.4",
    "text": "She digs up 4 more.",
    "key": "She digs up 4 more.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
+   "id": "eats.4",
+   "text": "She eats 4 of them.",
+   "key": "She eats 4 of them.",
    "fragment": false,
    "pack": "stories"
   },
@@ -3228,6 +3333,13 @@
    "pack": "stories"
   },
   {
+   "id": "eats.5",
+   "text": "She eats 5 of them.",
+   "key": "She eats 5 of them.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
    "id": "finds.6",
    "text": "She finds 6 more.",
    "key": "She finds 6 more.",
@@ -3238,6 +3350,13 @@
    "id": "digs.6",
    "text": "She digs up 6 more.",
    "key": "She digs up 6 more.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
+   "id": "eats.6",
+   "text": "She eats 6 of them.",
+   "key": "She eats 6 of them.",
    "fragment": false,
    "pack": "stories"
   },
@@ -3256,6 +3375,13 @@
    "pack": "stories"
   },
   {
+   "id": "eats.7",
+   "text": "She eats 7 of them.",
+   "key": "She eats 7 of them.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
    "id": "finds.8",
    "text": "She finds 8 more.",
    "key": "She finds 8 more.",
@@ -3270,6 +3396,13 @@
    "pack": "stories"
   },
   {
+   "id": "eats.8",
+   "text": "She eats 8 of them.",
+   "key": "She eats 8 of them.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
    "id": "finds.9",
    "text": "She finds 9 more.",
    "key": "She finds 9 more.",
@@ -3280,6 +3413,13 @@
    "id": "digs.9",
    "text": "She digs up 9 more.",
    "key": "She digs up 9 more.",
+   "fragment": false,
+   "pack": "stories"
+  },
+  {
+   "id": "eats.9",
+   "text": "She eats 9 of them.",
+   "key": "She eats 9 of them.",
    "fragment": false,
    "pack": "stories"
   },
@@ -3588,6 +3728,13 @@
    "id": "frag.start-at",
    "text": "Start at",
    "key": "Start at",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.double",
+   "text": "Double",
+   "key": "Double",
    "fragment": true,
    "pack": "core"
   },

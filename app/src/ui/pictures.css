@@ -317,3 +317,16 @@
   width: 100%;
   height: 100%;
 }
+
+/* Ten frames for numbers to 20, and two rows of counters */
+.frames { display: grid; gap: 10px; justify-items: center; }
+.frame.half { width: min(62vw, 250px); }
+.frame .dot.gone { background: #fff; box-shadow: inset 0 0 0 2px var(--soft); position: relative; }
+.frame .dot.gone::before, .frame .dot.gone::after { content: ''; position: absolute; left: 50%; top: -12%; width: 3px; height: 124%; background: var(--ink); border-radius: 2px; }
+.frame .dot.gone::before { transform: translateX(-50%) rotate(45deg); }
+.frame .dot.gone::after { transform: translateX(-50%) rotate(-45deg); }
+.rows2 { display: grid; gap: 10px; justify-items: start; }
+.crow { display: flex; gap: 5px; min-height: 26px; }
+.crow .dot { width: clamp(20px, 5.6vw, 28px); height: clamp(20px, 5.6vw, 28px); border-radius: 50%; background: var(--one); flex: none; }
+.crow .dot.gap { margin-left: 9px; }
+.crow .dot.lone { background: var(--sun); box-shadow: inset 0 0 0 2px var(--ink); }

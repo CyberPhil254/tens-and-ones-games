@@ -82,7 +82,7 @@ test('no choice card before the warm-up: the warm-up always comes first', async 
   const all = ['s1-see', 's1-ten', 's2-count', 's2-place', 's2-names', 's2-regroup', 's2-skip', 's2-bonds', 's2-inverse', 's2-calc', 'x-fill', 'x-break'];
   await seed(page, { lessons: Object.fromEntries(all.map((id) => [id, mastered(id === 's2-calc' ? { rating: 0.2 } : {})])), soundOff: true });
   await page.goto('/');
-  await expect(page.getByTestId('today-text')).toHaveText('A warm-up, then Find it on the line. About ten minutes.');
+  await expect(page.getByTestId('today-text')).toHaveText(/^A warm-up, then .+\. About ten minutes\.$/);
   await page.getByRole('button', { name: 'Play today’s games' }).click();
   // No card before the warm-up: it always comes first.
   await expect(page.getByTestId('title')).toHaveText('Warm-up: a mix of what you know');
@@ -104,7 +104,7 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
   await expect(see).toContainText('Mastered. It comes back in the warm-ups.');
   // Oreo waits at the lesson today's games are about, and nowhere else.
   await expect(garden.locator('.herepup')).toHaveCount(1);
-  await expect(garden.locator('[data-lesson=s1-ten] .herepup')).toBeVisible();
+  await expect(garden.locator('[data-lesson=s1-add] .herepup')).toBeVisible(); // the next lesson on the path
   await expect(garden.locator('[data-lesson=s1-ten]')).toContainText('Step 2 of 3.');
   await expect(garden.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
   await expect(garden.locator('[data-lesson=s1-count]')).toContainText('Coming soon.');

@@ -54,6 +54,7 @@ function build(): Clip[] {
   range(1, 9).forEach((k) => {
     add(`finds.${k}`, SP.finds(k));
     add(`digs.${k}`, SP.digs(k));
+    add(`eats.${k}`, SP.eats(k));
   });
   [10, 20, 30, 40].forEach((k) => add(`finds.${k}`, SP.finds(k)));
   [20, 30, 40].forEach((k) => add(`gives.${k}`, SP.gives(k)));

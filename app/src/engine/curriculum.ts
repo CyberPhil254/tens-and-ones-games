@@ -84,11 +84,11 @@ export const UNITS: Unit[] = [
   {
     id: 's1-u4', stage: 1, title: 'Adding and taking away to 20',
     lessons: [
-      lesson('s1-add', 'Adding', 'Adding as putting together and as counting on', ['s1-count']),
-      lesson('s1-sub', 'Taking away', 'Subtracting as taking away, counting back and finding the difference', ['s1-add']),
+      lesson('s1-add', 'Adding', 'Adding as putting together and as counting on', ['s1-count'], [see(a('sums', 1)), sketch(a('sums', 2)), head(a('sums', 3))]),
+      lesson('s1-sub', 'Taking away', 'Subtracting as taking away, counting back and finding the difference', ['s1-add'], [see(a('sums', 4)), sketch(a('sums', 5)), head(a('sums', 6))]),
       lesson('s1-ten', 'Friends of ten', 'Pairs that make 10', ['s1-see'], [see(a('friends', 1)), head(a('friends', 2)), apply(a('story', 1, 2))]),
-      lesson('s1-doubles', 'Doubles', 'Doubles up to double 10', ['s1-add']),
-      lesson('s1-calc20', 'Sums to 20', 'Add and subtract with answers to 20', ['s1-add', 's1-sub', 's1-ten']),
+      lesson('s1-doubles', 'Doubles', 'Doubles up to double 10', ['s1-add'], [see(a('sums', 7)), head(a('sums', 8))]),
+      lesson('s1-calc20', 'Sums to 20', 'Add and subtract with answers to 20', ['s1-add', 's1-sub', 's1-ten'], [see(a('sums', 9), a('sums', 10)), head(a('sums', 11)), apply(a('sums', 12))]),
     ],
   },
   { id: 's1-u5', stage: 1, title: 'Halves', lessons: [lesson('s1-half', 'Halves', 'Halves: equal and unequal parts, half of a shape, half of a set, two halves make a whole', ['s1-doubles'])] },
