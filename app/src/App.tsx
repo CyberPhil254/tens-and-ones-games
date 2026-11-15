@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { today, useData } from './app/useData';
 import { newProfile, type ProfileData } from './data/profile';
-import { finishToday } from './engine/apply';
+import { checkLessons, finishToday } from './engine/apply';
 import { CONFIG } from './engine/config';
-import type { Activity, Lesson } from './engine/curriculum';
+import { UNITS, type Activity, type Lesson } from './engine/curriculum';
 import { lessonState } from './engine/state';
-import { nextPart, type Part } from './engine/today';
+import { choiceToday, nextPart, type Choice, type Part } from './engine/today';
 import { LEVELS, PATH, type GameId } from './maths/questions';
 import { Pieces } from './Pieces';
 import { Home } from './play/Home';
@@ -13,14 +13,25 @@ import { Play, type Round } from './play/Play';
 import { QUICK_FROM, QUICK_N } from './play/quick';
 import { Race } from './play/Race';
 import { AddChild, WhoIsPlaying } from './play/Setup';
+import { ChoiceCard, StartCheck } from './play/Cards';
 import './play/app.css';
+
+/** Today's games so far: the parts finished, and what she chose on the choice card. */
+interface Today {
+  done: Part['kind'][];
+  chosen?: string;
+  strongerFirst?: boolean;
+  /** The choice card has been shown (or there was no choice to make). */
+  asked: boolean;
+}
 
 type Screen =
   | { at: 'home' }
   | { at: 'add' }
   | { at: 'race' }
-  /** `run` counts rounds started, so that the next round starts fresh. `done` lists today's finished parts. */
-  | { at: 'play'; round: Round; run: number; today: Part['kind'][] | null };
+  | { at: 'choose'; choice: Choice; today: Today }
+  /** `run` counts rounds started, so that the next round starts fresh. */
+  | { at: 'play'; round: Round; run: number; today: Today | null };
 
 const asRound = (p: Part): Round => (p.kind === 'warm' ? p : p.kind === 'new' ? { ...p, counts: true } : p);
 
@@ -89,18 +100,48 @@ export function App() {
   }
 
   const day = today();
-  const startToday = () => {
-    const part = nextPart(child.child, day, []);
-    if (part) setScreen({ at: 'play', round: asRound(part), run, today: [] });
+  const lessons = child.checked ? [] : checkLessons(child.profile.stage, UNITS);
+  if (lessons.length && screen.at !== 'play') {
+    const skip = () => data.save({ ...child, checked: true });
+    return (
+      <main>
+        <StartCheck
+          name={child.profile.nickname} n={lessons.length} soundOff={data.settings.soundOff} onSkip={skip}
+          onStart={() => setScreen({ at: 'play', round: { kind: 'check', n: lessons.length, slots: lessons.map((l) => ({ lesson: l.id, step: l.steps.length - 1 })) }, run, today: null })}
+        />
+      </main>
+    );
+  }
+
+  /** Goes on with today's games: the choice card once, after the warm-up, then the next part, then home. */
+  const goOn = (c: ProfileData, t: Today) => {
+    const first = nextPart(c.child, day, t.done, t.chosen, t.strongerFirst);
+    if (!t.asked && first && first.kind !== 'warm') {
+      const choice = choiceToday(c.child, day, t.done);
+      if (choice) return setScreen({ at: 'choose', choice, today: { ...t, asked: true } });
+    }
+    if (first) setScreen({ at: 'play', round: asRound(first), run, today: t });
+    else home();
   };
+  const startToday = () => goOn(child, { done: [], asked: false });
   const freePlay = (l: Lesson) =>
     setScreen({ at: 'play', round: { kind: 'free', n: CONFIG.round, slot: { lesson: l.id, step: Math.min(lessonState(child.child, l.id).step, l.steps.length - 1) } }, run, today: null });
   const quick = () => setScreen({ at: 'play', round: { kind: 'quick', n: QUICK_N, from: QUICK_FROM }, run, today: null });
+  const after = (t: Today, kind: Round['kind']): Today => ({ ...t, done: [...t.done, kind as Part['kind']] });
 
   return (
     <main>
       {screen.at === 'race' ? (
         <Race soundOff={data.settings.soundOff} onHome={home} />
+      ) : screen.at === 'choose' ? (
+        <ChoiceCard
+          choice={screen.choice} soundOff={data.settings.soundOff} onHome={home}
+          onChoose={(l) => {
+            const t = screen.today;
+            // Whatever she picks is done today; a choice is always honoured.
+            goOn(child, screen.choice.kind === 'stone' ? { ...t, chosen: l.id } : { ...t, chosen: screen.choice.options[0].id, strongerFirst: l.id !== screen.choice.options[0].id });
+          }}
+        />
       ) : screen.at === 'play' ? (
         <Play
           key={screen.run} round={screen.round} data={child} soundOff={data.settings.soundOff}
@@ -110,19 +151,13 @@ export function App() {
               return { more: false, lastToday: false };
             }
             // One of today's parts is done. Is there another, or is that today finished?
-            const done = [...screen.today, screen.round.kind as Part['kind']];
-            const more = nextPart(d.child, day, done) !== null;
+            const t = after(screen.today, screen.round.kind);
+            const more = nextPart(d.child, day, t.done, t.chosen, t.strongerFirst) !== null;
             data.save(more ? d : finishToday(d, day));
             return { more, lastToday: !more };
           }}
           onHome={home}
-          onNext={() => {
-            if (!screen.today) return home();
-            const done = [...screen.today, screen.round.kind as Part['kind']];
-            const part = nextPart(child.child, day, done);
-            if (part) setScreen({ at: 'play', round: asRound(part), run, today: done });
-            else home();
-          }}
+          onNext={() => (screen.today ? goOn(child, after(screen.today, screen.round.kind)) : home())}
           onAgain={() => setScreen({ ...screen, run })}
         />
       ) : (
