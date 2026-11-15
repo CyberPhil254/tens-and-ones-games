@@ -28,8 +28,6 @@ export const SP = {
   tensOnly: (k: number) => `${k * 10} is ${k} tens. Only the tens change.`,
   five: (k: number) => `5 and ${k} make ${5 + k}.`,
   tens: (k: number) => `${tensW(k)}.`,
-  levelUp: (to: number) => `Level up! Next you play level ${to}.`,
-  jumpTo: (to: number) => `Perfect! You jump up to level ${to}.`,
   rows: (plus: boolean, k: number) =>
     `A jump of ten goes straight ${plus ? 'down' : 'up'}. Go ${k === 1 ? 'one row' : k + ' rows'} ${plus ? 'down' : 'up'} the blue line.`,
 } as const;

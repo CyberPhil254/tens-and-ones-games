@@ -25,8 +25,8 @@ export function HighFive({ q, level, round }: GameProps<'five'>) {
   };
   const wrong = () =>
     level === 3
-      ? round.wrong('Do not count them all. The top row is 5. How many more?', ['do-not-count-them-all-the'])
-      : round.wrong('Do not count them all. The dark blue ones are 5. How many more?', ['do-not-count-them-all-the-dark']);
+      ? round.wrong('You do not need to count them all. The top row is 5. How many more are there?', ['do-not-count-them-all-the'])
+      : round.wrong('You do not need to count them all. The dark blue ones are 5. How many more are there?', ['do-not-count-them-all-the-dark']);
 
   return (
     <>

@@ -21,7 +21,7 @@ export function HearAndType({ q, level, round }: GameProps<'hear'>) {
   const right = () => { setDone(true); round.win(`${n} is ${tensAndOnes(n)}. We say ${word(n)}.`, [`isTO.${n}`]); };
   const wrong = (v: number) => {
     setMissed(true);
-    round.wrong(`${v} is ${word(v)}: ${tensAndOnes(v)}. Try again.`, [`isTO.${v}`, 'try-again']);
+    round.wrong(`${v} is ${word(v)}: ${tensAndOnes(v)}. Have another go.`, [`isTO.${v}`, 'try-again']);
   };
   return (
     <>

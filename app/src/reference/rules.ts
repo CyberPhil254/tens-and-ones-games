@@ -182,7 +182,7 @@ export function spoken(game: LiveGame, id: string, level: number, q: Q): Piece[]
 export function spokenFromPlay(): Record<string, Piece[][]> {
   const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
   return {
-    pack: range(0, 99).map((v) => ['You built', v, 'That is not enough yet.']),
+    pack: range(0, 99).map((v) => ['You built', v, 'That is not enough yet. Add some more.']),
     walk: range(0, 100).map((v) => ['The puppy is on', v, 'That is not far enough yet.']),
     race: range(0, 99).flatMap((pos) => [
       ...[1, 2, 3, 10].map((move) => [pos, 'plus', move, 'Where do you land?'] as Piece[]),

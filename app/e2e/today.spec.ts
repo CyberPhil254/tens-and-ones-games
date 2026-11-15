@@ -14,6 +14,8 @@ test('the starting check: offered once, leaving it counts for nothing, a grown-u
   await page.goto('/');
   const intro = page.getByTestId('startcheck');
   await expect(intro.getByTestId('prompt')).toHaveText("Let's see what you already know. Just try your best.");
+  // She meets Oreo here. Without the switch in the parents' area, Star is not mentioned.
+  await expect(intro.getByTestId('intro')).toHaveText('This is Oreo. She loves bones and numbers, and she is going to learn with you.');
   await expect(intro).toContainText(/\d+ questions for Amani\./);
   await fitsTheScreen(page);
   const questions = Number(/(\d+) questions/.exec(await intro.innerText())![1]);
@@ -153,4 +155,28 @@ test('no rewards for playing: a child who has mastered nothing has no shelf and 
   await expect(page.getByTestId('today-text')).toBeVisible();
   await expect(page.getByTestId('reward')).toHaveCount(0);
   await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
+});
+
+test('with the switch in the parents’ area on, Oreo is introduced as Star’s sister', async ({ page }) => {
+  await seed(page, { checked: false });
+  await page.addInitScript(() => localStorage.setItem('tens-and-ones.settings', JSON.stringify({ starsSister: true })));
+  await page.goto('/');
+  await expect(page.getByTestId('startcheck').getByTestId('intro')).toHaveText("This is Oreo, Star's sister. She loves bones and numbers, and she is going to learn with you.");
+});
+
+test('the voice comes in packs by lesson family: a round fetches what it needs, not the whole voice', async ({ page }) => {
+  const fetched: string[] = [];
+  page.on('request', (r) => { const m = /\/voice\/([a-z]+)\.mp3/.exec(r.url()); if (m) fetched.push(m[1]!); });
+  await page.goto('/#try=money.1');
+  await expect(page.locator('.card.game')).toBeVisible();
+  await expect.poll(() => fetched.includes('money') && fetched.includes('core')).toBe(true);
+  await page.waitForTimeout(800);
+  // Nothing to do with money is not fetched.
+  for (const other of ['stories', 'steps', 'parts', 'groups', 'place']) expect(fetched).not.toContain(other);
+  const sizes = await page.evaluate(async () => {
+    const index = await (await fetch('/voice/index.json')).json();
+    return Promise.all((index.packs as string[]).map(async (p) => Number((await fetch(`/voice/${p}.mp3`, { method: 'HEAD' })).headers.get('content-length'))));
+  });
+  expect(sizes.length).toBeGreaterThanOrEqual(10);
+  expect(Math.max(...sizes)).toBeLessThan(3_000_000); // no pack is the 7 MB the single file was
 });

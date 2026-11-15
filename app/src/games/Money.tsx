@@ -83,7 +83,7 @@ export function Money({ q, round }: GameProps<'money'>) {
   const check = () => {
     if (have === q.ans) return win(`${[...mine].sort((x, y) => y - x).join(' + ')} = ${q.ans}. You made ${sh(q.ans)}.`);
     setMissed(true);
-    if (have < q.ans) round.wrong(`That is ${have}. Not enough yet. Add some more.`, ['that-is-not-enough-yet-add']);
+    if (have < q.ans) round.wrong(`That is ${have}. Not enough yet. Add some more.`, ['that-is-not-enough-yet']);
     else round.wrong(`That is ${have}. Too much. Take some away.`, ['that-is-too-much-take-some']);
   };
   return (

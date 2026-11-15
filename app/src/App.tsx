@@ -134,7 +134,7 @@ export function App() {
     return (
       <main>
         <StartCheck
-          name={child.profile.nickname} n={lessons.length} soundOff={data.settings.soundOff} onSkip={skip}
+          name={child.profile.nickname} n={lessons.length} soundOff={data.settings.soundOff} starsSister={data.settings.starsSister} onSkip={skip}
           onStart={() => setScreen({ at: 'play', round: { kind: 'check', n: lessons.length, slots: lessons.map((l) => ({ lesson: l.id, step: l.steps.length - 1 })) }, run, today: null })}
         />
       </main>
