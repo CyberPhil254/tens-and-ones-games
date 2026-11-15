@@ -33,9 +33,11 @@ export interface HomeProps {
   onRace: () => void;
   onQuick: () => void;
   onSwitch: () => void;
+  /** The parents' area, behind its check. */
+  onParents: () => void;
 }
 
-export function Home({ data, settings, today, shared, onSettings, onToday, onLesson, onRace, onQuick, onSwitch }: HomeProps) {
+export function Home({ data, settings, today, shared, onSettings, onToday, onLesson, onRace, onQuick, onSwitch, onParents }: HomeProps) {
   const done = doneToday(data, today);
   const plan = planToday(data.child, today);
   const silent = useVoiceSilent();
@@ -140,14 +142,7 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
       )}
 
       <div className="grown">
-        <h2>For grown-ups</h2>
-        <ul>
-          <li><b>Play today’s games</b> is the main button: a short warm-up from what she already knows, two rounds of the next lesson, and one round on what she finds hardest. About ten minutes. Then stop. Short and daily works better than long and weekly.</li>
-          <li>The app decides what comes next. A step is passed with five or six bones in a round; a lesson is mastered when its last step is passed on two different days, and it comes back for review after that.</li>
-          <li>A bone means right first time. A paw means right after a hint or with the help picture.</li>
-          <li>Free play, Race to 100 and the number machine open when today’s games are done.</li>
-          <li>Sit with her when you can and ask “How did you know?”. Saying it in tens and ones is where it sticks.</li>
-        </ul>
+        <button className="soundbtn" type="button" onClick={onParents}>For grown-ups</button>
       </div>
     </section>
   );
