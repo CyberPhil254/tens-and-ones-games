@@ -13,7 +13,7 @@ Turn the Tens and Ones game into a maths app for primary school children followi
 The current voice still sounds robotic for three reasons: terse wording ("Do not count."), numbers stitched from separate clips, and the voice engine.
 
 1. Rewrite the script in full, warm sentences a teacher would say.
-2. Record every sentence whole, including every equation. No stitching. The cost is small: a few hours of audio at roughly $0.015 per minute on the cheapest directable engine.
+2. Record every instruction and feedback sentence whole. Equations stay stitched from number clips: recording them whole would mean 9,269 sentences and about six and a half hours of audio, too heavy for phones on mobile data (decided 15 November 2026).
 3. Use an engine that can be directed ("warm, playful, speaking to a six year old"): OpenAI gpt-4o-mini-tts, ElevenLabs v3 with audio tags, or Gemini TTS. Choose from samples.
 4. Give the puppy a character voice and vary the praise.
 5. Fallback: a human voice actor for the core lines.

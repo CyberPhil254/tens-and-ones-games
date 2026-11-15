@@ -22,7 +22,7 @@ A real app that a parent can sign in to, add a child, and that takes the child a
 4. **Adaptive engine v1**: per child and skill, store attempts with correctness, response time and whether help was used. A rating per skill from accuracy and time (Elo-style, target about 75 percent success). Mastery, spaced review, and "today's session" built from: review of weak or slow skills, then the next unlocked skill. Free play unlocks after the session. Thresholds live in one config file.
 5. **Accounts**: parent sign-up with email, explicit consent step, child profiles (nickname, stage, picture), a child picker on shared devices, progress synced. Works offline for a session and syncs later.
 6. **Parent area**: the skill map with status per skill (not started, practising, mastered, needs review; accurate but slow), time played, and the "why this works" notes from `research.md`.
-7. **Voice v2**: move the speech script into a data file, rewrite it in fuller sentences (Philipp approves the wording), generate whole-sentence clips including equations with the chosen engine, load clips per game rather than one large file.
+7. **Voice v2**: move the speech script into a data file, rewrite it in fuller sentences (Philipp approves the wording), generate whole-sentence clips for instructions and feedback with the chosen engine (equations stay stitched from number clips), load clips per game rather than one large file.
 
 ## Out of scope for Phase 1
 
@@ -35,4 +35,5 @@ New mascot art and Rive animation, puppy progression, payments, teacher mode, ot
 - Progress survives closing the browser and appears on a second device.
 - Every generated question has exactly one correct answer; the engine never serves a skill whose prerequisites are unmet.
 - All eleven games play at every level on a 400 px wide screen with no console errors.
-- No spoken sentence is stitched from pieces.
+- Instructions and feedback are spoken as whole recorded sentences. Only equations are stitched, from number clips.
+- If the voice pack fails to load the app stays silent and shows a retry button; it never falls back to the browser's computer voice.
