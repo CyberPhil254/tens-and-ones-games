@@ -116,3 +116,12 @@ Claude Code adds a line here for every detail it had to decide itself: the date,
 | 2026-11-15 | Awards: the rosette for Stage 1, the trophy for Stage 2, the crown for the stretch lessons | Three of the seven award pictures; the rest are unused |
 | 2026-11-15 | What the starting check marks as known gets its treasures and tricks without cards | Otherwise a Stage 2 child meets six reward cards in a row before her first lesson, for nothing she did today |
 | 2026-11-15 | A reward not collected (the app was closed) is still owed and is shown first next time | It is worked out from saved progress, so it cannot be lost |
+| 2026-11-15 | The adult check is one times-table fact from 6 × 6 upwards, typed as a number | The spec asks for a simple check. It keeps a six year old out by accident, not a determined ten year old; nothing behind it is secret |
+| 2026-11-15 | Parent notes use five strength words, as `research.md` does: strong, promising, mixed, moderate, and "expert guidance, not a trial" | The spec names three; calling guidance "strong" or "promising" would overstate it |
+| 2026-11-15 | Every lesson has a note now, also the ones not built yet; it is written for the lesson as the spec describes it | The notes are part of "Done means", and the parents' area lists the whole path |
+| 2026-11-15 | The only sentence that names the curriculum is on the approach page: "for learners following the Cambridge Primary curriculum, Stages 1 and 2, the Number part". Nothing else, no logo | The wording `product-plan.md` allows; still needs the legal check in the open questions |
+| 2026-11-15 | Time played is worked out from the answers: the time between one answer and the next, with gaps over two minutes left out | Nothing extra is recorded; a child who walks away does not count as playing |
+| 2026-11-15 | "Weak" in the parents' area: at least one round played and less than an even chance of a right answer at her step. "Strong": mastered and at or above the 75 percent the engine aims for | So one bad answer does not label a lesson |
+| 2026-11-15 | Changing the stage in settings changes only the profile and the starting check; lessons already done stay done | Progress is the child's, whatever stage a parent picks |
+| 2026-11-15 | Currency setting has one entry, Kenyan shillings | The spec lists the setting; other currencies need their coins and notes drawn first |
+| 2026-11-15 | When a child is removed and one is left, that one is playing | The same rule as on start |

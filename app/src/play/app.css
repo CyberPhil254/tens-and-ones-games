@@ -268,3 +268,47 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .trickbtn[aria-pressed='true'] { background: #fff8e1; border-width: 3px; }
 .awardpic { width: 72px; height: auto; }
 @media (prefers-reduced-motion: reduce) { .rewardpic.hop { animation: none; } }
+
+/* The parents' area: ordinary reading text, nothing for a child here */
+.grown { background: none; border: 0; padding: 0; margin-top: 34px; text-align: center; }
+.parents .ptitle { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 600; font-size: 26px; margin: 6px 0 14px; }
+.pcard { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 14px 16px; margin: 0 0 14px; }
+.pcard h2 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0 0 8px; }
+.pcard h3 { font-family: var(--display); font-weight: 600; font-size: 18px; margin: 14px 0 6px; }
+.pcard p, .pcard li, .pcard dd, .pcard dt { font-size: 16px; line-height: 1.45; }
+.pcard p { margin: 0 0 10px; }
+.pcard ul { margin: 0 0 12px; padding-left: 20px; }
+.pcard li { margin: 6px 0; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; align-items: end; max-width: 340px; }
+.wday { display: grid; justify-items: center; gap: 2px; font-size: 13px; color: var(--soft); }
+.wbar { width: 70%; min-height: 2px; background: var(--sun); border: 1px solid var(--ink); border-radius: 4px 4px 0 0; }
+.wnum { font-family: var(--display); color: var(--ink); font-size: 15px; }
+.skills { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0 0 10px; }
+.skills dt { font-weight: 700; }
+.skills dd { margin: 0; }
+.punit h3 { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; border-top: 2px dashed var(--grid); padding-top: 10px; }
+.pcount { font-family: var(--body); font-weight: 400; font-size: 14px; color: var(--soft); }
+.plesson { border-bottom: 1px solid var(--grid); padding: 6px 0; }
+.plesson summary { display: flex; justify-content: space-between; gap: 10px; cursor: pointer; font-size: 16px; min-height: 32px; align-items: center; }
+.plesson summary span { color: var(--soft); font-size: 14px; text-align: right; }
+.pskill { color: var(--soft); font-size: 14px !important; margin: 6px 0 4px !important; }
+.pnote { margin: 4px 0 6px !important; }
+.psource { display: block; font-size: 14px; color: var(--soft); margin-top: 4px; }
+.prow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--grid); font-size: 16px; flex-wrap: wrap; }
+.prow > span:first-child { flex: 1 1 200px; }
+.prow small { display: block; color: var(--soft); font-size: 14px; }
+.prow select { font: inherit; padding: 6px 8px; border: 2px solid var(--ink); border-radius: 10px; background: var(--card); }
+.stagebtn.small { min-width: 0; padding: 6px 12px; }
+.soundbtn.danger { border-color: #b5303a; color: #b5303a; }
+.soundbtn[aria-pressed='true'] { background: #fff8e1; }
+a.soundbtn { text-decoration: none; color: inherit; display: inline-block; }
+.who.small { margin: 6px 0 12px; }
+.who.small .whobtn { min-width: 96px; padding: 8px 12px; box-shadow: none; }
+.who.small .whobtn[aria-pressed='true'] { background: #fff8e1; border-width: 3px; }
+.who.small .whobtn strong { font-size: 17px; }
+.parents textarea { width: 100%; font: 13px/1.4 ui-monospace, monospace; padding: 8px; border: 2px solid var(--ink); border-radius: 10px; margin: 8px 0; word-break: break-all; }
+.filebtn { position: relative; overflow: hidden; cursor: pointer; }
+.filebtn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.prose h2 { margin-top: 16px; font-size: 19px; }
+.sources li { font-size: 15px; }
+.sources a, .psource a { color: #1d4fb8; word-break: break-word; }

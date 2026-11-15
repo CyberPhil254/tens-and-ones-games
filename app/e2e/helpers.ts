@@ -31,6 +31,8 @@ export interface Seed {
   bones?: number;
   best?: number;
   nickname?: string;
+  /** Another child than the usual test child. */
+  id?: string;
   stage?: 1 | 2;
   soundOff?: boolean;
   /** False: the trick for a finished part of the garden has not been given yet. Treasures and tricks are otherwise in place. */
@@ -46,14 +48,14 @@ export async function seed(page: Page, s: Seed = {}): Promise<void> {
   const built: Record<string, string[]> = { 's2-u1': ['s2-count', 's2-place', 's2-names', 's2-regroup'], 's2-u4': ['s2-bonds', 's2-inverse', 's2-calc'], 'x-u1': ['x-fill', 'x-break', 'x-line'] };
   const tricks = s.tricks === false ? {} : Object.fromEntries(Object.entries(built).filter(([, ls]) => ls.every((l) => known.includes(l))).map(([u]) => [u, 'spin']));
   const data = {
-    profile: { id: 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
+    profile: { id: s.id ?? 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
     bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures, tricks, awards: {} }, attempts: [], checked: s.checked ?? true,
   };
   await page.addInitScript(([d, soundOff]) => {
     if (localStorage.getItem('tens-and-ones.profiles')) return;
-    localStorage.setItem('tens-and-ones.profiles', JSON.stringify(['child-test']));
-    localStorage.setItem('tens-and-ones.profile.child-test', JSON.stringify(d));
+    localStorage.setItem('tens-and-ones.profiles', JSON.stringify([d.profile.id]));
+    localStorage.setItem(`tens-and-ones.profile.${d.profile.id}`, JSON.stringify(d));
     if (soundOff) localStorage.setItem('tens-and-ones.settings', JSON.stringify({ soundOff: true }));
   }, [data, s.soundOff ?? false] as const);
 }

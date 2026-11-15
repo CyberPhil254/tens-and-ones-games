@@ -8,6 +8,8 @@ import { give, nextEarned } from './engine/rewards';
 import { lessonState } from './engine/state';
 import { choiceToday, nextPart, type Choice, type Part } from './engine/today';
 import { LEVELS, PATH, type GameId } from './maths/questions';
+import { Approach } from './parents/Approach';
+import { Gate, Parents } from './parents/Parents';
 import { Pieces } from './Pieces';
 import { Home } from './play/Home';
 import { Play, type Round } from './play/Play';
@@ -31,6 +33,10 @@ type Screen =
   | { at: 'home' }
   | { at: 'add' }
   | { at: 'race' }
+  /** The parents' area: first its check, then the area, and the page about the approach. */
+  | { at: 'gate' }
+  | { at: 'parents' }
+  | { at: 'approach' }
   | { at: 'choose'; choice: Choice; today: Today }
   /** A reward is being given in the middle of today's games; they go on afterwards. */
   | { at: 'reward'; today: Today }
@@ -104,6 +110,19 @@ export function App() {
   }
 
   const day = today();
+  if (screen.at === 'gate') return <main><Gate onOpen={() => setScreen({ at: 'parents' })} onHome={home} /></main>;
+  if (screen.at === 'approach') return <main><Approach onBack={() => setScreen({ at: 'parents' })} /></main>;
+  if (screen.at === 'parents') {
+    return (
+      <main>
+        <Parents
+          data={child} profiles={data.profiles} settings={data.settings} today={day}
+          onSettings={data.saveSettings} onSave={data.save} onAdopt={data.adopt} onRemove={(id) => { data.remove(id); home(); }} onChoose={data.choose}
+          onAdd={() => setScreen({ at: 'add' })} onApproach={() => setScreen({ at: 'approach' })} onHome={home}
+        />
+      </main>
+    );
+  }
   const lessons = child.checked ? [] : checkLessons(child.profile.stage, UNITS);
   if (lessons.length && screen.at !== 'play') {
     const skip = () => data.save({ ...child, checked: true });
@@ -190,7 +209,7 @@ export function App() {
         <Home
           data={child} settings={data.settings} today={day} shared={data.profiles.length > 1}
           onSettings={data.saveSettings} onToday={startToday} onLesson={freePlay} onRace={() => setScreen({ at: 'race' })} onQuick={quick}
-          onSwitch={() => data.choose(null)}
+          onSwitch={() => data.choose(null)} onParents={() => setScreen({ at: 'gate' })}
         />
       )}
     </main>

@@ -86,10 +86,13 @@ export function useData(): Data {
   }, [adopt]);
 
   const remove = useCallback((id: string) => {
-    setProfiles((list) => list.filter((p) => p.id !== id));
-    setCurrent((c) => (c?.profile.id === id ? null : c));
-    void store.remove(id);
-  }, [store]);
+    const left = profiles.filter((p) => p.id !== id);
+    setProfiles(left);
+    void store.remove(id).then(() => {
+      // With one child left she is the one playing; with several, they choose.
+      if (current?.profile.id === id) choose(left.length === 1 ? left[0]!.id : null);
+    });
+  }, [store, profiles, current, choose]);
 
   return { ready, settings, profiles, current, saveSettings, save, choose, create, adopt, remove };
 }

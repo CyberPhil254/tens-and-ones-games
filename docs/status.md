@@ -23,6 +23,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 27 | The starting check (one question per lesson, a grown-up may skip), the choice card (which stone, which first), the pause when she is guessing |
 | 28 | The path as a garden walk on the home screen, built from `art/props/`: a stone per lesson, a signpost per unit, treasures on mastered stones, Oreo at today's lesson |
 | 29 | Rewards that follow mastery: a treasure per lesson (she picks one of two), a trick per finished unit, an award per stage; the tricks on the home screen |
+| 30 | The parents' area behind an adult check: time this week, strong / weak / slow, progress by unit, a note with source and strength for every lesson, how to help, settings (sound, stage, currency, Star's sister, start again), children on the device, moving a profile as a code or file. One page on how the app teaches, with the sources |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -42,7 +43,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 
 1. ~~Finish the port~~ done.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
-3. **Path, rewards, parents' area, the notes (in progress):** ~~the garden path~~; ~~rewards~~; next: the parents' area behind an adult check, the parent note per lesson, the page about the approach; then the look-and-feel pass (72 px buttons, red and blue only for tens and ones).
+3. **Path, rewards, parents' area, the notes (in progress):** ~~the garden path~~; ~~rewards~~; ~~the parents' area, the notes, the approach page~~; next: the look-and-feel pass (72 px buttons, red and blue only for tens and ones).
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.
 6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.
@@ -66,3 +67,5 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - The choice cards show lesson titles as words only. A child who cannot read them yet cannot tell the cards apart; they get the lesson's picture with the garden path (step 3).
 - The starting check has one question per lesson. A lucky tap marks a lesson as known; review is what catches it. Worth watching with a real child.
 - Tricks repeat after six units and four of the seven award pictures are unused: the art has six tricks and the path has fourteen units.
+- The "Star's sister" switch is in settings and saved, but nothing reads it yet: the two introductions are recorded in the voice pass (step 6).
+- Two sources in `research.md` have no address (Fyfe et al. 2015; Deci et al. 1999); the approach page lists them without a link.
