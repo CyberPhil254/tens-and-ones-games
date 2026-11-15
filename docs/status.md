@@ -18,6 +18,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 |---|---|
 | 1 to 8 | Scaffold, reference check of the live game, question makers, blocks, voice player, pictures, round and session rules, home and game screens, High Five |
 | 9, 10 | Oreo's poses and icon; Pack Ten |
+| 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
 | 21 | Race to 100, for two, against a grown-up or Oreo |
 | 20 | Oreo's Stories, three levels. All eleven path games are ported |
 | 19 | Mystery Box, three levels |
@@ -32,8 +33,8 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 
 ## Next (the order of section 10 of the spec)
 
-1. **Finish the port:** Quick Paws. (The number machine is on the home screen already.)
-2. Structure and engine: units, lessons and steps as data; rating, mastery, review, today's games, starting check; profiles and storage behind one interface.
+1. ~~Finish the port~~ done.
+2. **Structure and engine (start here):** units, lessons and steps as data; rating, mastery, review, today's games, starting check; profiles and storage behind one interface.
 3. Path (garden), rewards, parents' area, parent notes.
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.

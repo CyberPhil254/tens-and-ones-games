@@ -3,7 +3,7 @@ import { GAMES, GAME_INFO, type GameProps } from '../games/registry';
 import { LEVELS, PATH, makeQuestion, type GameId } from '../maths/questions';
 import { dice } from '../maths/random';
 import { addAttempt } from '../session/attempts';
-import { answered, finishToday, nextSlot, roundFinished, roundWords, type Segment, type Slot } from '../session/progress';
+import { answered, finishToday, nextSlot, quickFinished, roundFinished, roundWords, type Segment, type Slot } from '../session/progress';
 import type { Saved } from '../session/store';
 import { wording } from '../speech/catalogue';
 import { chime } from '../speech/chime';
@@ -46,17 +46,19 @@ export interface PlayProps {
   onNext: () => void;
   /** Play this game again, or at another level. */
   onGame: (id: GameId, level?: number) => void;
+  /** Play Quick Paws again. */
+  onQuick: () => void;
 }
 
 /** One round: a row of questions, a bone or a paw for each, then what the round earned. */
-export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }: PlayProps) {
+export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame, onQuick }: PlayProps) {
   const [asked, setAsked] = useState(() => draw(seg, null, 0));
   const [results, setResults] = useState<boolean[]>([]);
   const [over, setOver] = useState(false);
   /** `no` counts remarks, so the puppy reacts afresh to each one. */
   const [fb, setFbState] = useState<{ msg: ReactNode; kind: Remark; no: number } | null>(null);
   const setFb = useCallback((f: { msg: ReactNode; kind: Remark } | null) => setFbState((old) => (f ? { ...f, no: (old?.no ?? 0) + 1 } : null)), []);
-  const [end, setEnd] = useState<{ note: string } | null>(null);
+  const [end, setEnd] = useState<{ note: string; seconds?: number } | null>(null);
   const silent = useVoiceSilent();
   const speaking = useVoiceSpeaking();
   useEffect(() => preloadPoses(), []);
@@ -121,11 +123,24 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
       onSave(live.current.saved);
       setFb({ msg: <>Woof! {msg}</>, kind: 'right' });
       if (!s.soundOff) chime();
-      say([d.pick(clean ? PRAISES : PRAISES_AFTER_HELP), ...(spoken ?? [])], 0.3);
+      // Quick Paws moves straight on; everywhere else the answer is praised and explained aloud.
+      if (seg.kind !== 'quick') say([d.pick(clean ? PRAISES : PRAISES_AFTER_HELP), ...(spoken ?? [])], 0.3);
     },
   }), [asked, onSave, say, seg.kind, setFb]);
 
   const last = results.length >= seg.n;
+
+  // Quick Paws: the clock starts with the first question, and each right answer moves on by itself.
+  const started = useRef(0);
+  useEffect(() => {
+    started.current = performance.now();
+  }, []);
+  const goOn = useRef<() => void>(() => {});
+  useEffect(() => {
+    if (seg.kind !== 'quick' || !over) return;
+    const t = setTimeout(() => goOn.current(), 700);
+    return () => clearTimeout(t);
+  }, [seg.kind, over, results.length]);
   const bones = results.filter(Boolean).length;
 
   const next = () => {
@@ -140,22 +155,33 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
     // The end of the round: levelling, and today's games are done when this was their last part.
     let progress = saved.progress;
     let note = '';
+    let noteSay: Piece[] | undefined;
+    let seconds: number | undefined;
     if (seg.kind === 'game') ({ progress, note } = roundFinished(progress, seg.id, seg.level, bones, seg.n));
+    if (seg.kind === 'quick') {
+      // The time is worked out at the end and shown once, against her own best. It was never on screen before.
+      seconds = Math.round((performance.now() - started.current) / 1000);
+      ({ progress, note, say: noteSay } = quickFinished(progress, bones, seconds, seg.n));
+    }
     const lastToday = today && !more;
     if (lastToday) progress = finishToday(progress, todayString());
     onSave({ ...saved, progress });
     const w = roundWords(bones, seg.n, lastToday, more);
     voice.stop();
-    say([w.head, note, w.tail].filter(Boolean), 0.2);
+    say([w.head, ...(noteSay ?? [note]), w.tail].filter(Boolean), 0.2);
     setFb(null);
-    setEnd({ note });
+    setEnd({ note, seconds });
   };
 
   // Oreo reacts to what just happened. With a question open and nothing said yet she listens
   // while the voice reads it, then thinks, and stays as she is until the child answers.
   const pose: Pose = fb ? POSE[fb.kind] : speaking ? 'listening' : 'thinking';
 
-  const title = seg.kind === 'game' ? `Game ${PATH.indexOf(seg.id) + 1}: ${GAME_INFO[seg.id].name}` : 'Warm-up: a mix of games you know';
+  useEffect(() => {
+    goOn.current = next;
+  });
+
+  const title = seg.kind === 'quick' ? 'Quick Paws' : seg.kind === 'game' ? `Game ${PATH.indexOf(seg.id) + 1}: ${GAME_INFO[seg.id].name}` : 'Warm-up: a mix of games you know';
   const Game = GAMES[asked.slot.id] as React.ComponentType<GameProps<GameId>> | undefined;
 
   return (
@@ -182,8 +208,8 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
 
       {end ? (
         <End
-          seg={seg} bones={bones} note={end.note} lastToday={today && !more} more={more}
-          onHome={onHome} onNext={onNext} onAgain={() => seg.kind === 'game' ? onGame(seg.id) : onHome()}
+          seg={seg} bones={bones} note={end.note} seconds={end.seconds} lastToday={today && !more} more={more}
+          onHome={onHome} onNext={onNext} onAgain={() => (seg.kind === 'game' ? onGame(seg.id) : seg.kind === 'quick' ? onQuick() : onHome())}
         />
       ) : (
         <div className="card game">
@@ -194,10 +220,10 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
             <p className={fb ? `fb ${LOOK[fb.kind]}` : 'fb'} aria-live="polite" data-testid="feedback">{fb?.msg}</p>
           </div>
           {silent && <VoiceRetry />}
-          {over && !last && results.length % 3 === 0 && (
+          {over && !last && seg.kind !== 'quick' && results.length % 3 === 0 && (
             <p className="gprompt">For the grown-up: ask “How did you know?”</p>
           )}
-          {over && <button className="next" type="button" onClick={next}>{last ? 'Finish' : 'Next'}</button>}
+          {over && seg.kind !== 'quick' && <button className="next" type="button" onClick={next}>{last ? 'Finish' : 'Next'}</button>}
         </div>
       )}
     </section>
@@ -213,8 +239,8 @@ export function VoiceRetry() {
   );
 }
 
-function End({ seg, bones, note, lastToday, more, onHome, onNext, onAgain }: {
-  seg: Segment; bones: number; note: string; lastToday: boolean; more: boolean;
+function End({ seg, bones, note, seconds, lastToday, more, onHome, onNext, onAgain }: {
+  seg: Segment; bones: number; note: string; seconds?: number; lastToday: boolean; more: boolean;
   onHome: () => void; onNext: () => void; onAgain: () => void;
 }) {
   const w = roundWords(bones, seg.n, lastToday, more);
@@ -224,6 +250,7 @@ function End({ seg, bones, note, lastToday, more, onHome, onNext, onAgain }: {
       <p className="prompt">{wording(w.head)}</p>
       <div className="stage">
         <Oreo pose={bones >= seg.n - 1 ? 'celebrating' : 'proud'} className="endpup" />
+        {seconds !== undefined && <p className="timebig" data-testid="time">{seconds} seconds</p>}
         <div className="endstars" role="img" aria-label={`${bones} bones out of ${seg.n}`}>
           {Array.from({ length: bones }, (_, i) => <Bone key={i} />)}
           <span className="off">{Array.from({ length: seg.n - bones }, (_, i) => <Bone key={i} />)}</span>
