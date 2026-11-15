@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-622 clips.
+624 clips.
 
 Whole sentences:
 
@@ -120,6 +120,8 @@ Whole sentences:
 - And how many ones?
 - One ten was broken into 10 ones. Count on from 10.
 - Breaking a ten does not change the number.
+- How many? Look for groups you know.
+- Do not count them all. Look for small groups you know.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
