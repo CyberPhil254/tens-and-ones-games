@@ -162,7 +162,7 @@ On first run the parent picks the stage. A short check (about ten questions, one
 
 ## 7. Voice
 
-- The puppy is **Oreo** everywhere, in writing and in speech. She is female. The introduction "Star's sister" is for the first user's profile only; other children get a version without Star.
+- The puppy is **Oreo** everywhere, in writing and in speech. She is female. Record two introductions: a general one, and one that calls her "Star's sister" (Star is the first user's own dog). A switch in the parents' area, off by default, chooses the second.
 - Rewrite the script as you go: warm, whole sentences a parent would say, no clipped commands. Instructions and feedback are recorded whole; equations stay stitched from number clips.
 - Record every new or changed sentence with the existing pipeline in `tools/voice/` (Kokoro, voice `af_heart`), so nothing in the app is silent. If the model cannot be fetched in your session, build everything, list the missing clips in `status.md`, and carry on.
 - Keep the full script in one data file and write `docs/voice-script.md` from it for Philipp to read.
