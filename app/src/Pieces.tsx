@@ -6,7 +6,7 @@ import { Blocks } from './ui/Blocks';
 import { Hands } from './ui/Hands';
 import { HundredSquare } from './ui/HundredSquare';
 import { NumberLine } from './ui/NumberLine';
-import { Puppy } from './ui/Puppy';
+import { ALL_POSES, Oreo } from './ui/Oreo';
 import { TenFrame } from './ui/TenFrame';
 import { Num } from './ui/Num';
 
@@ -83,9 +83,15 @@ export function Pieces() {
         <BarModel whole={n + 20} parts={[n, null]} ans={20} />
       </div>
 
-      <h2>The puppy</h2>
-      <div className="card" style={{ display: 'flex', gap: 16 }}>
-        <Puppy /> <Puppy mood="happy" /> <Puppy mood="think" />
+      <h2>Oreo</h2>
+      <p className="sub">The nine poses the app uses.</p>
+      <div className="card" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }} data-testid="oreo">
+        {ALL_POSES.map((pose) => (
+          <figure key={pose} style={{ margin: 0, textAlign: 'center', fontSize: 13 }}>
+            <Oreo pose={pose} />
+            <figcaption>{pose}</figcaption>
+          </figure>
+        ))}
       </div>
     </main>
   );

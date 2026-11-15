@@ -20,3 +20,11 @@ export function useVoiceSilent(): boolean {
     () => voice.silent,
   );
 }
+
+/** True while the voice is speaking. */
+export function useVoiceSpeaking(): boolean {
+  return useSyncExternalStore(
+    (fn) => voice.onChange(fn),
+    () => voice.speaking,
+  );
+}

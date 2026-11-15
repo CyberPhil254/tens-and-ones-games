@@ -1,5 +1,5 @@
 import { Num } from './Num';
-import { PuppySvg } from './Puppy';
+import { Oreo } from './Oreo';
 import './pictures.css';
 
 export interface NumberLineProps {
@@ -20,7 +20,7 @@ export function NumberLine({ n, puppyAt, sparse, onTap }: NumberLineProps) {
   return (
     <div className={sparse ? 'nline sparse' : 'nline'} role="img" aria-label={`number line showing ${n}`}>
       <div className="nl-pup" style={{ left: `${puppyAt ?? n}%` }}>
-        <PuppySvg />
+        <Oreo pose="standing" className="nl-oreo" />
       </div>
       <div className="nl-bar">
         {Array.from({ length: Math.floor(n / 10) }, (_, i) => <div key={`t${i}`} className="hrod" />)}

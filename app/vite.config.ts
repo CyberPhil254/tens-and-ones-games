@@ -8,9 +8,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icon.svg'],
-      // Fonts are kept for offline use too. Only woff2: every browser we support reads it.
-      workbox: { globPatterns: ['**/*.{js,css,html,svg,png,woff2}'] },
+      includeAssets: ['icon-64.png'],
+      // Fonts and Oreo's pictures are kept for offline use too. Only woff2: every browser we support reads it.
+      workbox: { globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'] },
       manifest: {
         name: 'Tens and Ones',
         short_name: 'Tens and Ones',

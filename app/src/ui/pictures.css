@@ -176,6 +176,7 @@
   top: -50px;
   width: 46px;
   height: 48px;
+  flex: none;
   transform: translateX(-50%);
   transition: left 0.35s ease;
   pointer-events: none;
@@ -255,49 +256,23 @@
   border-color: var(--ok);
 }
 
-/* The puppy. It reacts to answers; it does not move while the child is thinking. */
+/* Oreo, the puppy. She changes pose to react; she does not move while the child is thinking. */
 .pup {
   width: 96px;
   height: 96px;
   flex: none;
 }
-.pup svg {
+.pup img {
   width: 100%;
   height: 100%;
   display: block;
-  overflow: visible;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
 }
-.pup .tail {
-  transform-box: fill-box;
-  transform-origin: 0% 100%;
-}
-.pup .head {
-  transform-box: fill-box;
-  transform-origin: 50% 90%;
-  transition: transform 0.25s;
-}
-.pup .tongue {
-  display: none;
-}
-.pup.happy .tongue {
-  display: block;
-}
-.pup.happy {
+/* One small hop when a happy pose appears. Nothing repeats. */
+.pup.hop {
   animation: hop 0.5s ease-out;
-}
-.pup.happy .tail {
-  animation: wag 0.16s ease-in-out infinite alternate;
-}
-.pup.think .head {
-  transform: rotate(-11deg);
-}
-@keyframes wag {
-  from {
-    transform: rotate(-14deg);
-  }
-  to {
-    transform: rotate(22deg);
-  }
 }
 @keyframes hop {
   0% {
@@ -330,12 +305,15 @@
   .frame .dot.sun,
   .hsq .hop,
   .hsq .miss,
-  .pup.happy,
-  .pup.happy .tail {
+  .pup.hop {
     animation: none;
   }
-  .nl-pup,
-  .pup .head {
+  .nl-pup {
     transition: none;
   }
+}
+
+.nl-oreo {
+  width: 100%;
+  height: 100%;
 }

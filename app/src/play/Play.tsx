@@ -9,13 +9,17 @@ import { wording } from '../speech/catalogue';
 import { chime } from '../speech/chime';
 import type { Piece } from '../speech/script';
 import { PRAISE, PRAISE_AFTER_HELP } from '../speech/sentences';
-import { Bone, Paw, Puppy } from '../ui/Puppy';
+import { Bone, Oreo, Paw, preloadPoses, type Pose } from '../ui/Oreo';
 import type { RoundApi } from './round';
-import { speak, useVoiceSilent, voice } from './voice';
+import { speak, useVoiceSilent, useVoiceSpeaking, voice } from './voice';
 
 const d = dice(Math.random);
 const PRAISES = Object.keys(PRAISE);
 const PRAISES_AFTER_HELP = Object.keys(PRAISE_AFTER_HELP);
+/** What a remark under the question is: the reaction to an answer, or an explanation along the way. */
+type Remark = 'right' | 'wrong' | 'note-ok' | 'note-hint';
+const POSE: Record<Remark, Pose> = { right: 'happy', wrong: 'not-yet', 'note-ok': 'pointing', 'note-hint': 'pointing' };
+const LOOK: Record<Remark, 'ok' | 'hint'> = { right: 'ok', wrong: 'hint', 'note-ok': 'ok', 'note-hint': 'hint' };
 const todayString = () => new Date().toDateString();
 
 interface Asked {
@@ -50,10 +54,12 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
   const [results, setResults] = useState<boolean[]>([]);
   const [over, setOver] = useState(false);
   /** `no` counts remarks, so the puppy reacts afresh to each one. */
-  const [fb, setFbState] = useState<{ msg: ReactNode; kind: 'ok' | 'hint'; no: number } | null>(null);
-  const setFb = useCallback((f: { msg: ReactNode; kind: 'ok' | 'hint' } | null) => setFbState((old) => (f ? { ...f, no: (old?.no ?? 0) + 1 } : null)), []);
+  const [fb, setFbState] = useState<{ msg: ReactNode; kind: Remark; no: number } | null>(null);
+  const setFb = useCallback((f: { msg: ReactNode; kind: Remark } | null) => setFbState((old) => (f ? { ...f, no: (old?.no ?? 0) + 1 } : null)), []);
   const [end, setEnd] = useState<{ note: string } | null>(null);
   const silent = useVoiceSilent();
+  const speaking = useVoiceSpeaking();
+  useEffect(() => preloadPoses(), []);
 
   // What happened on the current question. Kept out of state: it changes nothing on screen by itself.
   const now = useRef({ clean: true, misses: 0, helped: false, t0: 0, say: [] as Piece[] });
@@ -80,7 +86,7 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
       say(pieces);
     },
     note(msg, kind, spoken) {
-      setFb({ msg, kind });
+      setFb({ msg, kind: kind === 'ok' ? 'note-ok' : 'note-hint' });
       if (spoken !== false && spoken) say(spoken);
     },
     helped() {
@@ -90,7 +96,7 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
     wrong(msg, spoken) {
       now.current.clean = false;
       now.current.misses++;
-      setFb({ msg, kind: 'hint' });
+      setFb({ msg, kind: 'wrong' });
       if (spoken) say(spoken);
     },
     win(msg, spoken) {
@@ -110,7 +116,7 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
         }),
       };
       onSave(live.current.saved);
-      setFb({ msg: <>Woof! {msg}</>, kind: 'ok' });
+      setFb({ msg: <>Woof! {msg}</>, kind: 'right' });
       if (!s.soundOff) chime();
       say([d.pick(clean ? PRAISES : PRAISES_AFTER_HELP), ...(spoken ?? [])], 0.3);
     },
@@ -141,6 +147,10 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
     setFb(null);
     setEnd({ note });
   };
+
+  // Oreo reacts to what just happened. With a question open and nothing said yet she listens
+  // while the voice reads it, then thinks, and stays as she is until the child answers.
+  const pose: Pose = fb ? POSE[fb.kind] : speaking ? 'listening' : 'thinking';
 
   const title = seg.kind === 'game' ? `Game ${PATH.indexOf(seg.id) + 1}: ${GAME_INFO[seg.id].name}` : 'Warm-up: a mix of games you know';
   const Game = GAMES[asked.slot.id] as React.ComponentType<GameProps<GameId>> | undefined;
@@ -177,8 +187,8 @@ export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }
           <button className="say" type="button" aria-label="Read it to me" hidden={silent} onClick={() => say(now.current.say, 0, true)}>🔊</button>
           {Game ? <Game key={asked.no} q={asked.q as never} level={asked.slot.level} round={round} /> : null}
           <div className="cheer">
-            {fb && <Puppy key={fb.no} mood={fb.kind === 'ok' ? 'happy' : 'think'} />}
-            <p className={fb ? `fb ${fb.kind}` : 'fb'} aria-live="polite" data-testid="feedback">{fb?.msg}</p>
+            <Oreo key={pose} pose={pose} />
+            <p className={fb ? `fb ${LOOK[fb.kind]}` : 'fb'} aria-live="polite" data-testid="feedback">{fb?.msg}</p>
           </div>
           {silent && <VoiceRetry />}
           {over && !last && results.length % 3 === 0 && (
@@ -210,7 +220,7 @@ function End({ seg, bones, note, lastToday, more, onHome, onNext, onAgain }: {
     <div className="card game" data-testid="end">
       <p className="prompt">{wording(w.head)}</p>
       <div className="stage">
-        <Puppy mood="happy" className="endpup" />
+        <Oreo pose={bones >= seg.n - 1 ? 'celebrating' : 'proud'} className="endpup" />
         <div className="endstars" role="img" aria-label={`${bones} bones out of ${seg.n}`}>
           {Array.from({ length: bones }, (_, i) => <Bone key={i} />)}
           <span className="off">{Array.from({ length: seg.n - bones }, (_, i) => <Bone key={i} />)}</span>
