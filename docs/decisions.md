@@ -16,9 +16,10 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 | 2026-11-15 | Hugging Face free tier is not the base for images or animation | Free credits are close to zero and the app should not generate assets while a child plays; assets are made once and shipped |
 | 2026-11-15 | Voice is pre-recorded, not browser speech | Browser voices sounded robotic and differ per device |
 | 2026-11-15 | Current voice: Kokoro `af_heart` (American, warm) | Picked by Philipp from four samples |
-| 2026-11-15 | Next voice step: rewrite the script in warmer, fuller sentences and record every sentence whole (no stitched numbers) with a directable engine (proposed, Philipp to confirm) | Terse wording and stitching are what still sound robotic |
-| 2026-11-15 | "Do everything" is enforced by gates plus earned free play, not a full lock (proposed, Philipp to confirm) | Pure compulsion works against motivation |
-| 2026-11-15 | Rewards grow with mastery, not with minutes played (proposed, Philipp to confirm) | Avoids rewarding time on easy games |
+| 2026-11-15 | Next voice step: rewrite the script in warmer, fuller sentences and record every sentence whole with a directable engine. Decided (Philipp delegated the call). Equation sentences are the exception until the clip count is known: see the open question on whole-sentence equations | Terse wording and stitching are what still sound robotic |
+| 2026-11-15 | Skill map for Stages 1 and 2 Number drafted from the published framework: `docs/skill-map.md`. Fill the Ten and Break a Ten go beyond Stage 2 and stay as stretch games. Money starts with Kenyan shillings, as a setting | Philipp delegated the call |
+| 2026-11-15 | "Do everything" is enforced by gates plus earned free play, not a full lock. Decided (Philipp delegated the call): the daily path must be finished before free play opens, and free play time is earned by it | Pure compulsion works against motivation |
+| 2026-11-15 | Rewards grow with mastery, not with minutes played. Decided (Philipp delegated the call) | Avoids rewarding time on easy games |
 | 2026-11-14 | Levelling: 5 or 6 bones of 6 moves up, a perfect round skips a level, 2 or fewer moves down, two good rounds at the last level finish a game, two misses in warm-ups bring it back | Judgement call, to be tuned with real use |
 | 2026-11-14 | No visible timer; timed practice only after accuracy (Quick Paws unlocks late) | Research on fluency |
 | 2026-11-14 | Code on GitHub (`CyberPhil254/tens-and-ones-games`), deployed by Netlify from `main` | |
