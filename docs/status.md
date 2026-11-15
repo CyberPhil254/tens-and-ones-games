@@ -1,6 +1,138 @@
-# Build status
+# Build status: final report
 
-Claude Code's memory for the full build (`docs/build-spec.md`). After a break: read `CLAUDE.md`, `docs/build-spec.md` and this file, then continue from "Next".
+The full build of `docs/build-spec.md` is finished: every line of its "Done means" list is true, with the limits written down below. This file is the report for the planning chat, and still the memory for any further work (after a break: read `CLAUDE.md`, `docs/build-spec.md` and this file).
+
+The new app: https://tens-and-ones-app.philipp-79a.workers.dev. The live game at the repository root was not touched.
+
+## "Done means", line by line
+
+| The spec says | State |
+|---|---|
+| Every skill of Stages 1 and 2 has a playable lesson with all its steps | **Yes.** 41 lessons in 14 units, 25 games, 108 levels. Table below |
+| A wrong-answer explanation for every question type | **Yes.** Each lesson's pull request lists them; the browser tests play a wrong answer at every level and read the explanation |
+| A parent note for every lesson | **Yes.** 41 notes with source and strength, from `docs/research.md` in its own words; a test fails if one overstates |
+| Its sentences recorded | **Yes.** 883 clips, none missing; a test fails if a clip has no recording |
+| A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
+| A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
+| All checks in "Checks for every lesson" pass | **Yes.** 442 unit tests, 300 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
+
+## What was built, by unit
+
+| Unit | Lesson (skill) | Steps | Played with |
+|---|---|---|---|
+| Stage 1: Counting | Count to 20 (s1-count) | 3: see, see, sketch | Count and guess |
+| Stage 1: Counting | See how many (s1-see) | 3: see, see, sketch | High Five |
+| Stage 1: Counting | Zero (s1-zero) | 2: see, head | Count and guess |
+| Stage 1: Counting | Guess, then check (s1-estimate) | 1: see | Count and guess |
+| Stage 1: Numbers to 20 | Number names to 20 (s1-names) | 2: see, head | Hear and type |
+| Stage 1: Numbers to 20 | Ten and some more (s1-teens) | 3: see, see, head | Ten and some more |
+| Stage 1: Numbers to 20 | More or less, to 20 (s1-compare) | 2: see, head | More or less |
+| Stage 1: Numbers to 20 | First to tenth (s1-ordinal) | 1: see | More or less |
+| Stage 1: Patterns and steps | What comes next (s1-pattern) | 1: see | Skip and spot |
+| Stage 1: Patterns and steps | Steps of one, two and ten (s1-skip) | 2: see, head | Skip and spot |
+| Stage 1: Patterns and steps | Odd and even to 20 (s1-oddeven) | 2: see, head | Skip and spot |
+| Stage 1: Adding and taking away to 20 | Adding (s1-add) | 3: see, sketch, head | Sums to 20 |
+| Stage 1: Adding and taking away to 20 | Taking away (s1-sub) | 3: see, sketch, head | Sums to 20 |
+| Stage 1: Adding and taking away to 20 | Friends of ten (s1-ten) | 3: see, head, use | Friends of Ten, Oreo's Stories |
+| Stage 1: Adding and taking away to 20 | Doubles (s1-doubles) | 2: see, head | Sums to 20 |
+| Stage 1: Adding and taking away to 20 | Sums to 20 (s1-calc20) | 3: see, head, use | Sums to 20 |
+| Stage 1: Halves | Halves (s1-half) | 3: see, see, head | Halves and quarters |
+| Stage 1: Money | Coins and notes (s1-money) | 2: see, head | Money |
+| Stage 2: Tens and ones | Pack in tens (s2-count) | 2: see, see | Pack Ten |
+| Stage 2: Tens and ones | Tens and ones (s2-place) | 5: see, see, sketch, see, head | Quick Look, Oreo's Walk, Number Names |
+| Stage 2: Tens and ones | Number names to 100 (s2-names) | 3: see, head, head | Number Names, Hear and type |
+| Stage 2: Tens and ones | Build and split (s2-regroup) | 4: see, see, see, head | Pack Ten, Oreo's Walk, Another way |
+| Stage 2: Numbers on the line | See how many, new patterns (s2-see) | 2: see, sketch | New patterns |
+| Stage 2: Numbers on the line | Guess a heap (s2-estimate) | 1: see | Count and guess |
+| Stage 2: Numbers on the line | More or less, to 100 (s2-compare) | 2: see, head | More or less |
+| Stage 2: Numbers on the line | Eleventh and beyond (s2-ordinal) | 1: see | More or less |
+| Stage 2: Numbers on the line | The nearer ten (s2-round) | 2: see, head | More or less |
+| Stage 2: Counting in steps | Steps of two, five and ten (s2-skip) | 3: see, see, head | Jump in Tens, Skip and spot |
+| Stage 2: Counting in steps | Odd and even to 100 (s2-oddeven) | 1: head | Skip and spot |
+| Stage 2: Counting in steps | Number patterns (s2-sequence) | 1: head | Skip and spot |
+| Stage 2: Adding and taking away to 100 | Friends of 20 and 100 (s2-bonds) | 4: see, see, see, head | Friends of Ten, Friends of 20 and 100 |
+| Stage 2: Adding and taking away to 100 | Mystery numbers (s2-inverse) | 3: see, see, head | Mystery Box |
+| Stage 2: Adding and taking away to 100 | Tens and ones sums (s2-calc) | 6: see, see, sketch, see, head, use | Jump in Tens, Tens and ones sums, Break a Ten, Oreo's Stories |
+| Stage 2: Equal groups | Equal groups (s2-times) | 3: see, sketch, head | Equal groups |
+| Stage 2: Equal groups | Times tables (s2-tables) | 2: see, head | Equal groups |
+| Stage 2: Equal groups | Fair shares (s2-divide) | 3: see, sketch, head | Fair shares |
+| Stage 2: Quarters | Quarters (s2-quarter) | 4: see, see, sketch, head | Halves and quarters |
+| Stage 2: Money | Amounts of money (s2-money) | 3: see, sketch, head | Money |
+| Stretch: Across a ten | Fill the ten (x-fill) | 5: see, see, sketch, head, use | Fill the Ten, Oreo's Stories |
+| Stretch: Across a ten | Break a ten (x-break) | 2: see, head | Break a Ten |
+| Stretch: Across a ten | Find it on the line (x-line) | 1: see | Oreo's Walk |
+
+"see, sketch, head, use" are the spec's four steps: the full picture, a simpler drawing, numbers only, a story or mixed question. From the "head" step on, answers are typed on the number pad.
+
+Around the lessons:
+- **The engine** (`app/src/engine/`): a rating per lesson; a step passed with 5 of 6, dropped at 2 or fewer; mastery on two different days; review after 1, 3, 7, 14 and 30 days; reopening after two misses; today's games (warm-up, two new rounds, one to get stronger); the starting check; the choice card; the pause when she is guessing.
+- **The garden path** as the home screen, built from `art/props/`; Oreo with eleven poses from `art/puppy/`.
+- **Rewards that follow mastery**: a treasure per lesson (she picks one of two), a trick per unit, an award per stage.
+- **Profiles** on the device: nickname, animal picture, stage, progress; several children; a profile as a code or file for another device. All storage behind one interface.
+- **The parents' area** behind an adult check: time this week, strong / weak / slow, progress by unit, the notes, how to help, settings. One page on how the app teaches, with the sources.
+- **Race to 100, Quick Paws and the number machine**, ported; open after today's games.
+- **Offline and installable**; buttons of at least 72 px; red and blue only for tens and ones; plain question screens; nothing moves when the device asks for no motion.
+
+## Where the spec was not met, or was bent
+
+1. **"Which story?" is not built** (the same questions dressed as bones, balls or stepping stones). Every story sentence is a recording about bones; two more dressings would be about four hundred more clips. The other three choice cards exist: which first, which stone, which treasure.
+2. **Ten lessons end with their picture**, although the spec says every lesson ends without it: Count to 20, See how many, Guess then check, First to tenth, What comes next, Pack in tens, See how many (new patterns), Guess a heap, Eleventh and beyond, Find it on the line. In eight of them the picture is the task: there is nothing to count, see, guess or point at without it. "Pack in tens" and "Find it on the line" are the two that could get a step in her head and do not have one yet.
+3. **Two places are under 72 px**: the squares of the hundred square (about 31 px on a phone) and the places of the queue of ten (64 px wide, 72 px high).
+4. **The voice is cut by lesson family, not strictly by unit**: twelve packs, the one needed everywhere 0.4 MB (the single file was 7 MB).
+5. **Tricks repeat**: the art has six, the path has fourteen units. Four of the seven award pictures are unused.
+6. **The currency setting has one entry**, Kenyan shillings.
+7. **Not checked on a real phone or tablet, and not with a real child.** Everything was played by browser tests at 400 px and 1280 px. This is the biggest gap in the whole build.
+
+## Decisions
+
+All 124 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+
+1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
+2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
+3. **The spec's one lesson name per row became several lessons**, one per skill (for example "More or less" is five lessons), so that each skill has its own stone and its own mastery.
+4. **A guess is answered by choosing the nearest of three numbers set well apart**, not by naming the count.
+5. **The adult check** is one times-table fact. It keeps a six year old out by accident, not on purpose.
+6. **The parent notes use five strength words** (strong, promising, mixed, moderate, expert guidance), not the spec's three, so that guidance is not called evidence.
+7. **The only sentence naming the curriculum** is on the approach page: "for learners following the Cambridge Primary curriculum, Stages 1 and 2, the Number part". The legal check in the open questions still stands.
+8. **Oreo is "she"**, and two games were renamed (Oreo's Walk, Oreo's Stories).
+
+## Clips
+
+- 883 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 545 keep their recording from the live game, 338 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
+- Missing: none (`app/voice/missing.json` is empty).
+- Nobody has listened to the 338 new ones. They are machine voice of the same kind as the live game's; a few will have odd stress and want recording again by ear. The stitched sentences ("8, plus, 5. How many altogether?") are the most likely to sound wrong.
+
+## The whole-path test (200 days, `app/src/engine/path.test.ts`)
+
+| Child | Mastered | Steps up (jumped) | Steps down | Reopened by review | Tricks |
+|---|---|---|---|---|---|
+| Always right | 41 of 41, the last on day 59 | 40 (23) | 0 | 0 | 14 |
+| Right 3 times in 4 | 41 of 41, the last on day 122 | 62 (8) | 7 | 46 | 14 |
+| Right 3 times in 5, at every step | 0 of 41 at the end | 69 (8) | 73 | 58 | 1 |
+| 85 percent at the first step, 7 points less each step | 38 of 41 | 92 (14) | 46 | 52 | 14 |
+
+For all four: never a lesson that was not open, never a day with nothing to do, never more than four rounds a day, no lesson mastered on the day its last step was first passed, reviews at 1, 3, 7, 14 and 30 days, each reward once and only for mastery.
+
+What it shows, honestly:
+- **A child who is right only three times in five at every step keeps nothing.** She masters lessons and loses them again in review (two misses in a row reopen a lesson), and is given a step back 73 times. The app holds her back as the spec says, but it does not help her forward, and nothing tells her parent. A real child is not equally weak at every step, so this is the worst case; still, a "stuck" sign in the parents' area is the first thing I would add.
+- **Reopening is frequent even for a good child**: 46 times in 200 days at 75 percent. Each costs only one good day to win back, but it may feel like going backwards. Worth trying "two misses on two different days" instead of two in a row.
+- A child who is always right needs about two months at one session a day for all 41 lessons.
+
+## What to improve next
+
+In the order I would do it:
+
+1. **Put it in front of the first child, on her own phone, and watch.** Nothing below matters as much. Things to watch for: whether the number pad needs an introduction; whether the choice cards mean anything to a child who cannot read the lesson titles (they have no pictures yet); whether "in her head" screens with the picture back are too tall; whether the hundred square can be hit.
+2. **A "stuck" sign in the parents' area**, when a lesson has been dropped or reopened several times: the app currently holds such a child back without telling anyone.
+3. **Soften reopening**: two misses on two different days, instead of two in a row.
+4. **Listen to the new recordings** and record again what sounds wrong.
+5. **Pictures on the choice cards** (the lesson's own picture, small).
+6. **More than one question per lesson in the starting check**, or a second question when the first is right, before a whole unit is marked as known.
+7. **A last step in her head for "Pack in tens" and "Find it on the line".**
+8. **"Which story?"**: decide whether it is worth four hundred clips, or whether the stories can be dressed in pictures only.
+9. **More tricks and awards** in `art/`, so that no trick repeats.
+10. The remaining open questions in `docs/decisions.md` (name and positioning near "Cambridge", the legal check on children's data) are untouched by this build and still open.
 
 ## How each pull request is done
 
@@ -40,6 +172,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 44 | **Count and guess**: four lessons (Count to 20, Zero, Guess then check, Guess a heap), seven levels. **All 41 lessons are playable.** The starting check now marks a whole Stage 1 unit as known for a Stage 2 child |
 | 45 | The whole-path test: four simulated children play 200 days through the app's own rules; gating, mastery, review and rewards are checked for each |
 | 46 | The voice pass: twelve packs by lesson family (the first is 0.4 MB, not 7 MB), 15 clipped commands rewritten as whole sentences, Oreo's two introductions with the "Star's sister" switch, unused sentences and recordings removed |
+| 47 | The final report (this file) |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -55,55 +188,10 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 12 | Quick Look, three levels |
 | 11 | Voice pipeline for new clips and packs; the puppy is "Oreo" and "she" in writing and speech; 138 sentences re-recorded; browser tests can run against a preview |
 
-## Next (the order of section 10 of the spec)
 
-1. ~~Finish the port~~ done.
-2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
-3. ~~**Path, rewards, parents' area, the notes:** the garden path; rewards; the parents' area, the notes, the approach page; the look-and-feel pass.~~ Done.
-4. ~~**Stage 2 gaps:** Sums to 20; Tens and ones sums; the additions to existing games; More or less; Skip and spot; Equal groups; Fair shares; Halves and quarters; Money.~~ Done.
-5. ~~**Stage 1:** Count and guess; the Stage 1 ranges and the Stage 1 parts of the shared lessons (built with their lessons in step 4).~~ Done. Every lesson has something to play.
-6. **Voice pass, whole-path test, speed and offline, final report (next):** rewrite the oldest sentences into warm whole sentences; the two introductions of Oreo and the "Star's sister" switch; the voice in one pack per unit; prune clips nothing uses; the test that plays the whole path with children at 100, 75 and 60 percent; check speed; the final report in this file.
+## Other notes
 
-## Decisions made during the build
-
-All in `docs/decisions.md` under "Decided during the build, to confirm".
-
-## Clips
-
-- 883 clips in the script (`app/voice/script.json`, readable as `docs/voice-script.md`): 545 keep their recording from the live game, 338 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
-- Missing: none (`app/voice/missing.json` is empty). A test fails if a clip has no recording.
-- The recordings for the app are machine voice of the same kind as the live game's. Nobody has listened to all 338; a few will have odd stress and want re-recording by ear.
-
-## Honest notes
-
-
-- The script rewrite into warmer whole sentences (spec section 7) has not started; the wording is still the live game's, with Oreo's name. It is planned for step 6, lesson by lesson where a lesson is new.
-- The live game at the repository root is untouched.
-- The choice cards show lesson titles as words only. A child who cannot read them yet cannot tell the cards apart; they get the lesson's picture with the garden path (step 3).
-- The starting check has one question per lesson. A lucky tap marks a lesson as known; review is what catches it. Worth watching with a real child.
-- Tricks repeat after six units and four of the seven award pictures are unused: the art has six tricks and the path has fourteen units.
 - Two sources in `research.md` have no address (Fyfe et al. 2015; Deci et al. 1999); the approach page lists them without a link.
-- The hundred square has squares of about 31 px on a 400 px phone, far under the 72 px rule. It is used in Jump in Tens, Mystery numbers and Race to 100. A child can hit them (the live game has the same squares) but it is the one place the rule is not met.
-- Not yet checked on a real tablet or a real phone, only in the test browser at 400 px and 1280 px.
-- Sums to 20, "in her head" with the picture showing after a miss: two ten frames plus the number pad are taller than a phone screen, so she scrolls a little to see Oreo's words. The words are also spoken.
-- The number pad has no spoken introduction. To decide with a real child whether it needs one.
-- First to tenth: the places of the queue are 64 px wide on a phone (72 px high). With the hundred square this is the second place under the 72 px rule.
-- Money: the sentences say "shillings". The currency setting has one entry; a second currency needs its own recordings.
 - The starting check asks ten questions at most. A Stage 2 child gets six about Stage 1 and the first lessons of four Stage 2 units; the last three Stage 2 units (Equal groups, Quarters, Money) are not asked about.
-- Which Stage 1 lesson stands for its unit in the starting check is my judgement (see decisions); worth a look.
-
-## The whole-path test (200 days, `app/src/engine/path.test.ts`)
-
-| Child | Mastered | Steps up (jumped) | Steps down | Reopened by review | Tricks |
-|---|---|---|---|---|---|
-| Always right | 41 of 41, the last on day 59 | 40 (23) | 0 | 0 | 14 |
-| Right 3 times in 4 | 41 of 41, the last on day 122 | 62 (8) | 7 | 46 | 14 |
-| Right 3 times in 5, at every step | 0 of 41 at the end | 69 (8) | 73 | 58 | 1 |
-| 85 percent at the first step, 7 points less each step | 38 of 41 | 92 (14) | 46 | 52 | 14 |
-
-For all four: never a lesson that was not open, never a day with nothing to do, never more than four rounds a day, no lesson mastered on the day its last step was first passed, reviews at 1, 3, 7, 14 and 30 days, each reward once and only for mastery.
-
-What it shows, honestly:
-- **A child who is right only three times in five at every step keeps nothing.** She masters lessons and loses them again in review (two misses in a row reopen a lesson), and is given a step back 73 times. The app holds her back as the spec says, but it does not help her forward, and nothing tells her parent. A real child is not equally weak at every step, so this is the worst case; still, a "stuck" sign in the parents' area is the first thing I would add.
-- **Reopening is frequent even for a good child**: 46 times in 200 days at 75 percent. Each costs only one good day to win back, but it may feel like going backwards. Worth trying "two misses on two different days" instead of two in a row.
-- A child who is always right needs about two months at one session a day for all 41 lessons.
+- Money: the sentences say "shillings"; a second currency needs its coins and notes as data and its own recordings.
+- The Kokoro model for recording is fetched from GitHub releases (`kokoro-onnx`, model-files-v1.0); see `app/README.md`.
