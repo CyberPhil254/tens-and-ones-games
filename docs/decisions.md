@@ -8,6 +8,16 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-11-15 | Front-end stack confirmed: TypeScript, React, Vite, Vitest, Playwright. Not Svelte. Keep the bundle lean anyway | Philipp: ecosystem and handover matter more than bundle size here |
+| 2026-11-15 | The rating sits above the bones rule. Bones pick the level inside a game, exactly as today; the rating decides mastery, unlocks and what gets repeated (answers question 8) | Philipp |
+| 2026-11-15 | Whole-sentence equations: count them per game and report in `status.md`. Record nothing yet (answers question 9) | Philipp; the size decides the approach |
+| 2026-11-15 | The new app deploys to a second Netlify site built from `app/`. The existing site and link stay untouched. The planning chat creates the site once the scaffold pull request exists (answers question 10) | Philipp; the family link must not break |
+| 2026-11-15 | The first child's existing progress is imported into her profile. The second site is a different origin and cannot read the old localStorage, so Claude Code proposes a transfer mechanism at work package 5 (answers question 11) | Philipp |
+| 2026-11-15 | Parent sign-in is by emailed link, no passwords. The Supabase region is decided at work package 5 (answers question 12) | Philipp |
+| 2026-11-15 | Claude Code writes no curriculum content. It writes `docs/game-skills.md`: per game and level, the skill practised and the number range, in plain words. The planning chat builds the skill map from that (answers question 13) | Philipp |
+| 2026-11-15 | The port keeps the 702 current clips behind sentence ids; the rewrite and re-recording swap in later (answers question 14) | Philipp |
+| 2026-11-15 | Tests come first: a reference check of the generators in `index.html` before anything is ported | Philipp; the repository had no tests |
+| 2026-11-15 | Build order: pull request 1 scaffold, pull request 2 reference check, then shared pieces, then the games in path order, one small pull request each | Philipp |
 | 2026-11-15 | Strategy stays in the planning chat; Claude Code implements and builds | Keeps product decisions in one place |
 | 2026-11-15 | First scope: the Number strand of Cambridge Primary Stages 1 and 2 | Confirmed by Philipp. Covers the first user's level and the foundations below it |
 | 2026-11-15 | Phase 1 is a pilot for families (5 to 10), built so it can be sold later: accounts now, no payments yet | Confirmed by Philipp |
@@ -33,3 +43,12 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 5. App name and positioning. Wording near "Cambridge" needs a legal check.
 6. The repository is public. Should it be private if this becomes a product?
 7. Budget and timeline for a pilot with 5 to 10 families.
+Questions 8 to 14 were raised by Claude Code on 15 November 2026 and answered by Philipp the same day; the answers are rows in the table above. What is still open from them:
+
+8. Answered: the rating sits above the bones rule.
+9. Answered in part: count the distinct equation sentences per game first. Whether to record them all or narrow the ranges is decided once the counts are in `status.md`.
+10. Answered: a second Netlify site built from `app/`.
+11. Answered: import the existing progress. Open: the transfer mechanism between the two sites, to be proposed by Claude Code at work package 5.
+12. Answered: emailed link. Open: the Supabase region, decided at work package 5.
+13. Answered: Claude Code writes `docs/game-skills.md`, not curriculum content.
+14. Answered: keep the 702 clips behind sentence ids.

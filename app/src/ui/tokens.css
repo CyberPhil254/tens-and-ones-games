@@ -1,0 +1,71 @@
+/* The visual language of the maths, copied from the live game (index.html at the repo root).
+   Tens are red, ones are blue: first five dark, next five light. Change colours here only. */
+:root {
+  --paper: #f3f6fb;
+  --grid: #d6e0ef;
+  --ink: #1b2a4a;
+  --ten: #e5484d;
+  --ten-deep: #b5303a;
+  --one: #2b6de8;
+  --one-lite: #86b4ff;
+  --sun: #ffc53d;
+  --ok: #17875a;
+  --card: #ffffff;
+  --soft: #5a6b8c;
+  --display: 'Fredoka', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --body: 'Andika', 'Verdana', 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18px;
+  line-height: 1.5;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 56px;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 0 var(--grid);
+}
+
+.num {
+  font-family: var(--display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.num .t {
+  color: var(--ten);
+}
+.num .o {
+  color: var(--one);
+}
