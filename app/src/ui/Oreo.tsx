@@ -1,10 +1,12 @@
 import celebrating from '../art/oreo/celebrating.webp';
+import digging from '../art/oreo/digging.webp';
 import happy from '../art/oreo/happy.webp';
 import hello from '../art/oreo/hello.webp';
 import listening from '../art/oreo/listening.webp';
 import notYet from '../art/oreo/not-yet.webp';
 import pointing from '../art/oreo/pointing.webp';
 import proud from '../art/oreo/proud.webp';
+import sleeping from '../art/oreo/sleeping.webp';
 import standing from '../art/oreo/standing.webp';
 import thinking from '../art/oreo/thinking.webp';
 import './pictures.css';
@@ -32,6 +34,10 @@ const POSES = {
   hello,
   /** While the voice speaks. */
   listening,
+  /** Today's games are done. */
+  sleeping,
+  /** Something that is still being made. */
+  digging,
 } as const;
 export type Pose = keyof typeof POSES;
 export const ALL_POSES = Object.keys(POSES) as Pose[];

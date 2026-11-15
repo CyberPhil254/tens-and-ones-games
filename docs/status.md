@@ -21,6 +21,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 25 | Profiles and storage (`app/src/data/`): several children per device, one storage interface, a profile as a code for another device, saved data checked when read |
 | 26 | The app runs on the engine and on profiles: first-run form for a grown-up, who is playing, today's games from the engine (warm-up, two new rounds, one stronger), steps instead of levels, free play only after today, a round counts only when finished. Old `session/` code removed. Browser tests rewritten (116) |
 | 27 | The starting check (one question per lesson, a grown-up may skip), the choice card (which stone, which first), the pause when she is guessing |
+| 28 | The path as a garden walk on the home screen, built from `art/props/`: a stone per lesson, a signpost per unit, treasures on mastered stones, Oreo at today's lesson |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -40,7 +41,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 
 1. ~~Finish the port~~ done.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
-3. Path (garden), rewards, parents' area, parent notes.
+3. **Path, rewards, parents' area, the notes (in progress):** ~~the garden path~~; next: rewards (a treasure per lesson, a trick per unit, an award per stage, the "which reward?" card); then the parents' area behind an adult check, the parent note per lesson, the page about the approach; then the look-and-feel pass (72 px buttons, red and blue only for tens and ones).
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.
 6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.

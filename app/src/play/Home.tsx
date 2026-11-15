@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import type { ProfileData, Settings } from '../data/profile';
 import { doneToday } from '../engine/apply';
-import { LESSON, UNITS, type Lesson } from '../engine/curriculum';
-import { statusOf, waitsFor, type LessonStatus } from '../engine/rules';
+import { LESSON, type Lesson } from '../engine/curriculum';
 import { lessonState, type Day } from '../engine/state';
 import { planToday } from '../engine/today';
 import { chime } from '../speech/chime';
 import { Blocks } from '../ui/Blocks';
 import { FriendPicture } from '../ui/FriendPicture';
 import { Num } from '../ui/Num';
-import { Bone, Oreo, Paw } from '../ui/Oreo';
+import { Bone, Oreo } from '../ui/Oreo';
+import { Garden } from './Garden';
 import { VoiceRetry } from './Play';
 import { speak, useVoiceSilent, voice } from './voice';
 
@@ -55,7 +55,7 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
     <section>
       <div className="top">
         <h1 className="title"><span className="t">Tens</span> <span className="amp">&amp;</span> <span className="o">Ones</span></h1>
-        <Oreo pose="hello" className="toppup" />
+        <Oreo pose={done ? 'sleeping' : 'hello'} className="toppup" />
       </div>
       <button type="button" className="whoami" onClick={onSwitch} disabled={!shared} aria-label={shared ? `${data.profile.nickname}. Change who is playing` : data.profile.nickname}>
         <FriendPicture friend={data.profile.picture} size={40} />
@@ -105,28 +105,7 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
 
       <h2>The path</h2>
       {!done && <p className="h2note" data-testid="free-note">Free play opens when today’s games are done.</p>}
-      {UNITS.map((u) => (
-        <div key={u.id} data-unit={u.id}>
-          <p className="shelfh">{u.stretch ? `Stretch: ${u.title}` : `Stage ${u.stage}: ${u.title}`}</p>
-          <ol className="stations">
-            {u.lessons.map((l) => {
-              const status = statusOf(data.child, l, today);
-              const playableNow = done && (status === 'open' || status === 'resting' || status === 'mastered');
-              return (
-                <li key={l.id}>
-                  <button className={`station ${status}`} type="button" disabled={!playableNow} data-lesson={l.id} data-status={status} onClick={() => onLesson(l)}>
-                    <span className="no">{status === 'mastered' ? <Paw /> : status === 'locked' || status === 'coming' ? '·' : lessonState(data.child, l.id).step + 1}</span>
-                    <span>
-                      <strong>{l.title}</strong>
-                      <span className="d">{describe(status, l, data)}</span>
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      ))}
+      <Garden data={data} today={today} open={done} here={!done && fresh && 'slot' in fresh ? fresh.slot.lesson : null} onLesson={onLesson} />
 
       <h2>Play together</h2>
       <ol className="stations">
@@ -168,14 +147,6 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
       </div>
     </section>
   );
-}
-
-function describe(status: LessonStatus, l: Lesson, data: ProfileData): string {
-  if (status === 'coming') return 'Coming soon.';
-  if (status === 'locked') return `First: ${waitsFor(l).filter((n) => !lessonState(data.child, n.id).mastered && !lessonState(data.child, n.id).passedOn.length).map((n) => n.title).join(', ')}.`;
-  if (status === 'mastered') return 'Mastered. It comes back in the warm-ups.';
-  if (status === 'resting') return 'Last step done today. Once more on another day.';
-  return `Step ${lessonState(data.child, l.id).step + 1} of ${l.steps.length}.`;
 }
 
 /** Free play: a number from 0 to 99 as blocks, one ten or one one more or fewer. */

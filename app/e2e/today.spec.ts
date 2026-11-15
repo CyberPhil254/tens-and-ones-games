@@ -88,3 +88,44 @@ test('no choice card before the warm-up: the warm-up always comes first', async 
   await expect(page.getByTestId('title')).toHaveText('Warm-up: a mix of what you know');
   await expect(page.getByTestId('choice')).toHaveCount(0);
 });
+
+test('the path is a garden: a stone per lesson, a part of the garden per unit, and each stone says where it stands', async ({ page }) => {
+  const errors = watch(page);
+  await page.addInitScript(() => {
+    // A treasure on a mastered stone, as the rewards will put it there.
+    const k = 'tens-and-ones.profile.child-test';
+    const d = JSON.parse(localStorage.getItem(k) ?? 'null');
+    if (d && !d.rewards.treasures['s1-see']) {
+      d.rewards.treasures['s1-see'] = 'ball';
+      localStorage.setItem(k, JSON.stringify(d));
+    }
+  });
+  await seed(page, { lessons: { 's1-see': mastered(), 's1-ten': { step: 1, rating: 1, answers: 12 } }, soundOff: true });
+  await page.goto('/');
+  await page.reload(); // the treasure is added to the seeded child on the second load
+  const garden = page.getByTestId('garden');
+  await expect(garden.locator('.plot')).toHaveCount(14);
+  await expect(garden.locator('.stone')).toHaveCount(41);
+  await expect(garden.locator('.plot').first().locator('.post')).toHaveText('Stage 1: Counting');
+
+  const see = garden.locator('[data-lesson=s1-see]');
+  await expect(see).toHaveAttribute('data-status', 'mastered');
+  await expect(see.locator('.treasure')).toHaveAttribute('alt', 'a ball');
+  await expect(see).toContainText('Mastered. It comes back in the warm-ups.');
+  // Oreo waits at the lesson today's games are about, and nowhere else.
+  await expect(garden.locator('.herepup')).toHaveCount(1);
+  await expect(garden.locator('[data-lesson=s1-ten] .herepup')).toBeVisible();
+  await expect(garden.locator('[data-lesson=s1-ten]')).toContainText('Step 2 of 3.');
+  await expect(garden.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
+  await expect(garden.locator('[data-lesson=s1-count]')).toContainText('Coming soon.');
+
+  // Every stone is big enough for a small finger, and the pictures have loaded.
+  for (const id of ['s1-see', 's1-ten', 's2-place']) {
+    const box = (await garden.locator(`[data-lesson=${id}]`).boundingBox())!;
+    expect(box.height).toBeGreaterThanOrEqual(72);
+    expect(box.width).toBeGreaterThanOrEqual(72);
+  }
+  await expect.poll(() => garden.locator('img').evaluateAll((all) => all.every((i) => (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0))).toBe(true);
+  await fitsTheScreen(page);
+  expect(errors).toEqual([]);
+});

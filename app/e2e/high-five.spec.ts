@@ -67,6 +67,7 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
   await seed(page);
   await page.goto('/');
   await expect(page.getByTestId('today-text')).toHaveText('Two rounds of See how many. About ten minutes.');
+  await expect(page.locator('.toppup')).toHaveAttribute('data-pose', 'hello');
   // Free play is closed until today's games are done.
   await expect(page.getByTestId('free-note')).toBeVisible();
   await expect(page.locator('[data-lesson=s1-see]')).toBeDisabled();
@@ -287,7 +288,7 @@ test('without the voice pack the game is silent, playable, and offers to try aga
 test('Oreo listens while the question is read, then thinks, and reacts only to answers', async ({ page }) => {
   await seed(page, { doneOn: day() });
   await page.goto('/');
-  await expect(page.locator('.toppup')).toHaveAttribute('data-pose', 'hello');
+  await expect(page.locator('.toppup')).toHaveAttribute('data-pose', 'sleeping'); // today's games are done
   await page.locator('[data-lesson=s1-see]').click();
   const oreo = page.locator('.cheer .pup');
 
