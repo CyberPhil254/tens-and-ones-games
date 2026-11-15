@@ -51,7 +51,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 1. ~~Finish the port~~ done.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
 3. ~~**Path, rewards, parents' area, the notes:** the garden path; rewards; the parents' area, the notes, the approach page; the look-and-feel pass.~~ Done.
-4. **Stage 2 gaps (in progress):** ~~Sums to 20~~; ~~Tens and ones sums (adding)~~; ~~Friends of Ten: pairs to 20 and tens to 100~~; ~~Pack Ten: 0 to 20 and "another way"~~; ~~Number Names: 0 to 20 and typing~~; ~~High Five: new arrangements~~; next: More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
+4. **Stage 2 gaps (in progress):** ~~Sums to 20~~; ~~Tens and ones sums (adding)~~; ~~the additions to existing games (Friends of Ten, Pack Ten, Number Names, High Five)~~; next: More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.
 6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.
 
