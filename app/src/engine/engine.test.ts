@@ -4,7 +4,7 @@ import { CONFIG } from './config';
 import { LESSON, LESSONS, playable } from './curriculum';
 import { answered, chance, dueLessons, fittingStep, looksLikeGuessing, place, reviewed, roundFinished, statusOf, waitsFor, type RoundOutcome } from './rules';
 import { addDays, dayOf, lessonState, newChild, withLesson, type ChildState, type Day } from './state';
-import { nextPart, planToday, somethingLeft, type Part } from './today';
+import { nextPart, nextLessons, planToday, somethingLeft, type Part } from './today';
 
 const D0: Day = '2026-11-16';
 const quick = { clean: true, ms: 3000 };
@@ -209,7 +209,11 @@ describe("today's games", () => {
     expect((plan[0] as Extract<Part, { kind: 'warm' }>).slots.map((x) => x.lesson)).toEqual(['s1-see', 's1-ten']);
     expect(plan[0]!.n).toBe(5);
     // The next lesson on the path is new; the one she has started and not finished is where she gets stronger.
-    expect(plan[1]).toMatchObject({ slot: { lesson: 's1-teens' } });
+    // New is the first open lesson on the path she has not started: never a mastered one, never the one she is in the middle of.
+    const fresh = (plan[1] as Extract<Part, { kind: 'new' }>).slot.lesson;
+    expect(fresh).toBe(nextLessons(s, day)[0]!.id);
+    expect(['s1-see', 's1-ten', 's1-add']).not.toContain(fresh);
+    expect(lessonState(s, fresh).answers).toBe(0);
     expect(plan[3]).toMatchObject({ kind: 'stronger', counts: true, slot: { lesson: 's1-add' } });
     // With nothing else started, the stronger round is on a mastered lesson and does not move the path.
     const known = master(master(newChild(), 's1-see', D0), 's1-ten', addDays(D0, 5));
@@ -222,10 +226,13 @@ describe("today's games", () => {
     expect(nextPart(s, D0, ['new'])).toMatchObject({ kind: 'new', slot: { lesson: 's1-see', step: 2 } });
   });
   it('honours the lesson she chose when two are open', () => {
-    const open = planToday(newChild(), D0);
-    expect(open[0]).toMatchObject({ slot: { lesson: 's1-see' } });
-    // For a new child "See how many" and "Ten and some more" are the first two open.
-    expect(planToday(newChild(), D0, 's1-teens')[0]).toMatchObject({ slot: { lesson: 's1-teens' } });
+    // For a new child two lessons are open. Without a choice it is the first; with one, the one she chose.
+    const [first, second] = nextLessons(newChild(), D0);
+    expect(first!.id).toBe('s1-see');
+    expect(second).toBeDefined();
+    expect(planToday(newChild(), D0)[0]).toMatchObject({ slot: { lesson: first!.id } });
+    expect(planToday(newChild(), D0, second!.id)[0]).toMatchObject({ slot: { lesson: second!.id } });
+    expect(planToday(newChild(), D0, second!.id)[1]).toMatchObject({ slot: { lesson: second!.id } });
     expect(planToday(newChild(), D0, 'x-fill')[0]).toMatchObject({ slot: { lesson: 's1-see' } }); // a locked lesson cannot be chosen
   });
 });

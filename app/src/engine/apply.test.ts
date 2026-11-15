@@ -43,7 +43,7 @@ describe('the starting check', () => {
     const stage2 = checkLessons(2, UNITS).map((l) => l.id);
     // With the lessons that exist today. The list grows as lessons are built, up to ten.
     expect(stage2).toEqual(['s1-see', 's1-teens', 's1-calc20', 's2-count', 's2-skip', 's2-bonds']);
-    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-teens', 's1-add']);
+    expect(checkLessons(1, UNITS).map((l) => l.id)).toEqual(['s1-see', 's1-names', 's1-add']);
     expect(stage2.length).toBeLessThanOrEqual(10);
   });
   it('marks what she got right first time as known, with what it is built on, and gives no bones', () => {
