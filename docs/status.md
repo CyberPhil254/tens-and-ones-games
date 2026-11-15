@@ -18,13 +18,14 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 |---|---|
 | 1 to 8 | Scaffold, reference check of the live game, question makers, blocks, voice player, pictures, round and session rules, home and game screens, High Five |
 | 9, 10 | Oreo's poses and icon; Pack Ten |
+| 14 | Oreo's Walk, three levels |
 | 13 | Number Names, three levels |
 | 12 | Quick Look, three levels |
 | 11 | Voice pipeline for new clips and packs; the puppy is "Oreo" and "she" in writing and speech; 138 sentences re-recorded; browser tests can run against a preview |
 
 ## Next (the order of section 10 of the spec)
 
-1. **Finish the port:** Oreo's Walk, Friends of Ten, Jump in Tens, Fill the Ten, Break a Ten, Mystery Box, Oreo's Stories, then Race to 100, Quick Paws. (The number machine is on the home screen already.)
+1. **Finish the port:** Friends of Ten, Jump in Tens, Fill the Ten, Break a Ten, Mystery Box, Oreo's Stories, then Race to 100, Quick Paws. (The number machine is on the home screen already.)
 2. Structure and engine: units, lessons and steps as data; rating, mastery, review, today's games, starting check; profiles and storage behind one interface.
 3. Path (garden), rewards, parents' area, parent notes.
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
