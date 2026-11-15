@@ -36,6 +36,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 40 | **Equal groups**: two lessons (Equal groups, Times tables), five levels. 32 of 41 lessons are playable |
 | 41 | **Fair shares**: dealing bones into bowls, making groups, dividing in her head. 33 of 41 lessons are playable |
 | 42 | **Halves and quarters**: two lessons (Halves, Quarters), seven levels. 35 of 41 lessons are playable |
+| 43 | **Money**: two lessons (Coins and notes, Amounts of money), five levels, Kenyan shillings drawn in code. 37 of 41 lessons are playable |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -56,8 +57,8 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 1. ~~Finish the port~~ done.
 2. ~~**Structure and engine:** units, lessons and steps as data; rules; profiles and storage; the app on the engine; starting check, choice cards, guessing pause.~~ Done.
 3. ~~**Path, rewards, parents' area, the notes:** the garden path; rewards; the parents' area, the notes, the approach page; the look-and-feel pass.~~ Done.
-4. **Stage 2 gaps (in progress):** ~~Sums to 20~~; ~~Tens and ones sums (adding)~~; ~~the additions to existing games (Friends of Ten, Pack Ten, Number Names, High Five)~~; ~~More or less~~; ~~Skip and spot~~; ~~Equal groups~~; ~~Fair shares~~; ~~Halves and quarters~~; next: Money.
-5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.
+4. ~~**Stage 2 gaps:** Sums to 20; Tens and ones sums; the additions to existing games; More or less; Skip and spot; Equal groups; Fair shares; Halves and quarters; Money.~~ Done.
+5. **Stage 1 (next):** Count and guess (s1-count, s1-zero, s1-estimate, s2-estimate): the last four lessons without anything to play. The Stage 1 ranges and the Stage 1 parts of the shared lessons were built with their lessons in step 4.
 6. Voice pass (script rewrite, packs per unit), whole-path test with three simulated children, speed and offline, final report.
 
 ## Decisions made during the build
@@ -68,6 +69,7 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 
 - Recorded so far in the build: 138 (the Oreo and "she" sentences).
 - Recorded in the rewards pull request: 4 more (treasure, thank you, trick, award).
+- Recorded with Money: 25 more.
 - Recorded with Halves and quarters: 22 more.
 - Recorded with Fair shares: 8 more.
 - Recorded with Equal groups: 3 more.
@@ -96,3 +98,4 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - Sums to 20, "in her head" with the picture showing after a miss: two ten frames plus the number pad are taller than a phone screen, so she scrolls a little to see Oreo's words. The words are also spoken.
 - The sentence 'Type the number, then tap the tick.' is recorded but not used yet: the number pad has no spoken introduction. To decide with a real child whether it needs one.
 - First to tenth: the places of the queue are 64 px wide on a phone (72 px high). With the hundred square this is the second place under the 72 px rule.
+- Money: the sentences say "shillings". The currency setting has one entry; a second currency needs its own recordings.

@@ -18,6 +18,8 @@ export const SP = {
   puppyHas: (a: number) => `Oreo has ${a} bones.`,
   finds: (b: number) => `She finds ${b} more.`,
   digs: (b: number) => `She digs up ${b} more.`,
+  tapMoney: (v: number) => `Tap ${v} ${v === 1 ? 'shilling' : 'shillings'}.`,
+  shillings: (v: number) => `${v} ${v === 1 ? 'shilling' : 'shillings'}.`,
   hops: (k: number) => `Hops of ${k}.`,
   tapNth: (k: number) => `Tap the ${ordinal(k)} one.`,
   nthPlace: (k: number) => `It is the ${ordinal(k)}.`,
