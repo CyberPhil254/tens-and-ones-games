@@ -161,3 +161,9 @@ Claude Code adds a line here for every detail it had to decide itself: the date,
 | 2026-11-15 | The line that explains a comparison shows only the tens the numbers are in, and sets close flags at two heights | On a line from 0 to 100, 51 and 57 covered each other |
 | 2026-11-15 | The queue is drawn in code as circles, the front on the left with an arrow. First to tenth: two rows of five. On a phone its places are 72 px high and 64 px wide | Art is never counted; five 72 px places do not fit across a 400 px phone. The second exception to the 72 px rule |
 | 2026-11-15 | The number pad takes three digits where the answer can be 100 (the nearer ten of 96) | Found by repeating the browser test: 100 could not be typed |
+| 2026-11-15 | "Skip and spot" is one game with nine levels over six lessons: What comes next (a pattern of shapes), Steps of one, two and ten (hops on a line to 20; numbers only), Odd and even to 20 (counters paired up; the number only), Steps of two, five and ten (hops on the hundred square; numbers only; joined to the Jump in Tens level that was there), Odd and even to 100, Number patterns (the missing number) | The spec's one lesson name covers six skills |
+| 2026-11-15 | Hops start from any number, not only from the multiples (3, 5, 7 as well as 2, 4, 6), and go back as well as on | The skill says "from any number"; otherwise it is only the times table |
+| 2026-11-15 | Within 20, hops of ten are only 0, 10, 20 and back | There is no room for more |
+| 2026-11-15 | Shapes in patterns are yellow, green and purple | Red and blue mean tens and ones |
+| 2026-11-15 | Odd and even: counters stand in two rows as pairs; after a miss the one without a partner turns yellow. To 100 the ones digit is underlined | "Pairs things up to see odd (one left over)" |
+| 2026-11-15 | Number patterns ask for one of the two middle numbers of four, with steps of 2, 3, 4, 5 or 10, on or back | Finding the rule needs numbers on both sides |
