@@ -40,12 +40,13 @@ Today a sentence with free numbers is stitched from pieces at play time. Recordi
 
 For scale: at about 2.5 seconds each that is roughly six and a half hours of audio, around 6 US dollars at the price in `research.md`, against 702 clips today. This is an estimate of mine, not a quote. Nothing has been recorded.
 
-Two things would shrink it a lot, if wanted: saying only the full sentence and not the question before it (the question is on screen) roughly halves Break a Ten, Jump in Tens and Fill the Ten; and Break a Ten level 4 adds nothing, it reuses levels 2 and 3.
+Decided on 15 November: none of these are recorded; equations stay stitched from number clips. For the record, two things would have shrunk it: saying only the full sentence and not the question before it (the question is on screen) roughly halves Break a Ten, Jump in Tens and Fill the Ten; and Break a Ten level 4 adds nothing, it reuses levels 2 and 3.
 
 ## For the planning chat
 
-- Create the second Netlify site now: same repository, base directory `app`. Build command and publish folder are read from `app/netlify.toml`. Turn on deploy previews for pull requests.
-- The root site publishes the whole repository, so the source files under `app/` become reachable under the family link at `/app/...`. They are harmless (source only, no build), but say so if you would rather exclude them.
+- `docs/game-skills.md` now carries the skill ids of `docs/skill-map.md` level by level, and a list of twelve rows in the skill map whose "Game" column should change. The biggest: Break a Ten levels 1 and 2 are s2-calc (taking away with no ten broken), not stretch; and no game estimates amounts or compares numbers, so s2-estimate and s2-compare should say None.
+- Two older documents now disagree with the voice decision of 15 November (equations stay stitched): `phase-1-spec.md` acceptance says "No spoken sentence is stitched from pieces", and `product-plan.md` requirement 1 says "Record every sentence whole, including every equation". I have not edited them.
+- Second Netlify site: base directory `app` is all it needs. Build command, publish folder, Node version and the page fallback are in `app/netlify.toml`. No environment variables yet. Deploy previews for pull requests should be on.
 
 ## Next
 
@@ -58,5 +59,4 @@ Nothing.
 
 ## Needs a decision
 
-- Fonts. The live game loads Fredoka and Andika from Google Fonts. For the new app I propose shipping the two font files with the app instead: no request to a third party from a child's device, and the app works offline. The scaffold uses system fonts until this is confirmed.
-- Question 9, now that the count is in: record all 9,269, or cut the spoken question where the full sentence follows?
+Nothing at the moment.

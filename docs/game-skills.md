@@ -1,6 +1,6 @@
 # What each game practises
 
-Written by Claude Code from the code of the live game (`index.html`), for the planning chat to build the skill map from. It describes what the games do today, in plain words. It contains no curriculum wording and no curriculum codes.
+Written by Claude Code from the code of the live game (`index.html`), for the planning chat to build the skill map from. It describes what the games do today, in plain words. It contains no curriculum wording and no curriculum codes; it uses the skill ids of `docs/skill-map.md` to say which skill each level practises.
 
 The number ranges are not estimates: they come from the reference check in `app/src/reference/`, which draws every game and level until no new question turns up. "Questions" is the count of different questions a level can ask.
 
@@ -128,6 +128,59 @@ Short word problems. Every story is followed by its number sentence; the blocks 
 | 3 | Finds a few more, past the ten (47 and 5). Wants more than he has, the gap being 10 to 40. Hides some, tens and ones, no ten to break (57 hides 23) | 11 to 99 | Four choices | 2080 |
 
 The three kinds of story at each level come up equally often.
+
+## Skill ids, level by level
+
+The ids are those of `docs/skill-map.md` (draft 1). "Stretch" means beyond the Stage 2 skills, as that file uses the word. Where a level fits no skill in the map, it says so. The mapping is my reading of what each level asks; the planning chat decides.
+
+| Game | Level | Skill ids | Why |
+|---|---|---|---|
+| High Five | 1, 2, 3 | s1-see | Fingers, the five-and-more tower and the ten frame are all fixed patterns |
+| Pack Ten | 1, 2 | s2-count | Counts a heap by packing it into tens. 9 of the 27 level 1 numbers are 11 to 19 (s1-teens) |
+| Pack Ten | 3 | s2-regroup | Builds a number from tens and ones; ten ones become a ten |
+| Quick Look | 1, 2, 3 | s2-place | Reads a number from its tens and ones. Round tens are included, so zero as a place holder is seen |
+| Number Names | 1 | s2-names | Reads the number word. 13 to 19 are also s1-names |
+| Number Names | 2 | s2-place | Which digit says the tens, which the ones |
+| Number Names | 3 | s2-names | Hears the number, picks the numeral |
+| Puppy Walk | 1 | s2-place | Reads a number from tens and ones laid along the line |
+| Puppy Walk | 2 | s2-regroup | Builds a number as jumps of ten and steps of one |
+| Puppy Walk | 3 | None fits | Places a numeral on a nearly empty line. Not s2-estimate and not s2-compare as worded: see below |
+| Friends of Ten | 1, 2 | s1-ten | |
+| Friends of Ten | 3 | s2-bonds (part) | Gap to the next ten. Only the 9 questions that start from 11 to 19 are pairs that make 20; the other 63 fit no skill in the map |
+| Jump in Tens | 1, 2, 4 | s2-calc (part) | Adds and takes away whole tens |
+| Jump in Tens | 3 | s2-skip (part) | Counts on and back in tens from any number |
+| Fill the Ten | 1, 2, 3, 4 | Stretch | Every sum makes a ten, level 1 included (47 + 3) |
+| Break a Ten | 1 | s2-calc | Two-digit number take away whole tens. No ten is broken |
+| Break a Ten | 2 | s2-calc | Two-digit take away two-digit, no ten broken (57 − 23) |
+| Break a Ten | 3 | Stretch | A ten has to be broken |
+| Break a Ten | 4 | s2-calc and stretch | Half level 2 sums, half level 3 sums, in her head |
+| Mystery Box | 1 | s1-ten, s2-bonds, s2-inverse | Missing part of 10 (7 in 10 questions) or of 20 (13 + ? = 20) |
+| Mystery Box | 2 | s1-calc20 (part), s2-inverse | Three parts with a whole of 10 to 20, the middle one missing |
+| Mystery Box | 3 | s2-inverse, s2-calc | Missing whole or part, with whole tens |
+| Puppy Stories | 1 | s2-calc for the two stories with 10; s1-ten for "wants 10" | |
+| Puppy Stories | 2 | s2-calc for the stories with 20, 30, 40; stretch for "digs up" | "Digs up" fills the ten exactly, like Fill the Ten level 1 |
+| Puppy Stories | 3 | Stretch for "finds a few more"; s2-calc and s2-inverse for "wants more"; s2-calc for "hides some" | "Hides some" is the same sum as Break a Ten level 2 |
+| Race to 100 | | s2-skip (part), s1-add (part) | Counts on 1, 2 or 3, or ten more, from where she stands |
+| Quick Paws | | s1-ten, s2-calc (part), s2-names | Reuses Friends of Ten 2, Jump in Tens 4, Number Names 1 |
+
+## Rows in the skill map whose "Game" column should change
+
+From comparing draft 1 of `docs/skill-map.md` with what the games ask. Most important first.
+
+1. **s2-calc and "Beyond Stage 2".** The map lists only "Jump in Tens (part)" and treats Break a Ten as stretch throughout. Break a Ten levels 1 and 2 are exactly this skill for taking away: 1,944 different two-digit take-aways where no ten is broken. Only level 3, and half of level 4, break a ten. Puppy Stories ("hides some", and the stories with tens) and Mystery Box level 3 practise it too. What is missing is the adding side: two two-digit numbers are never added. So "two-digit sums without regrouping: not covered" is true for adding only, and the planned game "Tens and ones sums" needs adding, not taking away.
+2. **s2-estimate: Puppy Walk (part).** No game asks the child to guess how many things there are. Puppy Walk level 3 places a written number on a line, which is a different task. Game should be None, unless the skill is meant to include the number line.
+3. **s2-compare: Puppy Walk (part).** No game asks which of two numbers is more, or to put numbers in order. Game should be None.
+4. **s2-see: High Five (part).** All three levels use fixed patterns (fingers, five-and-more tower, ten frame); nothing is shown in an unfamiliar arrangement. Game should be None, or High Five needs a level with new arrangements.
+5. **s2-regroup: Pack Ten.** Should be "part", and name three games: Pack Ten level 3 builds, Puppy Walk level 2 builds, Break a Ten level 3 breaks a ten into ones. No game splits a number in more than one way (34 as 2 tens and 14 ones) as a question of its own.
+6. **s2-names and s1-names: Number Names.** The game reads and hears; the child never says or writes a number. Both should be "part". For s1-names the part is small: only 13 to 19 come up; 0 to 12 and 20 are never asked.
+7. **s2-place: Quick Look, Number Names.** Add Puppy Walk level 1. Of Number Names, only level 2 belongs here.
+8. **s2-bonds: Friends of Ten (part).** Add Mystery Box level 1 (13 + ? = 20). Pairs of tens that make 100 are in no game.
+9. **s1-add and s1-sub: Part (Mystery Box, Puppy Stories).** Thin. Puppy Stories use numbers 11 to 99 except one story ("wants 10"); Mystery Box levels 1 and 2 stay within 20 but only as missing-number questions. A Stage 1 child has almost nothing here.
+10. **s1-calc20: None.** Mystery Box level 2 touches it (wholes of 10 to 20), as missing numbers only. "Part" at most.
+11. **s1-teens: Pack Ten (part).** Correct, but note how small: 11 to 19 are a third of Pack Ten level 1, and 10 and 20 never appear because the games avoid round tens there.
+12. **Puppy Stories.** The map says each story is tagged with its skill; the tags are in the table above. Three of the nine story kinds are s2-calc, two are stretch.
+
+Not in the map at all: Race to 100 and Quick Paws (see the table above).
 
 ## Outside the path
 
