@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { browserVoice } from './speech/player';
 import { SP, type Piece } from './speech/script';
+import { BarModel } from './ui/BarModel';
 import { Blocks } from './ui/Blocks';
+import { Hands } from './ui/Hands';
+import { HundredSquare } from './ui/HundredSquare';
+import { NumberLine } from './ui/NumberLine';
+import { Puppy } from './ui/Puppy';
+import { TenFrame } from './ui/TenFrame';
 import { Num } from './ui/Num';
 
 /**
@@ -60,6 +66,32 @@ export function App() {
       <h2>Sketch and small</h2>
       <div className="card">
         <Blocks tens={4} ones={7} sketch /> <Blocks tens={4} ones={7} small />
+      </div>
+
+      <h2>Fingers and ten frame</h2>
+      <div className="card" data-testid="five">
+        <Hands n={(n % 10) + 1} />
+        <TenFrame n={n % 10} added={10 - (n % 10)} />
+      </div>
+
+      <h2>Number line</h2>
+      <div className="card" data-testid="line">
+        <NumberLine n={n} onTap={setN} />
+      </div>
+
+      <h2>Hundred square</h2>
+      <div className="card" data-testid="square">
+        <HundredSquare marks={n ? { [n]: ['here'] } : {}} column={n % 10} onTap={(v) => setN(Math.min(99, v))} />
+      </div>
+
+      <h2>Whole and parts</h2>
+      <div className="card">
+        <BarModel whole={n + 20} parts={[n, null]} ans={20} />
+      </div>
+
+      <h2>The puppy</h2>
+      <div className="card" style={{ display: 'flex', gap: 16 }}>
+        <Puppy /> <Puppy mood="happy" /> <Puppy mood="think" />
       </div>
     </main>
   );

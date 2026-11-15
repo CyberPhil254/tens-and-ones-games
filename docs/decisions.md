@@ -8,6 +8,8 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-11-15 | No computer voice in the new app. If the voice pack fails to load, the app stays silent and shows a retry button | Philipp. All speech comes from recorded clips |
+| 2026-11-15 | From High Five on, every game pull request must be playable on the deploy preview of the new site | Philipp reviews by playing |
 | 2026-11-15 | Fonts: Fredoka and Andika ship with the app. No request to Google Fonts | Philipp. No third-party request from a child's device; works offline |
 | 2026-11-15 | Voice v2 scope: instructions and feedback are recorded as whole sentences; equations stay stitched from number clips. Nothing is recorded now (closes question 9) | Philipp, after the count: 9,269 equation sentences against 702 clips today |
 | 2026-11-15 | The source files under `app/` stay reachable on the family site at `/app/...` | Philipp. Harmless: source only |

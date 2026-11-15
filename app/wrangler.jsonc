@@ -2,6 +2,11 @@
 {
 	"name": "tens-and-ones-app",
 	"compatibility_date": "2026-11-15",
+	// Preview builds for branches and pull requests. Previews are addressed under workers.dev.
+	// The block is empty because a preview needs no settings of its own: the app has no
+	// variables, secrets or bindings.
+	"preview_urls": true,
+	"previews": {},
 	"assets": {
 		"directory": "./dist",
 		"not_found_handling": "single-page-application"
