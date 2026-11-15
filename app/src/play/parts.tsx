@@ -33,7 +33,7 @@ export function Choices({ opts, ans, pad, round, onRight, onWrong }: {
   /** The 1 to 9 pad: smaller buttons. */
   pad?: boolean;
   round: RoundApi;
-  onRight: () => void;
+  onRight: () => void | Promise<void>;
   onWrong: (tapped: number) => void;
 }) {
   const [tried, setTried] = useState<number[]>([]);
@@ -50,7 +50,7 @@ export function Choices({ opts, ans, pad, round, onRight, onWrong }: {
             onClick={() => {
               if (v === ans) {
                 setRight(true);
-                onRight();
+                void onRight();
               } else {
                 setTried((t) => [...t, v]);
                 onWrong(v);

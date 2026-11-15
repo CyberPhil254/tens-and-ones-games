@@ -155,3 +155,12 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .wordy { white-space: nowrap; }
 .wordy .t { color: var(--ten); }
 .wordy .o { color: var(--one); }
+
+/* Fill the Ten */
+.fillrow { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.pile { --H: calc(var(--u) * 10 + var(--g) * 9 + var(--mid) + 1px); display: flex; align-items: flex-end; gap: 8px; min-height: var(--H); }
+.pile .plus { font-family: var(--display); font-weight: 600; font-size: 34px; line-height: 1; }
+.pcubes { display: flex; flex-direction: column-reverse; flex-wrap: wrap; gap: var(--g) 6px; max-height: var(--H); }
+.pcubes .cube { width: var(--u); height: var(--u); border-radius: 3px; background: var(--sun); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.pile.sketch .cube { border-radius: 50%; transform: scale(0.62); box-shadow: none; }
+.pile.empty { visibility: hidden; }
