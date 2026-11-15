@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-699 clips.
+721 clips.
 
 Whole sentences:
 
@@ -154,6 +154,25 @@ Whole sentences:
 - How many groups?
 - Deal them out: one for each bowl, again and again.
 - Make the groups, then count the groups.
+- Which one is cut in half?
+- Which one is cut in quarters?
+- Two parts of the same size. Two halves make a whole.
+- Four parts of the same size. Four quarters make a whole.
+- Halves are two parts of the same size.
+- Quarters are four parts of the same size.
+- Share them into two equal groups.
+- Share them into four equal groups.
+- Three quarters is three of the groups.
+- Tap one half on the bar.
+- Tap a quarter on the bar.
+- Tap three quarters on the bar.
+- How much of the bar is yellow?
+- That is a quarter.
+- That is one half.
+- That is three quarters.
+- Two quarters are the same as one half.
+- The bar is cut into four equal parts. Count the parts from the start.
+- The bar is cut into four equal parts. Count the yellow parts.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -211,6 +230,9 @@ Joining pieces for sums, said with number clips:
 - Start at
 - Double
 - groups of
+- Half of
+- A quarter of
+- Three quarters of
 - shared between
 - in groups of
 - times

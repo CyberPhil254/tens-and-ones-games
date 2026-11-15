@@ -1023,6 +1023,139 @@
    "pack": "core"
   },
   {
+   "id": "which-one-is-cut-in-half",
+   "text": "Which one is cut in half?",
+   "key": "Which one is cut in half?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-one-is-cut-in-quarters",
+   "text": "Which one is cut in quarters?",
+   "key": "Which one is cut in quarters?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "two-parts-of-the-same-size",
+   "text": "Two parts of the same size. Two halves make a whole.",
+   "key": "Two parts of the same size. Two halves make a whole.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "four-parts-of-the-same-size",
+   "text": "Four parts of the same size. Four quarters make a whole.",
+   "key": "Four parts of the same size. Four quarters make a whole.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "halves-are-two-parts-of-the",
+   "text": "Halves are two parts of the same size.",
+   "key": "Halves are two parts of the same size.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "quarters-are-four-parts-of-the",
+   "text": "Quarters are four parts of the same size.",
+   "key": "Quarters are four parts of the same size.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "share-them-into-two-equal-groups",
+   "text": "Share them into two equal groups.",
+   "key": "Share them into two equal groups.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "share-them-into-four-equal-groups",
+   "text": "Share them into four equal groups.",
+   "key": "Share them into four equal groups.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "three-quarters-is-three-of-the",
+   "text": "Three quarters is three of the groups.",
+   "key": "Three quarters is three of the groups.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tap-one-half-on-the-bar",
+   "text": "Tap one half on the bar.",
+   "key": "Tap one half on the bar.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tap-a-quarter-on-the-bar",
+   "text": "Tap a quarter on the bar.",
+   "key": "Tap a quarter on the bar.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tap-three-quarters-on-the-bar",
+   "text": "Tap three quarters on the bar.",
+   "key": "Tap three quarters on the bar.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-much-of-the-bar-is",
+   "text": "How much of the bar is yellow?",
+   "key": "How much of the bar is yellow?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "that-is-a-quarter",
+   "text": "That is a quarter.",
+   "key": "That is a quarter.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "that-is-one-half",
+   "text": "That is one half.",
+   "key": "That is one half.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "that-is-three-quarters",
+   "text": "That is three quarters.",
+   "key": "That is three quarters.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "two-quarters-are-the-same-as",
+   "text": "Two quarters are the same as one half.",
+   "key": "Two quarters are the same as one half.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-bar-is-cut-into-four",
+   "text": "The bar is cut into four equal parts. Count the parts from the start.",
+   "key": "The bar is cut into four equal parts. Count the parts from the start.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-bar-is-cut-into-four-count",
+   "text": "The bar is cut into four equal parts. Count the yellow parts.",
+   "key": "The bar is cut into four equal parts. Count the yellow parts.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -4365,6 +4498,27 @@
    "id": "frag.groups-of",
    "text": "groups of",
    "key": "groups of",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.half-of",
+   "text": "Half of",
+   "key": "Half of",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.a-quarter-of",
+   "text": "A quarter of",
+   "key": "A quarter of",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.three-quarters-of",
+   "text": "Three quarters of",
+   "key": "Three quarters of",
    "fragment": true,
    "pack": "core"
   },
