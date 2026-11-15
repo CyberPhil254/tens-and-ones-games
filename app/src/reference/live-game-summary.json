@@ -1,0 +1,190 @@
+{
+  "five 1": {
+    "questions": 10,
+    "answers": "1 to 10",
+    "n": "1 to 10"
+  },
+  "five 2": {
+    "questions": 8,
+    "answers": "3 to 10",
+    "n": "3 to 10"
+  },
+  "five 3": {
+    "questions": 8,
+    "answers": "3 to 10",
+    "n": "3 to 10"
+  },
+  "pack 1": {
+    "questions": 27,
+    "answers": "11 to 39",
+    "n": "11 to 39"
+  },
+  "pack 2": {
+    "questions": 36,
+    "answers": "31 to 69",
+    "n": "31 to 69"
+  },
+  "pack 3": {
+    "questions": 81,
+    "answers": "11 to 99",
+    "n": "11 to 99"
+  },
+  "look 1": {
+    "questions": 49,
+    "answers": "11 to 59",
+    "n": "11 to 59"
+  },
+  "look 2": {
+    "questions": 89,
+    "answers": "11 to 99",
+    "n": "11 to 99"
+  },
+  "look 3": {
+    "questions": 89,
+    "answers": "11 to 99",
+    "n": "11 to 99"
+  },
+  "names 1": {
+    "questions": 86,
+    "answers": "13 to 99",
+    "n": "13 to 99"
+  },
+  "names 2": {
+    "questions": 153,
+    "answers": "10 to 98",
+    "n": "10 to 98"
+  },
+  "names 3": {
+    "questions": 86,
+    "answers": "13 to 99",
+    "n": "13 to 99"
+  },
+  "walk 1": {
+    "questions": 81,
+    "answers": "11 to 99",
+    "n": "11 to 99"
+  },
+  "walk 2": {
+    "questions": 81,
+    "answers": "11 to 99",
+    "n": "11 to 99"
+  },
+  "walk 3": {
+    "questions": 89,
+    "answers": "6 to 94",
+    "n": "6 to 94"
+  },
+  "friends 1": {
+    "questions": 9,
+    "answers": "1 to 9",
+    "n": "1 to 9"
+  },
+  "friends 2": {
+    "questions": 9,
+    "answers": "1 to 9",
+    "n": "1 to 9"
+  },
+  "friends 3": {
+    "questions": 72,
+    "answers": "1 to 9",
+    "a": "11 to 89"
+  },
+  "jump 1": {
+    "questions": 162,
+    "answers": "1 to 99",
+    "s": "1 to 99"
+  },
+  "jump 2": {
+    "questions": 270,
+    "answers": "1 to 99",
+    "s": "1 to 99"
+  },
+  "jump 3": {
+    "questions": 126,
+    "answers": "1 to 99",
+    "s": "1 to 99"
+  },
+  "jump 4": {
+    "questions": 540,
+    "answers": "1 to 99",
+    "s": "1 to 99"
+  },
+  "fill 1": {
+    "questions": 72,
+    "answers": "20 to 90",
+    "a": "11 to 89",
+    "b": "1 to 9"
+  },
+  "fill 2": {
+    "questions": 240,
+    "answers": "1 to 98",
+    "a": "15 to 89",
+    "b": "2 to 9"
+  },
+  "fill 3": {
+    "questions": 240,
+    "answers": "21 to 98",
+    "a": "15 to 89",
+    "b": "2 to 9"
+  },
+  "fill 4": {
+    "questions": 312,
+    "answers": "20 to 98",
+    "a": "11 to 89",
+    "b": "1 to 9"
+  },
+  "take 1": {
+    "questions": 360,
+    "answers": "10 to 89",
+    "a": "20 to 99",
+    "b": "10 to 80"
+  },
+  "take 2": {
+    "questions": 1584,
+    "answers": "10 to 88",
+    "a": "22 to 99",
+    "b": "11 to 89"
+  },
+  "take 3": {
+    "questions": 1260,
+    "answers": "11 to 79",
+    "a": "30 to 98",
+    "b": "11 to 79"
+  },
+  "take 4": {
+    "questions": 2844,
+    "answers": "10 to 88",
+    "a": "22 to 99",
+    "b": "11 to 89"
+  },
+  "mystery 1": {
+    "questions": 36,
+    "answers": "1 to 9",
+    "whole": "10 to 20"
+  },
+  "mystery 2": {
+    "questions": 347,
+    "answers": "1 to 9",
+    "whole": "10 to 20"
+  },
+  "mystery 3": {
+    "questions": 540,
+    "answers": "10 to 99",
+    "whole": "21 to 99"
+  },
+  "story 1": {
+    "questions": 167,
+    "answers": "1 to 99",
+    "a": "1 to 99"
+  },
+  "story 2": {
+    "questions": 426,
+    "answers": "11 to 99",
+    "a": "11 to 99"
+  },
+  "story 3": {
+    "questions": 2080,
+    "answers": "10 to 98",
+    "a": "11 to 99"
+  }
+}

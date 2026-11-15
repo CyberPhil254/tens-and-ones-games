@@ -1,0 +1,14 @@
+{
+  "perGame": {
+    "pack": 181,
+    "walk": 271,
+    "friends": 144,
+    "jump": 1206,
+    "fill": 688,
+    "take": 6408,
+    "mystery": 94,
+    "story": 2656,
+    "race": 700
+  },
+  "distinctAcrossGames": 9269
+}
