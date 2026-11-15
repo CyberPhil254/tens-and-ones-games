@@ -5,7 +5,8 @@ A maths practice app for primary school children following the Cambridge Primary
 ## Read first
 
 - `docs/product-plan.md`: where this is going, in phases
-- `docs/phase-1-spec.md`: what to build now
+- `docs/build-spec.md`: what to build now, the full build for Stages 1 and 2 Number
+- `docs/skill-map.md` and `docs/game-skills.md`: the skills, and what the existing games ask
 - `docs/decisions.md`: decisions already made, and open questions
 - `docs/research.md`: the learning research the design rests on
 - `README.md`: how the current game works
@@ -14,7 +15,9 @@ A maths practice app for primary school children following the Cambridge Primary
 
 Strategy and product decisions are made by Philipp, usually in a separate planning chat, and land in `docs/`. Your job here is to implement and build.
 
-- Do not change scope, pedagogy or product direction yourself. If the docs don't answer something, add it under "Open questions" in `docs/decisions.md` and ask.
+- Do not change scope, pedagogy or product direction yourself.
+- During the full build, do not stop to ask. If the docs don't answer something, choose the option that best fits `docs/build-spec.md` and `docs/research.md`, record it in `docs/decisions.md` under "Decided during the build, to confirm", and carry on. Stop and ask only before: collecting any child data beyond nickname, picture, stage and progress; adding accounts, payments or any third-party service; changing anything at the repository root that the live game uses; or using Cambridge's wording or name beyond what the docs allow.
+- You may merge your own pull requests during the full build when all of these hold: CI is green, you have played the change on its preview, and it touches only `app/`, `docs/`, `tools/` and `art/`.
 - After each working session, update `docs/status.md`: what was built, what is half done, what you need decided. The planning chat reads this file.
 - Small commits with clear messages. Never commit secrets; keys go in `.env.local` (git-ignored) or the host's environment settings.
 

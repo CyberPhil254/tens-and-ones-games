@@ -34,6 +34,11 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 | 2026-11-15 | Current voice: Kokoro `af_heart` (American, warm) | Picked by Philipp from four samples |
 | 2026-11-15 | Next voice step: rewrite the script in warmer, fuller sentences and record every sentence whole with a directable engine. Decided (Philipp delegated the call). Equation sentences are the exception until the clip count is known: see the open question on whole-sentence equations | Terse wording and stitching are what still sound robotic |
 | 2026-11-15 | Mascot: the caramel puppy with the green collar (`art/source/puppy-reference.png`), made with Nano Banana. All art, the prompts and the rules are in `art/`. The puppy is animated in code by swapping poses and simple movement; Rive only later if the pilot justifies it | Chosen by Philipp. Costs nothing and stays consistent through the reference image |
+| 2026-11-15 | The full build is specified in `docs/build-spec.md`: all of Stages 1 and 2 Number as stage, unit, lesson and step; the adaptive engine; the garden path; rewards by mastery; parent notes on why each lesson works. It replaces `phase-1-spec.md` | Philipp asked for one full build; the planning chat researched and wrote it |
+| 2026-11-15 | Accounts and sync are not part of the full build. Progress is stored on the device behind one interface, with a save and load code for moving it | Keeps the build free of outside services and of child data on a server until the legal check is done |
+| 2026-11-15 | New and changed sentences are recorded with the existing Kokoro voice so nothing is silent. A better voice engine can replace all clips later from the same script | The voice engine choice needs an account and key from Philipp and should not hold up the build |
+| 2026-11-15 | The app says "Oreo", not "the puppy", in writing and in speech | Answers Claude Code's question in `status.md` |
+| 2026-11-15 | During the full build Claude Code decides open details itself, logs them, and merges its own pull requests under the conditions in `CLAUDE.md` | Philipp wants a long build that powers through |
 | 2026-11-15 | The puppy is called Oreo and is introduced as the sister of Star, the first user's own dog. The introduction needs new recorded sentences, which belong in the voice script rewrite | Philipp's decision |
 | 2026-11-15 | Hosting moves from Netlify to Cloudflare for both the live game and the new app | Netlify's free plan charges 15 credits per production deploy from a pool of 300 a month shared with Philipp's other sites; Cloudflare has no per-deploy cost and allows commercial use |
 | 2026-11-15 | Skill map for Stages 1 and 2 Number drafted from the published framework: `docs/skill-map.md`. Fill the Ten and Break a Ten go beyond Stage 2 and stay as stretch games. Money starts with Kenyan shillings, as a setting | Philipp delegated the call |
@@ -61,3 +66,7 @@ Questions 8 to 14 were raised by Claude Code on 15 November 2026 and answered by
 12. Answered: emailed link. Open: the Supabase region, decided at work package 5.
 13. Answered: Claude Code writes `docs/game-skills.md`, not curriculum content.
 14. Answered: keep the 702 clips behind sentence ids.
+
+## Decided during the build, to confirm
+
+Claude Code adds a line here for every detail it had to decide itself: the date, the decision, and why.

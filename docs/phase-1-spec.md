@@ -1,6 +1,6 @@
 # Phase 1 specification
 
-Status: confirmed on 15 November 2026 (stack and scope). See `decisions.md`.
+Status: replaced by `build-spec.md` on 15 November 2026. Kept for the record; where the two disagree, `build-spec.md` wins. Accounts (work package 5 here) are not part of the full build.
 
 ## Outcome
 
