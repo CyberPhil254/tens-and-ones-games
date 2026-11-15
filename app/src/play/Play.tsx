@@ -16,7 +16,7 @@ import { PRAISE, PRAISE_AFTER_HELP } from '../speech/sentences';
 import { Bone, Oreo, Paw, preloadPoses, type Pose } from '../ui/Oreo';
 import { quickFinished } from './quick';
 import type { RoundApi } from './round';
-import { speak, useVoiceSilent, useVoiceSpeaking, voice } from './voice';
+import { speak, useVoiceSilent, useVoiceSpeaking, voice, warmFor } from './voice';
 
 const d = dice(Math.random);
 const PRAISES = Object.keys(PRAISE);
@@ -104,6 +104,12 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
   const silent = useVoiceSilent();
   const speaking = useVoiceSpeaking();
   useEffect(() => preloadPoses(), []);
+  // The voice comes in packs by lesson family: fetch the ones this round will speak from before the first question needs them.
+  useEffect(() => {
+    if (soundOff) return;
+    const acts = 'from' in round ? round.from : ('slot' in round ? [round.slot] : round.slots).flatMap((s) => LESSON.get(s.lesson)!.steps[s.step]!.from);
+    warmFor(acts.map((a) => a.game));
+  }, [round, soundOff]);
 
   // What happened on the current question, and every answer of the round so far. Nothing is saved
   // until the round is finished: leaving early counts for nothing.

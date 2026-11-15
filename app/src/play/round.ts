@@ -11,7 +11,7 @@ export interface RoundApi {
   win(msg: ReactNode, say?: Piece[]): void;
   /** A wrong answer. `msg` explains or hints, never a bare "wrong". The question no longer earns a bone. */
   wrong(msg: ReactNode, say?: Piece[]): void;
-  /** A remark that is neither right nor wrong ("Keep packing!"). */
+  /** A remark that is neither right nor wrong ("There are more to pack. Keep going!"). */
   note(msg: ReactNode, kind: 'ok' | 'hint', say?: Piece[] | false): void;
   /** Takes the remark away again, when the child starts over. */
   clear(): void;

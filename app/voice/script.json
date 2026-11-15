@@ -2,500 +2,500 @@
  "clips": [
   {
    "id": "how-many-do-not-count-look",
-   "text": "How many? Do not count. Look for the five.",
-   "key": "How many? Do not count. Look for the five.",
+   "text": "How many can you see? You do not need to count. Look for the five.",
+   "key": "How many can you see? You do not need to count. Look for the five.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "pack-the-ones-in-tens-then",
    "text": "Pack the ones in tens. Then say how many there are.",
    "key": "Pack the ones in tens. Then say how many there are.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "how-many-are-there",
    "text": "How many are there?",
    "key": "How many are there?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "how-many-blocks-do-you-see",
    "text": "How many blocks do you see?",
    "key": "How many blocks do you see?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "where-is-the-puppy-which-number",
-   "text": "Where is Oreo? Which number?",
-   "key": "Where is Oreo? Which number?",
+   "text": "Where is Oreo? Which number is she standing on?",
+   "key": "Where is Oreo? Which number is she standing on?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "find-the-mystery-number",
-   "text": "Find the mystery number.",
-   "key": "Find the mystery number.",
+   "text": "Can you find the mystery number?",
+   "key": "Can you find the mystery number?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "race-to-one-hundred-who-do",
    "text": "Race to one hundred. Who do you want to play with?",
    "key": "Race to one hundred. Who do you want to play with?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "your-turn-spin",
-   "text": "Your turn. Spin!",
-   "key": "Your turn. Spin!",
+   "text": "It is your turn. Tap Spin!",
+   "key": "It is your turn. Tap Spin!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-puppys-turn-spin",
-   "text": "Oreo's turn. Spin!",
-   "key": "Oreo's turn. Spin!",
+   "text": "It is Oreo's turn. Tap Spin for her!",
+   "key": "It is Oreo's turn. Tap Spin for her!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-grown-ups-turn-spin",
-   "text": "The grown-up's turn. Spin!",
-   "key": "The grown-up's turn. Spin!",
+   "text": "It is the grown-up's turn. Tap Spin!",
+   "key": "It is the grown-up's turn. Tap Spin!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "where-do-you-land",
    "text": "Where do you land?",
    "key": "Where do you land?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "where-does-the-puppy-land",
    "text": "Where does Oreo land?",
    "key": "Where does Oreo land?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "where-does-the-grown-up-land",
    "text": "Where does the grown-up land?",
    "key": "Where does the grown-up land?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "all-taken-away-how-many-are",
    "text": "All taken away. How many are left?",
    "key": "All taken away. How many are left?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "he-eats-10-of-them",
    "text": "She eats 10 of them.",
    "key": "She eats 10 of them.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-puppy-wants-10-bones",
    "text": "Oreo wants 10 bones.",
    "key": "Oreo wants 10 bones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "how-many-bones-does-he-have",
    "text": "How many bones does she have now?",
    "key": "How many bones does she have now?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "how-many-bones-are-left",
    "text": "How many bones are left?",
    "key": "How many bones are left?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "how-many-more-does-he-need",
    "text": "How many more does she need?",
    "key": "How many more does she need?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "how-many-bones-can-he-still",
    "text": "How many bones can she still see?",
    "key": "How many bones can she still see?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "you-just-saw-it",
    "text": "You just saw it!",
    "key": "You just saw it!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "5-one-whole-hand",
    "text": "5. One whole hand!",
    "key": "5. One whole hand!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "5-and-5-make-10-two",
    "text": "5 and 5 make 10. Two whole hands!",
    "key": "5 and 5 make 10. Two whole hands!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "only-the-tens-change",
    "text": "Only the tens change.",
    "key": "Only the tens change.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "only-the-tens-change-the-ones",
    "text": "Only the tens change. The ones stay the same.",
    "key": "Only the tens change. The ones stay the same.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-same-friends-of-ten",
    "text": "The same friends of ten.",
    "key": "The same friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-ones-filled-up-a-ten",
    "text": "The ones filled up a ten.",
    "key": "The ones filled up a ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "first-fill-the-ten-then-add",
    "text": "First fill the ten, then add the rest.",
    "key": "First fill the ten, then add the rest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "you-broke-a-ten-to-get",
    "text": "You broke a ten to get more ones.",
    "key": "You broke a ten to get more ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "what-a-race-play-again",
    "text": "What a race! Play again?",
    "key": "What a race! Play again?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "you-won-the-race",
    "text": "You won the race!",
    "key": "You won the race!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "keep-packing",
-   "text": "Keep packing!",
-   "key": "Keep packing!",
+   "text": "There are more to pack. Keep going!",
+   "key": "There are more to pack. Keep going!",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "yes-keep-going",
    "text": "Yes! Keep going.",
    "key": "Yes! Keep going.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "ten-ones-they-pack-into-a",
    "text": "Ten ones! They pack into a ten.",
    "key": "Ten ones! They pack into a ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "not-enough-left-for-a-ten",
    "text": "Not enough left for a ten. They stay ones.",
    "key": "Not enough left for a ten. They stay ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "one-ten-is-now-10-ones",
    "text": "One ten is now 10 ones.",
    "key": "One ten is now 10 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "try-again",
-   "text": "Try again.",
-   "key": "Try again.",
+   "text": "Have another go.",
+   "key": "Have another go.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "count-the-red-tens-along-the",
    "text": "Count the red tens along the line: 10, 20, 30. Then add the blue ones.",
    "key": "Count the red tens along the line: 10, 20, 30. Then add the blue ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "that-is-not-far-enough-yet",
    "text": "That is not far enough yet.",
    "key": "That is not far enough yet.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "that-is-too-far-go-back",
    "text": "That is too far. Go back to the start.",
    "key": "That is too far. Go back to the start.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "look-at-the-blocks-tap-where",
    "text": "Look at the blocks. Tap where they end.",
    "key": "Look at the blocks. Tap where they end.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "not-quite-count-the-tens-along",
    "text": "Not quite. Count the tens along the line: 10, 20, 30.",
    "key": "Not quite. Count the tens along the line: 10, 20, 30.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "change-only-the-tens-the-ones",
    "text": "Change only the tens. The ones stay the same.",
    "key": "Change only the tens. The ones stay the same.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "fill-the-ten-first-then-add",
    "text": "Fill the ten first. Then add the rest.",
    "key": "Fill the ten first. Then add the rest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "take-the-tens-away-first-then",
    "text": "Take the tens away first, then the ones. Use the blocks if you like.",
    "key": "Take the tens away first, then the ones. Use the blocks if you like.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "ten-on-go-one-row-down",
    "text": "Ten on: go one row down. The ones stay the same.",
    "key": "Ten on: go one row down. The ones stay the same.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "do-not-count-them-all-the",
-   "text": "Do not count them all. The top row is 5. How many more?",
-   "key": "Do not count them all. The top row is 5. How many more?",
+   "text": "You do not need to count them all. The top row is 5. How many more are there?",
+   "key": "You do not need to count them all. The top row is 5. How many more are there?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "do-not-count-them-all-the-dark",
-   "text": "Do not count them all. The dark blue ones are 5. How many more?",
-   "key": "Do not count them all. The dark blue ones are 5. How many more?",
+   "text": "You do not need to count them all. The dark blue ones are 5. How many more are there?",
+   "key": "You do not need to count them all. The dark blue ones are 5. How many more are there?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "that-is-not-enough-yet",
-   "text": "That is not enough yet.",
-   "key": "That is not enough yet.",
+   "text": "That is not enough yet. Add some more.",
+   "key": "That is not enough yet. Add some more.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "that-is-too-many-start-again",
-   "text": "That is too many. Start again.",
-   "key": "That is too many. Start again.",
+   "text": "That is too many. Tap Start again and build it once more.",
+   "key": "That is too many. Tap Start again and build it once more.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "count-the-red-tens-10-20",
    "text": "Count the red tens: 10, 20, 30. Then add the ones.",
    "key": "Count the red tens: 10, 20, 30. Then add the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "do-not-count-every-block-count",
-   "text": "Do not count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
-   "key": "Do not count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
+   "text": "You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
+   "key": "You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "count-the-empty-places-or-the",
    "text": "Count the empty places, or the fingers that are down.",
    "key": "Count the empty places, or the fingers that are down.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "count-the-empty-places-in-the",
    "text": "Count the empty places in the blue tower.",
    "key": "Count the empty places in the blue tower.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "watch-the-yellow-ones-fill-up",
    "text": "Watch the yellow ones fill up the ten. Now count the tens.",
    "key": "Watch the yellow ones fill up the ten. Now count the tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "look-at-the-blue-tower-the",
    "text": "Look at the blue tower. The yellow ones fit in the empty places.",
    "key": "Look at the blue tower. The yellow ones fit in the empty places.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-tens-stay-just-add-the",
    "text": "The tens stay. Just add the ones.",
    "key": "The tens stay. Just add the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "you-have-taken-all-the-tens",
    "text": "You have taken all the tens.",
    "key": "You have taken all the tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "you-have-taken-all-the-ones",
    "text": "You have taken all the ones.",
    "key": "You have taken all the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "no-ones-left-break-a-ten",
    "text": "No ones left! Break a ten into 10 ones.",
    "key": "No ones left! Break a ten into 10 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "you-have-enough-ones-no-need",
    "text": "You have enough ones. No need to break a ten.",
    "key": "You have enough ones. No need to break a ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "count-what-is-left-red-tens",
    "text": "Count what is left. Red tens in tens: 10, 20, 30. Then the blue ones.",
    "key": "Count what is left. Red tens in tens: 10, 20, 30. Then the blue ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-parts-together-are-as-long",
    "text": "The parts together are as long as the whole. What is missing?",
    "key": "The parts together are as long as the whole. What is missing?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-mystery-number-is-the-whole",
    "text": "The mystery number is the whole. Put the two parts together.",
    "key": "The mystery number is the whole. Put the two parts together.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "take-the-part-away-from-the",
    "text": "Take the part away from the whole. Only the tens change.",
    "key": "Take the part away from the whole. Only the tens change.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-ones-are-the-same-how",
    "text": "The ones are the same. How many tens are gone?",
    "key": "The ones are the same. How many tens are gone?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "ten-more-is-one-more-ten",
    "text": "Ten more is one more ten. The ones stay the same.",
    "key": "Ten more is one more ten. The ones stay the same.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "ten-fewer-is-one-ten-gone",
    "text": "Ten fewer is one ten gone. The ones stay the same.",
    "key": "Ten fewer is one ten gone. The ones stay the same.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "think-of-the-friends-of-ten",
    "text": "Think of the friends of ten.",
    "key": "Think of the friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "the-ones-are-the-same-how-many",
    "text": "The ones are the same. How many tens are missing?",
    "key": "The ones are the same. How many tens are missing?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "take-the-tens-away-first-then-the",
    "text": "Take the tens away first, then the ones.",
    "key": "Take the tens away first, then the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "all-done-for-today",
@@ -508,34 +508,6 @@
    "id": "good-trying",
    "text": "Good trying!",
    "key": "Good trying!",
-   "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "still-great-at-this-one",
-   "text": "Still great at this one.",
-   "key": "Still great at this one.",
-   "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "you-finished-this-game-the-puppy",
-   "text": "You finished this game! Oreo is proud of you.",
-   "key": "You finished this game! Oreo is proud of you.",
-   "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "one-more-good-round-like-this",
-   "text": "One more good round like this and the game is finished.",
-   "key": "One more good round like this and the game is finished.",
-   "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "next-time-we-start-with-an",
-   "text": "Next time we start with an easier level.",
-   "key": "Next time we start with an easier level.",
    "fragment": false,
    "pack": "core"
   },
@@ -649,670 +621,670 @@
    "text": "How many altogether?",
    "key": "How many altogether?",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "how-many-are-left",
    "text": "How many are left?",
    "key": "How many are left?",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "how-many-is-that",
    "text": "How many is that?",
    "key": "How many is that?",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "how-many-more-are-in-the-long",
    "text": "How many more are in the long row?",
    "key": "How many more are in the long row?",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "count-on-from-the-blue-ones",
    "text": "Count on from the blue ones. The yellow ones come next.",
    "key": "Count on from the blue ones. The yellow ones come next.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "the-crossed-out-ones-are-gone",
    "text": "The crossed-out ones are gone. Count the ones that are left.",
    "key": "The crossed-out ones are gone. Count the ones that are left.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "match-them-up-one-to-one",
    "text": "Match them up, one to one. Count the ones with no partner.",
    "key": "Match them up, one to one. Count the ones with no partner.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "both-rows-are-the-same-count",
    "text": "Both rows are the same. Count one row, then count on.",
    "key": "Both rows are the same. Count one row, then count on.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "go-down-to-ten-first-then",
    "text": "Go down to ten first. Then take away the rest.",
    "key": "Go down to ten first. Then take away the rest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "first-down-to-ten-then-take",
    "text": "First down to ten, then take away the rest.",
    "key": "First down to ten, then take away the rest.",
    "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "type-the-number-then-tap-the",
-   "text": "Type the number, then tap the tick.",
-   "key": "Type the number, then tap the tick.",
-   "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "add-the-tens-to-the-tens",
    "text": "Add the tens to the tens. Add the ones to the ones.",
    "key": "Add the tens to the tens. Add the ones to the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "tens-with-tens-and-ones-with",
    "text": "Tens with tens, and ones with ones.",
    "key": "Tens with tens, and ones with ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "count-the-empty-places-in-both",
    "text": "Count the empty places in both frames.",
    "key": "Count the empty places in both frames.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "ten-tens-make-100-count-the",
    "text": "Ten tens make 100. Count the tens that are missing.",
    "key": "Ten tens make 100. Count the tens that are missing.",
    "fragment": false,
-   "pack": "core"
+   "pack": "sums"
   },
   {
    "id": "start-at-ten-then-count-on",
    "text": "Start at ten. Then count on the ones.",
    "key": "Start at ten. Then count on the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "a-teen-number-is-one-ten",
    "text": "A teen number is one ten and some ones.",
    "key": "A teen number is one ten and some ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "and-how-many-ones",
    "text": "And how many ones?",
    "key": "And how many ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "one-ten-was-broken-into-10",
    "text": "One ten was broken into 10 ones. Count on from 10.",
    "key": "One ten was broken into 10 ones. Count on from 10.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "breaking-a-ten-does-not-change",
    "text": "Breaking a ten does not change the number.",
    "key": "Breaking a ten does not change the number.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "how-many-look-for-groups-you",
    "text": "How many? Look for groups you know.",
    "key": "How many? Look for groups you know.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "do-not-count-them-all-look",
-   "text": "Do not count them all. Look for small groups you know.",
-   "key": "Do not count them all. Look for small groups you know.",
+   "text": "You do not need to count them all. Look for small groups you know.",
+   "key": "You do not need to count them all. Look for small groups you know.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "which-is-more",
    "text": "Which is more?",
    "key": "Which is more?",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "which-is-less",
    "text": "Which is less?",
    "key": "Which is less?",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tap-the-smallest-first-then-the",
    "text": "Tap the smallest first, then the next, then the biggest.",
    "key": "Tap the smallest first, then the next, then the biggest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "from-the-smallest-to-the-biggest",
    "text": "From the smallest to the biggest.",
    "key": "From the smallest to the biggest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "which-ten-is-nearer",
    "text": "Which ten is nearer?",
    "key": "Which ten is nearer?",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "which-place-is-the-yellow-one",
    "text": "Which place is the yellow one in?",
    "key": "Which place is the yellow one in?",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "on-the-number-line-the-number",
    "text": "On the number line, the number further along is more.",
    "key": "On the number line, the number further along is more.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "the-tens-are-the-same-look",
    "text": "The tens are the same. Look at the ones.",
    "key": "The tens are the same. Look at the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "look-at-the-tens-first-more",
    "text": "Look at the tens first. More tens is more.",
    "key": "Look at the tens first. More tens is more.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "look-at-the-tens-first-if",
    "text": "Look at the tens first. If they are the same, look at the ones.",
    "key": "Look at the tens first. If they are the same, look at the ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "look-where-it-is-on-the",
    "text": "Look where it is on the line. Which ten is closer?",
    "key": "Look where it is on the line. Which ten is closer?",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "count-from-the-front-first-second",
    "text": "Count from the front: first, second, third.",
    "key": "Count from the front: first, second, third.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "the-first-row-is-ten-count",
    "text": "The first row is ten. Count on from the eleventh.",
    "key": "The first row is ten. Count on from the eleventh.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "what-comes-next",
    "text": "What comes next?",
    "key": "What comes next?",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "the-pattern-starts-again",
    "text": "The pattern starts again.",
    "key": "The pattern starts again.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "say-the-pattern-out-loud-where",
    "text": "Say the pattern out loud. Where does it start again?",
    "key": "Say the pattern out loud. Where does it start again?",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "look-at-the-hops-how-big",
    "text": "Look at the hops. How big is each one?",
    "key": "Look at the hops. How big is each one?",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "going-back",
    "text": "Going back.",
    "key": "Going back.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "is-it-odd-or-even",
    "text": "Is it odd or even?",
    "key": "Is it odd or even?",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "it-is-odd-one-is-left",
    "text": "It is odd. One is left over.",
    "key": "It is odd. One is left over.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "it-is-even-everything-has-a",
    "text": "It is even. Everything has a partner.",
    "key": "It is even. Everything has a partner.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "pair-them-up-if-one-is",
    "text": "Pair them up. If one is left over, the number is odd.",
    "key": "Pair them up. If one is left over, the number is odd.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "look-at-the-ones-even-numbers",
    "text": "Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.",
    "key": "Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "which-number-is-missing",
    "text": "Which number is missing?",
    "key": "Which number is missing?",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "find-the-step-from-one-number",
    "text": "Find the step from one number to the next. It is the same every time.",
    "key": "Find the step from one number to the next. It is the same every time.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "count-the-groups-in-steps-one",
    "text": "Count the groups in steps, one group at a time.",
    "key": "Count the groups in steps, one group at a time.",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "give-one-to-each-bowl-until",
    "text": "Give one to each bowl until the bones are gone.",
    "key": "Give one to each bowl until the bones are gone.",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "how-many-in-each-bowl",
    "text": "How many are in each bowl?",
    "key": "How many are in each bowl?",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "how-many-does-each-get",
    "text": "How many does each get?",
    "key": "How many does each get?",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "how-many-groups",
    "text": "How many groups?",
    "key": "How many groups?",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "deal-them-out-one-for-each",
    "text": "Deal them out: one for each bowl, again and again.",
    "key": "Deal them out: one for each bowl, again and again.",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "make-the-groups-then-count-the",
    "text": "Make the groups, then count the groups.",
    "key": "Make the groups, then count the groups.",
    "fragment": false,
-   "pack": "core"
+   "pack": "groups"
   },
   {
    "id": "which-one-is-cut-in-half",
    "text": "Which one is cut in half?",
    "key": "Which one is cut in half?",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "which-one-is-cut-in-quarters",
    "text": "Which one is cut in quarters?",
    "key": "Which one is cut in quarters?",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "two-parts-of-the-same-size",
    "text": "Two parts of the same size. Two halves make a whole.",
    "key": "Two parts of the same size. Two halves make a whole.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "four-parts-of-the-same-size",
    "text": "Four parts of the same size. Four quarters make a whole.",
    "key": "Four parts of the same size. Four quarters make a whole.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "halves-are-two-parts-of-the",
    "text": "Halves are two parts of the same size.",
    "key": "Halves are two parts of the same size.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "quarters-are-four-parts-of-the",
    "text": "Quarters are four parts of the same size.",
    "key": "Quarters are four parts of the same size.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "share-them-into-two-equal-groups",
    "text": "Share them into two equal groups.",
    "key": "Share them into two equal groups.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "share-them-into-four-equal-groups",
    "text": "Share them into four equal groups.",
    "key": "Share them into four equal groups.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "three-quarters-is-three-of-the",
    "text": "Three quarters is three of the groups.",
    "key": "Three quarters is three of the groups.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "tap-one-half-on-the-bar",
    "text": "Tap one half on the bar.",
    "key": "Tap one half on the bar.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "tap-a-quarter-on-the-bar",
    "text": "Tap a quarter on the bar.",
    "key": "Tap a quarter on the bar.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "tap-three-quarters-on-the-bar",
    "text": "Tap three quarters on the bar.",
    "key": "Tap three quarters on the bar.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "how-much-of-the-bar-is",
    "text": "How much of the bar is yellow?",
    "key": "How much of the bar is yellow?",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "that-is-a-quarter",
    "text": "That is a quarter.",
    "key": "That is a quarter.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "that-is-one-half",
    "text": "That is one half.",
    "key": "That is one half.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "that-is-three-quarters",
    "text": "That is three quarters.",
    "key": "That is three quarters.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "two-quarters-are-the-same-as",
    "text": "Two quarters are the same as one half.",
    "key": "Two quarters are the same as one half.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "the-bar-is-cut-into-four",
    "text": "The bar is cut into four equal parts. Count the parts from the start.",
    "key": "The bar is cut into four equal parts. Count the parts from the start.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "the-bar-is-cut-into-four-count",
    "text": "The bar is cut into four equal parts. Count the yellow parts.",
    "key": "The bar is cut into four equal parts. Count the yellow parts.",
    "fragment": false,
-   "pack": "core"
+   "pack": "parts"
   },
   {
    "id": "which-is-worth-more",
    "text": "Which is worth more?",
    "key": "Which is worth more?",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "how-much-is-in-the-purse",
    "text": "How much is in the purse?",
    "key": "How much is in the purse?",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "which-purse-holds-more",
    "text": "Which purse holds more?",
    "key": "Which purse holds more?",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "look-at-the-number-on-it",
    "text": "Look at the number on it.",
    "key": "Look at the number on it.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "a-bigger-coin-is-not-always",
    "text": "A bigger coin is not always worth more. Look at the number.",
    "key": "A bigger coin is not always worth more. Look at the number.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "start-with-the-biggest-then-count",
    "text": "Start with the biggest. Then count on.",
    "key": "Start with the biggest. Then count on.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "count-what-you-have-start-with",
    "text": "Count what you have. Start with the biggest.",
    "key": "Count what you have. Start with the biggest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "count-each-purse-start-with-the",
    "text": "Count each purse. Start with the biggest.",
    "key": "Count each purse. Start with the biggest.",
    "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "that-is-not-enough-yet-add",
-   "text": "That is not enough yet. Add some more.",
-   "key": "That is not enough yet. Add some more.",
-   "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "that-is-too-much-take-some",
    "text": "That is too much. Take some away.",
    "key": "That is too much. Take some away.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tap-each-one-once-to-count",
    "text": "Tap each one once to count them.",
    "key": "Tap each one once to count them.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "count-again-touch-each-one-once",
    "text": "Count again. Touch each one once and say one number.",
    "key": "Count again. Touch each one once and say one number.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "they-have-moved-how-many-now",
    "text": "They have moved. How many are there now?",
    "key": "They have moved. How many are there now?",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "nothing-was-added-and-nothing-was",
    "text": "Nothing was added and nothing was taken away. The number is the same.",
    "key": "Nothing was added and nothing was taken away. The number is the same.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "how-many-bones-are-on-the",
    "text": "How many bones are on the plate?",
    "key": "How many bones are on the plate?",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "the-plate-is-empty-zero-means",
    "text": "The plate is empty. Zero means none.",
    "key": "The plate is empty. Zero means none.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "take-them-all-away-and-none",
    "text": "Take them all away and none are left. None is zero.",
    "key": "Take them all away and none are left. None is zero.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "zero-is-nothing-adding-nothing-changes",
    "text": "Zero is nothing. Adding nothing changes nothing.",
    "key": "Zero is nothing. Adding nothing changes nothing.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "one-bone",
    "text": "One bone.",
    "key": "One bone.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "guess-how-many-do-not-count",
-   "text": "Guess how many. Do not count.",
-   "key": "Guess how many. Do not count.",
+   "text": "Guess how many there are. You do not need to count.",
+   "key": "Guess how many there are. You do not need to count.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "lets-check",
    "text": "Let's check.",
    "key": "Let's check.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "lets-check-count-them-and-see",
    "text": "Let's check. Count them and see which number is nearest.",
    "key": "Let's check. Count them and see which number is nearest.",
    "fragment": false,
-   "pack": "core"
+   "pack": "counting"
   },
   {
    "id": "lets-check-pack-them-in-tens",
    "text": "Let's check. Pack them in tens and see which number is nearest.",
    "key": "Let's check. Pack them in tens and see which number is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "this-is-oreo-she-loves-bones",
+   "text": "This is Oreo. She loves bones and numbers, and she is going to learn with you.",
+   "key": "This is Oreo. She loves bones and numbers, and she is going to learn with you.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "this-is-oreo-stars-sister-she",
+   "text": "This is Oreo, Star's sister. She loves bones and numbers, and she is going to learn with you.",
+   "key": "This is Oreo, Star's sister. She loves bones and numbers, and she is going to learn with you.",
    "fragment": false,
    "pack": "core"
   },
@@ -1426,1407 +1398,1407 @@
    "text": "0 is 0 tens and 0 ones.",
    "key": "0 is 0 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.1",
    "text": "1 is 0 tens and 1 one.",
    "key": "1 is 0 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.2",
    "text": "2 is 0 tens and 2 ones.",
    "key": "2 is 0 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.3",
    "text": "3 is 0 tens and 3 ones.",
    "key": "3 is 0 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.4",
    "text": "4 is 0 tens and 4 ones.",
    "key": "4 is 0 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.5",
    "text": "5 is 0 tens and 5 ones.",
    "key": "5 is 0 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.6",
    "text": "6 is 0 tens and 6 ones.",
    "key": "6 is 0 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.7",
    "text": "7 is 0 tens and 7 ones.",
    "key": "7 is 0 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.8",
    "text": "8 is 0 tens and 8 ones.",
    "key": "8 is 0 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.9",
    "text": "9 is 0 tens and 9 ones.",
    "key": "9 is 0 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.10",
    "text": "10 is 1 ten and 0 ones.",
    "key": "10 is 1 ten and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.11",
    "text": "11 is 1 ten and 1 one.",
    "key": "11 is 1 ten and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.12",
    "text": "12 is 1 ten and 2 ones.",
    "key": "12 is 1 ten and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.13",
    "text": "13 is 1 ten and 3 ones.",
    "key": "13 is 1 ten and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.14",
    "text": "14 is 1 ten and 4 ones.",
    "key": "14 is 1 ten and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.15",
    "text": "15 is 1 ten and 5 ones.",
    "key": "15 is 1 ten and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.16",
    "text": "16 is 1 ten and 6 ones.",
    "key": "16 is 1 ten and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.17",
    "text": "17 is 1 ten and 7 ones.",
    "key": "17 is 1 ten and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.18",
    "text": "18 is 1 ten and 8 ones.",
    "key": "18 is 1 ten and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.19",
    "text": "19 is 1 ten and 9 ones.",
    "key": "19 is 1 ten and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.20",
    "text": "20 is 2 tens and 0 ones.",
    "key": "20 is 2 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.21",
    "text": "21 is 2 tens and 1 one.",
    "key": "21 is 2 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.22",
    "text": "22 is 2 tens and 2 ones.",
    "key": "22 is 2 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.23",
    "text": "23 is 2 tens and 3 ones.",
    "key": "23 is 2 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.24",
    "text": "24 is 2 tens and 4 ones.",
    "key": "24 is 2 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.25",
    "text": "25 is 2 tens and 5 ones.",
    "key": "25 is 2 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.26",
    "text": "26 is 2 tens and 6 ones.",
    "key": "26 is 2 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.27",
    "text": "27 is 2 tens and 7 ones.",
    "key": "27 is 2 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.28",
    "text": "28 is 2 tens and 8 ones.",
    "key": "28 is 2 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.29",
    "text": "29 is 2 tens and 9 ones.",
    "key": "29 is 2 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.30",
    "text": "30 is 3 tens and 0 ones.",
    "key": "30 is 3 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.31",
    "text": "31 is 3 tens and 1 one.",
    "key": "31 is 3 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.32",
    "text": "32 is 3 tens and 2 ones.",
    "key": "32 is 3 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.33",
    "text": "33 is 3 tens and 3 ones.",
    "key": "33 is 3 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.34",
    "text": "34 is 3 tens and 4 ones.",
    "key": "34 is 3 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.35",
    "text": "35 is 3 tens and 5 ones.",
    "key": "35 is 3 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.36",
    "text": "36 is 3 tens and 6 ones.",
    "key": "36 is 3 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.37",
    "text": "37 is 3 tens and 7 ones.",
    "key": "37 is 3 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.38",
    "text": "38 is 3 tens and 8 ones.",
    "key": "38 is 3 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.39",
    "text": "39 is 3 tens and 9 ones.",
    "key": "39 is 3 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.40",
    "text": "40 is 4 tens and 0 ones.",
    "key": "40 is 4 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.41",
    "text": "41 is 4 tens and 1 one.",
    "key": "41 is 4 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.42",
    "text": "42 is 4 tens and 2 ones.",
    "key": "42 is 4 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.43",
    "text": "43 is 4 tens and 3 ones.",
    "key": "43 is 4 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.44",
    "text": "44 is 4 tens and 4 ones.",
    "key": "44 is 4 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.45",
    "text": "45 is 4 tens and 5 ones.",
    "key": "45 is 4 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.46",
    "text": "46 is 4 tens and 6 ones.",
    "key": "46 is 4 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.47",
    "text": "47 is 4 tens and 7 ones.",
    "key": "47 is 4 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.48",
    "text": "48 is 4 tens and 8 ones.",
    "key": "48 is 4 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.49",
    "text": "49 is 4 tens and 9 ones.",
    "key": "49 is 4 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.50",
    "text": "50 is 5 tens and 0 ones.",
    "key": "50 is 5 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.51",
    "text": "51 is 5 tens and 1 one.",
    "key": "51 is 5 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.52",
    "text": "52 is 5 tens and 2 ones.",
    "key": "52 is 5 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.53",
    "text": "53 is 5 tens and 3 ones.",
    "key": "53 is 5 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.54",
    "text": "54 is 5 tens and 4 ones.",
    "key": "54 is 5 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.55",
    "text": "55 is 5 tens and 5 ones.",
    "key": "55 is 5 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.56",
    "text": "56 is 5 tens and 6 ones.",
    "key": "56 is 5 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.57",
    "text": "57 is 5 tens and 7 ones.",
    "key": "57 is 5 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.58",
    "text": "58 is 5 tens and 8 ones.",
    "key": "58 is 5 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.59",
    "text": "59 is 5 tens and 9 ones.",
    "key": "59 is 5 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.60",
    "text": "60 is 6 tens and 0 ones.",
    "key": "60 is 6 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.61",
    "text": "61 is 6 tens and 1 one.",
    "key": "61 is 6 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.62",
    "text": "62 is 6 tens and 2 ones.",
    "key": "62 is 6 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.63",
    "text": "63 is 6 tens and 3 ones.",
    "key": "63 is 6 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.64",
    "text": "64 is 6 tens and 4 ones.",
    "key": "64 is 6 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.65",
    "text": "65 is 6 tens and 5 ones.",
    "key": "65 is 6 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.66",
    "text": "66 is 6 tens and 6 ones.",
    "key": "66 is 6 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.67",
    "text": "67 is 6 tens and 7 ones.",
    "key": "67 is 6 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.68",
    "text": "68 is 6 tens and 8 ones.",
    "key": "68 is 6 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.69",
    "text": "69 is 6 tens and 9 ones.",
    "key": "69 is 6 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.70",
    "text": "70 is 7 tens and 0 ones.",
    "key": "70 is 7 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.71",
    "text": "71 is 7 tens and 1 one.",
    "key": "71 is 7 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.72",
    "text": "72 is 7 tens and 2 ones.",
    "key": "72 is 7 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.73",
    "text": "73 is 7 tens and 3 ones.",
    "key": "73 is 7 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.74",
    "text": "74 is 7 tens and 4 ones.",
    "key": "74 is 7 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.75",
    "text": "75 is 7 tens and 5 ones.",
    "key": "75 is 7 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.76",
    "text": "76 is 7 tens and 6 ones.",
    "key": "76 is 7 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.77",
    "text": "77 is 7 tens and 7 ones.",
    "key": "77 is 7 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.78",
    "text": "78 is 7 tens and 8 ones.",
    "key": "78 is 7 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.79",
    "text": "79 is 7 tens and 9 ones.",
    "key": "79 is 7 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.80",
    "text": "80 is 8 tens and 0 ones.",
    "key": "80 is 8 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.81",
    "text": "81 is 8 tens and 1 one.",
    "key": "81 is 8 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.82",
    "text": "82 is 8 tens and 2 ones.",
    "key": "82 is 8 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.83",
    "text": "83 is 8 tens and 3 ones.",
    "key": "83 is 8 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.84",
    "text": "84 is 8 tens and 4 ones.",
    "key": "84 is 8 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.85",
    "text": "85 is 8 tens and 5 ones.",
    "key": "85 is 8 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.86",
    "text": "86 is 8 tens and 6 ones.",
    "key": "86 is 8 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.87",
    "text": "87 is 8 tens and 7 ones.",
    "key": "87 is 8 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.88",
    "text": "88 is 8 tens and 8 ones.",
    "key": "88 is 8 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.89",
    "text": "89 is 8 tens and 9 ones.",
    "key": "89 is 8 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.90",
    "text": "90 is 9 tens and 0 ones.",
    "key": "90 is 9 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.91",
    "text": "91 is 9 tens and 1 one.",
    "key": "91 is 9 tens and 1 one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.92",
    "text": "92 is 9 tens and 2 ones.",
    "key": "92 is 9 tens and 2 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.93",
    "text": "93 is 9 tens and 3 ones.",
    "key": "93 is 9 tens and 3 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.94",
    "text": "94 is 9 tens and 4 ones.",
    "key": "94 is 9 tens and 4 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.95",
    "text": "95 is 9 tens and 5 ones.",
    "key": "95 is 9 tens and 5 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.96",
    "text": "96 is 9 tens and 6 ones.",
    "key": "96 is 9 tens and 6 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.97",
    "text": "97 is 9 tens and 7 ones.",
    "key": "97 is 9 tens and 7 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.98",
    "text": "98 is 9 tens and 8 ones.",
    "key": "98 is 9 tens and 8 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.99",
    "text": "99 is 9 tens and 9 ones.",
    "key": "99 is 9 tens and 9 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "isTO.100",
    "text": "100 is 10 tens and 0 ones.",
    "key": "100 is 10 tens and 0 ones.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.10",
    "text": "Which number is 10?",
    "key": "Which number is 10?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.11",
    "text": "Which number is 11?",
    "key": "Which number is 11?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.12",
    "text": "Which number is 12?",
    "key": "Which number is 12?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.13",
    "text": "Which number is 13?",
    "key": "Which number is 13?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.14",
    "text": "Which number is 14?",
    "key": "Which number is 14?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.15",
    "text": "Which number is 15?",
    "key": "Which number is 15?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.16",
    "text": "Which number is 16?",
    "key": "Which number is 16?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.17",
    "text": "Which number is 17?",
    "key": "Which number is 17?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.18",
    "text": "Which number is 18?",
    "key": "Which number is 18?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.19",
    "text": "Which number is 19?",
    "key": "Which number is 19?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.20",
    "text": "Which number is 20?",
    "key": "Which number is 20?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.21",
    "text": "Which number is 21?",
    "key": "Which number is 21?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.22",
    "text": "Which number is 22?",
    "key": "Which number is 22?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.23",
    "text": "Which number is 23?",
    "key": "Which number is 23?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.24",
    "text": "Which number is 24?",
    "key": "Which number is 24?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.25",
    "text": "Which number is 25?",
    "key": "Which number is 25?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.26",
    "text": "Which number is 26?",
    "key": "Which number is 26?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.27",
    "text": "Which number is 27?",
    "key": "Which number is 27?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.28",
    "text": "Which number is 28?",
    "key": "Which number is 28?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.29",
    "text": "Which number is 29?",
    "key": "Which number is 29?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.30",
    "text": "Which number is 30?",
    "key": "Which number is 30?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.31",
    "text": "Which number is 31?",
    "key": "Which number is 31?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.32",
    "text": "Which number is 32?",
    "key": "Which number is 32?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.33",
    "text": "Which number is 33?",
    "key": "Which number is 33?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.34",
    "text": "Which number is 34?",
    "key": "Which number is 34?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.35",
    "text": "Which number is 35?",
    "key": "Which number is 35?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.36",
    "text": "Which number is 36?",
    "key": "Which number is 36?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.37",
    "text": "Which number is 37?",
    "key": "Which number is 37?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.38",
    "text": "Which number is 38?",
    "key": "Which number is 38?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.39",
    "text": "Which number is 39?",
    "key": "Which number is 39?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.40",
    "text": "Which number is 40?",
    "key": "Which number is 40?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.41",
    "text": "Which number is 41?",
    "key": "Which number is 41?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.42",
    "text": "Which number is 42?",
    "key": "Which number is 42?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.43",
    "text": "Which number is 43?",
    "key": "Which number is 43?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.44",
    "text": "Which number is 44?",
    "key": "Which number is 44?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.45",
    "text": "Which number is 45?",
    "key": "Which number is 45?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.46",
    "text": "Which number is 46?",
    "key": "Which number is 46?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.47",
    "text": "Which number is 47?",
    "key": "Which number is 47?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.48",
    "text": "Which number is 48?",
    "key": "Which number is 48?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.49",
    "text": "Which number is 49?",
    "key": "Which number is 49?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.50",
    "text": "Which number is 50?",
    "key": "Which number is 50?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.51",
    "text": "Which number is 51?",
    "key": "Which number is 51?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.52",
    "text": "Which number is 52?",
    "key": "Which number is 52?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.53",
    "text": "Which number is 53?",
    "key": "Which number is 53?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.54",
    "text": "Which number is 54?",
    "key": "Which number is 54?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.55",
    "text": "Which number is 55?",
    "key": "Which number is 55?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.56",
    "text": "Which number is 56?",
    "key": "Which number is 56?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.57",
    "text": "Which number is 57?",
    "key": "Which number is 57?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.58",
    "text": "Which number is 58?",
    "key": "Which number is 58?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.59",
    "text": "Which number is 59?",
    "key": "Which number is 59?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.60",
    "text": "Which number is 60?",
    "key": "Which number is 60?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.61",
    "text": "Which number is 61?",
    "key": "Which number is 61?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.62",
    "text": "Which number is 62?",
    "key": "Which number is 62?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.63",
    "text": "Which number is 63?",
    "key": "Which number is 63?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.64",
    "text": "Which number is 64?",
    "key": "Which number is 64?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.65",
    "text": "Which number is 65?",
    "key": "Which number is 65?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.66",
    "text": "Which number is 66?",
    "key": "Which number is 66?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.67",
    "text": "Which number is 67?",
    "key": "Which number is 67?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.68",
    "text": "Which number is 68?",
    "key": "Which number is 68?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.69",
    "text": "Which number is 69?",
    "key": "Which number is 69?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.70",
    "text": "Which number is 70?",
    "key": "Which number is 70?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.71",
    "text": "Which number is 71?",
    "key": "Which number is 71?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.72",
    "text": "Which number is 72?",
    "key": "Which number is 72?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.73",
    "text": "Which number is 73?",
    "key": "Which number is 73?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.74",
    "text": "Which number is 74?",
    "key": "Which number is 74?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.75",
    "text": "Which number is 75?",
    "key": "Which number is 75?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.76",
    "text": "Which number is 76?",
    "key": "Which number is 76?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.77",
    "text": "Which number is 77?",
    "key": "Which number is 77?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.78",
    "text": "Which number is 78?",
    "key": "Which number is 78?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.79",
    "text": "Which number is 79?",
    "key": "Which number is 79?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.80",
    "text": "Which number is 80?",
    "key": "Which number is 80?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.81",
    "text": "Which number is 81?",
    "key": "Which number is 81?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.82",
    "text": "Which number is 82?",
    "key": "Which number is 82?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.83",
    "text": "Which number is 83?",
    "key": "Which number is 83?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.84",
    "text": "Which number is 84?",
    "key": "Which number is 84?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.85",
    "text": "Which number is 85?",
    "key": "Which number is 85?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.86",
    "text": "Which number is 86?",
    "key": "Which number is 86?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.87",
    "text": "Which number is 87?",
    "key": "Which number is 87?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.88",
    "text": "Which number is 88?",
    "key": "Which number is 88?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.89",
    "text": "Which number is 89?",
    "key": "Which number is 89?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.90",
    "text": "Which number is 90?",
    "key": "Which number is 90?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.91",
    "text": "Which number is 91?",
    "key": "Which number is 91?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.92",
    "text": "Which number is 92?",
    "key": "Which number is 92?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.93",
    "text": "Which number is 93?",
    "key": "Which number is 93?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.94",
    "text": "Which number is 94?",
    "key": "Which number is 94?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.95",
    "text": "Which number is 95?",
    "key": "Which number is 95?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.96",
    "text": "Which number is 96?",
    "key": "Which number is 96?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.97",
    "text": "Which number is 97?",
    "key": "Which number is 97?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.98",
    "text": "Which number is 98?",
    "key": "Which number is 98?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.99",
    "text": "Which number is 99?",
    "key": "Which number is 99?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.0",
    "text": "Which number is 0?",
    "key": "Which number is 0?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.1",
    "text": "Which number is 1?",
    "key": "Which number is 1?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.2",
    "text": "Which number is 2?",
    "key": "Which number is 2?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.3",
    "text": "Which number is 3?",
    "key": "Which number is 3?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.4",
    "text": "Which number is 4?",
    "key": "Which number is 4?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.5",
    "text": "Which number is 5?",
    "key": "Which number is 5?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.6",
    "text": "Which number is 6?",
    "key": "Which number is 6?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.7",
    "text": "Which number is 7?",
    "key": "Which number is 7?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.8",
    "text": "Which number is 8?",
    "key": "Which number is 8?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "which.9",
    "text": "Which number is 9?",
    "key": "Which number is 9?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "puppyHas.1",
@@ -3526,378 +3498,378 @@
    "text": "Which number has 1 ten?",
    "key": "Which number has 1 ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.1.ones",
    "text": "Which number has 1 one?",
    "key": "Which number has 1 one?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.1",
    "text": "1 and how many more make ten?",
    "key": "1 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.1",
    "text": "1 and 9 are friends of ten.",
    "key": "1 and 9 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.1",
    "text": "1 and 9 make a new ten.",
    "key": "1 and 9 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.1",
    "text": "1 ten.",
    "key": "1 ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.2.tens",
    "text": "Which number has 2 tens?",
    "key": "Which number has 2 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.2.ones",
    "text": "Which number has 2 ones?",
    "key": "Which number has 2 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.2",
    "text": "2 and how many more make ten?",
    "key": "2 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.2",
    "text": "2 and 8 are friends of ten.",
    "key": "2 and 8 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.2",
    "text": "2 and 8 make a new ten.",
    "key": "2 and 8 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.2",
    "text": "2 tens.",
    "key": "2 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.3.tens",
    "text": "Which number has 3 tens?",
    "key": "Which number has 3 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.3.ones",
    "text": "Which number has 3 ones?",
    "key": "Which number has 3 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.3",
    "text": "3 and how many more make ten?",
    "key": "3 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.3",
    "text": "3 and 7 are friends of ten.",
    "key": "3 and 7 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.3",
    "text": "3 and 7 make a new ten.",
    "key": "3 and 7 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.3",
    "text": "3 tens.",
    "key": "3 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.4.tens",
    "text": "Which number has 4 tens?",
    "key": "Which number has 4 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.4.ones",
    "text": "Which number has 4 ones?",
    "key": "Which number has 4 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.4",
    "text": "4 and how many more make ten?",
    "key": "4 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.4",
    "text": "4 and 6 are friends of ten.",
    "key": "4 and 6 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.4",
    "text": "4 and 6 make a new ten.",
    "key": "4 and 6 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.4",
    "text": "4 tens.",
    "key": "4 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.5.tens",
    "text": "Which number has 5 tens?",
    "key": "Which number has 5 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.5.ones",
    "text": "Which number has 5 ones?",
    "key": "Which number has 5 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.5",
    "text": "5 and how many more make ten?",
    "key": "5 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.5",
    "text": "5 and 5 are friends of ten.",
    "key": "5 and 5 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.5",
    "text": "5 and 5 make a new ten.",
    "key": "5 and 5 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.5",
    "text": "5 tens.",
    "key": "5 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.6.tens",
    "text": "Which number has 6 tens?",
    "key": "Which number has 6 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.6.ones",
    "text": "Which number has 6 ones?",
    "key": "Which number has 6 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.6",
    "text": "6 and how many more make ten?",
    "key": "6 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.6",
    "text": "6 and 4 are friends of ten.",
    "key": "6 and 4 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.6",
    "text": "6 and 4 make a new ten.",
    "key": "6 and 4 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.6",
    "text": "6 tens.",
    "key": "6 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.7.tens",
    "text": "Which number has 7 tens?",
    "key": "Which number has 7 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.7.ones",
    "text": "Which number has 7 ones?",
    "key": "Which number has 7 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.7",
    "text": "7 and how many more make ten?",
    "key": "7 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.7",
    "text": "7 and 3 are friends of ten.",
    "key": "7 and 3 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.7",
    "text": "7 and 3 make a new ten.",
    "key": "7 and 3 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.7",
    "text": "7 tens.",
    "key": "7 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.8.tens",
    "text": "Which number has 8 tens?",
    "key": "Which number has 8 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.8.ones",
    "text": "Which number has 8 ones?",
    "key": "Which number has 8 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.8",
    "text": "8 and how many more make ten?",
    "key": "8 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.8",
    "text": "8 and 2 are friends of ten.",
    "key": "8 and 2 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.8",
    "text": "8 and 2 make a new ten.",
    "key": "8 and 2 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.8",
    "text": "8 tens.",
    "key": "8 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.9.tens",
    "text": "Which number has 9 tens?",
    "key": "Which number has 9 tens?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "has.9.ones",
    "text": "Which number has 9 ones?",
    "key": "Which number has 9 ones?",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "friendsQ.9",
    "text": "9 and how many more make ten?",
    "key": "9 and how many more make ten?",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "friends.9",
    "text": "9 and 1 are friends of ten.",
    "key": "9 and 1 are friends of ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "newTen.9",
    "text": "9 and 1 make a new ten.",
    "key": "9 and 1 make a new ten.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tens.9",
    "text": "9 tens.",
    "key": "9 tens.",
    "fragment": false,
-   "pack": "core"
+   "pack": "place"
   },
   {
    "id": "finds.1",
@@ -4142,2107 +4114,2072 @@
    "text": "20 is 2 tens. Only the tens change.",
    "key": "20 is 2 tens. Only the tens change.",
    "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "levelUp.2",
-   "text": "Level up! Next you play level 2.",
-   "key": "Level up! Next you play level 2.",
-   "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tensOnly.3",
    "text": "30 is 3 tens. Only the tens change.",
    "key": "30 is 3 tens. Only the tens change.",
    "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "levelUp.3",
-   "text": "Level up! Next you play level 3.",
-   "key": "Level up! Next you play level 3.",
-   "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "tensOnly.4",
    "text": "40 is 4 tens. Only the tens change.",
    "key": "40 is 4 tens. Only the tens change.",
    "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "levelUp.4",
-   "text": "Level up! Next you play level 4.",
-   "key": "Level up! Next you play level 4.",
-   "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "jumpTo.3",
-   "text": "Perfect! You jump up to level 3.",
-   "key": "Perfect! You jump up to level 3.",
-   "fragment": false,
-   "pack": "core"
-  },
-  {
-   "id": "jumpTo.4",
-   "text": "Perfect! You jump up to level 4.",
-   "key": "Perfect! You jump up to level 4.",
-   "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "five.1",
    "text": "5 and 1 make 6.",
    "key": "5 and 1 make 6.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "five.2",
    "text": "5 and 2 make 7.",
    "key": "5 and 2 make 7.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "five.3",
    "text": "5 and 3 make 8.",
    "key": "5 and 3 make 8.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "five.4",
    "text": "5 and 4 make 9.",
    "key": "5 and 4 make 9.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "rows.down.1",
    "text": "A jump of ten goes straight down. Go one row down the blue line.",
    "key": "A jump of ten goes straight down. Go one row down the blue line.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "rows.down.2",
    "text": "A jump of ten goes straight down. Go 2 rows down the blue line.",
    "key": "A jump of ten goes straight down. Go 2 rows down the blue line.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "rows.down.3",
    "text": "A jump of ten goes straight down. Go 3 rows down the blue line.",
    "key": "A jump of ten goes straight down. Go 3 rows down the blue line.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "rows.up.1",
    "text": "A jump of ten goes straight up. Go one row up the blue line.",
    "key": "A jump of ten goes straight up. Go one row up the blue line.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "rows.up.2",
    "text": "A jump of ten goes straight up. Go 2 rows up the blue line.",
    "key": "A jump of ten goes straight up. Go 2 rows up the blue line.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "rows.up.3",
    "text": "A jump of ten goes straight up. Go 3 rows up the blue line.",
    "key": "A jump of ten goes straight up. Go 3 rows up the blue line.",
    "fragment": false,
-   "pack": "core"
+   "pack": "games"
   },
   {
    "id": "hops.1",
    "text": "Hops of 1.",
    "key": "Hops of 1.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "hops.2",
    "text": "Hops of 2.",
    "key": "Hops of 2.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "hops.3",
    "text": "Hops of 3.",
    "key": "Hops of 3.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "hops.4",
    "text": "Hops of 4.",
    "key": "Hops of 4.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "hops.5",
    "text": "Hops of 5.",
    "key": "Hops of 5.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "hops.10",
    "text": "Hops of 10.",
    "key": "Hops of 10.",
    "fragment": false,
-   "pack": "core"
+   "pack": "steps"
   },
   {
    "id": "tapMoney.1",
    "text": "Tap 1 shilling.",
    "key": "Tap 1 shilling.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "shillings.1",
    "text": "1 shilling.",
    "key": "1 shilling.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tapMoney.5",
    "text": "Tap 5 shillings.",
    "key": "Tap 5 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "shillings.5",
    "text": "5 shillings.",
    "key": "5 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tapMoney.10",
    "text": "Tap 10 shillings.",
    "key": "Tap 10 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "shillings.10",
    "text": "10 shillings.",
    "key": "10 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tapMoney.20",
    "text": "Tap 20 shillings.",
    "key": "Tap 20 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "shillings.20",
    "text": "20 shillings.",
    "key": "20 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tapMoney.50",
    "text": "Tap 50 shillings.",
    "key": "Tap 50 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "shillings.50",
    "text": "50 shillings.",
    "key": "50 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tapMoney.100",
    "text": "Tap 100 shillings.",
    "key": "Tap 100 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "shillings.100",
    "text": "100 shillings.",
    "key": "100 shillings.",
    "fragment": false,
-   "pack": "core"
+   "pack": "money"
   },
   {
    "id": "tapNth.1",
    "text": "Tap the first one.",
    "key": "Tap the first one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.2",
    "text": "Tap the second one.",
    "key": "Tap the second one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.3",
    "text": "Tap the third one.",
    "key": "Tap the third one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.4",
    "text": "Tap the fourth one.",
    "key": "Tap the fourth one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.5",
    "text": "Tap the fifth one.",
    "key": "Tap the fifth one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.6",
    "text": "Tap the sixth one.",
    "key": "Tap the sixth one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.7",
    "text": "Tap the seventh one.",
    "key": "Tap the seventh one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.8",
    "text": "Tap the eighth one.",
    "key": "Tap the eighth one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.9",
    "text": "Tap the ninth one.",
    "key": "Tap the ninth one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "tapNth.10",
    "text": "Tap the tenth one.",
    "key": "Tap the tenth one.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.1",
    "text": "It is the first.",
    "key": "It is the first.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.2",
    "text": "It is the second.",
    "key": "It is the second.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.3",
    "text": "It is the third.",
    "key": "It is the third.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.4",
    "text": "It is the fourth.",
    "key": "It is the fourth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.5",
    "text": "It is the fifth.",
    "key": "It is the fifth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.6",
    "text": "It is the sixth.",
    "key": "It is the sixth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.7",
    "text": "It is the seventh.",
    "key": "It is the seventh.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.8",
    "text": "It is the eighth.",
    "key": "It is the eighth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.9",
    "text": "It is the ninth.",
    "key": "It is the ninth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.10",
    "text": "It is the tenth.",
    "key": "It is the tenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.11",
    "text": "It is the eleventh.",
    "key": "It is the eleventh.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.12",
    "text": "It is the twelfth.",
    "key": "It is the twelfth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.13",
    "text": "It is the thirteenth.",
    "key": "It is the thirteenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.14",
    "text": "It is the fourteenth.",
    "key": "It is the fourteenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.15",
    "text": "It is the fifteenth.",
    "key": "It is the fifteenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.16",
    "text": "It is the sixteenth.",
    "key": "It is the sixteenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.17",
    "text": "It is the seventeenth.",
    "key": "It is the seventeenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.18",
    "text": "It is the eighteenth.",
    "key": "It is the eighteenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.19",
    "text": "It is the nineteenth.",
    "key": "It is the nineteenth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "nthPlace.20",
    "text": "It is the twentieth.",
    "key": "It is the twentieth.",
    "fragment": false,
-   "pack": "core"
+   "pack": "order"
   },
   {
    "id": "frag.plus",
    "text": "plus",
    "key": "plus",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.take-away",
    "text": "take away",
    "key": "take away",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.is",
    "text": "is",
    "key": "is",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.and-how-many-more-make",
    "text": "and how many more make",
    "key": "and how many more make",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.of-them",
    "text": "of them.",
    "key": "of them.",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.bones",
    "text": "bones.",
    "key": "bones.",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.and-count-on",
    "text": "and count on",
    "key": "and count on",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.build-the-number",
    "text": "Build the number",
    "key": "Build the number",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.walk-the-puppy-to",
    "text": "Walk Oreo to",
    "key": "Walk Oreo to",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.show-me-on-the-line",
    "text": "Show me on the line:",
    "key": "Show me on the line:",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.you-built",
    "text": "You built",
    "key": "You built",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.the-puppy-is-on",
    "text": "Oreo is on",
    "key": "Oreo is on",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.count-on-in-tens-from",
    "text": "Count on in tens from",
    "key": "Count on in tens from",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.count-back-in-tens-from",
    "text": "Count back in tens from",
    "key": "Count back in tens from",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.you-found-it-the-mystery-number-is",
    "text": "You found it! The mystery number is",
    "key": "You found it! The mystery number is",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.he-hides",
    "text": "She hides",
    "key": "She hides",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.the-puppy-wants",
    "text": "Oreo wants",
    "key": "Oreo wants",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.he-has",
    "text": "She has",
    "key": "She has",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.start-at",
    "text": "Start at",
    "key": "Start at",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.double",
    "text": "Double",
    "key": "Double",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.groups-of",
    "text": "groups of",
    "key": "groups of",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.make",
    "text": "Make",
    "key": "Make",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.you-made",
    "text": "You made",
    "key": "You made",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.shillings",
    "text": "shillings.",
    "key": "shillings.",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.half-of",
    "text": "Half of",
    "key": "Half of",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.a-quarter-of",
    "text": "A quarter of",
    "key": "A quarter of",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.three-quarters-of",
    "text": "Three quarters of",
    "key": "Three quarters of",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.shared-between",
    "text": "shared between",
    "key": "shared between",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.in-groups-of",
    "text": "in groups of",
    "key": "in groups of",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.times",
    "text": "times",
    "key": "times",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.is-more-than",
    "text": "is more than",
    "key": "is more than",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.is-less-than",
    "text": "is less than",
    "key": "is less than",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "frag.is-nearer-to",
    "text": "is nearer to",
    "key": "is nearer to",
    "fragment": true,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.0.mid",
    "text": "0,",
    "key": "#0,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.1.mid",
    "text": "1,",
    "key": "#1,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.2.mid",
    "text": "2,",
    "key": "#2,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.3.mid",
    "text": "3,",
    "key": "#3,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.4.mid",
    "text": "4,",
    "key": "#4,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.5.mid",
    "text": "5,",
    "key": "#5,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.6.mid",
    "text": "6,",
    "key": "#6,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.7.mid",
    "text": "7,",
    "key": "#7,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.8.mid",
    "text": "8,",
    "key": "#8,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.9.mid",
    "text": "9,",
    "key": "#9,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.10.mid",
    "text": "10,",
    "key": "#10,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.11.mid",
    "text": "11,",
    "key": "#11,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.12.mid",
    "text": "12,",
    "key": "#12,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.13.mid",
    "text": "13,",
    "key": "#13,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.14.mid",
    "text": "14,",
    "key": "#14,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.15.mid",
    "text": "15,",
    "key": "#15,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.16.mid",
    "text": "16,",
    "key": "#16,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.17.mid",
    "text": "17,",
    "key": "#17,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.18.mid",
    "text": "18,",
    "key": "#18,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.19.mid",
    "text": "19,",
    "key": "#19,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.20.mid",
    "text": "20,",
    "key": "#20,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.21.mid",
    "text": "21,",
    "key": "#21,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.22.mid",
    "text": "22,",
    "key": "#22,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.23.mid",
    "text": "23,",
    "key": "#23,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.24.mid",
    "text": "24,",
    "key": "#24,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.25.mid",
    "text": "25,",
    "key": "#25,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.26.mid",
    "text": "26,",
    "key": "#26,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.27.mid",
    "text": "27,",
    "key": "#27,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.28.mid",
    "text": "28,",
    "key": "#28,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.29.mid",
    "text": "29,",
    "key": "#29,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.30.mid",
    "text": "30,",
    "key": "#30,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.31.mid",
    "text": "31,",
    "key": "#31,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.32.mid",
    "text": "32,",
    "key": "#32,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.33.mid",
    "text": "33,",
    "key": "#33,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.34.mid",
    "text": "34,",
    "key": "#34,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.35.mid",
    "text": "35,",
    "key": "#35,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.36.mid",
    "text": "36,",
    "key": "#36,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.37.mid",
    "text": "37,",
    "key": "#37,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.38.mid",
    "text": "38,",
    "key": "#38,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.39.mid",
    "text": "39,",
    "key": "#39,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.40.mid",
    "text": "40,",
    "key": "#40,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.41.mid",
    "text": "41,",
    "key": "#41,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.42.mid",
    "text": "42,",
    "key": "#42,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.43.mid",
    "text": "43,",
    "key": "#43,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.44.mid",
    "text": "44,",
    "key": "#44,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.45.mid",
    "text": "45,",
    "key": "#45,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.46.mid",
    "text": "46,",
    "key": "#46,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.47.mid",
    "text": "47,",
    "key": "#47,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.48.mid",
    "text": "48,",
    "key": "#48,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.49.mid",
    "text": "49,",
    "key": "#49,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.50.mid",
    "text": "50,",
    "key": "#50,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.51.mid",
    "text": "51,",
    "key": "#51,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.52.mid",
    "text": "52,",
    "key": "#52,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.53.mid",
    "text": "53,",
    "key": "#53,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.54.mid",
    "text": "54,",
    "key": "#54,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.55.mid",
    "text": "55,",
    "key": "#55,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.56.mid",
    "text": "56,",
    "key": "#56,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.57.mid",
    "text": "57,",
    "key": "#57,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.58.mid",
    "text": "58,",
    "key": "#58,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.59.mid",
    "text": "59,",
    "key": "#59,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.60.mid",
    "text": "60,",
    "key": "#60,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.61.mid",
    "text": "61,",
    "key": "#61,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.62.mid",
    "text": "62,",
    "key": "#62,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.63.mid",
    "text": "63,",
    "key": "#63,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.64.mid",
    "text": "64,",
    "key": "#64,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.65.mid",
    "text": "65,",
    "key": "#65,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.66.mid",
    "text": "66,",
    "key": "#66,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.67.mid",
    "text": "67,",
    "key": "#67,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.68.mid",
    "text": "68,",
    "key": "#68,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.69.mid",
    "text": "69,",
    "key": "#69,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.70.mid",
    "text": "70,",
    "key": "#70,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.71.mid",
    "text": "71,",
    "key": "#71,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.72.mid",
    "text": "72,",
    "key": "#72,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.73.mid",
    "text": "73,",
    "key": "#73,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.74.mid",
    "text": "74,",
    "key": "#74,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.75.mid",
    "text": "75,",
    "key": "#75,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.76.mid",
    "text": "76,",
    "key": "#76,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.77.mid",
    "text": "77,",
    "key": "#77,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.78.mid",
    "text": "78,",
    "key": "#78,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.79.mid",
    "text": "79,",
    "key": "#79,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.80.mid",
    "text": "80,",
    "key": "#80,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.81.mid",
    "text": "81,",
    "key": "#81,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.82.mid",
    "text": "82,",
    "key": "#82,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.83.mid",
    "text": "83,",
    "key": "#83,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.84.mid",
    "text": "84,",
    "key": "#84,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.85.mid",
    "text": "85,",
    "key": "#85,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.86.mid",
    "text": "86,",
    "key": "#86,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.87.mid",
    "text": "87,",
    "key": "#87,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.88.mid",
    "text": "88,",
    "key": "#88,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.89.mid",
    "text": "89,",
    "key": "#89,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.90.mid",
    "text": "90,",
    "key": "#90,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.91.mid",
    "text": "91,",
    "key": "#91,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.92.mid",
    "text": "92,",
    "key": "#92,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.93.mid",
    "text": "93,",
    "key": "#93,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.94.mid",
    "text": "94,",
    "key": "#94,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.95.mid",
    "text": "95,",
    "key": "#95,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.96.mid",
    "text": "96,",
    "key": "#96,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.97.mid",
    "text": "97,",
    "key": "#97,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.98.mid",
    "text": "98,",
    "key": "#98,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.99.mid",
    "text": "99,",
    "key": "#99,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.100.mid",
    "text": "100,",
    "key": "#100,",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.0.end",
    "text": "0.",
    "key": "#0.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.1.end",
    "text": "1.",
    "key": "#1.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.2.end",
    "text": "2.",
    "key": "#2.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.3.end",
    "text": "3.",
    "key": "#3.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.4.end",
    "text": "4.",
    "key": "#4.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.5.end",
    "text": "5.",
    "key": "#5.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.6.end",
    "text": "6.",
    "key": "#6.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.7.end",
    "text": "7.",
    "key": "#7.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.8.end",
    "text": "8.",
    "key": "#8.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.9.end",
    "text": "9.",
    "key": "#9.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.10.end",
    "text": "10.",
    "key": "#10.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.11.end",
    "text": "11.",
    "key": "#11.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.12.end",
    "text": "12.",
    "key": "#12.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.13.end",
    "text": "13.",
    "key": "#13.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.14.end",
    "text": "14.",
    "key": "#14.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.15.end",
    "text": "15.",
    "key": "#15.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.16.end",
    "text": "16.",
    "key": "#16.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.17.end",
    "text": "17.",
    "key": "#17.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.18.end",
    "text": "18.",
    "key": "#18.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.19.end",
    "text": "19.",
    "key": "#19.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.20.end",
    "text": "20.",
    "key": "#20.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.21.end",
    "text": "21.",
    "key": "#21.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.22.end",
    "text": "22.",
    "key": "#22.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.23.end",
    "text": "23.",
    "key": "#23.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.24.end",
    "text": "24.",
    "key": "#24.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.25.end",
    "text": "25.",
    "key": "#25.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.26.end",
    "text": "26.",
    "key": "#26.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.27.end",
    "text": "27.",
    "key": "#27.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.28.end",
    "text": "28.",
    "key": "#28.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.29.end",
    "text": "29.",
    "key": "#29.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.30.end",
    "text": "30.",
    "key": "#30.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.31.end",
    "text": "31.",
    "key": "#31.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.32.end",
    "text": "32.",
    "key": "#32.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.33.end",
    "text": "33.",
    "key": "#33.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.34.end",
    "text": "34.",
    "key": "#34.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.35.end",
    "text": "35.",
    "key": "#35.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.36.end",
    "text": "36.",
    "key": "#36.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.37.end",
    "text": "37.",
    "key": "#37.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.38.end",
    "text": "38.",
    "key": "#38.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.39.end",
    "text": "39.",
    "key": "#39.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.40.end",
    "text": "40.",
    "key": "#40.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.41.end",
    "text": "41.",
    "key": "#41.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.42.end",
    "text": "42.",
    "key": "#42.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.43.end",
    "text": "43.",
    "key": "#43.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.44.end",
    "text": "44.",
    "key": "#44.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.45.end",
    "text": "45.",
    "key": "#45.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.46.end",
    "text": "46.",
    "key": "#46.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.47.end",
    "text": "47.",
    "key": "#47.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.48.end",
    "text": "48.",
    "key": "#48.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.49.end",
    "text": "49.",
    "key": "#49.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.50.end",
    "text": "50.",
    "key": "#50.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.51.end",
    "text": "51.",
    "key": "#51.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.52.end",
    "text": "52.",
    "key": "#52.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.53.end",
    "text": "53.",
    "key": "#53.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.54.end",
    "text": "54.",
    "key": "#54.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.55.end",
    "text": "55.",
    "key": "#55.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.56.end",
    "text": "56.",
    "key": "#56.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.57.end",
    "text": "57.",
    "key": "#57.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.58.end",
    "text": "58.",
    "key": "#58.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.59.end",
    "text": "59.",
    "key": "#59.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.60.end",
    "text": "60.",
    "key": "#60.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.61.end",
    "text": "61.",
    "key": "#61.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.62.end",
    "text": "62.",
    "key": "#62.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.63.end",
    "text": "63.",
    "key": "#63.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.64.end",
    "text": "64.",
    "key": "#64.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.65.end",
    "text": "65.",
    "key": "#65.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.66.end",
    "text": "66.",
    "key": "#66.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.67.end",
    "text": "67.",
    "key": "#67.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.68.end",
    "text": "68.",
    "key": "#68.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.69.end",
    "text": "69.",
    "key": "#69.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.70.end",
    "text": "70.",
    "key": "#70.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.71.end",
    "text": "71.",
    "key": "#71.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.72.end",
    "text": "72.",
    "key": "#72.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.73.end",
    "text": "73.",
    "key": "#73.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.74.end",
    "text": "74.",
    "key": "#74.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.75.end",
    "text": "75.",
    "key": "#75.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.76.end",
    "text": "76.",
    "key": "#76.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.77.end",
    "text": "77.",
    "key": "#77.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.78.end",
    "text": "78.",
    "key": "#78.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.79.end",
    "text": "79.",
    "key": "#79.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.80.end",
    "text": "80.",
    "key": "#80.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.81.end",
    "text": "81.",
    "key": "#81.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.82.end",
    "text": "82.",
    "key": "#82.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.83.end",
    "text": "83.",
    "key": "#83.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.84.end",
    "text": "84.",
    "key": "#84.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.85.end",
    "text": "85.",
    "key": "#85.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.86.end",
    "text": "86.",
    "key": "#86.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.87.end",
    "text": "87.",
    "key": "#87.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.88.end",
    "text": "88.",
    "key": "#88.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.89.end",
    "text": "89.",
    "key": "#89.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.90.end",
    "text": "90.",
    "key": "#90.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.91.end",
    "text": "91.",
    "key": "#91.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.92.end",
    "text": "92.",
    "key": "#92.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.93.end",
    "text": "93.",
    "key": "#93.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.94.end",
    "text": "94.",
    "key": "#94.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.95.end",
    "text": "95.",
    "key": "#95.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.96.end",
    "text": "96.",
    "key": "#96.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.97.end",
    "text": "97.",
    "key": "#97.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.98.end",
    "text": "98.",
    "key": "#98.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.99.end",
    "text": "99.",
    "key": "#99.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   },
   {
    "id": "num.100.end",
    "text": "100.",
    "key": "#100.",
    "fragment": false,
-   "pack": "core"
+   "pack": "numbers"
   }
  ]
 }

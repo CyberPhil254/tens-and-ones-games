@@ -25,7 +25,7 @@ async function packAll(page: Page): Promise<number> {
   for (let t = 1; t <= tens; t++) {
     await page.getByRole('button', { name: 'Pack 10' }).click();
     if (t < tens) {
-      await expect(feedback(page)).toHaveText(`${tensW(t)}. Keep packing!`);
+      await expect(feedback(page)).toHaveText(`${tensW(t)}. There are more to pack. Keep going!`);
       await expect(page.locator('.cheer .pup')).toHaveAttribute('data-pose', 'pointing');
       await expect(blocks(page).locator('.rod')).toHaveCount(t);
       await expect(heap.locator('.cube')).toHaveCount(n - t * 10);
@@ -83,7 +83,7 @@ test('level 3: build a number from tens and ones', async ({ page }) => {
 
   // Done with nothing built: not enough, said with the number she built.
   await done.click();
-  await expect(feedback(page)).toHaveText('You built 0. That is not enough yet.');
+  await expect(feedback(page)).toHaveText('You built 0. That is not enough yet. Add some more.');
 
   // Ten ones pack themselves into a ten.
   for (let i = 0; i < 10; i++) await one.click();
@@ -95,7 +95,7 @@ test('level 3: build a number from tens and ones', async ({ page }) => {
   await expect(blocks(page).locator('.rod')).toHaveCount(9); // never past 99
   if (n < 90) {
     await done.click();
-    await expect(feedback(page)).toHaveText('You built 90. That is too many. Start again.');
+    await expect(feedback(page)).toHaveText('You built 90. That is too many. Tap Start again and build it once more.');
   }
   await page.getByRole('button', { name: 'Start again' }).click();
   await expect(blocks(page)).toHaveAttribute('aria-label', '0 tens and 0 ones');

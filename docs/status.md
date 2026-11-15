@@ -39,6 +39,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 43 | **Money**: two lessons (Coins and notes, Amounts of money), five levels, Kenyan shillings drawn in code. 37 of 41 lessons are playable |
 | 44 | **Count and guess**: four lessons (Count to 20, Zero, Guess then check, Guess a heap), seven levels. **All 41 lessons are playable.** The starting check now marks a whole Stage 1 unit as known for a Stage 2 child |
 | 45 | The whole-path test: four simulated children play 200 days through the app's own rules; gating, mastery, review and rewards are checked for each |
+| 46 | The voice pass: twelve packs by lesson family (the first is 0.4 MB, not 7 MB), 15 clipped commands rewritten as whole sentences, Oreo's two introductions with the "Star's sister" switch, unused sentences and recordings removed |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -69,22 +70,9 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 
 ## Clips
 
-- Recorded so far in the build: 138 (the Oreo and "she" sentences).
-- Recorded in the rewards pull request: 4 more (treasure, thank you, trick, award).
-- Recorded with Count and guess: 13 more.
-- Recorded with Money: 25 more.
-- Recorded with Halves and quarters: 22 more.
-- Recorded with Fair shares: 8 more.
-- Recorded with Equal groups: 3 more.
-- Recorded with Skip and spot: 18 more.
-- Recorded with More or less: 46 more (questions, hints, "Tap the third one.", "It is the third." for first to twentieth).
-- Recorded with the new patterns: 2 more.
-- Recorded with the Number Names additions: 10 more ("Which number is 0?" to 9).
-- Recorded with Ten and some more and another way: 5 more.
-- Recorded with Friends of 20 and 100: 2 more.
-- Recorded with Tens and ones sums: 2 more.
-- Recorded with Sums to 20: 21 more (questions, hints, "Double", "She eats N of them.").
-- Missing: none (`app/voice/missing.json` is empty).
+- 883 clips in the script (`app/voice/script.json`, readable as `docs/voice-script.md`): 545 keep their recording from the live game, 338 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
+- Missing: none (`app/voice/missing.json` is empty). A test fails if a clip has no recording.
+- The recordings for the app are machine voice of the same kind as the live game's. Nobody has listened to all 338; a few will have odd stress and want re-recording by ear.
 
 ## Honest notes
 
@@ -94,12 +82,11 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - The choice cards show lesson titles as words only. A child who cannot read them yet cannot tell the cards apart; they get the lesson's picture with the garden path (step 3).
 - The starting check has one question per lesson. A lucky tap marks a lesson as known; review is what catches it. Worth watching with a real child.
 - Tricks repeat after six units and four of the seven award pictures are unused: the art has six tricks and the path has fourteen units.
-- The "Star's sister" switch is in settings and saved, but nothing reads it yet: the two introductions are recorded in the voice pass (step 6).
 - Two sources in `research.md` have no address (Fyfe et al. 2015; Deci et al. 1999); the approach page lists them without a link.
 - The hundred square has squares of about 31 px on a 400 px phone, far under the 72 px rule. It is used in Jump in Tens, Mystery numbers and Race to 100. A child can hit them (the live game has the same squares) but it is the one place the rule is not met.
 - Not yet checked on a real tablet or a real phone, only in the test browser at 400 px and 1280 px.
 - Sums to 20, "in her head" with the picture showing after a miss: two ten frames plus the number pad are taller than a phone screen, so she scrolls a little to see Oreo's words. The words are also spoken.
-- The sentence 'Type the number, then tap the tick.' is recorded but not used yet: the number pad has no spoken introduction. To decide with a real child whether it needs one.
+- The number pad has no spoken introduction. To decide with a real child whether it needs one.
 - First to tenth: the places of the queue are 64 px wide on a phone (72 px high). With the hundred square this is the second place under the 72 px rule.
 - Money: the sentences say "shillings". The currency setting has one entry; a second currency needs its own recordings.
 - The starting check asks ten questions at most. A Stage 2 child gets six about Stage 1 and the first lessons of four Stage 2 units; the last three Stage 2 units (Equal groups, Quarters, Money) are not asked about.

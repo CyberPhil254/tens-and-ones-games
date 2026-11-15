@@ -5,7 +5,7 @@ const W1 = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eigh
 const W10 = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 const word = (n: number) => (n < 20 ? W1[n]! : W10[Math.floor(n / 10)]! + (n % 10 ? '-' + W1[n % 10]! : ''));
 const said = (n: number) => `${n} is ${tensW(Math.floor(n / 10))} and ${onesW(n % 10)}. We say ${word(n)}.`;
-const told = (v: number) => `${v} is ${word(v)}: ${tensW(Math.floor(v / 10))} and ${onesW(v % 10)}. Try again.`;
+const told = (v: number) => `${v} is ${word(v)}: ${tensW(Math.floor(v / 10))} and ${onesW(v % 10)}. Have another go.`;
 const type = async (page: Page, n: number) => {
   for (const d of String(n)) await page.getByTestId('numpad').getByRole('button', { name: d, exact: true }).click();
   await page.getByRole('button', { name: 'That is my answer' }).click();

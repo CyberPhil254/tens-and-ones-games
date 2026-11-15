@@ -48,7 +48,7 @@ function Pack({ q, round }: GameProps<'pack'>) {
     setB({ tens, ones: 0, merging: false });
     const left = heap - 10;
     if (left >= 10) {
-      round.note(`${tensW(tens)}. Keep packing!`, 'ok', [`tens.${tens}`, 'keep-packing']);
+      round.note(`${tensW(tens)}. There are more to pack. Keep going!`, 'ok', [`tens.${tens}`, 'keep-packing']);
       setBusy(false);
       packing.current = false;
       return;
@@ -130,8 +130,8 @@ function Build({ q, round }: GameProps<'pack'>) {
   const done = () => {
     if (stop) return;
     if (built === q.n) round.win(explains(q.t, q.o), [`isTO.${q.n}`]);
-    else if (built < q.n) round.wrong(`You built ${built}. That is not enough yet.`, ['frag.you-built', built, 'that-is-not-enough-yet']);
-    else round.wrong(`You built ${built}. That is too many. Start again.`, ['frag.you-built', built, 'that-is-too-many-start-again']);
+    else if (built < q.n) round.wrong(`You built ${built}. That is not enough yet. Add some more.`, ['frag.you-built', built, 'that-is-not-enough-yet']);
+    else round.wrong(`You built ${built}. That is too many. Tap Start again and build it once more.`, ['frag.you-built', built, 'that-is-too-many-start-again']);
   };
 
   return (

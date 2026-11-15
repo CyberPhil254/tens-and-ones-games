@@ -30,7 +30,7 @@ async function play(page: Page, level: number, missFirst: boolean): Promise<void
     const v = opts.find((o) => o !== n)!;
     await page.locator('.choice').filter({ hasText: new RegExp(`^${v}$`) }).click();
     // The explanation says what the number she tapped really is.
-    await expect(feedback(page)).toHaveText(`${v} is ${word(v)}: ${parts(v)}. Try again.`);
+    await expect(feedback(page)).toHaveText(`${v} is ${word(v)}: ${parts(v)}. Have another go.`);
     await expect(oreo(page)).toHaveAttribute('data-pose', 'not-yet');
     await expect(page.locator('.stage .blocks')).toHaveCount(0);
   }

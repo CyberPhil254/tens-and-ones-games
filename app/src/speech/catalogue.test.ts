@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { ALL_GAMES as PATH, LEVELS_OF as LEVELS, makeQuestion } from '../maths/questions';
 import { seededRng } from '../maths/random';
 import { CLIPS, clipIds, wording } from './catalogue';
+import { FIXED, FRAGMENTS, PRAISE, PRAISE_AFTER_HELP } from './sentences';
 
 const path = (p: string) => fileURLToPath(new URL(p, import.meta.url));
 const first = JSON.parse(readFileSync(path('../../../audio/voice.json'), 'utf8')) as Record<string, [number, number]>;
@@ -61,7 +62,7 @@ describe('the clip catalogue', () => {
 describe('clipIds', () => {
   it('takes ids, present wording and numbers', () => {
     expect(clipIds(['try-again'])).toEqual(['try-again']);
-    expect(clipIds(['Try again.'])).toEqual(['try-again']);
+    expect(clipIds(['Have another go.'])).toEqual(['try-again']);
     expect(clipIds(['47 is 4 tens and 7 ones.'])).toEqual(['isTO.47']);
   });
 
@@ -71,13 +72,22 @@ describe('clipIds', () => {
     expect(clipIds(['She has', 7, 'how-many-more-does-he-need'])[1]).toBe('num.7.end');
   });
 
+  it('no two sentences have the same words, and every sentence id has a clip of its own', () => {
+    // Two ids with one wording would share a recording, and the second id would have no clip to play.
+    const all = { ...FIXED, ...PRAISE, ...PRAISE_AFTER_HELP };
+    const words = Object.values(all);
+    expect(words.filter((w, i) => words.indexOf(w) !== i)).toEqual([]);
+    for (const id of Object.keys(all)) expect(clipIds([id]), id).toEqual([id]);
+    for (const id of Object.keys(FRAGMENTS)) expect(clipIds([`frag.${id}`])).toEqual([`frag.${id}`]);
+  });
+
   it('refuses anything that has no recording', () => {
     expect(() => clipIds(['Hello there.'])).toThrow(/No recorded clip/);
     expect(() => clipIds([101])).toThrow(/No recorded clip/);
   });
 
   it('gives the words back for the screen', () => {
-    expect(wording('try-again')).toBe('Try again.');
+    expect(wording('try-again')).toBe('Have another go.');
     expect(wording(47)).toBe('47');
   });
 

@@ -53,7 +53,7 @@ export function NumberNames({ q, level, round }: GameProps<'names'>) {
           setDone(true);
           round.win(`${n} is ${tensAndOnes(n)}. We say ${word(n)}.`, [`isTO.${n}`]);
         }}
-        onWrong={(v) => round.wrong(`${v} is ${word(v)}: ${tensAndOnes(v)}. Try again.`, [`isTO.${v}`, 'try-again'])}
+        onWrong={(v) => round.wrong(`${v} is ${word(v)}: ${tensAndOnes(v)}. Have another go.`, [`isTO.${v}`, 'try-again'])}
       />
     </>
   );

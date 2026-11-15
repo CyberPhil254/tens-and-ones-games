@@ -1,22 +1,23 @@
 /**
  * Every fixed sentence and joining piece the voice can say, each with an id.
  * Game code names a sentence by its id; the wording lives here and nowhere else.
- * The wording is that of the live game, and each entry has a recorded clip.
+ * The wording began as that of the live game; clipped commands have since been rewritten as whole,
+ * warm sentences. Each entry has a recorded clip.
  * If you add or change a sentence, say in docs/status.md that clips need recording.
  */
 
 /** Whole sentences: instructions, hints and feedback. */
 export const FIXED = {
-  'how-many-do-not-count-look': "How many? Do not count. Look for the five.",
+  'how-many-do-not-count-look': "How many can you see? You do not need to count. Look for the five.",
   'pack-the-ones-in-tens-then': "Pack the ones in tens. Then say how many there are.",
   'how-many-are-there': "How many are there?",
   'how-many-blocks-do-you-see': "How many blocks do you see?",
-  'where-is-the-puppy-which-number': "Where is Oreo? Which number?",
-  'find-the-mystery-number': "Find the mystery number.",
+  'where-is-the-puppy-which-number': "Where is Oreo? Which number is she standing on?",
+  'find-the-mystery-number': "Can you find the mystery number?",
   'race-to-one-hundred-who-do': "Race to one hundred. Who do you want to play with?",
-  'your-turn-spin': "Your turn. Spin!",
-  'the-puppys-turn-spin': "Oreo's turn. Spin!",
-  'the-grown-ups-turn-spin': "The grown-up's turn. Spin!",
+  'your-turn-spin': "It is your turn. Tap Spin!",
+  'the-puppys-turn-spin': "It is Oreo's turn. Tap Spin for her!",
+  'the-grown-ups-turn-spin': "It is the grown-up's turn. Tap Spin!",
   'where-do-you-land': "Where do you land?",
   'where-does-the-puppy-land': "Where does Oreo land?",
   'where-does-the-grown-up-land': "Where does the grown-up land?",
@@ -38,12 +39,12 @@ export const FIXED = {
   'you-broke-a-ten-to-get': "You broke a ten to get more ones.",
   'what-a-race-play-again': "What a race! Play again?",
   'you-won-the-race': "You won the race!",
-  'keep-packing': "Keep packing!",
+  'keep-packing': "There are more to pack. Keep going!",
   'yes-keep-going': "Yes! Keep going.",
   'ten-ones-they-pack-into-a': "Ten ones! They pack into a ten.",
   'not-enough-left-for-a-ten': "Not enough left for a ten. They stay ones.",
   'one-ten-is-now-10-ones': "One ten is now 10 ones.",
-  'try-again': "Try again.",
+  'try-again': "Have another go.",
   'count-the-red-tens-along-the': "Count the red tens along the line: 10, 20, 30. Then add the blue ones.",
   'that-is-not-far-enough-yet': "That is not far enough yet.",
   'that-is-too-far-go-back': "That is too far. Go back to the start.",
@@ -53,12 +54,12 @@ export const FIXED = {
   'fill-the-ten-first-then-add': "Fill the ten first. Then add the rest.",
   'take-the-tens-away-first-then': "Take the tens away first, then the ones. Use the blocks if you like.",
   'ten-on-go-one-row-down': "Ten on: go one row down. The ones stay the same.",
-  'do-not-count-them-all-the': "Do not count them all. The top row is 5. How many more?",
-  'do-not-count-them-all-the-dark': "Do not count them all. The dark blue ones are 5. How many more?",
-  'that-is-not-enough-yet': "That is not enough yet.",
-  'that-is-too-many-start-again': "That is too many. Start again.",
+  'do-not-count-them-all-the': "You do not need to count them all. The top row is 5. How many more are there?",
+  'do-not-count-them-all-the-dark': "You do not need to count them all. The dark blue ones are 5. How many more are there?",
+  'that-is-not-enough-yet': "That is not enough yet. Add some more.",
+  'that-is-too-many-start-again': "That is too many. Tap Start again and build it once more.",
   'count-the-red-tens-10-20': "Count the red tens: 10, 20, 30. Then add the ones.",
-  'do-not-count-every-block-count': "Do not count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
+  'do-not-count-every-block-count': "You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
   'count-the-empty-places-or-the': "Count the empty places, or the fingers that are down.",
   'count-the-empty-places-in-the': "Count the empty places in the blue tower.",
   'watch-the-yellow-ones-fill-up': "Watch the yellow ones fill up the ten. Now count the tens.",
@@ -80,10 +81,6 @@ export const FIXED = {
   'take-the-tens-away-first-then-the': "Take the tens away first, then the ones.",
   'all-done-for-today': "All done for today!",
   'good-trying': "Good trying!",
-  'still-great-at-this-one': "Still great at this one.",
-  'you-finished-this-game-the-puppy': "You finished this game! Oreo is proud of you.",
-  'one-more-good-round-like-this': "One more good round like this and the game is finished.",
-  'next-time-we-start-with-an': "Next time we start with an easier level.",
   'a-new-best-time': "A new best time!",
   'that-is-your-first-best-time': "That is your first best time.",
   'slow-down-a-little-and-get': "Slow down a little and get them right first.",
@@ -112,7 +109,6 @@ export const FIXED = {
   'both-rows-are-the-same-count': "Both rows are the same. Count one row, then count on.",
   'go-down-to-ten-first-then': "Go down to ten first. Then take away the rest.",
   'first-down-to-ten-then-take': "First down to ten, then take away the rest.",
-  'type-the-number-then-tap-the': "Type the number, then tap the tick.",
   // Tens and ones sums.
   'add-the-tens-to-the-tens': "Add the tens to the tens. Add the ones to the ones.",
   'tens-with-tens-and-ones-with': "Tens with tens, and ones with ones.",
@@ -127,7 +123,7 @@ export const FIXED = {
   'breaking-a-ten-does-not-change': "Breaking a ten does not change the number.",
   // See how many, new patterns.
   'how-many-look-for-groups-you': "How many? Look for groups you know.",
-  'do-not-count-them-all-look': "Do not count them all. Look for small groups you know.",
+  'do-not-count-them-all-look': "You do not need to count them all. Look for small groups you know.",
   // More or less.
   'which-is-more': "Which is more?",
   'which-is-less': "Which is less?",
@@ -193,7 +189,6 @@ export const FIXED = {
   'start-with-the-biggest-then-count': "Start with the biggest. Then count on.",
   'count-what-you-have-start-with': "Count what you have. Start with the biggest.",
   'count-each-purse-start-with-the': "Count each purse. Start with the biggest.",
-  'that-is-not-enough-yet-add': "That is not enough yet. Add some more.",
   'that-is-too-much-take-some': "That is too much. Take some away.",
   // Count and guess.
   'tap-each-one-once-to-count': "Tap each one once to count them.",
@@ -205,10 +200,13 @@ export const FIXED = {
   'take-them-all-away-and-none': "Take them all away and none are left. None is zero.",
   'zero-is-nothing-adding-nothing-changes': "Zero is nothing. Adding nothing changes nothing.",
   'one-bone': "One bone.",
-  'guess-how-many-do-not-count': "Guess how many. Do not count.",
+  'guess-how-many-do-not-count': "Guess how many there are. You do not need to count.",
   'lets-check': "Let's check.",
   'lets-check-count-them-and-see': "Let's check. Count them and see which number is nearest.",
   'lets-check-pack-them-in-tens': "Let's check. Pack them in tens and see which number is nearest.",
+  // Meeting Oreo, the first time. The second is for families who know Star, the dog of the first child who used the app.
+  'this-is-oreo-she-loves-bones': "This is Oreo. She loves bones and numbers, and she is going to learn with you.",
+  'this-is-oreo-stars-sister-she': "This is Oreo, Star's sister. She loves bones and numbers, and she is going to learn with you.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",

@@ -37,17 +37,20 @@ export function ChoiceCard({ choice, soundOff, onChoose, onHome }: { choice: Cho
 }
 
 /** Before the first day: a short check of what she already knows, so that she does not start too far back. */
-export function StartCheck({ name, n, soundOff, onStart, onSkip }: { name: string; n: number; soundOff: boolean; onStart: () => void; onSkip: () => void }) {
+export function StartCheck({ name, n, soundOff, starsSister, onStart, onSkip }: { name: string; n: number; soundOff: boolean; starsSister: boolean; onStart: () => void; onSkip: () => void }) {
+  // She meets Oreo here, once. Families who know Star hear that Oreo is her sister (a switch in the parents' area).
+  const intro = starsSister ? 'this-is-oreo-stars-sister-she' : 'this-is-oreo-she-loves-bones';
   useEffect(() => {
-    if (!soundOff) speak(['lets-see-what-you-know'], 0.2);
+    if (!soundOff) speak([intro, 'lets-see-what-you-know'], 0.2);
     return () => voice.stop();
-  }, [soundOff]);
+  }, [soundOff, intro]);
   return (
     <section>
       <div className="card game" data-testid="startcheck">
         <p className="prompt" data-testid="prompt">{wording('lets-see-what-you-know')}</p>
         <div className="stage">
           <Oreo pose="hello" className="endpup" />
+          <p className="sub" data-testid="intro">{wording(intro)}</p>
           <p className="sub">{n === 1 ? 'One question' : `${n} questions`} for {name}. What she gets right first time, she does not have to learn again; it still comes back in the warm-ups.</p>
         </div>
         <div className="controls">

@@ -28,3 +28,16 @@ export function useVoiceSpeaking(): boolean {
     () => voice.speaking,
   );
 }
+
+/** The packs a game's sentences are in, besides the two every game needs. */
+const GAME_PACKS: Record<string, readonly string[]> = {
+  five: ['games'], pack: ['games', 'place'], look: ['games', 'place'], names: ['games', 'place'], walk: ['games', 'place'], friends: ['games'],
+  jump: ['games'], fill: ['games'], take: ['games'], mystery: ['games'], story: ['stories', 'games'],
+  sums: ['sums', 'games', 'stories'], plus: ['sums'], bonds: ['sums'], teens: ['place', 'games'], regroup: ['place'], hear: ['place', 'games'],
+  dots: ['counting', 'games'], count: ['counting', 'games'], more: ['order'], skip: ['steps'], groups: ['groups', 'sums'], share: ['groups'],
+  parts: ['parts', 'sums'], money: ['money', 'order'],
+};
+/** Fetches the voice for these games ahead of the first question, so it does not have to wait. */
+export function warmFor(games: readonly string[]): void {
+  void voice.warm([...new Set(['core', 'numbers', ...games.flatMap((g) => GAME_PACKS[g] ?? [])])]);
+}

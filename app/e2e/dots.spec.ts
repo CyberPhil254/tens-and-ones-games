@@ -15,7 +15,7 @@ for (const level of [1, 2]) {
     await expect(flash).not.toHaveClass(/covered/);
 
     await wrongChoice(page, n).click();
-    await expect(feedback(page)).toHaveText('Do not count them all. Look for small groups you know.');
+    await expect(feedback(page)).toHaveText('You do not need to count them all. Look for small groups you know.');
     // Now it stays, and the groups are marked.
     await expect(flash).not.toHaveClass(/covered/);
     await expect(page.getByRole('button', { name: 'Peek again' })).toHaveCount(0);

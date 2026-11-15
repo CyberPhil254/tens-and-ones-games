@@ -29,7 +29,7 @@ const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i)
 function build(): Clip[] {
   const clips: Clip[] = [];
   const seen = new Set<string>();
-  let pack = 'core';
+  const pack = '';
   const add = (id: string, text: string, key = text) => {
     if (seen.has(key)) return; // the same sentence reached two ways is one clip
     seen.add(key);
@@ -40,9 +40,7 @@ function build(): Clip[] {
   range(0, 100).forEach((n) => add(`isTO.${n}`, SP.isTO(n)));
   range(10, 99).forEach((n) => add(`which.${n}`, SP.which(n)));
   range(0, 9).forEach((n) => add(`which.${n}`, SP.which(n))); // added for the names to 20
-  pack = 'stories';
   range(1, 99).forEach((n) => add(`puppyHas.${n}`, SP.puppyHas(n)));
-  pack = 'core';
   range(1, 9).forEach((k) => {
     add(`has.${k}.tens`, SP.has(k, 't'));
     add(`has.${k}.ones`, SP.has(k, 'o'));
@@ -51,7 +49,6 @@ function build(): Clip[] {
     add(`newTen.${k}`, SP.newTen(k));
     add(`tens.${k}`, SP.tens(k));
   });
-  pack = 'stories';
   range(1, 9).forEach((k) => {
     add(`finds.${k}`, SP.finds(k));
     add(`digs.${k}`, SP.digs(k));
@@ -59,12 +56,9 @@ function build(): Clip[] {
   });
   [10, 20, 30, 40].forEach((k) => add(`finds.${k}`, SP.finds(k)));
   [20, 30, 40].forEach((k) => add(`gives.${k}`, SP.gives(k)));
-  pack = 'core';
   [2, 3, 4].forEach((k) => {
     add(`tensOnly.${k}`, SP.tensOnly(k));
-    add(`levelUp.${k}`, SP.levelUp(k));
   });
-  [3, 4].forEach((k) => add(`jumpTo.${k}`, SP.jumpTo(k)));
   range(1, 4).forEach((k) => add(`five.${k}`, SP.five(k)));
   for (const plus of [true, false]) for (const k of [1, 2, 3]) add(`rows.${plus ? 'down' : 'up'}.${k}`, SP.rows(plus, k));
 
@@ -76,7 +70,43 @@ function build(): Clip[] {
   // A number sounds different in the middle of a sentence and at its end, so each has two clips.
   range(0, 100).forEach((n) => add(`num.${n}.mid`, `${n},`, `#${n},`));
   range(0, 100).forEach((n) => add(`num.${n}.end`, `${n}.`, `#${n}.`));
+  for (const c of clips) c.pack = packOf(c.id);
   return clips;
+}
+
+/**
+ * The file a clip is loaded with. The voice is cut into packs by lesson family, so that the first
+ * question of a game fetches a megabyte or two and not the whole voice:
+ *   core      praise, the end of a round, the starting check, choices, rewards: needed everywhere
+ *   numbers   every number, and the joining pieces ("plus", "is")
+ *   place     tens and ones said out: "47 is 4 tens and 7 ones.", "Which number is 47?"
+ *   games     the sentences of the eleven first games
+ *   stories   Oreo's stories
+ *   sums, order, steps, groups, parts, money, counting: the newer lessons, by family
+ */
+const SECTION_STARTS: Record<string, string> = {
+  'all-done-for-today': 'core', 'how-many-altogether': 'sums', 'start-at-ten-then-count-on': 'place', 'how-many-look-for-groups-you': 'counting',
+  'which-is-more': 'order', 'what-comes-next': 'steps', 'count-the-groups-in-steps-one': 'groups', 'which-one-is-cut-in-half': 'parts',
+  'which-is-worth-more': 'money', 'tap-each-one-once-to-count': 'counting', 'this-is-oreo-she-loves-bones': 'core',
+};
+const FIXED_PACK = (() => {
+  const out: Record<string, string> = {};
+  let pack = 'games';
+  for (const id of Object.keys(FIXED)) { pack = SECTION_STARTS[id] ?? pack; out[id] = pack; }
+  return out;
+})();
+const TEMPLATE_PACK: Record<string, string> = {
+  num: 'numbers', frag: 'numbers', isTO: 'place', which: 'place', has: 'place', tens: 'place',
+  puppyHas: 'stories', finds: 'stories', digs: 'stories', eats: 'stories', gives: 'stories',
+  hops: 'steps', tapMoney: 'money', shillings: 'money', tapNth: 'order', nthPlace: 'order',
+  friendsQ: 'games', friends: 'games', newTen: 'games', five: 'games', rows: 'games', tensOnly: 'games',
+};
+function packOf(id: string): string {
+  if (id in FIXED_PACK) return FIXED_PACK[id]!;
+  if (id in PRAISE || id in PRAISE_AFTER_HELP) return 'core';
+  const pack = TEMPLATE_PACK[id.split('.')[0]!];
+  if (!pack) throw new Error(`No voice pack for the clip ${id}`);
+  return pack;
 }
 
 export const CLIPS: readonly Clip[] = build();
