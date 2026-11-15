@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { feedback, fitsTheScreen, oreo, watch } from './helpers';
+import { day, feedback, fitsTheScreen, oreo, seed, watch } from './helpers';
 
 const square = (page: Page, n: number) => page.locator('.hsq').getByRole('button', { name: String(n), exact: true });
 async function sum(page: Page) {
@@ -12,6 +12,7 @@ test('Race to 100 against Oreo: count on from where you stand, all the way to 10
   test.setTimeout(120_000);
   const errors = watch(page);
   await page.emulateMedia({ reducedMotion: 'reduce' }); // no pauses between turns, so the whole race fits in a test
+  await seed(page, { doneOn: day() }); // the race is free play: it opens when today's games are done
   await page.goto('/');
   await page.getByRole('button', { name: /Race to 100/ }).click();
   await expect(page.getByTestId('prompt')).toHaveText('Race to 100');
@@ -62,7 +63,7 @@ test('Race to 100 against Oreo: count on from where you stand, all the way to 10
   const first = await sum(page);
   await square(page, first.target).click();
   await expect(page.getByTestId('prompt')).toHaveText('Grown-up’s turn');
-  await page.getByRole('button', { name: '← All games' }).click();
+  await page.getByRole('button', { name: '← Home' }).click();
   await expect(page.getByTestId('today-text')).toBeVisible();
   expect(errors).toEqual([]);
 });

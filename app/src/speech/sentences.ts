@@ -90,6 +90,17 @@ export const FIXED = {
   'time-to-stop-see-you-tomorrow': "Time to stop. See you tomorrow!",
   'ready-for-the-next-one': "Ready for the next one?",
   'sound-on': "Sound on!",
+  // The end of a round, when the engine moves a step or a lesson.
+  'that-step-is-done-the-next': "That step is done. The next one is a little harder.",
+  'every-one-right-first-time-you': "Every one right first time! You jump ahead a step.",
+  'that-was-hard-next-time-the': "That was hard. Next time the picture will help you.",
+  'you-did-the-last-step-do': "You did the last step! Do it once more on another day, and this lesson is yours.",
+  'you-know-this-now-oreo-is': "You know this now! Oreo is proud of you.",
+  // The starting check, guessing, and the choice between two things the app wants anyway.
+  'now-i-know-where-to-start': "Now I know where to start.",
+  'take-a-moment-look-again-before': "Take a moment. Look again before you tap.",
+  'which-one-would-you-like-first': "Which one would you like first? You will do both.",
+  'lets-see-what-you-know': "Let's see what you already know. Just try your best.",
 } as const;
 
 /** Praise for a first-time right answer. One is picked at random. */

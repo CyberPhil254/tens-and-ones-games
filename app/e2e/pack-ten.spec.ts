@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { mastered, seed } from './helpers';
 
 function watch(page: Page): string[] {
   const errors: string[] = [];
@@ -7,10 +8,8 @@ function watch(page: Page): string[] {
   return errors;
 }
 const open = async (page: Page, level: number) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: /Pack Ten/ }).click();
-  await expect(page.getByText('Game 2: Pack Ten')).toBeVisible();
-  if (level > 1) await page.locator('.levels').getByRole('button', { name: String(level), exact: true }).click();
+  await page.goto(`/#try=pack.${level}`);
+  await expect(page.locator('.card.game')).toBeVisible();
 };
 const tensW = (t: number) => (t === 1 ? '1 ten' : `${t} tens`);
 const onesW = (o: number) => (o === 1 ? '1 one' : `${o} ones`);
@@ -122,16 +121,12 @@ test('level 3: build a number from tens and ones', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test("today's games move on to Pack Ten once High Five is finished, with a warm-up first", async ({ page }) => {
+test("today's games move on to the next lesson once See how many is mastered, with a warm-up first", async ({ page }) => {
+  await seed(page, { lessons: { 's1-see': mastered() }, soundOff: true });
   await page.goto('/');
-  await page.evaluate(() =>
-    localStorage.setItem('tens-and-ones.v1', JSON.stringify({ progress: { stars: { five: 20 }, level: { five: 3 }, done: { five: true }, pass: { five: 2 }, miss: {}, day: '', best: 0 }, attempts: [], soundOff: true })),
-  );
-  await page.reload();
-  await expect(page.getByTestId('today-text')).toHaveText('A warm-up, then Pack Ten. About ten minutes.');
+  await expect(page.getByTestId('today-text')).toHaveText('A warm-up, then Friends of ten. About ten minutes.');
   await page.getByRole('button', { name: 'Play today’s games' }).click();
-  await expect(page.getByText('Warm-up: a mix of games you know')).toBeVisible();
-  await expect(page.locator('.levels')).toHaveCount(0);
+  await expect(page.getByTestId('title')).toHaveText('Warm-up: a mix of what you know');
   await expect(page.locator('.dots > span')).toHaveCount(5);
-  await expect(page.locator('.fiverow .frame')).toBeVisible(); // High Five at its own level, 3
+  await expect(page.locator('.fiverow .frame')).toBeVisible(); // See how many at its last step, the ten frame
 });

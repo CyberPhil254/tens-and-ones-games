@@ -6,8 +6,7 @@ const nums = async (page: Page) => (await page.getByTestId('prompt').innerText()
 for (const level of [1, 2]) {
   test(`Friends of Ten level ${level}: how many more make 10`, async ({ page }) => {
     const errors = watch(page);
-    await openGame(page, /Friends of Ten/, level);
-    await expect(page.getByText('Game 6: Friends of Ten')).toBeVisible();
+    await openGame(page, 'friends', level);
     await expect(page.locator('.pad .choice')).toHaveCount(9); // the number pad: nothing to guess from
     const picture = page.locator('.stage .fiverow');
     let n: number;
@@ -42,7 +41,7 @@ for (const level of [1, 2]) {
 
 test('Friends of Ten level 3: the gap to the next ten', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Friends of Ten/, 3);
+  await openGame(page, 'friends', 3);
   const [a, nextTen] = await nums(page);
   expect(nextTen! % 10).toBe(0);
   const ans = nextTen! - a!;

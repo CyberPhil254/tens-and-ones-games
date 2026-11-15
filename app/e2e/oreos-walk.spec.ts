@@ -7,8 +7,7 @@ const lineShows = async (page: Page) => (await page.locator('.nline .hrod').coun
 
 test("Oreo's Walk level 1: read where she stands", async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Oreo’s Walk/, 1);
-  await expect(page.getByText('Game 5: Oreo’s Walk')).toBeVisible();
+  await openGame(page, 'walk', 1);
   await expect(page.getByTestId('prompt')).toHaveText('Where is Oreo?');
   const n = await lineShows(page);
   await wrongChoice(page, n).click();
@@ -26,7 +25,7 @@ test("Oreo's Walk level 1: read where she stands", async ({ page }) => {
 
 test("Oreo's Walk level 2: walk her there in tens and ones", async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Oreo’s Walk/, 2);
+  await openGame(page, 'walk', 2);
   const n = await target(page);
   const jump = page.getByRole('button', { name: 'Jump 10' });
   const step = page.getByRole('button', { name: 'Step 1' });
@@ -62,7 +61,7 @@ test("Oreo's Walk level 2: walk her there in tens and ones", async ({ page }) =>
 
 test("Oreo's Walk level 3: tap where a number belongs on a nearly empty line", async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Oreo’s Walk/, 3);
+  await openGame(page, 'walk', 3);
   const tapAt = async (v: number) => {
     const bar = (await page.locator('.nl-bar').boundingBox())!;
     const hit = (await page.getByTestId('line-hit').boundingBox())!;

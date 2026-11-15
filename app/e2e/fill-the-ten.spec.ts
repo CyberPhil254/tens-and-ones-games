@@ -12,8 +12,7 @@ const shows = (n: number) => new RegExp(`^${Math.floor(n / 10)} tens? and ${n % 
 
 test('Fill the Ten level 1: the second number fills the ten exactly', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Fill the Ten/, 1);
-  await expect(page.getByText('Game 8: Fill the Ten')).toBeVisible();
+  await openGame(page, 'fill', 1);
   const q = await sum(page);
   expect(q.rest).toBe(0);
   await expect(blocks(page)).toHaveAttribute('aria-label', shows(q.a));
@@ -41,7 +40,7 @@ test('Fill the Ten level 1: the second number fills the ten exactly', async ({ p
 
 test('Fill the Ten level 2: past the ten, in two guided steps', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Fill the Ten/, 2);
+  await openGame(page, 'fill', 2);
   const q = await sum(page);
   expect(q.rest).toBeGreaterThan(0);
   await expect(page.locator('.card.game .sub')).toHaveText(`First fill the ten: ${q.a} + ? = ${q.nextTen}`);
@@ -77,7 +76,7 @@ test('Fill the Ten level 2: past the ten, in two guided steps', async ({ page })
 
 test('Fill the Ten level 3: the same sums in one step', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Fill the Ten/, 3);
+  await openGame(page, 'fill', 3);
   const q = await sum(page);
   await wrongChoice(page, q.sum).click();
   await expect(feedback(page)).toHaveText(`Fill the ten first: ${q.a} + ${q.fill} = ${q.nextTen}. Then ${q.rest} more.`);
@@ -93,7 +92,7 @@ test('Fill the Ten level 3: the same sums in one step', async ({ page }) => {
 
 test('Fill the Ten level 4: in her head, a picture only if she asks', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Fill the Ten/, 4);
+  await openGame(page, 'fill', 4);
   await expect(blocks(page)).toHaveCount(0);
   for (let i = 0; i < 4; i++) {
     const q = await sum(page);

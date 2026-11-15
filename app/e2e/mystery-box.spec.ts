@@ -23,8 +23,7 @@ const HINTS = [
 for (const level of [1, 2, 3]) {
   test(`Mystery Box level ${level}: find the missing number`, async ({ page }) => {
     const errors = watch(page);
-    await openGame(page, /Mystery Box/, level);
-    await expect(page.getByText('Game 10: Mystery Box')).toBeVisible();
+    await openGame(page, 'mystery', level);
     await expect(page.locator('.bar .unk')).toHaveText('?');
     await expect(page.locator('.choice')).toHaveCount(level === 3 ? 4 : 9); // the pad where four choices would give it away
 

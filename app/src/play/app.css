@@ -193,3 +193,28 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 
 /* Quick Paws: the time, shown only at the end */
 .timebig { font-family: var(--display); font-weight: 700; font-size: 44px; text-align: center; margin: 0; line-height: 1.1; }
+
+/* Profiles */
+.setup .field { border: 0; padding: 0; margin: 0 0 14px; display: grid; gap: 6px; }
+.setup .field > span, .setup legend { font-family: var(--display); font-weight: 600; font-size: 18px; padding: 0; }
+.setup input { font: inherit; font-size: 20px; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 12px; width: min(100%, 20em); }
+.friends { display: flex; flex-wrap: wrap; gap: 8px; }
+.friendbtn { width: 72px; height: 72px; padding: 6px; border-radius: 16px; border: 2px solid var(--grid); background: var(--card); display: grid; place-items: center; }
+.friendbtn[aria-pressed='true'] { border: 3px solid var(--ink); background: #fff8e1; }
+.friend { object-fit: contain; display: block; }
+.stages { display: flex; gap: 10px; flex-wrap: wrap; }
+.stagebtn { display: grid; gap: 2px; text-align: left; min-width: 150px; padding: 10px 14px; border-radius: 14px; border: 2px solid var(--grid); background: var(--card); }
+.stagebtn strong { font-family: var(--display); font-size: 20px; }
+.stagebtn[aria-pressed='true'] { border: 3px solid var(--ink); background: #fff8e1; }
+.next:disabled { opacity: 0.45; box-shadow: none; cursor: default; }
+.who { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
+.whobtn { display: grid; justify-items: center; gap: 6px; padding: 14px 18px; min-width: 130px; border-radius: 18px; border: 2px solid var(--ink); background: var(--card); box-shadow: 0 4px 0 var(--ink); }
+.whobtn strong { font-family: var(--display); font-size: 22px; }
+.whoami { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 4px 14px 4px 6px; border-radius: 999px; border: 2px solid var(--ink); background: var(--card); }
+.whoami strong { font-family: var(--display); font-size: 18px; }
+.whoami:disabled { border-color: var(--grid); cursor: default; color: inherit; }
+
+/* The path, as a list until the garden is built */
+.station.locked .no, .station.coming .no { background: var(--soft); }
+.station.mastered .no { background: var(--ok); }
+.station.mastered .no .ic { fill: #fff; }

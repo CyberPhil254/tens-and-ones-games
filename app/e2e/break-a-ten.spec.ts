@@ -23,8 +23,7 @@ async function takeAway(page: Page, q: Awaited<ReturnType<typeof sum>>) {
 
 test('Break a Ten level 1: take away whole tens', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Break a Ten/, 1);
-  await expect(page.getByText('Game 9: Break a Ten')).toBeVisible();
+  await openGame(page, 'take', 1);
   const q = await sum(page);
   expect(q.bo).toBe(0);
   await expect(btn(page, 'Take a one')).toHaveCount(0);
@@ -47,7 +46,7 @@ test('Break a Ten level 1: take away whole tens', async ({ page }) => {
 
 test('Break a Ten level 2: tens and ones, enough ones', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Break a Ten/, 2);
+  await openGame(page, 'take', 2);
   const q = await sum(page);
   expect(q.bo).toBeLessThanOrEqual(q.ao);
   await expect(btn(page, 'Break a ten')).toHaveCount(0);
@@ -69,7 +68,7 @@ test('Break a Ten level 2: tens and ones, enough ones', async ({ page }) => {
 
 test('Break a Ten level 3: not enough ones, so a ten is broken', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Break a Ten/, 3);
+  await openGame(page, 'take', 3);
   const q = await sum(page);
   expect(q.bo).toBeGreaterThan(q.ao);
   for (let i = 0; i < q.bt; i++) await btn(page, 'Take a ten').click();
@@ -101,7 +100,7 @@ test('Break a Ten level 3: not enough ones, so a ten is broken', async ({ page }
 
 test('Break a Ten level 4: in her head, the blocks only if she asks', async ({ page }) => {
   const errors = watch(page);
-  await openGame(page, /Break a Ten/, 4);
+  await openGame(page, 'take', 4);
   await expect(blocks(page)).toHaveCount(0);
   const q = await sum(page);
   await wrongChoice(page, q.r).click();

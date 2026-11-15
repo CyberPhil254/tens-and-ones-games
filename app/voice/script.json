@@ -582,6 +582,69 @@
    "pack": "core"
   },
   {
+   "id": "that-step-is-done-the-next",
+   "text": "That step is done. The next one is a little harder.",
+   "key": "That step is done. The next one is a little harder.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "every-one-right-first-time-you",
+   "text": "Every one right first time! You jump ahead a step.",
+   "key": "Every one right first time! You jump ahead a step.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "that-was-hard-next-time-the",
+   "text": "That was hard. Next time the picture will help you.",
+   "key": "That was hard. Next time the picture will help you.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "you-did-the-last-step-do",
+   "text": "You did the last step! Do it once more on another day, and this lesson is yours.",
+   "key": "You did the last step! Do it once more on another day, and this lesson is yours.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "you-know-this-now-oreo-is",
+   "text": "You know this now! Oreo is proud of you.",
+   "key": "You know this now! Oreo is proud of you.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "now-i-know-where-to-start",
+   "text": "Now I know where to start.",
+   "key": "Now I know where to start.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "take-a-moment-look-again-before",
+   "text": "Take a moment. Look again before you tap.",
+   "key": "Take a moment. Look again before you tap.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-one-would-you-like-first",
+   "text": "Which one would you like first? You will do both.",
+   "key": "Which one would you like first? You will do both.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "lets-see-what-you-know",
+   "text": "Let's see what you already know. Just try your best.",
+   "key": "Let's see what you already know. Just try your best.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "yes",
    "text": "Yes!",
    "key": "Yes!",

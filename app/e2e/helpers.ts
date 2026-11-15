@@ -8,14 +8,48 @@ export function watch(page: Page): string[] {
   return errors;
 }
 
-/** Opens a game from the home screen at a level. */
-export async function openGame(page: Page, name: RegExp, level = 1): Promise<void> {
-  await page.goto('/');
-  // By its title: another card may mention this game in its description.
-  await page.locator('.station').filter({ has: page.locator('strong', { hasText: name }) }).click();
-  if (level > 1) await page.locator('.levels').getByRole('button', { name: String(level), exact: true }).click();
-  await expect(page.locator('.levels').getByRole('button', { name: String(level), exact: true })).toHaveAttribute('aria-pressed', 'true');
+/** Opens one free round of a game level through the tester's door. Nothing is saved for a visitor without a profile. */
+export async function openGame(page: Page, game: string, level = 1): Promise<void> {
+  await page.goto(`/#try=${game}.${level}`);
+  await expect(page.locator('.card.game')).toBeVisible();
 }
+
+const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+/** A day as the app writes it, counted from today. */
+export const day = (offset = 0) => {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return iso(d);
+};
+/** A lesson she has mastered, not due for review for a while. */
+export const mastered = (more: Record<string, unknown> = {}) => ({
+  step: 9, passedOn: [day(-5), day(-4)], mastered: day(-4), reviews: 3, due: day(20), reviewMisses: 0, rating: 3, answers: 30, recent: [], slow: false, ...more,
+});
+export interface Seed {
+  lessons?: Record<string, Record<string, unknown>>;
+  doneOn?: string;
+  bones?: number;
+  best?: number;
+  nickname?: string;
+  stage?: 1 | 2;
+  soundOff?: boolean;
+}
+/** Puts a child on the device before the app starts. Later reloads keep whatever the app has saved since. */
+export async function seed(page: Page, s: Seed = {}): Promise<void> {
+  const data = {
+    profile: { id: 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
+    child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
+    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: true,
+  };
+  await page.addInitScript(([d, soundOff]) => {
+    if (localStorage.getItem('tens-and-ones.profiles')) return;
+    localStorage.setItem('tens-and-ones.profiles', JSON.stringify(['child-test']));
+    localStorage.setItem('tens-and-ones.profile.child-test', JSON.stringify(d));
+    if (soundOff) localStorage.setItem('tens-and-ones.settings', JSON.stringify({ soundOff: true }));
+  }, [data, s.soundOff ?? false] as const);
+}
+/** What the app has saved for the test child. */
+export const saved = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('tens-and-ones.profile.child-test') ?? 'null'));
 
 export const tensW = (t: number) => (t === 1 ? '1 ten' : `${t} tens`);
 export const onesW = (o: number) => (o === 1 ? '1 one' : `${o} ones`);

@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-578 clips.
+587 clips.
 
 Whole sentences:
 
@@ -91,6 +91,15 @@ Whole sentences:
 - Time to stop. See you tomorrow!
 - Ready for the next one?
 - Sound on!
+- That step is done. The next one is a little harder.
+- Every one right first time! You jump ahead a step.
+- That was hard. Next time the picture will help you.
+- You did the last step! Do it once more on another day, and this lesson is yours.
+- You know this now! Oreo is proud of you.
+- Now I know where to start.
+- Take a moment. Look again before you tap.
+- Which one would you like first? You will do both.
+- Let's see what you already know. Just try your best.
 - Yes!
 - Well done!
 - Great!

@@ -19,6 +19,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 1 to 8 | Scaffold, reference check of the live game, question makers, blocks, voice player, pictures, round and session rules, home and game screens, High Five |
 | 9, 10 | Oreo's poses and icon; Pack Ten |
 | 25 | Profiles and storage (`app/src/data/`): several children per device, one storage interface, a profile as a code for another device, saved data checked when read |
+| 26 | The app runs on the engine and on profiles: first-run form for a grown-up, who is playing, today's games from the engine (warm-up, two new rounds, one stronger), steps instead of levels, free play only after today, a round counts only when finished. Old `session/` code removed. Browser tests rewritten (116) |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
@@ -37,7 +38,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 ## Next (the order of section 10 of the spec)
 
 1. ~~Finish the port~~ done.
-2. **Structure and engine (in progress):** ~~units, lessons and steps as data~~; ~~rules for rating, mastery, review, today's games~~; ~~profiles and storage behind one interface~~; next: the app switched over to the engine (home by unit, today's games, free play after today, choice cards, starting check). Still to do from this line: rating, mastery, review, today's games, starting check; profiles and storage behind one interface.
+2. **Structure and engine (in progress):** ~~units, lessons and steps as data~~; ~~rules~~; ~~profiles and storage~~; ~~the app switched over to the engine~~; next: the starting check, the choice cards (which first, which stone), the pause when she is guessing.
 3. Path (garden), rewards, parents' area, parent notes.
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
 5. Stage 1: Count and guess, Stage 1 ranges, Stage 1 parts of shared lessons.

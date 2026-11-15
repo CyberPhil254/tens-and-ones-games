@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { feedback, fitsTheScreen, watch } from './helpers';
+import { day, feedback, fitsTheScreen, mastered, seed, watch } from './helpers';
 
 const W1 = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
 const W10 = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -20,24 +20,22 @@ async function answerOf(page: Page): Promise<number> {
   return n;
 }
 const tap = (page: Page, n: number) => page.locator('.choice:not(:disabled)').filter({ hasText: new RegExp(`^${n}$`) }).click();
-const ready = (done: Record<string, boolean>, best = 0) =>
-  JSON.stringify({ progress: { stars: {}, level: {}, done, pass: {}, miss: {}, day: '', best }, attempts: [], soundOff: true });
+const ready = { 's1-see': mastered(), 's1-ten': mastered(), 's2-calc': mastered() };
 
-test('Quick Paws is closed until Friends of Ten and Jump in Tens are finished', async ({ page }) => {
+test('Quick Paws is closed until its two lessons are mastered, and until today’s games are done', async ({ page }) => {
+  await seed(page, { doneOn: day() });
   await page.goto('/');
   const station = page.getByRole('button', { name: /Quick Paws/ });
   await expect(station).toBeDisabled();
-  await expect(station).toContainText('Opens when Friends of Ten and Jump in Tens are finished.');
+  await expect(station).toContainText('Opens when Friends of ten and Tens and ones sums are mastered.');
 });
 
 test('Quick Paws: ten fast questions, no clock on screen, the time only at the end', async ({ page }) => {
   const errors = watch(page);
+  await seed(page, { lessons: ready, doneOn: day(), soundOff: true });
   await page.goto('/');
-  await page.evaluate((s) => localStorage.setItem('tens-and-ones.v1', s), ready({ friends: true, jump: true }));
-  await page.reload();
   await page.getByRole('button', { name: /Quick Paws/ }).click();
   await expect(page.locator('.gtitle')).toHaveText('Quick Paws');
-  await expect(page.locator('.levels')).toHaveCount(0);
   await expect(page.locator('.dots > span')).toHaveCount(10);
 
   for (let i = 0; i < 10; i++) {
@@ -63,15 +61,14 @@ test('Quick Paws: ten fast questions, no clock on screen, the time only at the e
   await expect(end).toContainText('Oreo got 9 bones. That is your first best time.');
   await fitsTheScreen(page);
   const secs = Number((await end.getByTestId('time').innerText()).split(' ')[0]);
-  await end.getByRole('button', { name: 'All games' }).click();
+  await end.getByRole('button', { name: 'Home' }).click();
   await expect(page.getByRole('button', { name: /Quick Paws/ })).toContainText(`Best: ${secs} s`);
   expect(errors).toEqual([]);
 });
 
 test('Quick Paws: a slower run keeps the old best, and too many misses is not a best at all', async ({ page }) => {
+  await seed(page, { lessons: ready, doneOn: day(), best: 1, soundOff: true });
   await page.goto('/');
-  await page.evaluate((s) => localStorage.setItem('tens-and-ones.v1', s), ready({ friends: true, jump: true }, 1));
-  await page.reload();
   await page.getByRole('button', { name: /Quick Paws/ }).click();
   for (let i = 0; i < 10; i++) {
     await expect(page.locator('.dots .star, .dots .done')).toHaveCount(i);
