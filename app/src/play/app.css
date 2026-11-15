@@ -173,3 +173,6 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .ctl.pulse { animation: pulse 0.8s ease-in-out infinite; background: var(--sun); }
 @keyframes pulse { 50% { transform: scale(1.07); } }
 @media (prefers-reduced-motion: reduce) { .ctl.pulse { animation: none; } }
+
+/* Mystery Box */
+.barcap { font-size: 15px; color: var(--soft); text-align: center; margin: 0; }
