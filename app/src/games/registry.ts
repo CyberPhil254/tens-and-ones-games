@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
+import { BreakATen } from './BreakATen';
 import { FillTheTen } from './FillTheTen';
 import { FriendsOfTen } from './FriendsOfTen';
 import { HighFive } from './HighFive';
@@ -50,6 +51,7 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   friends: FriendsOfTen,
   jump: JumpInTens,
   fill: FillTheTen,
+  take: BreakATen,
 };
 
 /** The learning path, cut down to the games that exist. Grows with every game pull request. */
