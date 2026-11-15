@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { GAMES, GAME_INFO, READY, SHELVES } from '../games/registry';
 import { LEVELS, PATH, type GameId } from '../maths/questions';
-import { boneStore, doneToday, frontier, levelOf, warmPool } from '../session/progress';
+import { boneStore, doneToday, frontier, levelOf, quickOpen, warmPool } from '../session/progress';
 import type { Saved } from '../session/store';
 import { chime } from '../speech/chime';
 import { Blocks } from '../ui/Blocks';
@@ -12,12 +12,13 @@ import { speak, useVoiceSilent, voice } from './voice';
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-export function Home({ saved, onSave, onToday, onGame, onRace }: {
+export function Home({ saved, onSave, onToday, onGame, onRace, onQuick }: {
   saved: Saved;
   onSave: (s: Saved) => void;
   onToday: () => void;
   onGame: (id: GameId) => void;
   onRace: () => void;
+  onQuick: () => void;
 }) {
   const p = saved.progress;
   const f = frontier(p, READY);
@@ -94,18 +95,20 @@ export function Home({ saved, onSave, onToday, onGame, onRace }: {
             {ids.map((id) => {
               const info = GAME_INFO[id];
               const onPath = id !== 'race' && id !== 'quick';
-              const ready = onPath ? !!GAMES[id] : id === 'race';
+              const locked = id === 'quick' && !quickOpen(p);
+              const ready = (onPath ? !!GAMES[id] : true) && !locked;
               return (
                 <li key={id}>
                   <button
                     className={id === f ? 'station next-up' : 'station'} type="button" disabled={!ready}
-                    onClick={() => (onPath ? onGame(id) : id === 'race' && onRace())}
+                    onClick={() => (onPath ? onGame(id) : id === 'race' ? onRace() : onQuick())}
                   >
                     <span className={onPath ? 'no' : 'no tag'}>{onPath ? PATH.indexOf(id) + 1 : id === 'race' ? '2P' : 'GO'}</span>
                     <span>
                       <strong>{info.name}{id === f && <span className="badge">Next</span>}</strong>
-                      <span className="d">{ready ? info.d : 'Coming soon here. Play it in the old game for now.'}</span>
+                      <span className="d">{locked ? 'Opens when Friends of Ten and Jump in Tens are finished.' : info.d}</span>
                     </span>
+                    {id === 'quick' && p.best > 0 && <span className="st"><small>Best: {p.best} s</small></span>}
                     {ready && onPath && (
                       <span className="st">
                         <i><Bone /></i> {p.stars[id] ?? 0}
@@ -132,7 +135,9 @@ export function Home({ saved, onSave, onToday, onGame, onRace }: {
           <li>A bone means right first time. A paw means right after a hint or with the help picture.</li>
           <li>The questions and hints are read aloud by a recorded voice. Tap the speaker next to a question to hear it again.</li>
           <li>Sit with her when you can and ask “How did you know?”. Saying it in tens and ones is where it sticks.</li>
-          <li>This is the new app, still being built. Games marked “coming soon” are in the old game until they arrive here.</li>
+          <li><b>Race to 100</b> is for two players. Say the numbers aloud and count on from where you stand, never from 1.</li>
+          <li>The last level of the adding and taking away games hides the blocks on purpose. <b>Quick Paws</b> opens only when Friends of Ten and Jump in Tens are finished: speed comes after getting it right.</li>
+          <li>Tens stand in groups of five, like the ones. Eight tens should read as “five and three”. Fingers are allowed, they fade by themselves.</li>
         </ul>
       </div>
     </section>

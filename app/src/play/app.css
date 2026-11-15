@@ -78,7 +78,8 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .levels button { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--ink); background: var(--card); font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); }
 .levels button[aria-pressed='true'] { background: var(--ink); color: #fff; }
 .gtitle { font-family: var(--display); font-weight: 600; font-size: 20px; margin: 16px 0 4px; color: var(--soft); }
-.dots { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; font-size: 22px; line-height: 1; height: 26px; }
+/* Ten bones in a row are wider than a phone, so the row may wrap (Quick Paws has ten questions). */
+.dots { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin: 0 0 10px; font-size: 22px; line-height: 1; min-height: 26px; }
 .dots span { color: #b9c5da; }
 .dots .star { color: #e0a100; }
 .dots .done { color: var(--soft); }
@@ -116,7 +117,8 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .ctl.o { background: var(--one); }
 .ctl.brk { background: var(--card); color: var(--ink); }
 .endstars { font-size: 30px; color: #e0a100; text-align: center; line-height: 1.2; display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
-.endstars .off { color: #d0d9e8; display: flex; gap: 6px; }
+/* The bones not won are grey. They wrap with the rest, so ten of them still fit a phone. */
+.endstars .off { color: #d0d9e8; display: contents; }
 .endpup { width: 130px; height: 130px; }
 
 /* seen for a moment, then covered */
@@ -188,3 +190,6 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .legend .p1 { background: var(--sun); }
 .legend .p2 { background: #9be3bd; }
 .legend .on { box-shadow: 0 0 0 4px var(--ink); }
+
+/* Quick Paws: the time, shown only at the end */
+.timebig { font-family: var(--display); font-weight: 700; font-size: 44px; text-align: center; margin: 0; line-height: 1.1; }

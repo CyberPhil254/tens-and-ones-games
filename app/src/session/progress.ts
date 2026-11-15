@@ -64,7 +64,10 @@ export function nextSlot(pool: readonly Slot[], last: GameId | null, d: Dice): S
 export const QUICK_POOL: Slot[] = [{ id: 'friends', level: 2 }, { id: 'jump', level: 4 }, { id: 'names', level: 1 }];
 export const quickOpen = (p: Progress) => !!(p.done.friends && p.done.jump);
 
-export type Segment = { kind: 'mix'; n: number; pool: Slot[] } | { kind: 'game'; n: number; id: GameId; level: number };
+export type Segment =
+  | { kind: 'mix'; n: number; pool: Slot[] }
+  | { kind: 'quick'; n: number; pool: Slot[] }
+  | { kind: 'game'; n: number; id: GameId; level: number };
 
 /**
  * Today's games: a warm-up when there is something to warm up with, then two rounds of the next game.

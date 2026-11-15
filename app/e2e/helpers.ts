@@ -11,7 +11,8 @@ export function watch(page: Page): string[] {
 /** Opens a game from the home screen at a level. */
 export async function openGame(page: Page, name: RegExp, level = 1): Promise<void> {
   await page.goto('/');
-  await page.getByRole('button', { name }).click();
+  // By its title: another card may mention this game in its description.
+  await page.locator('.station').filter({ has: page.locator('strong', { hasText: name }) }).click();
   if (level > 1) await page.locator('.levels').getByRole('button', { name: String(level), exact: true }).click();
   await expect(page.locator('.levels').getByRole('button', { name: String(level), exact: true })).toHaveAttribute('aria-pressed', 'true');
 }
