@@ -38,6 +38,7 @@ export class VoicePlayer {
   private decoded = new Map<string, Promise<{ duration: number } | null>>();
   private live: { stop(): void }[] = [];
   private turn = 0;
+  private listeners = new Set<() => void>();
 
   constructor(
     private readonly source: VoiceSource,
@@ -49,6 +50,20 @@ export class VoicePlayer {
     return this.state === 'failed';
   }
 
+  /** Calls `fn` whenever the player becomes silent or gets its voice back. Returns a way to stop listening. */
+  onChange(fn: () => void): () => void {
+    this.listeners.add(fn);
+    return () => void this.listeners.delete(fn);
+  }
+
+  /** Tries to fetch the voice pack again after a failure. */
+  retry(): Promise<void> {
+    if (this.state !== 'failed') return this.load();
+    this.loading = null;
+    this.state = 'idle';
+    return this.load();
+  }
+
   /** Fetches the voice pack. Safe to call more than once; say() calls it when needed. */
   load(): Promise<void> {
     if (this.loading) return this.loading;
@@ -58,9 +73,11 @@ export class VoicePlayer {
         this.index = index;
         this.audio = audio;
         this.state = 'ready';
+        this.listeners.forEach((fn) => fn());
       },
       () => {
         this.state = 'failed';
+        this.listeners.forEach((fn) => fn());
       },
     );
     return this.loading;

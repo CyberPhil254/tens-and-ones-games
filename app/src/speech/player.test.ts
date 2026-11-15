@@ -79,6 +79,24 @@ describe('VoicePlayer', () => {
     expect(a.started).toEqual([]);
   });
 
+  it('can be asked to try again, and then speaks', async () => {
+    const a = fakeAudio();
+    let online = false;
+    const changes: boolean[] = [];
+    const player = new VoicePlayer(
+      { loadIndex: async () => index, loadAudio: async () => { if (!online) throw new Error('offline'); return new ArrayBuffer(300); } },
+      () => a.out,
+    );
+    player.onChange(() => changes.push(player.silent));
+    await player.say(['try-again']);
+    expect(player.silent).toBe(true);
+    online = true;
+    await player.retry();
+    expect(player.silent).toBe(false);
+    expect(await player.say(['try-again'])).toEqual(['try-again']);
+    expect(changes).toEqual([true, false]);
+  });
+
   it('stays silent when the device has no audio', async () => {
     const player = new VoicePlayer(source(), () => {
       throw new Error('no audio');

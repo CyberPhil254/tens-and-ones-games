@@ -1,0 +1,237 @@
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { GAMES, GAME_INFO, type GameProps } from '../games/registry';
+import { LEVELS, PATH, makeQuestion, type GameId } from '../maths/questions';
+import { dice } from '../maths/random';
+import { addAttempt } from '../session/attempts';
+import { answered, finishToday, nextSlot, roundFinished, roundWords, type Segment, type Slot } from '../session/progress';
+import type { Saved } from '../session/store';
+import { wording } from '../speech/catalogue';
+import { chime } from '../speech/chime';
+import type { Piece } from '../speech/script';
+import { PRAISE, PRAISE_AFTER_HELP } from '../speech/sentences';
+import { Bone, Paw, Puppy } from '../ui/Puppy';
+import type { RoundApi } from './round';
+import { speak, useVoiceSilent, voice } from './voice';
+
+const d = dice(Math.random);
+const PRAISES = Object.keys(PRAISE);
+const PRAISES_AFTER_HELP = Object.keys(PRAISE_AFTER_HELP);
+const todayString = () => new Date().toDateString();
+
+interface Asked {
+  slot: Slot;
+  /** Counts questions, so each one gets a fresh game component. */
+  no: number;
+  q: unknown;
+}
+const draw = (seg: Segment, last: GameId | null, no: number): Asked => {
+  const slot = seg.kind === 'game' ? { id: seg.id, level: seg.level } : nextSlot(seg.pool, last, d);
+  return { slot, no, q: makeQuestion(slot.id, slot.level, Math.random) };
+};
+
+export interface PlayProps {
+  seg: Segment;
+  /** Part of today's games. */
+  today: boolean;
+  /** More parts of today's games follow this one. */
+  more: boolean;
+  saved: Saved;
+  onSave: (s: Saved) => void;
+  onHome: () => void;
+  /** Go on to the next part of today's games. */
+  onNext: () => void;
+  /** Play this game again, or at another level. */
+  onGame: (id: GameId, level?: number) => void;
+}
+
+/** One round: a row of questions, a bone or a paw for each, then what the round earned. */
+export function Play({ seg, today, more, saved, onSave, onHome, onNext, onGame }: PlayProps) {
+  const [asked, setAsked] = useState(() => draw(seg, null, 0));
+  const [results, setResults] = useState<boolean[]>([]);
+  const [over, setOver] = useState(false);
+  /** `no` counts remarks, so the puppy reacts afresh to each one. */
+  const [fb, setFbState] = useState<{ msg: ReactNode; kind: 'ok' | 'hint'; no: number } | null>(null);
+  const setFb = useCallback((f: { msg: ReactNode; kind: 'ok' | 'hint' } | null) => setFbState((old) => (f ? { ...f, no: (old?.no ?? 0) + 1 } : null)), []);
+  const [end, setEnd] = useState<{ note: string } | null>(null);
+  const silent = useVoiceSilent();
+
+  // What happened on the current question. Kept out of state: it changes nothing on screen by itself.
+  const now = useRef({ clean: true, misses: 0, helped: false, t0: 0, say: [] as Piece[] });
+  // The clock for response time starts when the question is on screen. It is never shown.
+  useEffect(() => {
+    now.current.t0 = performance.now();
+  }, [asked.no]);
+  // The latest saved state and whether the question is closed, for handlers that outlive a render.
+  const live = useRef({ saved, over: false });
+  useEffect(() => {
+    live.current.saved = saved;
+  }, [saved]);
+
+  const say = useCallback((pieces: readonly Piece[], delay = 0, force = false) => {
+    if (force || !live.current.saved.soundOff) speak(pieces, delay);
+  }, []);
+
+  const round: RoundApi = useMemo(() => ({
+    get over() {
+      return live.current.over;
+    },
+    ask(pieces) {
+      now.current.say = pieces;
+      say(pieces);
+    },
+    note(msg, kind, spoken) {
+      setFb({ msg, kind });
+      if (spoken !== false && spoken) say(spoken);
+    },
+    helped() {
+      now.current.clean = false;
+      now.current.helped = true;
+    },
+    wrong(msg, spoken) {
+      now.current.clean = false;
+      now.current.misses++;
+      setFb({ msg, kind: 'hint' });
+      if (spoken) say(spoken);
+    },
+    win(msg, spoken) {
+      if (live.current.over) return;
+      const { clean, misses, helped, t0 } = now.current;
+      const { slot } = asked;
+      live.current.over = true;
+      setOver(true);
+      setResults((r) => [...r, clean]);
+      const s = live.current.saved;
+      live.current.saved = {
+        ...s,
+        progress: answered(s.progress, seg.kind, slot.id, clean),
+        attempts: addAttempt(s.attempts, {
+          game: slot.id, level: slot.level, kind: seg.kind, clean, misses, helped,
+          ms: Math.round(performance.now() - t0), at: new Date().toISOString(),
+        }),
+      };
+      onSave(live.current.saved);
+      setFb({ msg: <>Woof! {msg}</>, kind: 'ok' });
+      if (!s.soundOff) chime();
+      say([d.pick(clean ? PRAISES : PRAISES_AFTER_HELP), ...(spoken ?? [])], 0.3);
+    },
+  }), [asked, onSave, say, seg.kind, setFb]);
+
+  const last = results.length >= seg.n;
+  const bones = results.filter(Boolean).length;
+
+  const next = () => {
+    if (!last) {
+      now.current = { clean: true, misses: 0, helped: false, t0: 0, say: [] };
+      live.current.over = false;
+      setOver(false);
+      setFb(null);
+      setAsked(draw(seg, asked.slot.id, asked.no + 1));
+      return;
+    }
+    // The end of the round: levelling, and today's games are done when this was their last part.
+    let progress = saved.progress;
+    let note = '';
+    if (seg.kind === 'game') ({ progress, note } = roundFinished(progress, seg.id, seg.level, bones, seg.n));
+    const lastToday = today && !more;
+    if (lastToday) progress = finishToday(progress, todayString());
+    onSave({ ...saved, progress });
+    const w = roundWords(bones, seg.n, lastToday, more);
+    voice.stop();
+    say([w.head, note, w.tail].filter(Boolean), 0.2);
+    setFb(null);
+    setEnd({ note });
+  };
+
+  const title = seg.kind === 'game' ? `Game ${PATH.indexOf(seg.id) + 1}: ${GAME_INFO[seg.id].name}` : 'Warm-up: a mix of games you know';
+  const Game = GAMES[asked.slot.id] as React.ComponentType<GameProps<GameId>> | undefined;
+
+  return (
+    <section>
+      <div className="gbar">
+        <button className="back" type="button" onClick={() => { voice.stop(); onHome(); }}>← All games</button>
+        {seg.kind === 'game' && (
+          <div className="levels" role="group" aria-label="Level">
+            Level
+            {Array.from({ length: LEVELS[seg.id] }, (_, i) => (
+              <button key={i} type="button" aria-pressed={i + 1 === seg.level} onClick={() => onGame(seg.id, i + 1)}>{i + 1}</button>
+            ))}
+          </div>
+        )}
+      </div>
+      <p className="gtitle">{title}</p>
+      <div className="dots" role="img" aria-label={`${bones} bones, ${results.length - bones} paws, ${seg.n} questions`} data-testid="dots">
+        {Array.from({ length: seg.n }, (_, i) =>
+          i < results.length
+            ? results[i] ? <span key={i} className="star"><Bone /></span> : <span key={i} className="done"><Paw /></span>
+            : <span key={i} className={i === results.length ? 'now' : undefined}>○</span>,
+        )}
+      </div>
+
+      {end ? (
+        <End
+          seg={seg} bones={bones} note={end.note} lastToday={today && !more} more={more}
+          onHome={onHome} onNext={onNext} onAgain={() => seg.kind === 'game' ? onGame(seg.id) : onHome()}
+        />
+      ) : (
+        <div className="card game">
+          <button className="say" type="button" aria-label="Read it to me" hidden={silent} onClick={() => say(now.current.say, 0, true)}>🔊</button>
+          {Game ? <Game key={asked.no} q={asked.q as never} level={asked.slot.level} round={round} /> : null}
+          <div className="cheer">
+            {fb && <Puppy key={fb.no} mood={fb.kind === 'ok' ? 'happy' : 'think'} />}
+            <p className={fb ? `fb ${fb.kind}` : 'fb'} aria-live="polite" data-testid="feedback">{fb?.msg}</p>
+          </div>
+          {silent && <VoiceRetry />}
+          {over && !last && results.length % 3 === 0 && (
+            <p className="gprompt">For the grown-up: ask “How did you know?”</p>
+          )}
+          {over && <button className="next" type="button" onClick={next}>{last ? 'Finish' : 'Next'}</button>}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/** Shown when the voice pack did not load. The game works without it; the words are on screen. */
+export function VoiceRetry() {
+  return (
+    <p className="voiceretry">
+      The voice did not load. <button type="button" className="ghostbtn" onClick={() => void voice.retry()}>Try again</button>
+    </p>
+  );
+}
+
+function End({ seg, bones, note, lastToday, more, onHome, onNext, onAgain }: {
+  seg: Segment; bones: number; note: string; lastToday: boolean; more: boolean;
+  onHome: () => void; onNext: () => void; onAgain: () => void;
+}) {
+  const w = roundWords(bones, seg.n, lastToday, more);
+  const lines = [bones ? `The puppy got ${bones === 1 ? '1 bone' : `${bones} bones`}.` : '', note && wording(note), w.tail && wording(w.tail)];
+  return (
+    <div className="card game" data-testid="end">
+      <p className="prompt">{wording(w.head)}</p>
+      <div className="stage">
+        <Puppy mood="happy" className="endpup" />
+        <div className="endstars" role="img" aria-label={`${bones} bones out of ${seg.n}`}>
+          {Array.from({ length: bones }, (_, i) => <Bone key={i} />)}
+          <span className="off">{Array.from({ length: seg.n - bones }, (_, i) => <Bone key={i} />)}</span>
+        </div>
+        <p className="sub">{lines.filter(Boolean).join(' ')}</p>
+      </div>
+      <div className="controls">
+        {more ? (
+          <>
+            <button className="ctl o" type="button" onClick={onNext}>Keep going</button>
+            <button className="ctl brk" type="button" onClick={onHome}>Stop for today</button>
+          </>
+        ) : lastToday ? (
+          <button className="ctl o" type="button" onClick={onHome}>Back to the start</button>
+        ) : (
+          <>
+            <button className="ctl o" type="button" onClick={onAgain}>Play again</button>
+            <button className="ctl brk" type="button" onClick={onHome}>All games</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
