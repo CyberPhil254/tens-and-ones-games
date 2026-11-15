@@ -57,3 +57,19 @@ test('blocks follow the number', async ({ page }) => {
   await expect(m.locator('.rod')).toHaveCount(4);
   await expect(m.locator('.cube')).toHaveCount(3);
 });
+
+test('the voice plays recorded clips by sentence id', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/');
+  const voice = page.getByTestId('voice');
+
+  await voice.getByRole('button', { name: 'Hear the number' }).click();
+  await expect(voice).toHaveAttribute('data-said', 'isTO.34');
+
+  // An equation is stitched from number clips; the sentence after it is one whole clip.
+  await voice.getByRole('button', { name: 'Hear 34 plus 10' }).click();
+  await expect(voice).toHaveAttribute('data-said', 'num.34.mid frag.plus num.10.mid frag.is num.44.end only-the-tens-change');
+  expect(errors).toEqual([]);
+});
