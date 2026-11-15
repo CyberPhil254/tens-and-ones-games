@@ -218,7 +218,7 @@ function End({ seg, bones, note, lastToday, more, onHome, onNext, onAgain }: {
   onHome: () => void; onNext: () => void; onAgain: () => void;
 }) {
   const w = roundWords(bones, seg.n, lastToday, more);
-  const lines = [bones ? `The puppy got ${bones === 1 ? '1 bone' : `${bones} bones`}.` : '', note && wording(note), w.tail && wording(w.tail)];
+  const lines = [bones ? `Oreo got ${bones === 1 ? '1 bone' : `${bones} bones`}.` : '', note && wording(note), w.tail && wording(w.tail)];
   return (
     <div className="card game" data-testid="end">
       <p className="prompt">{wording(w.head)}</p>

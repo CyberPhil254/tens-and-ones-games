@@ -71,3 +71,13 @@ Questions 8 to 14 were raised by Claude Code on 15 November 2026 and answered by
 ## Decided during the build, to confirm
 
 Claude Code adds a line here for every detail it had to decide itself: the date, the decision, and why.
+
+| Date | Decision | Why |
+|---|---|---|
+| 2026-11-15 | Oreo is "she" in every sentence ("She finds 3 more."), and two games are renamed: "Oreo's Walk" (was Puppy Walk) and "Oreo's Stories" (was Puppy Stories) | The spec says Oreo everywhere and that she is female; the old names said "puppy" |
+| 2026-11-15 | Newly recorded clips are committed one file each in `app/voice/clips/`, named by a hash of their wording. Clips whose wording has not changed are still cut from the first recording in `audio/` at build time | The build on Cloudflare cannot record; the root `audio/` must not change; one file per clip keeps a re-recording to the sentences that changed |
+| 2026-11-15 | The "one data file" for the script is `app/voice/script.json`, written from the typed sentence tables in `app/src/speech/` by a test. `docs/voice-script.md` is written from it the same way | Game code needs typed ids; a test keeps the data file, the readable script and the code from drifting apart |
+| 2026-11-15 | A sentence with no recording fails the unit tests unless it is listed in `app/voice/missing.json` | "Nothing in the app is silent" should be checked by a machine, with one visible list of exceptions |
+| 2026-11-15 | Voice packs are fetched the first time a sentence in them is needed. For now there are two, "core" and "stories"; packs per unit come with the units | The spec asks for the voice per unit; the units do not exist as data yet |
+| 2026-11-15 | Before merging, each pull request's browser tests are also run against its Cloudflare preview (`E2E_BASE_URL`), at 400 px and laptop width | "Played on its preview" needs to be repeatable for dozens of pull requests |
+

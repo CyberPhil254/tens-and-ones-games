@@ -6,7 +6,7 @@ test('the app opens without console errors and fits the screen', async ({ page }
   page.on('pageerror', (e) => errors.push(e.message));
 
   const foreign: string[] = [];
-  page.on('request', (r) => new URL(r.url()).host !== 'localhost:4173' && foreign.push(r.url()));
+  page.on('request', (r) => new URL(r.url()).origin !== new URL(page.url()).origin && !page.url().startsWith('about:') && foreign.push(r.url()));
 
   await page.goto('/#pieces');
   await page.evaluate(() => document.fonts.ready);

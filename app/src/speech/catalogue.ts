@@ -10,8 +10,16 @@ export interface Clip {
   id: string;
   /** What is said. For a number: the number, and whether the sentence goes on after it or ends. */
   text: string;
-  /** The key of this clip in the first voice recording (audio/voice.json). */
-  v1: string;
+  /**
+   * The name the recording is filed under: the wording itself, or "#47," and "#47." for a number.
+   * The first recording (audio/voice.json at the repository root) and the newer clips in
+   * app/voice/clips/ both use it, so a clip whose wording has not changed keeps its old recording.
+   */
+  key: string;
+  /** A joining piece ("plus", "Oreo is on"), recorded with a comma after it so it does not sound final. */
+  fragment: boolean;
+  /** The file of clips it is loaded with. The app fetches a pack the first time it needs it. */
+  pack: string;
   /** A short breath follows a clip that ends a sentence. */
   endsSentence: boolean;
 }
@@ -21,28 +29,35 @@ const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i)
 function build(): Clip[] {
   const clips: Clip[] = [];
   const seen = new Set<string>();
-  const add = (id: string, text: string, v1 = text) => {
-    if (seen.has(v1)) return; // the same sentence reached two ways is one clip
-    seen.add(v1);
-    clips.push({ id, text, v1, endsSentence: /[.!?]$/.test(v1) });
+  let pack = 'core';
+  const add = (id: string, text: string, key = text) => {
+    if (seen.has(key)) return; // the same sentence reached two ways is one clip
+    seen.add(key);
+    clips.push({ id, text, key, fragment: id.startsWith('frag.'), pack, endsSentence: /[.!?]$/.test(key) });
   };
   for (const table of [FIXED, PRAISE, PRAISE_AFTER_HELP]) for (const [id, text] of Object.entries(table)) add(id, text);
 
   range(0, 100).forEach((n) => add(`isTO.${n}`, SP.isTO(n)));
   range(10, 99).forEach((n) => add(`which.${n}`, SP.which(n)));
+  pack = 'stories';
   range(1, 99).forEach((n) => add(`puppyHas.${n}`, SP.puppyHas(n)));
+  pack = 'core';
   range(1, 9).forEach((k) => {
     add(`has.${k}.tens`, SP.has(k, 't'));
     add(`has.${k}.ones`, SP.has(k, 'o'));
     add(`friendsQ.${k}`, SP.friendsQ(k));
     add(`friends.${k}`, SP.friends(k));
     add(`newTen.${k}`, SP.newTen(k));
+    add(`tens.${k}`, SP.tens(k));
+  });
+  pack = 'stories';
+  range(1, 9).forEach((k) => {
     add(`finds.${k}`, SP.finds(k));
     add(`digs.${k}`, SP.digs(k));
-    add(`tens.${k}`, SP.tens(k));
   });
   [10, 20, 30, 40].forEach((k) => add(`finds.${k}`, SP.finds(k)));
   [20, 30, 40].forEach((k) => add(`gives.${k}`, SP.gives(k)));
+  pack = 'core';
   [2, 3, 4].forEach((k) => {
     add(`tensOnly.${k}`, SP.tensOnly(k));
     add(`levelUp.${k}`, SP.levelUp(k));

@@ -3,12 +3,17 @@
  * cannot be loaded the app stays silent (the words are on screen), it never falls back to a
  * computer voice.
  *
- * The pack is one audio file plus an index of where each clip starts: { clipId: [offset, length] }.
+ * The voice is a handful of packs (one audio file each) and one index. A pack is fetched the
+ * first time something in it is said, so a child's phone only loads the voice of what she plays.
  */
 import { CLIP_BY_ID, clipIds } from './catalogue';
 import type { Piece } from './script';
 
-export type VoiceIndex = Record<string, [offset: number, length: number]>;
+/** Where each clip is: which pack, and where in it. */
+export interface VoiceIndex {
+  packs: string[];
+  clips: Record<string, [pack: number, offset: number, length: number]>;
+}
 
 /** The few parts of the Web Audio API the player uses, so tests can stand in for it. */
 export interface AudioOut {
@@ -22,7 +27,7 @@ export interface AudioOut {
 
 export interface VoiceSource {
   loadIndex(): Promise<VoiceIndex>;
-  loadAudio(): Promise<ArrayBuffer>;
+  loadPack(name: string): Promise<ArrayBuffer>;
 }
 
 /** Seconds of silence after a clip: a breath after a sentence, almost none inside one. */
@@ -33,8 +38,8 @@ const LEAD_IN = 0.03;
 export class VoicePlayer {
   private state: 'idle' | 'loading' | 'ready' | 'failed' = 'idle';
   private loading: Promise<void> | null = null;
-  private index: VoiceIndex = {};
-  private audio: ArrayBuffer | null = null;
+  private index: VoiceIndex = { packs: [], clips: {} };
+  private packs = new Map<number, Promise<ArrayBuffer>>();
   private decoded = new Map<string, Promise<{ duration: number } | null>>();
   private live: { stop(): void }[] = [];
   private turn = 0;
@@ -78,23 +83,44 @@ export class VoicePlayer {
     return this.load();
   }
 
-  /** Fetches the voice pack. Safe to call more than once; say() calls it when needed. */
+  private fail = () => {
+    this.state = 'failed';
+    this.packs.clear();
+    this.listeners.forEach((fn) => fn());
+  };
+
+  /** Fetches the index. Safe to call more than once; say() calls it when needed. */
   load(): Promise<void> {
     if (this.loading) return this.loading;
     this.state = 'loading';
-    this.loading = Promise.all([this.source.loadIndex(), this.source.loadAudio()]).then(
-      ([index, audio]) => {
-        this.index = index;
-        this.audio = audio;
-        this.state = 'ready';
-        this.listeners.forEach((fn) => fn());
-      },
-      () => {
-        this.state = 'failed';
-        this.listeners.forEach((fn) => fn());
-      },
-    );
+    this.loading = this.source.loadIndex().then((index) => {
+      this.index = index;
+      this.state = 'ready';
+      this.listeners.forEach((fn) => fn());
+    }, this.fail);
     return this.loading;
+  }
+
+  /** Fetches the packs these clips are in, each pack once. Resolves false if one could not be fetched. */
+  private async fetchPacks(ids: readonly string[]): Promise<boolean> {
+    const wanted = new Set(ids.map((id) => this.index.clips[id]?.[0]).filter((p): p is number => p !== undefined));
+    for (const p of wanted) if (!this.packs.has(p)) this.packs.set(p, this.source.loadPack(this.index.packs[p]!));
+    try {
+      await Promise.all([...wanted].map((p) => this.packs.get(p)));
+      return true;
+    } catch {
+      this.fail();
+      return false;
+    }
+  }
+
+  /** Fetches the packs for these pieces ahead of time, so the first sentence of a game does not wait. */
+  async warm(packs: readonly string[]): Promise<void> {
+    await this.load();
+    if (this.state !== 'ready') return;
+    const ids = Object.keys(this.index.clips).filter((id) => packs.includes(this.index.packs[this.index.clips[id]![0]]!));
+    const seen = new Set<number>();
+    await this.fetchPacks(ids.filter((id) => !seen.has(this.index.clips[id]![0]) && seen.add(this.index.clips[id]![0])));
   }
 
   /** Cuts off whatever is being said. */
@@ -130,6 +156,7 @@ export class VoicePlayer {
     }
     await this.load();
     if (mine !== this.turn || this.state !== 'ready') return [];
+    if (!(await this.fetchPacks(ids)) || mine !== this.turn) return [];
 
     const buffers = await Promise.all(ids.map((id) => this.buffer(id, out)));
     if (mine !== this.turn) return [];
@@ -153,9 +180,10 @@ export class VoicePlayer {
   private buffer(id: string, out: AudioOut): Promise<{ duration: number } | null> {
     let p = this.decoded.get(id);
     if (!p) {
-      const where = this.index[id];
-      p = where && this.audio
-        ? out.decodeAudioData(this.audio.slice(where[0], where[0] + where[1])).catch(() => null)
+      const where = this.index.clips[id];
+      const pack = where && this.packs.get(where[0]);
+      p = where && pack
+        ? pack.then((audio) => out.decodeAudioData(audio.slice(where[1], where[1] + where[2]))).catch(() => null)
         : Promise.resolve(null);
       this.decoded.set(id, p);
     }
@@ -174,7 +202,7 @@ export function browserVoice(base = '/voice/'): VoicePlayer {
   return new VoicePlayer(
     {
       loadIndex: async () => (await get('index.json')).json() as Promise<VoiceIndex>,
-      loadAudio: async () => (await get('voice.mp3')).arrayBuffer(),
+      loadPack: async (name) => (await get(`${name}.mp3`)).arrayBuffer(),
     },
     () => {
       ctx ??= new AudioContext();
