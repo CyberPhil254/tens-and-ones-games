@@ -12,11 +12,12 @@ import { speak, useVoiceSilent, voice } from './voice';
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-export function Home({ saved, onSave, onToday, onGame }: {
+export function Home({ saved, onSave, onToday, onGame, onRace }: {
   saved: Saved;
   onSave: (s: Saved) => void;
   onToday: () => void;
   onGame: (id: GameId) => void;
+  onRace: () => void;
 }) {
   const p = saved.progress;
   const f = frontier(p, READY);
@@ -93,12 +94,12 @@ export function Home({ saved, onSave, onToday, onGame }: {
             {ids.map((id) => {
               const info = GAME_INFO[id];
               const onPath = id !== 'race' && id !== 'quick';
-              const ready = onPath && !!GAMES[id];
+              const ready = onPath ? !!GAMES[id] : id === 'race';
               return (
                 <li key={id}>
                   <button
                     className={id === f ? 'station next-up' : 'station'} type="button" disabled={!ready}
-                    onClick={() => onPath && onGame(id)}
+                    onClick={() => (onPath ? onGame(id) : id === 'race' && onRace())}
                   >
                     <span className={onPath ? 'no' : 'no tag'}>{onPath ? PATH.indexOf(id) + 1 : id === 'race' ? '2P' : 'GO'}</span>
                     <span>
