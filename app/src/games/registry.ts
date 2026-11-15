@@ -6,6 +6,7 @@ import { FillTheTen } from './FillTheTen';
 import { FriendsOfTen } from './FriendsOfTen';
 import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
+import { MysteryBox } from './MysteryBox';
 import { NumberNames } from './NumberNames';
 import { OreosWalk } from './OreosWalk';
 import { PackTen } from './PackTen';
@@ -52,6 +53,7 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   jump: JumpInTens,
   fill: FillTheTen,
   take: BreakATen,
+  mystery: MysteryBox,
 };
 
 /** The learning path, cut down to the games that exist. Grows with every game pull request. */
