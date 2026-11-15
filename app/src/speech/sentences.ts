@@ -113,6 +113,9 @@ export const FIXED = {
   'go-down-to-ten-first-then': "Go down to ten first. Then take away the rest.",
   'first-down-to-ten-then-take': "First down to ten, then take away the rest.",
   'type-the-number-then-tap-the': "Type the number, then tap the tick.",
+  // Tens and ones sums.
+  'add-the-tens-to-the-tens': "Add the tens to the tens. Add the ones to the ones.",
+  'tens-with-tens-and-ones-with': "Tens with tens, and ones with ones.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",

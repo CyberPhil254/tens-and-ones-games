@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-603 clips.
+605 clips.
 
 Whole sentences:
 
@@ -111,6 +111,8 @@ Whole sentences:
 - Go down to ten first. Then take away the rest.
 - First down to ten, then take away the rest.
 - Type the number, then tap the tick.
+- Add the tens to the tens. Add the ones to the ones.
+- Tens with tens, and ones with ones.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.

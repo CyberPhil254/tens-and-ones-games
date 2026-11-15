@@ -13,6 +13,7 @@ import { OreosWalk } from './OreosWalk';
 import { PackTen } from './PackTen';
 import { QuickLook } from './QuickLook';
 import { SumsTo20 } from './SumsTo20';
+import { TensOnesSums } from './TensOnesSums';
 
 export interface GameProps<G extends GameId> {
   q: QuestionOf[G];
@@ -34,5 +35,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   mystery: MysteryBox,
   story: OreosStories,
   sums: SumsTo20,
+  plus: TensOnesSums,
 };
 
