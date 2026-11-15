@@ -73,8 +73,6 @@ describe('the curriculum data', () => {
         "s1-half",
         "s1-money",
         "s2-estimate",
-        "s2-times",
-        "s2-tables",
         "s2-divide",
         "s2-quarter",
         "s2-money",

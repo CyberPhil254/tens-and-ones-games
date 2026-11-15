@@ -167,3 +167,7 @@ Claude Code adds a line here for every detail it had to decide itself: the date,
 | 2026-11-15 | Shapes in patterns are yellow, green and purple | Red and blue mean tens and ones |
 | 2026-11-15 | Odd and even: counters stand in two rows as pairs; after a miss the one without a partner turns yellow. To 100 the ones digit is underlined | "Pairs things up to see odd (one left over)" |
 | 2026-11-15 | Number patterns ask for one of the two middle numbers of four, with steps of 2, 3, 4, 5 or 10, on or back | Finding the rule needs numbers on both sides |
+| 2026-11-15 | "Equal groups" is one game with five levels over two lessons: Equal groups (plates of bones; rows and columns read as 5 + 5 + 5; "3 × 5" in her head) and Times tables (the 1, 2, 5 and 10 tables with rows; in her head) | The spec's lesson covers s2-times and s2-tables |
+| 2026-11-15 | Plates hold two to five bones, on two to five plates; rows and tables are dots, blue, in fives | Every bone has to be seen to be counted; the bones are drawn in code |
+| 2026-11-15 | A miss writes the running total beside each group (5, 10, 15), and the right answer says the steps first: "5, 10, 15. 3 × 5 = 15." | "The groups are counted in steps"; the steps are the hops from Skip and spot |
+| 2026-11-15 | The wrong choices for a times question are one group too many or too few, the two numbers added, and the number of groups alone | The slips children make |

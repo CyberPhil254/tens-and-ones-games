@@ -155,6 +155,8 @@ export const FIXED = {
   'look-at-the-ones-even-numbers': "Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.",
   'which-number-is-missing': "Which number is missing?",
   'find-the-step-from-one-number': "Find the step from one number to the next. It is the same every time.",
+  // Equal groups.
+  'count-the-groups-in-steps-one': "Count the groups in steps, one group at a time.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
@@ -203,6 +205,8 @@ export const FRAGMENTS = {
   'he-has': "She has",
   'start-at': "Start at",
   'double': "Double",
+  'groups-of': "groups of",
+  'times': "times",
   'is-more-than': "is more than",
   'is-less-than': "is less than",
   'is-nearer-to': "is nearer to",

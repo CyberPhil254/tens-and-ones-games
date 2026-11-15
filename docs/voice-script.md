@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-688 clips.
+691 clips.
 
 Whole sentences:
 
@@ -147,6 +147,7 @@ Whole sentences:
 - Look at the ones. Even numbers end in 0, 2, 4, 6 or 8.
 - Which number is missing?
 - Find the step from one number to the next. It is the same every time.
+- Count the groups in steps, one group at a time.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -203,6 +204,8 @@ Joining pieces for sums, said with number clips:
 - She has
 - Start at
 - Double
+- groups of
+- times
 - is more than
 - is less than
 - is nearer to

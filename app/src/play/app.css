@@ -394,3 +394,16 @@ body.plain { background-image: none; }
 .hopline .size { font: 600 12px var(--display); fill: var(--ink); text-anchor: middle; }
 .hopline .land { fill: var(--sun); stroke: var(--ink); stroke-width: 2; }
 .onesmark .num .o { text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 6px; }
+
+/* Equal groups: plates of bones, and rows and columns */
+.plates { display: flex; flex-wrap: wrap; gap: 10px 8px; justify-content: center; }
+.platewrap { display: grid; justify-items: center; gap: 2px; }
+.plate { width: 92px; min-height: 64px; padding: 8px 6px; border-radius: 50%; background: #fff; border: 3px solid var(--ink); box-shadow: inset 0 0 0 6px #eef2f9; display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; align-content: center; }
+.plate .ic { width: 26px; height: 13px; fill: #c98a00; }
+.running { min-height: 22px; font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ok); }
+.array { display: grid; gap: 6px; justify-items: start; }
+.arow { display: flex; align-items: center; gap: 10px; }
+.adots { display: flex; gap: 5px; }
+.adots i { width: clamp(16px, 4.6vw, 24px); height: clamp(16px, 4.6vw, 24px); border-radius: 50%; background: var(--one); flex: none; }
+.adots i.gap { margin-left: 8px; }
+.array .running { min-width: 30px; text-align: left; }
