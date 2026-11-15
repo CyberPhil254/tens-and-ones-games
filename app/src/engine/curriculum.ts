@@ -134,8 +134,8 @@ export const UNITS: Unit[] = [
   {
     id: 's2-u5', stage: 2, title: 'Equal groups',
     lessons: [
-      lesson('s2-times', 'Equal groups', 'Multiplying as equal groups, repeated adding and rows and columns', ['s2-skip']),
-      lesson('s2-tables', 'Times tables', 'The 1, 2, 5 and 10 times tables', ['s2-times']),
+      lesson('s2-times', 'Equal groups', 'Multiplying as equal groups, repeated adding and rows and columns', ['s2-skip'], [see(a('groups', 1)), sketch(a('groups', 2)), head(a('groups', 3))]),
+      lesson('s2-tables', 'Times tables', 'The 1, 2, 5 and 10 times tables', ['s2-times'], [see(a('groups', 4)), head(a('groups', 5))]),
       lesson('s2-divide', 'Fair shares', 'Dividing as sharing equally and as making groups', ['s2-times']),
     ],
   },

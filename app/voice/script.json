@@ -974,6 +974,13 @@
    "pack": "core"
   },
   {
+   "id": "count-the-groups-in-steps-one",
+   "text": "Count the groups in steps, one group at a time.",
+   "key": "Count the groups in steps, one group at a time.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -4309,6 +4316,20 @@
    "id": "frag.double",
    "text": "Double",
    "key": "Double",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.groups-of",
+   "text": "groups of",
+   "key": "groups of",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.times",
+   "text": "times",
+   "key": "times",
    "fragment": true,
    "pack": "core"
   },

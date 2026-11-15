@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
 import { BreakATen } from './BreakATen';
+import { EqualGroups } from './EqualGroups';
 import { FillTheTen } from './FillTheTen';
 import { FriendsOf20 } from './FriendsOf20';
 import { FriendsOfTen } from './FriendsOfTen';
@@ -49,5 +50,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   dots: NewPatterns,
   more: MoreOrLess,
   skip: SkipAndSpot,
+  groups: EqualGroups,
 };
 
