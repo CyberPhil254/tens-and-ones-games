@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-721 clips.
+746 clips.
 
 Whole sentences:
 
@@ -173,6 +173,16 @@ Whole sentences:
 - Two quarters are the same as one half.
 - The bar is cut into four equal parts. Count the parts from the start.
 - The bar is cut into four equal parts. Count the yellow parts.
+- Which is worth more?
+- How much is in the purse?
+- Which purse holds more?
+- Look at the number on it.
+- A bigger coin is not always worth more. Look at the number.
+- Start with the biggest. Then count on.
+- Count what you have. Start with the biggest.
+- Count each purse. Start with the biggest.
+- That is not enough yet. Add some more.
+- That is too much. Take some away.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
@@ -204,6 +214,8 @@ Sentences with a number, one clip for each number:
 - 5 and 1 make 6. (4 clips)
 - A jump of ten goes straight down. Go one row down the blue line. (6 clips)
 - Hops of 1. (6 clips)
+- Tap 1 shilling. (6 clips)
+- 1 shilling. (6 clips)
 - Tap the first one. (10 clips)
 - It is the first. (20 clips)
 
@@ -230,6 +242,9 @@ Joining pieces for sums, said with number clips:
 - Start at
 - Double
 - groups of
+- Make
+- You made
+- shillings.
 - Half of
 - A quarter of
 - Three quarters of

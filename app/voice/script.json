@@ -1156,6 +1156,76 @@
    "pack": "core"
   },
   {
+   "id": "which-is-worth-more",
+   "text": "Which is worth more?",
+   "key": "Which is worth more?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-much-is-in-the-purse",
+   "text": "How much is in the purse?",
+   "key": "How much is in the purse?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-purse-holds-more",
+   "text": "Which purse holds more?",
+   "key": "Which purse holds more?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "look-at-the-number-on-it",
+   "text": "Look at the number on it.",
+   "key": "Look at the number on it.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "a-bigger-coin-is-not-always",
+   "text": "A bigger coin is not always worth more. Look at the number.",
+   "key": "A bigger coin is not always worth more. Look at the number.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "start-with-the-biggest-then-count",
+   "text": "Start with the biggest. Then count on.",
+   "key": "Start with the biggest. Then count on.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "count-what-you-have-start-with",
+   "text": "Count what you have. Start with the biggest.",
+   "key": "Count what you have. Start with the biggest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "count-each-purse-start-with-the",
+   "text": "Count each purse. Start with the biggest.",
+   "key": "Count each purse. Start with the biggest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "that-is-not-enough-yet-add",
+   "text": "That is not enough yet. Add some more.",
+   "key": "That is not enough yet. Add some more.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "that-is-too-much-take-some",
+   "text": "That is too much. Take some away.",
+   "key": "That is too much. Take some away.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -4145,6 +4215,90 @@
    "pack": "core"
   },
   {
+   "id": "tapMoney.1",
+   "text": "Tap 1 shilling.",
+   "key": "Tap 1 shilling.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "shillings.1",
+   "text": "1 shilling.",
+   "key": "1 shilling.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapMoney.5",
+   "text": "Tap 5 shillings.",
+   "key": "Tap 5 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "shillings.5",
+   "text": "5 shillings.",
+   "key": "5 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapMoney.10",
+   "text": "Tap 10 shillings.",
+   "key": "Tap 10 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "shillings.10",
+   "text": "10 shillings.",
+   "key": "10 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapMoney.20",
+   "text": "Tap 20 shillings.",
+   "key": "Tap 20 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "shillings.20",
+   "text": "20 shillings.",
+   "key": "20 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapMoney.50",
+   "text": "Tap 50 shillings.",
+   "key": "Tap 50 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "shillings.50",
+   "text": "50 shillings.",
+   "key": "50 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapMoney.100",
+   "text": "Tap 100 shillings.",
+   "key": "Tap 100 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "shillings.100",
+   "text": "100 shillings.",
+   "key": "100 shillings.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "tapNth.1",
    "text": "Tap the first one.",
    "key": "Tap the first one.",
@@ -4498,6 +4652,27 @@
    "id": "frag.groups-of",
    "text": "groups of",
    "key": "groups of",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.make",
+   "text": "Make",
+   "key": "Make",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.you-made",
+   "text": "You made",
+   "key": "You made",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.shillings",
+   "text": "shillings.",
+   "key": "shillings.",
    "fragment": true,
    "pack": "core"
   },

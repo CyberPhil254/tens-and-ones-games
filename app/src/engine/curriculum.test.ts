@@ -70,9 +70,7 @@ describe('the curriculum data', () => {
         "s1-count",
         "s1-zero",
         "s1-estimate",
-        "s1-money",
         "s2-estimate",
-        "s2-money",
       ]
     `);
   });

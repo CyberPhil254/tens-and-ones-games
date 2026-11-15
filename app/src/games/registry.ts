@@ -11,6 +11,7 @@ import { HalvesAndQuarters } from './HalvesAndQuarters';
 import { HearAndType } from './HearAndType';
 import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
+import { Money } from './Money';
 import { MoreOrLess } from './MoreOrLess';
 import { MysteryBox } from './MysteryBox';
 import { NewPatterns } from './NewPatterns';
@@ -55,5 +56,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   groups: EqualGroups,
   share: FairShares,
   parts: HalvesAndQuarters,
+  money: Money,
 };
 
