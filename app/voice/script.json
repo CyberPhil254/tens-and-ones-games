@@ -981,6 +981,48 @@
    "pack": "core"
   },
   {
+   "id": "give-one-to-each-bowl-until",
+   "text": "Give one to each bowl until the bones are gone.",
+   "key": "Give one to each bowl until the bones are gone.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-in-each-bowl",
+   "text": "How many are in each bowl?",
+   "key": "How many are in each bowl?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-does-each-get",
+   "text": "How many does each get?",
+   "key": "How many does each get?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "how-many-groups",
+   "text": "How many groups?",
+   "key": "How many groups?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "deal-them-out-one-for-each",
+   "text": "Deal them out: one for each bowl, again and again.",
+   "key": "Deal them out: one for each bowl, again and again.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "make-the-groups-then-count-the",
+   "text": "Make the groups, then count the groups.",
+   "key": "Make the groups, then count the groups.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -4323,6 +4365,20 @@
    "id": "frag.groups-of",
    "text": "groups of",
    "key": "groups of",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.shared-between",
+   "text": "shared between",
+   "key": "shared between",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.in-groups-of",
+   "text": "in groups of",
+   "key": "in groups of",
    "fragment": true,
    "pack": "core"
   },

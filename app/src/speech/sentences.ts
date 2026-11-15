@@ -157,6 +157,13 @@ export const FIXED = {
   'find-the-step-from-one-number': "Find the step from one number to the next. It is the same every time.",
   // Equal groups.
   'count-the-groups-in-steps-one': "Count the groups in steps, one group at a time.",
+  // Fair shares.
+  'give-one-to-each-bowl-until': "Give one to each bowl until the bones are gone.",
+  'how-many-in-each-bowl': "How many are in each bowl?",
+  'how-many-does-each-get': "How many does each get?",
+  'how-many-groups': "How many groups?",
+  'deal-them-out-one-for-each': "Deal them out: one for each bowl, again and again.",
+  'make-the-groups-then-count-the': "Make the groups, then count the groups.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
@@ -206,6 +213,8 @@ export const FRAGMENTS = {
   'start-at': "Start at",
   'double': "Double",
   'groups-of': "groups of",
+  'shared-between': "shared between",
+  'in-groups-of': "in groups of",
   'times': "times",
   'is-more-than': "is more than",
   'is-less-than': "is less than",
