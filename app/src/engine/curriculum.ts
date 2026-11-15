@@ -69,8 +69,8 @@ export const UNITS: Unit[] = [
     lessons: [
       lesson('s1-names', 'Number names to 20', 'Say, read and write numbers 0 to 20', ['s1-count'], [see(a('hear', 1)), head(a('hear', 2))]),
       lesson('s1-teens', 'Ten and some more', 'Numbers 10 to 20 as one ten and some ones', ['s1-count'], [see(a('teens', 1)), see(a('teens', 2)), head(a('teens', 3))]),
-      lesson('s1-compare', 'More or less, to 20', 'Compare and order numbers to 20', ['s1-names']),
-      lesson('s1-ordinal', 'First to tenth', 'First to tenth', ['s1-count']),
+      lesson('s1-compare', 'More or less, to 20', 'Compare and order numbers to 20', ['s1-names'], [see(a('more', 1)), head(a('more', 2))]),
+      lesson('s1-ordinal', 'First to tenth', 'First to tenth', ['s1-count'], [see(a('more', 7))]),
     ],
   },
   {
@@ -107,9 +107,9 @@ export const UNITS: Unit[] = [
     lessons: [
       lesson('s2-see', 'See how many, new patterns', 'See how many (up to 10) in a new pattern without counting', ['s1-see'], [see(a('dots', 1)), sketch(a('dots', 2))]),
       lesson('s2-estimate', 'Guess a heap', 'Guess how many, up to 100', ['s2-count']),
-      lesson('s2-compare', 'More or less, to 100', 'Compare and order two-digit numbers', ['s2-place']),
-      lesson('s2-ordinal', 'Eleventh and beyond', 'Ordinal numbers beyond tenth', ['s1-ordinal']),
-      lesson('s2-round', 'The nearer ten', 'Round to the nearest ten', ['s2-compare']),
+      lesson('s2-compare', 'More or less, to 100', 'Compare and order two-digit numbers', ['s2-place'], [see(a('more', 3)), head(a('more', 4))]),
+      lesson('s2-ordinal', 'Eleventh and beyond', 'Ordinal numbers beyond tenth', ['s1-ordinal'], [see(a('more', 8))]),
+      lesson('s2-round', 'The nearer ten', 'Round to the nearest ten', ['s2-compare'], [see(a('more', 5)), head(a('more', 6))]),
     ],
   },
   {

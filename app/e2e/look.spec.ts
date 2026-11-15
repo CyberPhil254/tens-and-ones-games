@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { day, seed } from './helpers';
 
-const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, teens: 3, regroup: 2, hear: 3, dots: 2, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
+const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, teens: 3, regroup: 2, hear: 3, dots: 2, more: 8, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
 const RED = 'rgb(229, 72, 77)', BLUE = 'rgb(43, 109, 232)';
 
 test('every game level: buttons a child taps are at least 72 px, the screen is plain, nothing scrolls sideways', async ({ page }) => {
@@ -15,11 +15,12 @@ test('every game level: buttons a child taps are at least 72 px, the screen is p
         over: document.documentElement.scrollWidth - window.innerWidth,
         paper: getComputedStyle(document.body).backgroundImage,
         small: [...document.querySelectorAll('button')]
-          .filter((b) => b.offsetParent && !b.closest('.hsq') && !b.classList.contains('back'))
+          .filter((b) => b.offsetParent && !b.closest('.hsq') && !b.classList.contains('back') && !b.classList.contains('qspot'))
           .map((b) => ({ what: b.className || b.textContent, w: Math.round(b.getBoundingClientRect().width), h: Math.round(b.getBoundingClientRect().height) }))
           .filter((b) => b.w < 72 || b.h < 72),
       }));
-      // The hundred square is the one exception: a hundred squares cannot each be 72 px on a phone.
+      // Two exceptions, written down in docs/decisions.md: the hundred square (a hundred squares cannot each be 72 px on a phone)
+      // and the places of the queue of ten, which are 72 px high and 64 px wide on a phone so that five fit in a row.
       expect(found.small, `${game} ${level}`).toEqual([]);
       expect(found.over, `${game} ${level}`).toBeLessThanOrEqual(0);
       expect(found.paper, `${game} ${level}`).toBe('none');

@@ -7,11 +7,15 @@ import type { RoundApi } from './round';
  * recognising it among choices, and it cannot be guessed by tapping around.
  * A wrong number is cleared and handed to `onWrong`, which explains; she types again.
  */
-export function NumberPad({ ans, round, onRight, onWrong }: { ans: number; round: RoundApi; onRight: () => void | Promise<void>; onWrong: (typed: number) => void }) {
+export function NumberPad({ ans, round, onRight, onWrong, digits = 2 }: {
+  ans: number; round: RoundApi; onRight: () => void | Promise<void>; onWrong: (typed: number) => void;
+  /** How many digits can be typed: three where the answer can be 100. */
+  digits?: 2 | 3;
+}) {
   const [typed, setTyped] = useState('');
   const [right, setRight] = useState(false);
   const closed = right || round.over;
-  const key = (d: number) => setTyped((t) => (t.length >= 2 ? t : t === '0' ? String(d) : t + d));
+  const key = (d: number) => setTyped((t) => (t.length >= digits ? t : t === '0' ? String(d) : t + d));
   const ok = () => {
     if (!typed) return;
     if (Number(typed) === ans) {

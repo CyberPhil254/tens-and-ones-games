@@ -799,6 +799,97 @@
    "pack": "core"
   },
   {
+   "id": "which-is-more",
+   "text": "Which is more?",
+   "key": "Which is more?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-is-less",
+   "text": "Which is less?",
+   "key": "Which is less?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tap-the-smallest-first-then-the",
+   "text": "Tap the smallest first, then the next, then the biggest.",
+   "key": "Tap the smallest first, then the next, then the biggest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "from-the-smallest-to-the-biggest",
+   "text": "From the smallest to the biggest.",
+   "key": "From the smallest to the biggest.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-ten-is-nearer",
+   "text": "Which ten is nearer?",
+   "key": "Which ten is nearer?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "which-place-is-the-yellow-one",
+   "text": "Which place is the yellow one in?",
+   "key": "Which place is the yellow one in?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "on-the-number-line-the-number",
+   "text": "On the number line, the number further along is more.",
+   "key": "On the number line, the number further along is more.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-tens-are-the-same-look",
+   "text": "The tens are the same. Look at the ones.",
+   "key": "The tens are the same. Look at the ones.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "look-at-the-tens-first-more",
+   "text": "Look at the tens first. More tens is more.",
+   "key": "Look at the tens first. More tens is more.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "look-at-the-tens-first-if",
+   "text": "Look at the tens first. If they are the same, look at the ones.",
+   "key": "Look at the tens first. If they are the same, look at the ones.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "look-where-it-is-on-the",
+   "text": "Look where it is on the line. Which ten is closer?",
+   "key": "Look where it is on the line. Which ten is closer?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "count-from-the-front-first-second",
+   "text": "Count from the front: first, second, third.",
+   "key": "Count from the front: first, second, third.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "the-first-row-is-ten-count",
+   "text": "The first row is ten. Count on from the eleventh.",
+   "key": "The first row is ten. Count on from the eleventh.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-gets-a-treasure-which-one",
    "text": "Oreo gets a treasure. Which one shall she have?",
    "key": "Oreo gets a treasure. Which one shall she have?",
@@ -3746,6 +3837,216 @@
    "pack": "core"
   },
   {
+   "id": "tapNth.1",
+   "text": "Tap the first one.",
+   "key": "Tap the first one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.2",
+   "text": "Tap the second one.",
+   "key": "Tap the second one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.3",
+   "text": "Tap the third one.",
+   "key": "Tap the third one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.4",
+   "text": "Tap the fourth one.",
+   "key": "Tap the fourth one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.5",
+   "text": "Tap the fifth one.",
+   "key": "Tap the fifth one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.6",
+   "text": "Tap the sixth one.",
+   "key": "Tap the sixth one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.7",
+   "text": "Tap the seventh one.",
+   "key": "Tap the seventh one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.8",
+   "text": "Tap the eighth one.",
+   "key": "Tap the eighth one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.9",
+   "text": "Tap the ninth one.",
+   "key": "Tap the ninth one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "tapNth.10",
+   "text": "Tap the tenth one.",
+   "key": "Tap the tenth one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.1",
+   "text": "It is the first.",
+   "key": "It is the first.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.2",
+   "text": "It is the second.",
+   "key": "It is the second.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.3",
+   "text": "It is the third.",
+   "key": "It is the third.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.4",
+   "text": "It is the fourth.",
+   "key": "It is the fourth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.5",
+   "text": "It is the fifth.",
+   "key": "It is the fifth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.6",
+   "text": "It is the sixth.",
+   "key": "It is the sixth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.7",
+   "text": "It is the seventh.",
+   "key": "It is the seventh.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.8",
+   "text": "It is the eighth.",
+   "key": "It is the eighth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.9",
+   "text": "It is the ninth.",
+   "key": "It is the ninth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.10",
+   "text": "It is the tenth.",
+   "key": "It is the tenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.11",
+   "text": "It is the eleventh.",
+   "key": "It is the eleventh.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.12",
+   "text": "It is the twelfth.",
+   "key": "It is the twelfth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.13",
+   "text": "It is the thirteenth.",
+   "key": "It is the thirteenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.14",
+   "text": "It is the fourteenth.",
+   "key": "It is the fourteenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.15",
+   "text": "It is the fifteenth.",
+   "key": "It is the fifteenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.16",
+   "text": "It is the sixteenth.",
+   "key": "It is the sixteenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.17",
+   "text": "It is the seventeenth.",
+   "key": "It is the seventeenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.18",
+   "text": "It is the eighteenth.",
+   "key": "It is the eighteenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.19",
+   "text": "It is the nineteenth.",
+   "key": "It is the nineteenth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "nthPlace.20",
+   "text": "It is the twentieth.",
+   "key": "It is the twentieth.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "frag.plus",
    "text": "plus",
    "key": "plus",
@@ -3882,6 +4183,27 @@
    "id": "frag.double",
    "text": "Double",
    "key": "Double",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.is-more-than",
+   "text": "is more than",
+   "key": "is more than",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.is-less-than",
+   "text": "is less than",
+   "key": "is less than",
+   "fragment": true,
+   "pack": "core"
+  },
+  {
+   "id": "frag.is-nearer-to",
+   "text": "is nearer to",
+   "key": "is nearer to",
    "fragment": true,
    "pack": "core"
   },
