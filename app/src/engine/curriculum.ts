@@ -91,7 +91,7 @@ export const UNITS: Unit[] = [
       lesson('s1-calc20', 'Sums to 20', 'Add and subtract with answers to 20', ['s1-add', 's1-sub', 's1-ten'], [see(a('sums', 9), a('sums', 10)), head(a('sums', 11)), apply(a('sums', 12))]),
     ],
   },
-  { id: 's1-u5', stage: 1, title: 'Halves', lessons: [lesson('s1-half', 'Halves', 'Halves: equal and unequal parts, half of a shape, half of a set, two halves make a whole', ['s1-doubles'])] },
+  { id: 's1-u5', stage: 1, title: 'Halves', lessons: [lesson('s1-half', 'Halves', 'Halves: equal and unequal parts, half of a shape, half of a set, two halves make a whole', ['s1-doubles'], [see(a('parts', 1)), see(a('parts', 2)), head(a('parts', 3))])] },
   { id: 's1-u6', stage: 1, title: 'Money', lessons: [lesson('s1-money', 'Coins and notes', 'Recognise the coins and notes of the local currency', ['s1-names'])] },
   {
     id: 's2-u1', stage: 2, title: 'Tens and ones',
@@ -139,7 +139,7 @@ export const UNITS: Unit[] = [
       lesson('s2-divide', 'Fair shares', 'Dividing as sharing equally and as making groups', ['s2-times'], [see(a('share', 1)), sketch(a('share', 2)), head(a('share', 3))]),
     ],
   },
-  { id: 's2-u6', stage: 2, title: 'Quarters', lessons: [lesson('s2-quarter', 'Quarters', 'Quarters and three quarters: of a shape, of a set, as sharing; two quarters are a half; halves and quarters put together', ['s1-half', 's2-divide'])] },
+  { id: 's2-u6', stage: 2, title: 'Quarters', lessons: [lesson('s2-quarter', 'Quarters', 'Quarters and three quarters: of a shape, of a set, as sharing; two quarters are a half; halves and quarters put together', ['s1-half', 's2-divide'], [see(a('parts', 4)), see(a('parts', 5)), sketch(a('parts', 6)), head(a('parts', 7))])] },
   { id: 's2-u7', stage: 2, title: 'Money', lessons: [lesson('s2-money', 'Amounts of money', 'Read amounts of money; compare sets of coins and notes', ['s1-money', 's2-calc'])] },
   {
     id: 'x-u1', stage: 2, stretch: true, title: 'Across a ten',

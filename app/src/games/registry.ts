@@ -7,6 +7,7 @@ import { FairShares } from './FairShares';
 import { FillTheTen } from './FillTheTen';
 import { FriendsOf20 } from './FriendsOf20';
 import { FriendsOfTen } from './FriendsOfTen';
+import { HalvesAndQuarters } from './HalvesAndQuarters';
 import { HearAndType } from './HearAndType';
 import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
@@ -53,5 +54,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   skip: SkipAndSpot,
   groups: EqualGroups,
   share: FairShares,
+  parts: HalvesAndQuarters,
 };
 

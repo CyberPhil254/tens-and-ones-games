@@ -423,3 +423,31 @@ body.plain { background-image: none; }
 .grouping:not(.ringed) { gap: 4px; }
 .grouping:not(.ringed) .grp, .grouping:not(.ringed) .grpbones { display: contents; }
 .grouping:not(.ringed) .running { display: none; }
+
+/* Halves and quarters: cut shapes, a set shared out, the bar from 0 to 1 */
+.cuts { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.cutbtn { display: grid; justify-items: center; gap: 8px; min-width: 100px; min-height: 110px; padding: 8px; border: 3px solid var(--ink); border-radius: 16px; background: var(--card); box-shadow: 0 5px 0 var(--ink); }
+.cutbtn.yes { border-color: var(--ok); background: #d7f5e5; box-shadow: 0 5px 0 var(--ok); }
+.cutbtn.no { opacity: 0.55; box-shadow: none; transform: translateY(5px); }
+.cutshape .body { fill: #fff3d0; stroke: var(--ink); stroke-width: 3; }
+.cutshape .cutline { stroke: var(--ink); stroke-width: 3; stroke-dasharray: 7 5; }
+.laid { display: grid; gap: 3px; width: 92px; }
+.laid i { height: 9px; border-radius: 3px; background: var(--sun); border: 1.5px solid var(--ink); }
+.setshare { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 320px; }
+.setshare .sgroup { display: contents; }
+.setshare i { width: 24px; height: 24px; border-radius: 50%; background: #58b368; border: 2px solid var(--ink); }
+.setshare.shared { gap: 10px; }
+.setshare.shared .sgroup { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; max-width: 124px; padding: 6px; border: 3px dashed var(--soft); border-radius: 12px; }
+.setshare.shared .sgroup.take { border-color: var(--ink); background: #fff3d0; }
+.fbar { position: relative; width: min(78vw, 420px); padding: 4px 0 84px; }
+.fcells { display: grid; grid-template-columns: repeat(4, 1fr); border: 3px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.fcells i { height: 46px; border-right: 2px solid var(--ink); background: #fff; }
+.fcells i:last-child { border-right: 0; }
+.fcells i.on { background: var(--sun); }
+.fends { display: flex; justify-content: space-between; font-family: var(--display); font-size: 20px; margin-top: 2px; }
+.fpoint { position: absolute; top: 56px; width: 72px; height: 72px; margin-left: -36px; border-radius: 50%; border: 3px solid var(--ink); background: var(--card); box-shadow: 0 4px 0 var(--ink); font-family: var(--display); font-size: 26px; }
+.fpoint::before { content: ''; position: absolute; left: 50%; top: -14px; width: 3px; height: 12px; background: var(--ink); transform: translateX(-50%); }
+.fpoint.yes { background: #d7f5e5; border-color: var(--ok); box-shadow: 0 4px 0 var(--ok); }
+.fpoint.no { opacity: 0.45; box-shadow: none; }
+.fname { position: absolute; top: 58px; transform: translateX(-50%); font-family: var(--display); font-size: 24px; }
+.choice.wordbtn { height: auto; min-height: 72px; padding: 6px 14px; line-height: 1.15; }
