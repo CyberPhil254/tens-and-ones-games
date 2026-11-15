@@ -32,7 +32,14 @@ The root game, `audio/` and the root `netlify.toml` are untouched.
 ## For the planning chat
 
 - **Hosting is Cloudflare now.** `app/netlify.toml` is gone. Its settings live here: the fallback to the app for any address in `app/wrangler.jsonc`, the Node version in `app/.nvmrc` (22), and `wrangler` 4.162 as a dev dependency so preview links are posted. New: `app/public/_headers` lets phones keep the fingerprinted files for a year; the page, the service worker and the voice pack are still checked every time.
-- **Preview links.** See the note on pull request 6 below "Last session" in the chat: whether Cloudflare posted one is reported there, not guessed here.
+- **Preview builds needed two more settings.** The first Cloudflare builds of the pull requests failed after about 30 seconds. Cloudflare's log is only in its dashboard, which Claude Code cannot read, so the cause was found by trying: `app/wrangler.jsonc` lacked `"previews": {}` and `"preview_urls": true`. With both added, all three pull requests build.
+- **Previews work, but Cloudflare does not post the links.** As of 15 November 15:45 UTC: pull request 6 has one Cloudflare comment, left over from the failed build and not updated; pull requests 7 and 8 have none. The previews are there, at an address made from the branch name:
+  - pictures: https://claude-pictures-tens-and-ones-app.philipp-79a.workers.dev (add `#pieces`)
+  - session logic: https://claude-session-logic-tens-and-ones-app.philipp-79a.workers.dev
+  - High Five: https://claude-high-five-tens-and-ones-app.philipp-79a.workers.dev
+  Things to look at in Cloudflare: Settings, Builds for `tens-and-ones-app`: whether a "Set up Worker Previews" banner is still waiting, and whether the Preview command is `npx wrangler preview`.
+- **High Five was played on its preview**: a full round at 400 px, the voice loaded, no errors. The fingerprinted files are served with the one-year cache header, the page with "check every time".
+- Unlike Netlify, Cloudflare builds a preview for every branch, so stacked pull requests get one too.
 - The pull requests still get a comment from Netlify's `tens-and-ones-puppy` site, which builds the old game. That stops when the repository is disconnected from Netlify.
 - The build of the new app reads the recording from `audio/` at the repository root, so Cloudflare must check out the whole repository (root directory `app` does that; a sparse checkout of `app/` only would break the build).
 
