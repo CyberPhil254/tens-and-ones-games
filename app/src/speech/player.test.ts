@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { VoicePlayer, type AudioOut, type VoiceIndex } from './player';
 
 /** A stand-in for the browser's audio: every clip lasts one second. */
@@ -43,6 +43,29 @@ describe('VoicePlayer', () => {
     expect(a.started.map((s) => s.at)).toEqual([5.03, 6.07, 7.11, 8.15, 9.19, 10.45]);
     // Each clip is cut from the pack at its own place.
     expect(a.started.map((s) => s.bytes)).toEqual([10, 20, 30, 40, 50, 60]);
+  });
+
+  it('says it is speaking until the last clip has ended, and stops saying so when cut off', async () => {
+    vi.useFakeTimers();
+    try {
+      const a = fakeAudio();
+      const player = new VoicePlayer(source(), () => a.out);
+      const seen: boolean[] = [];
+      player.onChange(() => seen.push(player.speaking));
+      await player.say(['try-again']); // one clip of 1 s, a lead-in and a breath after it
+      expect(player.speaking).toBe(true);
+      vi.advanceTimersByTime(1200);
+      expect(player.speaking).toBe(true);
+      vi.advanceTimersByTime(200);
+      expect(player.speaking).toBe(false);
+
+      await player.say(['try-again']);
+      player.stop();
+      expect(player.speaking).toBe(false);
+      expect(seen.filter((s, i) => s !== (seen[i - 1] ?? false))).toEqual([true, false, true, false]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('loads the pack once', async () => {
@@ -94,7 +117,7 @@ describe('VoicePlayer', () => {
     await player.retry();
     expect(player.silent).toBe(false);
     expect(await player.say(['try-again'])).toEqual(['try-again']);
-    expect(changes).toEqual([true, false]);
+    expect(changes.filter((s, i) => s !== changes[i - 1])).toEqual([true, false]);
   });
 
   it('stays silent when the device has no audio', async () => {

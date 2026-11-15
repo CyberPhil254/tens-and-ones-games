@@ -17,6 +17,7 @@ The app that will replace the single-file game at the repository root. Until Phi
 
 - `src/maths/`: pure functions (place value, later the question generators and the engine). No DOM, fully unit tested.
 - `src/ui/`: components and `tokens.css`, the one place the colours of tens and ones are defined.
+- `src/art/oreo/`: the poses of Oreo the app uses, made by `tools/art/app.py` from `art/puppy/`. Do not edit them by hand; add a pose to that script and to `src/ui/Oreo.tsx`.
 - `e2e/`: browser tests. Every screen is checked on a phone-sized and a laptop-sized viewport, with no console errors allowed.
 
 ## Deployment

@@ -49,7 +49,7 @@ test("today's games for a new child: two rounds of High Five, levels, bones, and
     await expect(page.locator('.fiverow .blocks')).toBeVisible();
     await expect(page.locator('.choice')).toHaveCount(4);
     await answer(page);
-    await expect(page.locator('.pup[data-mood=happy]')).toBeVisible();
+    await expect(page.locator('.cheer .pup[data-pose=happy]')).toBeVisible();
     await expect(page.locator('.dots .star')).toHaveCount(i + 1);
     await next(page);
   }
@@ -67,7 +67,7 @@ test("today's games for a new child: two rounds of High Five, levels, bones, and
       const n = await shown(page);
       await page.locator('.choice').filter({ hasNotText: new RegExp(`^${n}$`) }).first().click();
       await expect(page.getByTestId('feedback')).toHaveText('Do not count them all. The top row is 5. How many more?');
-      await expect(page.locator('.pup[data-mood=think]')).toBeVisible();
+      await expect(page.locator('.cheer .pup[data-pose=not-yet]')).toBeVisible();
     }
     await answer(page);
     await expect(page.locator('.fiverow .hands')).toBeVisible(); // the fingers come back with the answer
@@ -144,6 +144,7 @@ test('a weak round moves down a level, and "Play again" starts there', async ({ 
   }
   const end = page.getByTestId('end');
   await expect(end).toContainText('Good trying!');
+  await expect(end.locator('.pup')).toHaveAttribute('data-pose', 'proud');
   await expect(end).toContainText('The puppy got 2 bones. Next time we start with an easier level.');
   await end.getByRole('button', { name: 'Play again' }).click();
   await expect(level(page, 1)).toHaveAttribute('aria-pressed', 'true');
@@ -162,6 +163,55 @@ test('without the voice pack the game is silent, playable, and offers to try aga
   await page.getByRole('button', { name: 'Try again' }).click();
   await expect(page.getByText('The voice did not load.')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Read it to me' })).toBeVisible();
+});
+
+test('Oreo listens while the question is read, then thinks, and reacts only to answers', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.toppup')).toHaveAttribute('data-pose', 'hello');
+  await page.getByRole('button', { name: /High Five/ }).click();
+  const oreo = page.locator('.cheer .pup');
+
+  // The voice reads the question: she listens. When it has finished she thinks, and stays so.
+  await expect(oreo).toHaveAttribute('data-pose', 'listening');
+  await expect(oreo).toHaveAttribute('data-pose', 'thinking', { timeout: 15000 });
+  const still = await oreo.evaluate((e) => getComputedStyle(e).animationName);
+  expect(still).toBe('none');
+
+  // A wrong answer: "not yet", with the explanation beside her, and no movement.
+  const n = await shown(page);
+  await page.locator('.choice').filter({ hasNotText: new RegExp(`^${n}$`) }).first().click();
+  await expect(oreo).toHaveAttribute('data-pose', 'not-yet');
+  expect(await oreo.evaluate((e) => getComputedStyle(e).animationName)).toBe('none');
+  await expect(page.getByTestId('feedback')).not.toBeEmpty();
+  // She does not go back to listening while the hint is read out.
+  await page.waitForTimeout(600);
+  await expect(oreo).toHaveAttribute('data-pose', 'not-yet');
+
+  // The right answer: happy, with one hop.
+  await choice(page, n).click();
+  await expect(oreo).toHaveAttribute('data-pose', 'happy');
+  expect(await oreo.evaluate((e) => getComputedStyle(e).animationName)).toBe('hop');
+
+  // Her pictures are loaded and shown whole.
+  const img = oreo.locator('img');
+  expect(await img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 100)).toBe(true);
+});
+
+test('with the sound off Oreo goes straight to thinking', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Sound on' }).click();
+  await page.getByRole('button', { name: /High Five/ }).click();
+  await expect(page.locator('.cheer .pup')).toHaveAttribute('data-pose', 'thinking');
+});
+
+test('the end of a round: celebrating after a good one', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /High Five/ }).click();
+  for (let i = 0; i < 6; i++) {
+    await answer(page);
+    await next(page);
+  }
+  await expect(page.getByTestId('end').locator('.pup')).toHaveAttribute('data-pose', 'celebrating');
 });
 
 test('sound off is remembered', async ({ page }) => {

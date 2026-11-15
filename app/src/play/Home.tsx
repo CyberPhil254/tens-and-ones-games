@@ -6,7 +6,7 @@ import type { Saved } from '../session/store';
 import { chime } from '../speech/chime';
 import { Blocks } from '../ui/Blocks';
 import { Num } from '../ui/Num';
-import { Bone, Paw, Puppy } from '../ui/Puppy';
+import { Bone, Oreo, Paw } from '../ui/Oreo';
 import { VoiceRetry } from './Play';
 import { speak, useVoiceSilent, voice } from './voice';
 
@@ -39,7 +39,7 @@ export function Home({ saved, onSave, onToday, onGame }: {
     <section>
       <div className="top">
         <h1 className="title"><span className="t">Tens</span> <span className="amp">&amp;</span> <span className="o">Ones</span></h1>
-        <Puppy className="toppup" />
+        <Oreo pose="hello" className="toppup" />
       </div>
       <p className="lede">Every number is made of <b className="tt">tens</b> and <b className="oo">ones</b>.</p>
 

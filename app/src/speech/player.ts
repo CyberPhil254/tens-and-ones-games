@@ -39,6 +39,8 @@ export class VoicePlayer {
   private live: { stop(): void }[] = [];
   private turn = 0;
   private listeners = new Set<() => void>();
+  private talking = false;
+  private quiet: ReturnType<typeof setTimeout> | undefined;
 
   constructor(
     private readonly source: VoiceSource,
@@ -50,7 +52,19 @@ export class VoicePlayer {
     return this.state === 'failed';
   }
 
-  /** Calls `fn` whenever the player becomes silent or gets its voice back. Returns a way to stop listening. */
+  /** True from the moment something is said until its last clip has ended. */
+  get speaking(): boolean {
+    return this.talking;
+  }
+
+  private setTalking(on: boolean): void {
+    clearTimeout(this.quiet);
+    if (this.talking === on) return;
+    this.talking = on;
+    this.listeners.forEach((fn) => fn());
+  }
+
+  /** Calls `fn` whenever the player starts or stops speaking, becomes silent or gets its voice back. Returns a way to stop listening. */
   onChange(fn: () => void): () => void {
     this.listeners.add(fn);
     return () => void this.listeners.delete(fn);
@@ -94,6 +108,7 @@ export class VoicePlayer {
       }
     }
     this.live = [];
+    this.setTalking(false);
   }
 
   /**
@@ -128,6 +143,10 @@ export class VoicePlayer {
       said.push(id);
       at += b.duration + (CLIP_BY_ID.get(id)!.endsSentence ? GAP_AFTER_SENTENCE : GAP_INSIDE);
     });
+    if (said.length) {
+      this.setTalking(true);
+      this.quiet = setTimeout(() => mine === this.turn && this.setTalking(false), (at - out.currentTime) * 1000);
+    }
     return said;
   }
 

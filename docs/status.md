@@ -2,45 +2,44 @@
 
 Claude Code updates this file at the end of each working session. The planning chat reads it.
 
-## Last session (2026-11-15, fourth session)
+## Last session (2026-11-15, fifth session)
 
-Pull requests 1 to 5 are merged. Three more are open, each built on the one before; merge them in order.
+Pull requests 1 to 8 are merged: the new app has its home screen, the game screen and High Five, live at https://tens-and-ones-app.philipp-79a.workers.dev.
 
-**Pull request 6, the other pictures.** Ten frame, hands, hundred square, number line, bar model, the puppy (still, happy, thinking; no idle movement), bone, paw and the missing-number box, as components with the live game's look.
+**Pull request 9, Oreo.** The drawn puppy is replaced by Oreo from `art/puppy/`.
 
-**Pull request 7, round and session logic.** The live game's rules as pure functions: bones and paws, levelling, the warm-up mix, today's games, Quick Paws rules, the bone store, saving on the device. Every answered question is also recorded silently (game, level, right first time, wrong taps, help used, response time) for the rating in work package 4. Free play is not gated yet: the spec puts that in work package 4.
+- `tools/art/app.py` copies the nine poses the app uses into `app/src/art/oreo/` as WebP, 264 px on the long side (shown at up to 130 px), 150 kB together. It also makes the app icon from `head.png`. Nothing else from `art/` is in the app.
+- Where each pose appears:
 
-**Pull request 8, the game screen and High Five.** The first playable game.
+  | Pose | When |
+  |---|---|
+  | hello | Home screen |
+  | listening | A question is open and the voice is reading it |
+  | thinking | A question is open and the voice has finished, or the sound is off |
+  | happy | Right answer, with one small hop |
+  | not-yet | Wrong answer, beside the explanation. She stays like this until the next answer |
+  | pointing | Beside a remark that is not an answer ("Keep packing!"). First used in Pack Ten |
+  | celebrating | End of a round with 5 or 6 bones, with one small hop |
+  | proud | End of any other round |
+  | standing | On the number line |
 
-- Home screen: today's games, sound on and off, the bone store, the list of games, the number machine, the notes for grown-ups. Games not yet ported are listed as "coming soon" and cannot be opened.
-- Game screen: question with speaker button, bones and paws, the puppy with an explanation after every answer, Next and Finish, the end of a round with levelling, level buttons.
-- High Five at its three levels, with the live game's wording and behaviour.
-- Today's games use only the games that exist here, so for now today is two rounds of High Five.
-- If the voice pack does not load, the app is silent, hides the speaker button and shows "The voice did not load. Try again".
-- The shared pieces moved to their own page: add `#pieces` to the address.
+- Movement: one hop for happy and celebrating, nothing else, and nothing repeats. While a question is open she changes pose once, from listening to thinking, when the voice stops.
+- Bones, paws, blocks, fingers and counters are still drawn in code.
+- Oreo is decoration for screen readers: what she reacts to is always in words beside her.
 
-Played in a browser at 400 px and at laptop width, as automated tests: today's games from a new child to "all done for today", every level with right and wrong answers, moving up and down levels, progress kept after a reload, the missing voice pack. Looked at the screens at 400 px next to the live game.
+Checked in a browser at 400 px and laptop width: each pose at its moment, no animation while a question is open, all nine pictures load, the icon. Looked at home, question, wrong, right, end of round and number line at 400 px.
 
-The root game, `audio/` and the root `netlify.toml` are untouched.
+### Cloudflare, for the record
 
-### Differences from the live game in pull request 8
-
-- The speaker button sits in the corner of the card instead of beside the question.
-- "Coming soon" games on the home screen, and one extra line in the notes for grown-ups saying so.
-- The grown-up notes leave out the lines about games that are not here yet.
+- The clean-up asked for is in `main` since pull request 6: no `app/netlify.toml`, `wrangler` 4.162 in the app's dev dependencies, the page fallback in `app/wrangler.jsonc`, Node 22 in `app/.nvmrc`, `"previews": {}` and `"preview_urls": true` added so preview builds work.
+- Cloudflare posts the preview link on every pull request, stacked ones too. It arrives two to five minutes after the build, which is why an earlier note here said otherwise.
+- The root `netlify.toml` is still there for the old address. It is not mine to remove.
 
 ## For the planning chat
 
-- **Hosting is Cloudflare now.** `app/netlify.toml` is gone. Its settings live here: the fallback to the app for any address in `app/wrangler.jsonc`, the Node version in `app/.nvmrc` (22), and `wrangler` 4.162 as a dev dependency so preview links are posted. New: `app/public/_headers` lets phones keep the fingerprinted files for a year; the page, the service worker and the voice pack are still checked every time.
-- **Preview builds needed two more settings.** The first Cloudflare builds of the pull requests failed after about 30 seconds. Cloudflare's log is only in its dashboard, which Claude Code cannot read, so the cause was found by trying: `app/wrangler.jsonc` lacked `"previews": {}` and `"preview_urls": true`. With both added, all three pull requests build.
-- **Preview links.** Cloudflare posts the link as a comment about two minutes after the build, on a pull request that points at `main`: pull request 6 has it. Pull requests 7 and 8 point at the pull request before them and have no comment, although their previews were built. They should get one once they point at `main`. The addresses follow the branch name:
-  - pictures: https://claude-pictures-tens-and-ones-app.philipp-79a.workers.dev (add `#pieces`)
-  - session logic: https://claude-session-logic-tens-and-ones-app.philipp-79a.workers.dev
-  - High Five: https://claude-high-five-tens-and-ones-app.philipp-79a.workers.dev
-- **High Five was played on its preview**: a full round at 400 px, the voice loaded, no errors. The fingerprinted files are served with the one-year cache header, the page with "check every time".
-- Unlike Netlify, Cloudflare builds a preview for every branch, so stacked pull requests get one too.
-- The pull requests still get a comment from Netlify's `tens-and-ones-puppy` site, which builds the old game. That stops when the repository is disconnected from Netlify.
-- The build of the new app reads the recording from `audio/` at the repository root, so Cloudflare must check out the whole repository (root directory `app` does that; a sparse checkout of `app/` only would break the build).
+- The cut-outs in `art/puppy/` are about 340 px wide, so the app shows them at up to 130 px without enlarging. `art/README.md` already notes sharper finals are needed before launch; the script takes whatever is in `art/puppy/`.
+- The words on screen still say "the puppy" ("The puppy got 5 bones.", the story texts). They are the live game's wording and partly recorded. Changing them to "Oreo" is a wording decision and would need new clips for the spoken ones; see "Needs a decision".
+- The preview build of the new app reads the recording from `audio/` at the repository root, so Cloudflare must keep checking out the whole repository.
 
 ## Next
 
@@ -52,4 +51,4 @@ Nothing.
 
 ## Needs a decision
 
-Nothing at the moment.
+- Should the app call the puppy "Oreo" in its words? Today every sentence says "the puppy". Written-only lines (such as "The puppy got 5 bones.") could change at once; spoken ones ("The puppy has 34 bones.", "The puppy's turn. Spin!") need new recordings.
