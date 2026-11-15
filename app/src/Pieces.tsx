@@ -84,7 +84,7 @@ export function Pieces() {
       </div>
 
       <h2>Oreo</h2>
-      <p className="sub">The nine poses the app uses.</p>
+      <p className="sub">The poses the app uses.</p>
       <div className="card" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }} data-testid="oreo">
         {ALL_POSES.map((pose) => (
           <figure key={pose} style={{ margin: 0, textAlign: 'center', fontSize: 13 }}>

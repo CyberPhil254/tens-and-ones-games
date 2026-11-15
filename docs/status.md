@@ -6,7 +6,7 @@ Claude Code's memory for the full build (`docs/build-spec.md`). After a break: r
 
 1. Branch from `main`, one lesson or engine piece. A new lesson gets a design note in the pull request before the code.
 2. `npm run check` in `app/` (lint, types, unit tests, build, browser tests at 400 px and laptop width).
-3. Push, open the pull request, wait for CI and the Cloudflare build to be green.
+3. **Path, rewards, parents' area, the notes (in progress):** ~~the garden path~~; next: rewards (a treasure per lesson, a trick per unit, an award per stage, the "which reward?" card); then the parents' area behind an adult check, the parent note per lesson, the page about the approach; then the look-and-feel pass (72 px buttons, red and blue only for tens and ones).
 4. Play it on the preview: `E2E_BASE_URL=https://<branch>-tens-and-ones-app.philipp-79a.workers.dev npm run e2e` (branch name with `/` as `-`).
 5. Merge, then start the next from the new `main`. This file is updated in every pull request.
 
@@ -21,6 +21,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 25 | Profiles and storage (`app/src/data/`): several children per device, one storage interface, a profile as a code for another device, saved data checked when read |
 | 26 | The app runs on the engine and on profiles: first-run form for a grown-up, who is playing, today's games from the engine (warm-up, two new rounds, one stronger), steps instead of levels, free play only after today, a round counts only when finished. Old `session/` code removed. Browser tests rewritten (116) |
 | 27 | The starting check (one question per lesson, a grown-up may skip), the choice card (which stone, which first), the pause when she is guessing |
+| 28 | The path as a garden walk on the home screen, built from `art/props/`: a stone per lesson, a signpost per unit, treasures on mastered stones, Oreo at today's lesson |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

@@ -3,11 +3,12 @@
 #
 # - The poses of Oreo the app shows, as WebP, about twice the size they are shown at.
 # - The app icon, from the puppy's head.
+# - The garden path: stone, signpost, bush, kennel, the fence, and the treasures that sit on stones.
 # Nothing else from art/ goes into the app. Add a pose to POSES when the app starts using it.
 import os
 from PIL import Image
 
-POSES = ['standing', 'thinking', 'happy', 'not-yet', 'pointing', 'celebrating', 'proud', 'hello', 'listening']
+POSES = ['standing', 'thinking', 'happy', 'not-yet', 'pointing', 'celebrating', 'proud', 'hello', 'listening', 'sleeping', 'digging']
 LONG_SIDE = 264          # shown at up to 130 px, so about 2x
 PAPER = (243, 246, 251)  # --paper, the app's background
 
@@ -47,3 +48,25 @@ for f in sorted(os.listdir('art/friends')):
     out = f"app/src/art/friends/{f.replace('.png', '.webp')}"
     im.save(out, 'WEBP', quality=86, method=6)
     print(f'{out}  {im.width}x{im.height}  {os.path.getsize(out) / 1000:.1f} kB')
+
+# The garden path. Stones are shown at up to 128 px wide; treasures at up to 56 px.
+def shrink(src, out, long_side):
+    im = Image.open(src).convert('RGBA')
+    im = im.crop(im.getbbox())
+    k = min(1, long_side / max(im.size))
+    im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+    im.save(out, 'WEBP', quality=86, method=6)
+    print(f'{out}  {im.width}x{im.height}  {os.path.getsize(out) / 1000:.1f} kB')
+
+os.makedirs('app/src/art/garden', exist_ok=True)
+for name, size in (('stepping-stone', 256), ('signpost', 150), ('bush', 200), ('kennel', 220)):
+    shrink(f'art/props/{name}.png', f'app/src/art/garden/{name}.webp', size)
+for name in ('ball', 'bandana', 'bed', 'bowl', 'rope-toy', 'kennel'):
+    shrink(f'art/props/{name}.png', f'app/src/art/garden/treasure-{name}.webp', 120)
+
+# The fence and the tree from the garden scene, as the top edge of the garden.
+scene = Image.open('art/scenes/garden.jpg').convert('RGB')
+w, h = scene.size
+fence = scene.crop((0, round(h * 0.13), w, round(h * 0.37)))
+fence.save('app/src/art/garden/fence.webp', 'WEBP', quality=80, method=6)
+print(f"app/src/art/garden/fence.webp  {fence.width}x{fence.height}  {os.path.getsize('app/src/art/garden/fence.webp') / 1000:.1f} kB")

@@ -225,3 +225,33 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .choosecard strong { font-family: var(--display); font-size: 22px; line-height: 1.2; }
 .choosecard:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
 .card.game[data-paused] .stage { opacity: 0.55; }
+
+/* The garden path */
+.garden { background: #cfe0a0; border: 2px solid var(--ink); border-radius: 18px; overflow: hidden; padding-bottom: 8px; }
+.garden .fence { display: block; width: 100%; height: 104px; object-fit: cover; object-position: center bottom; }
+.plot { position: relative; padding: 2px 12px 34px; }
+.post { display: flex; align-items: flex-end; gap: 6px; margin: 8px 0 6px; }
+.post img { width: 40px; height: auto; }
+.post span { font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1.2; color: #3a2410; background: #dba56a; border: 2px solid #6b3f1d; border-radius: 8px; padding: 4px 10px; margin-bottom: 14px; }
+.stones { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.stones li { display: flex; }
+.stones li.right { justify-content: flex-end; }
+.stone { display: grid; grid-template-columns: 116px 1fr; gap: 10px; align-items: center; width: min(100%, 330px); min-height: 76px; padding: 2px; background: none; border: 0; border-radius: 16px; text-align: left; color: var(--ink); }
+.stones li.right .stone { grid-template-columns: 1fr 116px; text-align: right; }
+.stones li.right .stonepic { order: 2; }
+.stonepic { position: relative; display: block; width: 116px; height: 66px; }
+.stonepic > img:first-child { width: 100%; height: 100%; display: block; }
+.stonepic .mark { position: absolute; inset: 0 0 12px; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 26px; color: #4a2f17; }
+.stonepic .mark .ic { width: 30px; height: 30px; fill: var(--ok); }
+.stonepic .treasure { position: absolute; right: -6px; top: -18px; width: 46px; height: auto; }
+.stonepic .herepup { position: absolute; left: -4px; bottom: 18px; width: 58px; pointer-events: none; }
+.stone .cap strong { display: block; font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.15; }
+.stone .cap .d { font-size: 15px; color: #33415f; }
+.stone.locked .stonepic > img:first-child, .stone.coming .stonepic > img:first-child { opacity: 0.45; }
+.stone.coming .cap, .stone.locked .cap { opacity: 0.75; }
+.stone:disabled { cursor: default; }
+.stone:not(:disabled):active .stonepic { transform: translateY(3px); }
+.stone.open .stonepic > img:first-child, .stone.resting .stonepic > img:first-child { filter: drop-shadow(0 4px 0 #6b7f3a); }
+.plot .bush { position: absolute; right: 8px; bottom: 0; width: 64px; height: auto; opacity: 0.9; }
+.plot:nth-child(odd) .bush { right: auto; left: 8px; }
+.garden .kennel { display: block; width: 110px; height: auto; margin: 4px auto 8px; }
