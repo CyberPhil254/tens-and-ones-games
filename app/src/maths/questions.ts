@@ -68,7 +68,7 @@ export function options(d: Dice, ans: number, cands: number[]): number[] {
   return [...out, ans].sort((a, b) => a - b);
 }
 
-type Makers = { [G in GameId]: (level: number, d: Dice) => QuestionOf[G] };
+type Makers = { [G in GameId]: (level: number, d: Dice, variant?: number) => QuestionOf[G] };
 
 const MAKE: Makers = {
   names(l, d) {
@@ -100,11 +100,12 @@ const MAKE: Makers = {
     if (o !== t) c.push(o * 10 + t);
     return { n, t, o, opts: options(d, n, c) };
   },
-  story(l, d) {
+  story(l, d, variant) {
     const mk = (text: string, say: Piece[], a: number, eq: string, sayEq: Piece[], ans: number, hint: string, cands?: number[]): StoryQ =>
       ({ text, say, a, eq, sayEq, ans, hint, opts: options(d, ans, cands ?? [ans + 10, ans - 10, ans + 1, ans - 1]) });
     const NOW = 'How many bones does she have now?', LEFT = 'How many bones are left?', NEED = 'How many more does she need?';
-    const v = d.rnd(0, 2);
+    // Each level has three kinds of story. A lesson can ask for one kind; otherwise one is drawn.
+    const v = variant ?? d.rnd(0, 2);
     if (l === 1) {
       if (v === 0) { const a = d.rnd(11, 89); return mk(`${SP.puppyHas(a)} ${SP.finds(10)} ${NOW}`, [SP.puppyHas(a), SP.finds(10), NOW], a, `${a} + 10`, [a, 'plus', 10, 'is', a + 10], a + 10, 'Ten more is one more ten. The ones stay the same.'); }
       if (v === 1) { const a = d.rnd(21, 99); return mk(`${SP.puppyHas(a)} She eats 10 of them. ${LEFT}`, [SP.puppyHas(a), 'She eats 10 of them.', LEFT], a, `${a} − 10`, [a, 'take away', 10, 'is', a - 10], a - 10, 'Ten fewer is one ten gone. The ones stay the same.'); }
@@ -201,10 +202,13 @@ const MAKE: Makers = {
   },
 };
 
+/** How many kinds of question a level has that a lesson can ask for one by one. Only the stories have kinds. */
+export const variantsOf = (game: GameId): number => (game === 'story' ? 3 : 1);
+
 /** One question for a game at a level. */
-export function makeQuestion<G extends GameId>(game: G, level: number, rng: Rng): QuestionOf[G] {
+export function makeQuestion<G extends GameId>(game: G, level: number, rng: Rng, variant?: number): QuestionOf[G] {
   if (!Number.isInteger(level) || level < 1 || level > LEVELS[game]) {
     throw new RangeError(`${game} has levels 1 to ${LEVELS[game]}, got ${level}`);
   }
-  return MAKE[game](level, dice(rng));
+  return MAKE[game](level, dice(rng), variant);
 }
