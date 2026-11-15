@@ -190,3 +190,18 @@ Colours: sunny yellow, golden, leaf green, cream, wood brown, soft orange. Do no
 No text, no numbers, no scenery, no ground shadow.
 ```
 
+## 10. Fixes for four weak poses
+
+Sheet: `source/10-fixes.jpg`
+
+```
+Same character as the reference image. A 2 x 2 grid on a pure white background, four clearly separated cells with generous white space between them. The SAME puppy in each cell: identical caramel fur, cream chest and belly, floppy ears, curled tail, the two small darker eyebrow marks, plain dark brown eyes with one small white highlight exactly as in the reference, dark brown nose, green collar with a round green tag, same proportions and the same bold dark brown outline.
+
+Four poses, full body:
+1. Listening: sitting, head cocked to one side, one ear lifted, eyes wide and attentive, small closed smile. Happy and interested, no frown.
+2. Kind encouragement: sitting, bright eyes, warm open smile, head slightly tilted, tail wagging. Cheerful and reassuring, not sad, eyebrows relaxed.
+3. Spinning: caught mid-spin on its hind legs, body twisted, ears and tail flying outwards, laughing.
+4. Eating from a wood-brown food bowl, tail up.
+
+Flat vector illustration, flat colours, no gradients, no texture. No red or blue anywhere. No text, no captions, no numbers, no scenery, no ground shadow.
+```

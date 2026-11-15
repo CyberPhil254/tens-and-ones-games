@@ -32,6 +32,7 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 | 2026-11-15 | Current voice: Kokoro `af_heart` (American, warm) | Picked by Philipp from four samples |
 | 2026-11-15 | Next voice step: rewrite the script in warmer, fuller sentences and record every sentence whole with a directable engine. Decided (Philipp delegated the call). Equation sentences are the exception until the clip count is known: see the open question on whole-sentence equations | Terse wording and stitching are what still sound robotic |
 | 2026-11-15 | Mascot: the caramel puppy with the green collar (`art/source/puppy-reference.png`), made with Nano Banana. All art, the prompts and the rules are in `art/`. The puppy is animated in code by swapping poses and simple movement; Rive only later if the pilot justifies it | Chosen by Philipp. Costs nothing and stays consistent through the reference image |
+| 2026-11-15 | The puppy is called Oreo and is introduced as the sister of Star, the first user's own dog. The introduction needs new recorded sentences, which belong in the voice script rewrite | Philipp's decision |
 | 2026-11-15 | Hosting moves from Netlify to Cloudflare for both the live game and the new app | Netlify's free plan charges 15 credits per production deploy from a pool of 300 a month shared with Philipp's other sites; Cloudflare has no per-deploy cost and allows commercial use |
 | 2026-11-15 | Skill map for Stages 1 and 2 Number drafted from the published framework: `docs/skill-map.md`. Fill the Ten and Break a Ten go beyond Stage 2 and stay as stretch games. Money starts with Kenyan shillings, as a setting | Philipp delegated the call |
 | 2026-11-15 | "Do everything" is enforced by gates plus earned free play, not a full lock. Decided (Philipp delegated the call): the daily path must be finished before free play opens, and free play time is earned by it | Pure compulsion works against motivation |
@@ -45,7 +46,7 @@ Rows marked "proposed" are recommendations from the planning chat that Philipp h
 1. Monetisation is parked. Working idea, not decided: school licences first (per pupil per year, teacher dashboard), family subscription second, no ads and no selling to children.
 2. Skill map for Stages 1 and 2 Number: the planning chat drafts it; Philipp supplies or confirms against the official framework document. Until it lands, port the existing games and do not invent curriculum content.
 3. Voice engine for version 2 of the voice: choose from samples (OpenAI gpt-4o-mini-tts, ElevenLabs v3, Gemini TTS) or a human voice actor. Needs an account and API key from Philipp.
-4. Mascot: the look is decided (see `art/`). Still open: the puppy's name.
+4. Mascot: look and name are decided (Oreo, see `art/`). Still open: how Oreo is introduced to children other than the first user, who do not know Star.
 5. App name and positioning. Wording near "Cambridge" needs a legal check.
 6. The repository is public. Should it be private if this becomes a product?
 7. Budget and timeline for a pilot with 5 to 10 families.

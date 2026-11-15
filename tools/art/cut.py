@@ -52,6 +52,7 @@ J=[
  ('07-with-treasures',['with-bandana','with-bed','with-bowl','with-kennel','with-rope-toy','with-ball'],'puppy',2,3,False),
  ('04-props',['bed','ball','bowl','bandana','kennel','rope-toy','stepping-stone','signpost','bush'],'props',3,3,False),
  ('09-awards',['medal','trophy','rosette','paw-badge','crown','shield','','','paw-shield'],'awards',3,3,False),
+ ('10-fixes',['listening','not-yet','trick-spin','with-bowl'],'puppy',2,2,False),   # replaces the weak first versions
  ('08-friends',['kitten','bunny','elephant','lion','giraffe','monkey','zebra','hippo','owl'],'friends',3,3,False),
 ]
 for src,names,d,r,c,t in J:
