@@ -4,6 +4,7 @@ import { newProfile, type ProfileData } from './data/profile';
 import { checkLessons, finishToday } from './engine/apply';
 import { CONFIG } from './engine/config';
 import { UNITS, type Activity, type Lesson } from './engine/curriculum';
+import { give, nextEarned } from './engine/rewards';
 import { lessonState } from './engine/state';
 import { choiceToday, nextPart, type Choice, type Part } from './engine/today';
 import { LEVELS, PATH, type GameId } from './maths/questions';
@@ -12,6 +13,7 @@ import { Home } from './play/Home';
 import { Play, type Round } from './play/Play';
 import { QUICK_FROM, QUICK_N } from './play/quick';
 import { Race } from './play/Race';
+import { Reward } from './play/Reward';
 import { AddChild, WhoIsPlaying } from './play/Setup';
 import { ChoiceCard, StartCheck } from './play/Cards';
 import './play/app.css';
@@ -30,6 +32,8 @@ type Screen =
   | { at: 'add' }
   | { at: 'race' }
   | { at: 'choose'; choice: Choice; today: Today }
+  /** A reward is being given in the middle of today's games; they go on afterwards. */
+  | { at: 'reward'; today: Today }
   /** `run` counts rounds started, so that the next round starts fresh. */
   | { at: 'play'; round: Round; run: number; today: Today | null };
 
@@ -124,6 +128,23 @@ export function App() {
     else home();
   };
   const startToday = () => goOn(child, { done: [], asked: false });
+
+  // A reward she has earned and not yet been given comes before anything else, except a round in play.
+  const owed = screen.at === 'play' ? null : nextEarned(child);
+  if (owed) {
+    return (
+      <main>
+        <Reward
+          key={owed.kind === 'treasure' ? owed.lesson : owed.kind === 'trick' ? owed.unit : owed.stage} earned={owed} soundOff={data.settings.soundOff}
+          onDone={(pick) => {
+            const d = give(child, owed, pick);
+            data.save(d);
+            if (!nextEarned(d) && screen.at === 'reward') goOn(d, screen.today);
+          }}
+        />
+      </main>
+    );
+  }
   const freePlay = (l: Lesson) =>
     setScreen({ at: 'play', round: { kind: 'free', n: CONFIG.round, slot: { lesson: l.id, step: Math.min(lessonState(child.child, l.id).step, l.steps.length - 1) } }, run, today: null });
   const quick = () => setScreen({ at: 'play', round: { kind: 'quick', n: QUICK_N, from: QUICK_FROM }, run, today: null });
@@ -157,7 +178,12 @@ export function App() {
             return { more, lastToday: !more };
           }}
           onHome={home}
-          onNext={() => (screen.today ? goOn(child, after(screen.today, screen.round.kind)) : home())}
+          onNext={() => {
+            if (!screen.today) return home();
+            const t = after(screen.today, screen.round.kind);
+            if (nextEarned(child)) setScreen({ at: 'reward', today: t });
+            else goOn(child, t);
+          }}
           onAgain={() => setScreen({ ...screen, run })}
         />
       ) : (

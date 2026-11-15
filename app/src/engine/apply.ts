@@ -6,6 +6,7 @@
 import { addAttempt, type ProfileData } from '../data/profile';
 import { LESSON, LESSONS, playable, type Activity, type Lesson } from './curriculum';
 import { answered, place, reviewed, roundFinished, waitsFor, type RoundOutcome } from './rules';
+import { giveAll } from './rewards';
 import type { Day } from './state';
 import type { Part } from './today';
 
@@ -48,7 +49,9 @@ export function applyRound(data: ProfileData, kind: RoundKind, counts: boolean, 
     // What she got right first time she already knows, and so does she what it is built on.
     for (const g of given) if (g.clean) child = placeWithNeeds(child, g.lesson, today);
   }
-  return { data: { ...out, child, bones: data.bones + (kind === 'check' ? 0 : bones), ...(kind === 'check' ? { checked: true } : {}) }, outcome, bones };
+  const done: ProfileData = { ...out, child, bones: data.bones + (kind === 'check' ? 0 : bones), ...(kind === 'check' ? { checked: true } : {}) };
+  // What the starting check found she already knows is simply there in the garden: no cards for it.
+  return { data: kind === 'check' ? giveAll(done) : done, outcome, bones };
 }
 
 function placeWithNeeds(child: ProfileData['child'], lessonId: string, today: Day): ProfileData['child'] {

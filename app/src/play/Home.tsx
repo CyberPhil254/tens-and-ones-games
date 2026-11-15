@@ -9,7 +9,9 @@ import { Blocks } from '../ui/Blocks';
 import { FriendPicture } from '../ui/FriendPicture';
 import { Num } from '../ui/Num';
 import { Bone, Oreo } from '../ui/Oreo';
+import { awardsWon, tricksKnown } from '../engine/rewards';
 import { Garden } from './Garden';
+import { Shelf } from './Reward';
 import { VoiceRetry } from './Play';
 import { speak, useVoiceSilent, voice } from './voice';
 
@@ -106,6 +108,8 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
       <h2>The path</h2>
       {!done && <p className="h2note" data-testid="free-note">Free play opens when today’s games are done.</p>}
       <Garden data={data} today={today} open={done} here={!done && fresh && 'slot' in fresh ? fresh.slot.lesson : null} onLesson={onLesson} />
+
+      <Shelf tricks={tricksKnown(data)} awards={awardsWon(data)} />
 
       <h2>Play together</h2>
       <ol className="stations">

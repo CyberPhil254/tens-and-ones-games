@@ -11,13 +11,13 @@ import kennelToy from '../art/garden/treasure-kennel.webp';
 import rope from '../art/garden/treasure-rope-toy.webp';
 import type { ProfileData } from '../data/profile';
 import { UNITS, type Lesson } from '../engine/curriculum';
+import type { Treasure } from '../engine/rewards';
 import { statusOf, waitsFor, type LessonStatus } from '../engine/rules';
 import { lessonState, type Day } from '../engine/state';
 import { Oreo, Paw } from '../ui/Oreo';
 
 /** The treasures Oreo can be given, from art/props/. */
-export const TREASURES = { ball, bandana, bed, bowl, 'rope-toy': rope, kennel: kennelToy } as const;
-export type Treasure = keyof typeof TREASURES;
+export const TREASURES: Record<Treasure, string> = { ball, bandana, bed, bowl, 'rope-toy': rope, kennel: kennelToy };
 export const TREASURE_NAMES: Record<Treasure, string> = { ball: 'a ball', bandana: 'a bandana', bed: 'a bed', bowl: 'a bowl', 'rope-toy': 'a rope toy', kennel: 'a kennel' };
 export const isTreasure = (v: string | undefined): v is Treasure => !!v && v in TREASURES;
 
