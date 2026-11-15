@@ -53,6 +53,7 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 ## Clips
 
 - Recorded so far in the build: 138 (the Oreo and "she" sentences).
+- Recorded in the rewards pull request: 4 more (treasure, thank you, trick, award).
 - Missing: none (`app/voice/missing.json` is empty).
 
 ## Honest notes
@@ -63,3 +64,4 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - The live game at the repository root is untouched.
 - The choice cards show lesson titles as words only. A child who cannot read them yet cannot tell the cards apart; they get the lesson's picture with the garden path (step 3).
 - The starting check has one question per lesson. A lucky tap marks a lesson as known; review is what catches it. Worth watching with a real child.
+- Tricks repeat after six units and four of the seven award pictures are unused: the art has six tricks and the path has fourteen units.

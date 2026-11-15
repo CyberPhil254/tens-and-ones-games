@@ -645,6 +645,34 @@
    "pack": "core"
   },
   {
+   "id": "oreo-gets-a-treasure-which-one",
+   "text": "Oreo gets a treasure. Which one shall she have?",
+   "key": "Oreo gets a treasure. Which one shall she have?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-loves-it-thank-you",
+   "text": "Oreo loves it. Thank you!",
+   "key": "Oreo loves it. Thank you!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "you-finished-a-whole-part-of",
+   "text": "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
+   "key": "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "you-finished-the-whole-stage-this",
+   "text": "You have finished the whole stage. This award is for you!",
+   "key": "You have finished the whole stage. This award is for you!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "yes",
    "text": "Yes!",
    "key": "Yes!",

@@ -70,3 +70,11 @@ w, h = scene.size
 fence = scene.crop((0, round(h * 0.13), w, round(h * 0.37)))
 fence.save('app/src/art/garden/fence.webp', 'WEBP', quality=80, method=6)
 print(f"app/src/art/garden/fence.webp  {fence.width}x{fence.height}  {os.path.getsize('app/src/art/garden/fence.webp') / 1000:.1f} kB")
+
+# Rewards: Oreo with each treasure, her tricks, the awards, and the gift pose. Shown at up to 150 px.
+os.makedirs('app/src/art/rewards', exist_ok=True)
+for name in ('with-ball', 'with-bandana', 'with-bed', 'with-bowl', 'with-rope-toy', 'with-kennel',
+             'trick-high-five', 'trick-beg', 'trick-spin', 'trick-roll-over', 'trick-play-bow', 'trick-fetch', 'gift'):
+    shrink(f'art/puppy/{name}.png', f'app/src/art/rewards/{name}.webp', 300)
+for name in ('rosette', 'trophy', 'crown'):
+    shrink(f'art/awards/{name}.png', f'app/src/art/rewards/award-{name}.webp', 240)

@@ -4,7 +4,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 ## Pack: core
 
-587 clips.
+591 clips.
 
 Whole sentences:
 
@@ -100,6 +100,10 @@ Whole sentences:
 - Take a moment. Look again before you tap.
 - Which one would you like first? You will do both.
 - Let's see what you already know. Just try your best.
+- Oreo gets a treasure. Which one shall she have?
+- Oreo loves it. Thank you!
+- You finished a whole part of the garden! Oreo has learnt a new trick for you.
+- You have finished the whole stage. This award is for you!
 - Yes!
 - Well done!
 - Great!

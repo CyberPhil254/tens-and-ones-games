@@ -91,18 +91,8 @@ test('no choice card before the warm-up: the warm-up always comes first', async 
 
 test('the path is a garden: a stone per lesson, a part of the garden per unit, and each stone says where it stands', async ({ page }) => {
   const errors = watch(page);
-  await page.addInitScript(() => {
-    // A treasure on a mastered stone, as the rewards will put it there.
-    const k = 'tens-and-ones.profile.child-test';
-    const d = JSON.parse(localStorage.getItem(k) ?? 'null');
-    if (d && !d.rewards.treasures['s1-see']) {
-      d.rewards.treasures['s1-see'] = 'ball';
-      localStorage.setItem(k, JSON.stringify(d));
-    }
-  });
   await seed(page, { lessons: { 's1-see': mastered(), 's1-ten': { step: 1, rating: 1, answers: 12 } }, soundOff: true });
   await page.goto('/');
-  await page.reload(); // the treasure is added to the seeded child on the second load
   const garden = page.getByTestId('garden');
   await expect(garden.locator('.plot')).toHaveCount(14);
   await expect(garden.locator('.stone')).toHaveCount(41);
@@ -128,4 +118,36 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
   await expect.poll(() => garden.locator('img').evaluateAll((all) => all.every((i) => (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0))).toBe(true);
   await fitsTheScreen(page);
   expect(errors).toEqual([]);
+});
+
+test('a finished part of the garden: Oreo learns a trick, and it stays on the home screen', async ({ page }) => {
+  const errors = watch(page);
+  const unit = ['s2-count', 's2-place', 's2-names', 's2-regroup'];
+  await seed(page, { lessons: Object.fromEntries(['s1-see', ...unit].map((id) => [id, mastered()])), tricks: false });
+  await page.goto('/');
+  // Not collected yet (the app was closed, say): it is still owed, and comes first.
+  const reward = page.getByTestId('reward');
+  await expect(reward).toHaveAttribute('data-reward', 'trick');
+  await expect(reward.getByTestId('prompt')).toHaveText('You finished a whole part of the garden! Oreo has learnt a new trick for you.');
+  await expect(reward.locator('.rewardpic')).toHaveAttribute('alt', /^Oreo’s trick: /);
+  await fitsTheScreen(page);
+  await reward.getByRole('button', { name: 'Next' }).click();
+  // Home, with the trick on the shelf; tapping it shows it. Nothing more is owed.
+  const shelf = page.getByTestId('rewardshelf');
+  await expect(shelf.locator('.trickbtn')).toHaveCount(1);
+  await shelf.locator('.trickbtn').click();
+  await expect(shelf.locator('.rewardpic')).toBeVisible();
+  await page.reload();
+  await expect(reward).toHaveCount(0);
+  await expect(shelf.locator('.trickbtn')).toHaveCount(1);
+  expect(Object.keys((await saved(page)).rewards.tricks)).toEqual(['s2-u1']);
+  expect(errors).toEqual([]);
+});
+
+test('no rewards for playing: a child who has mastered nothing has no shelf and is owed nothing', async ({ page }) => {
+  await seed(page, { bones: 480, lessons: { 's1-see': { step: 1, rating: 1, answers: 200 } } });
+  await page.goto('/');
+  await expect(page.getByTestId('today-text')).toBeVisible();
+  await expect(page.getByTestId('reward')).toHaveCount(0);
+  await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
 });

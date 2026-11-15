@@ -33,15 +33,22 @@ export interface Seed {
   nickname?: string;
   stage?: 1 | 2;
   soundOff?: boolean;
+  /** False: the trick for a finished part of the garden has not been given yet. Treasures and tricks are otherwise in place. */
+  tricks?: boolean;
   /** False: the starting check has not been done yet. */
   checked?: boolean;
 }
 /** Puts a child on the device before the app starts. Later reloads keep whatever the app has saved since. */
 export async function seed(page: Page, s: Seed = {}): Promise<void> {
+  // What mastery has earned is already in the garden, unless the test is about giving it.
+  const known = Object.keys(s.lessons ?? {}).filter((id) => s.lessons![id]!.mastered);
+  const treasures = Object.fromEntries(known.map((id) => [id, 'ball']));
+  const built: Record<string, string[]> = { 's2-u1': ['s2-count', 's2-place', 's2-names', 's2-regroup'], 's2-u4': ['s2-bonds', 's2-inverse', 's2-calc'], 'x-u1': ['x-fill', 'x-break', 'x-line'] };
+  const tricks = s.tricks === false ? {} : Object.fromEntries(Object.entries(built).filter(([, ls]) => ls.every((l) => known.includes(l))).map(([u]) => [u, 'spin']));
   const data = {
     profile: { id: 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
-    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true,
+    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures, tricks, awards: {} }, attempts: [], checked: s.checked ?? true,
   };
   await page.addInitScript(([d, soundOff]) => {
     if (localStorage.getItem('tens-and-ones.profiles')) return;

@@ -101,6 +101,11 @@ export const FIXED = {
   'take-a-moment-look-again-before': "Take a moment. Look again before you tap.",
   'which-one-would-you-like-first': "Which one would you like first? You will do both.",
   'lets-see-what-you-know': "Let's see what you already know. Just try your best.",
+  // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
+  'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
+  'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
+  'you-finished-a-whole-part-of': "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
+  'you-finished-the-whole-stage-this': "You have finished the whole stage. This award is for you!",
 } as const;
 
 /** Praise for a first-time right answer. One is picked at random. */
