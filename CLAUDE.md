@@ -32,6 +32,7 @@ Strategy and product decisions are made by Philipp, usually in a separate planni
 - Keep the visual language of the maths: tens are red rods standing in groups of five, ones are blue with the first five dark and the next five light, the tens digit is red and the ones digit is blue. Consistency across every screen matters more than polish.
 - Explanatory feedback, never a bare "wrong": every wrong answer shows or says why.
 - No timers or countdowns visible to the child. Response time is recorded silently.
+- The mascot and all illustrations are in `art/` (read `art/README.md` first). Use those pictures, shrunk for phones; do not draw a new puppy and do not use any picture for things the child counts.
 - Decoration must not compete with the maths. The puppy reacts to answers; it does not move while the child is thinking.
 - Child data: collect the minimum (nickname, stage, progress). No child email, no free text from children, no third-party analytics or ads.
 - Do not use the Cambridge logo or the word "endorsed". Write learning objectives in our own words; do not copy text from the framework.
