@@ -150,3 +150,8 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .blabels { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; font-family: var(--display); font-size: 20px; margin-top: 10px; }
 .blabels .lt { color: var(--ten); }
 .blabels .lo { color: var(--one); }
+
+/* Number Names */
+.wordy { white-space: nowrap; }
+.wordy .t { color: var(--ten); }
+.wordy .o { color: var(--one); }
