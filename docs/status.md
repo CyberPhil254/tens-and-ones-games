@@ -18,6 +18,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 |---|---|
 | 1 to 8 | Scaffold, reference check of the live game, question makers, blocks, voice player, pictures, round and session rules, home and game screens, High Five |
 | 9, 10 | Oreo's poses and icon; Pack Ten |
+| 21 | Race to 100, for two, against a grown-up or Oreo |
 | 20 | Oreo's Stories, three levels. All eleven path games are ported |
 | 19 | Mystery Box, three levels |
 | 18 | Break a Ten, four levels |
@@ -31,7 +32,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 
 ## Next (the order of section 10 of the spec)
 
-1. **Finish the port:** Race to 100, Quick Paws. (The number machine is on the home screen already.)
+1. **Finish the port:** Quick Paws. (The number machine is on the home screen already.)
 2. Structure and engine: units, lessons and steps as data; rating, mastery, review, today's games, starting check; profiles and storage behind one interface.
 3. Path (garden), rewards, parents' area, parent notes.
 4. Stage 2 gaps: Sums to 20, Tens and ones sums, additions to existing games, More or less, Skip and spot, Equal groups, Fair shares, Halves and quarters, Money.
@@ -48,6 +49,8 @@ All in `docs/decisions.md` under "Decided during the build, to confirm".
 - Missing: none (`app/voice/missing.json` is empty).
 
 ## Honest notes
+
+- The spec says red and blue mean tens and ones and nothing else. The ported screens still use blue for ordinary buttons ("Pack 10", "Play again", "Spin"), as the live game does. To be changed in the look-and-feel pass with the 72 px button rule (step 3).
 
 - The script rewrite into warmer whole sentences (spec section 7) has not started; the wording is still the live game's, with Oreo's name. It is planned for step 6, lesson by lesson where a lesson is new.
 - The live game at the repository root is untouched.

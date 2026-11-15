@@ -4,6 +4,7 @@ import type { GameId } from './maths/questions';
 import { Pieces } from './Pieces';
 import { Home } from './play/Home';
 import { Play } from './play/Play';
+import { Race } from './play/Race';
 import { chooseLevel, levelOf, ROUND, segment, todaySegments, type Segment } from './session/progress';
 import { load, save, type Saved } from './session/store';
 import './play/app.css';
@@ -18,6 +19,7 @@ const storage = () => {
 
 type Screen =
   | { at: 'home' }
+  | { at: 'race' }
   /** `run` counts rounds started, so that "play again" starts a fresh one. */
   | { at: 'play'; seg: Segment; today: boolean; queue: ('mix' | 'front')[]; run: number };
 
@@ -63,7 +65,9 @@ export function App() {
   return (
     <main>
       {screen.at === 'home' ? (
-        <Home saved={saved} onSave={onSave} onToday={startToday} onGame={openGame} />
+        <Home saved={saved} onSave={onSave} onToday={startToday} onGame={openGame} onRace={() => setScreen({ at: 'race' })} />
+      ) : screen.at === 'race' ? (
+        <Race saved={saved} onHome={home} />
       ) : (
         <Play
           key={screen.run} seg={screen.seg} today={screen.today} more={screen.queue.length > 0}

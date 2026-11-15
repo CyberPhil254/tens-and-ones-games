@@ -181,3 +181,10 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .prompt .storytxt { display: block; font-family: var(--body); font-weight: 400; font-size: clamp(20px, 5vw, 26px); line-height: 1.45; text-align: left; margin-bottom: 8px; }
 .card.game > .prompt:first-of-type:has(.storytxt) { padding: 0 44px 0 0; }
 .eqline { font-family: var(--display); font-weight: 600; font-size: 30px; margin: 0; }
+
+/* Race to 100 */
+.legend { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; font-family: var(--display); font-size: 18px; }
+.legend span { border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px; }
+.legend .p1 { background: var(--sun); }
+.legend .p2 { background: #9be3bd; }
+.legend .on { box-shadow: 0 0 0 4px var(--ink); }
