@@ -116,6 +116,9 @@ export const FIXED = {
   // Tens and ones sums.
   'add-the-tens-to-the-tens': "Add the tens to the tens. Add the ones to the ones.",
   'tens-with-tens-and-ones-with': "Tens with tens, and ones with ones.",
+  // Friends of 20 and 100.
+  'count-the-empty-places-in-both': "Count the empty places in both frames.",
+  'ten-tens-make-100-count-the': "Ten tens make 100. Count the tens that are missing.",
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",

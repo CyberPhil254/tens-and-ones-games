@@ -3,6 +3,7 @@ import type { GameId, QuestionOf } from '../maths/questions';
 import type { RoundApi } from '../play/round';
 import { BreakATen } from './BreakATen';
 import { FillTheTen } from './FillTheTen';
+import { FriendsOf20 } from './FriendsOf20';
 import { FriendsOfTen } from './FriendsOfTen';
 import { HighFive } from './HighFive';
 import { JumpInTens } from './JumpInTens';
@@ -36,5 +37,6 @@ export const GAMES: { [G in GameId]?: ComponentType<GameProps<G>> } = {
   story: OreosStories,
   sums: SumsTo20,
   plus: TensOnesSums,
+  bonds: FriendsOf20,
 };
 
