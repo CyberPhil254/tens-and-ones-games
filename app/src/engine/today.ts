@@ -86,7 +86,7 @@ export function planToday(s: ChildState, today: Day, chosen?: string): Part[] {
  * It is worked out afresh each time, so the second round of "new" is at the step the first one
  * earned, or on the next lesson if the first round finished the lesson for today.
  */
-export function nextPart(s: ChildState, today: Day, done: readonly Part['kind'][], chosen?: string): Part | null {
+export function nextPart(s: ChildState, today: Day, done: readonly Part['kind'][], chosen?: string, strongerFirst = false): Part | null {
   const count = (k: Part['kind']) => done.filter((d) => d === k).length;
   if (!count('warm') && !count('new') && !count('stronger')) {
     const warm = warmUp(s, today);
@@ -94,8 +94,32 @@ export function nextPart(s: ChildState, today: Day, done: readonly Part['kind'][
   }
   const open = nextLessons(s, today);
   const lesson = open.find((l) => l.id === chosen) ?? open[0] ?? null;
-  if (count('new') < 2 && !count('stronger') && lesson) return { kind: 'new', n: CONFIG.round, slot: roundOf(s, lesson) };
+  // She may have chosen to get stronger first: the same parts, in her order.
+  if (strongerFirst && !count('stronger') && !count('new')) {
+    const first = stronger(s, today, lesson?.id ?? null);
+    if (first) return first;
+  }
+  if (count('new') < 2 && (strongerFirst || !count('stronger')) && lesson) return { kind: 'new', n: CONFIG.round, slot: roundOf(s, lesson) };
   if (!count('stronger')) return stronger(s, today, lesson?.id ?? null);
+  return null;
+}
+
+/** A choice she is offered once in today's games. Both options get done; she only picks which comes first. */
+export type Choice =
+  /** Two lessons are open: which one today? The other comes next. */
+  | { kind: 'stone'; options: [Lesson, Lesson] }
+  /** The new lesson or the round to get stronger: which first? */
+  | { kind: 'first'; options: [Lesson, Lesson] };
+
+/** The choice to offer before the first round after the warm-up, if there is one to make. */
+export function choiceToday(s: ChildState, today: Day, done: readonly Part['kind'][]): Choice | null {
+  if (done.includes('new') || done.includes('stronger')) return null;
+  const open = nextLessons(s, today);
+  if (open.length === 2) return { kind: 'stone', options: [open[0]!, open[1]!] };
+  if (open.length === 1) {
+    const more = stronger(s, today, open[0]!.id);
+    if (more?.kind === 'stronger') return { kind: 'first', options: [open[0]!, LESSON.get(more.slot.lesson)!] };
+  }
   return null;
 }
 

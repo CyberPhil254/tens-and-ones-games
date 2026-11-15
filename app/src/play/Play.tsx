@@ -3,7 +3,8 @@ import { today as todayNow } from '../app/useData';
 import type { ProfileData } from '../data/profile';
 import { applyRound, lessonOfActivity, type Given, type RoundKind } from '../engine/apply';
 import { LESSON, type Activity } from '../engine/curriculum';
-import type { RoundOutcome } from '../engine/rules';
+import { CONFIG } from '../engine/config';
+import { looksLikeGuessing, type RoundOutcome } from '../engine/rules';
 import type { Slot } from '../engine/today';
 import { GAMES, type GameProps } from '../games/registry';
 import { makeQuestion, type GameId } from '../maths/questions';
@@ -106,7 +107,9 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
 
   // What happened on the current question, and every answer of the round so far. Nothing is saved
   // until the round is finished: leaving early counts for nothing.
-  const now = useRef({ clean: true, misses: 0, hint: false, t0: 0, say: [] as Piece[], over: false });
+  const now = useRef({ clean: true, misses: 0, hint: false, t0: 0, say: [] as Piece[], over: false, taps: [] as number[], lastTap: 0 });
+  /** She is tapping without looking: the answers pause, and this question will not count. */
+  const [paused, setPaused] = useState(false);
   const given = useRef<Given[]>([]);
   useEffect(() => {
     now.current.t0 = performance.now();
@@ -138,6 +141,18 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
     wrong(msg, spoken) {
       now.current.clean = false;
       now.current.misses++;
+      const at = performance.now(), taps = now.current.taps;
+      taps.push(at - (now.current.lastTap || now.current.t0));
+      now.current.lastTap = at;
+      if (round.kind !== 'quick' && looksLikeGuessing(taps)) {
+        // Fast wrong taps in a row are guesses. Oreo asks her to look; this question is put aside.
+        now.current.over = true;
+        setPaused(true);
+        setFb({ msg: wording('take-a-moment-look-again-before'), kind: 'note-hint' });
+        voice.stop();
+        say(['take-a-moment-look-again-before']);
+        return;
+      }
       setFb({ msg, kind: 'wrong' });
       if (spoken) say(spoken);
     },
@@ -170,9 +185,21 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
     return () => clearTimeout(t);
   }, [round.kind, over, results.length]);
 
+  // After the pause a fresh question comes. The guessed one counts neither way.
+  useEffect(() => {
+    if (!paused) return;
+    const t = setTimeout(() => {
+      now.current = { clean: true, misses: 0, hint: false, t0: 0, say: [], over: false, taps: [], lastTap: 0 };
+      setPaused(false);
+      setFb(null);
+      setAsked((a) => draw(round, a, a.no + 1));
+    }, CONFIG.guess.pauseMs);
+    return () => clearTimeout(t);
+  }, [paused, round, setFb]);
+
   const next = () => {
     if (!last) {
-      now.current = { clean: true, misses: 0, hint: false, t0: 0, say: [], over: false };
+      now.current = { clean: true, misses: 0, hint: false, t0: 0, say: [], over: false, taps: [], lastTap: 0 };
       setOver(false);
       setFb(null);
       setAsked(draw(round, asked, asked.no + 1));
@@ -233,7 +260,7 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
       {end ? (
         <End round={round} end={end} onHome={onHome} onNext={onNext} onAgain={onAgain} />
       ) : (
-        <div className="card game" data-lesson={asked.lesson} data-step={asked.step}>
+        <div className="card game" data-lesson={asked.lesson} data-step={asked.step} data-paused={paused || undefined} inert={paused}>
           <button className="say" type="button" aria-label="Read it to me" hidden={silent} onClick={() => say(now.current.say, 0, true)}>🔊</button>
           {Game ? <Game key={asked.no} q={asked.q as never} level={asked.act.level} round={api} /> : null}
           <div className="cheer">

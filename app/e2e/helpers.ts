@@ -33,13 +33,15 @@ export interface Seed {
   nickname?: string;
   stage?: 1 | 2;
   soundOff?: boolean;
+  /** False: the starting check has not been done yet. */
+  checked?: boolean;
 }
 /** Puts a child on the device before the app starts. Later reloads keep whatever the app has saved since. */
 export async function seed(page: Page, s: Seed = {}): Promise<void> {
   const data = {
     profile: { id: 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
-    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: true,
+    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true,
   };
   await page.addInitScript(([d, soundOff]) => {
     if (localStorage.getItem('tens-and-ones.profiles')) return;
@@ -47,6 +49,11 @@ export async function seed(page: Page, s: Seed = {}): Promise<void> {
     localStorage.setItem('tens-and-ones.profile.child-test', JSON.stringify(d));
     if (soundOff) localStorage.setItem('tens-and-ones.settings', JSON.stringify({ soundOff: true }));
   }, [data, s.soundOff ?? false] as const);
+}
+/** Starts today's games; `pick` is the lesson to tap when the choice card comes. */
+export async function playToday(page: Page, pick?: string): Promise<void> {
+  await page.getByRole('button', { name: /Play today’s games|Play again anyway/ }).click();
+  if (pick) await page.getByTestId('choice').locator(`[data-lesson=${pick}]`).click();
 }
 /** What the app has saved for the test child. */
 export const saved = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('tens-and-ones.profile.child-test') ?? 'null'));

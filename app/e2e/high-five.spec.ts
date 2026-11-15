@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { day, saved, seed } from './helpers';
+import { day, playToday, saved, seed } from './helpers';
 
 /** Fails the test on any console error: a sentence without a recording is reported there too. */
 function watch(page: Page): string[] {
@@ -50,6 +50,9 @@ test('a grown-up adds a child: a nickname, a picture and the stage, and nothing 
   await expect(page.getByRole('button', { name: 'Stage 2' })).toHaveAttribute('aria-pressed', 'true');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
   await start.click();
+  // First the offer of a short check; a grown-up may skip it.
+  await expect(page.getByTestId('startcheck')).toContainText('questions for Amani b.');
+  await page.getByRole('button', { name: /skip/ }).click();
   await expect(page.locator('.whoami')).toHaveText('Amani b');
   await expect(page.locator('.whoami img')).toHaveAttribute('alt', 'owl');
   await page.reload();
@@ -70,6 +73,12 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
   await expect(page.getByRole('button', { name: /Race to 100/ })).toBeDisabled();
   await expect(page.getByTestId('machine')).toHaveCount(0);
   await page.getByRole('button', { name: 'Play today’s games' }).click();
+  // Two lessons are open, so she chooses which one today. Both are things the app wants.
+  const card = page.getByTestId('choice');
+  await expect(card).toHaveAttribute('data-choice', 'stone');
+  await expect(page.getByTestId('prompt')).toHaveText('Which one would you like first? You will do both.');
+  await expect(card.locator('.choosecard')).toHaveCount(2);
+  await card.locator('[data-lesson=s1-see]').click();
 
   // Round 1, step 1: fingers and the tower side by side, nothing hidden. All right first time.
   await expect(page.getByTestId('title')).toHaveText('See how many');
@@ -131,7 +140,7 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
 test('the last step passed today, and again on another day: the lesson is mastered', async ({ page }) => {
   await seed(page, { lessons: { 's1-see': { step: 2, passedOn: [day(-1)], rating: 2, answers: 18 } }, soundOff: true });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Play today’s games' }).click();
+  await playToday(page, 's1-see');
   await expect(game(page)).toHaveAttribute('data-step', '2');
   for (let i = 0; i < 6; i++) {
     await answer(page);
@@ -147,7 +156,7 @@ test('the last step passed today, and again on another day: the lesson is master
 test('leaving a round early counts for nothing', async ({ page }) => {
   await seed(page, { soundOff: true });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Play today’s games' }).click();
+  await playToday(page, 's1-see');
   for (let i = 0; i < 4; i++) {
     await answer(page);
     await next(page);
@@ -162,7 +171,7 @@ test('leaving a round early counts for nothing', async ({ page }) => {
 test('a weak round moves down a step, and the picture is back', async ({ page }) => {
   await seed(page, { lessons: { 's1-see': { step: 1, rating: 0.5, answers: 6 } }, soundOff: true });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Play today’s games' }).click();
+  await playToday(page, 's1-see');
   await expect(game(page)).toHaveAttribute('data-step', '1');
   for (let i = 0; i < 6; i++) {
     await answer(page, i < 4); // two bones, four paws

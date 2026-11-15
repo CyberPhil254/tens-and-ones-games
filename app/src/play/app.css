@@ -218,3 +218,10 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .station.locked .no, .station.coming .no { background: var(--soft); }
 .station.mastered .no { background: var(--ok); }
 .station.mastered .no .ic { fill: #fff; }
+
+/* Choice cards */
+.choosecards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+.choosecard { min-height: 96px; padding: 14px 10px; border-radius: 18px; border: 3px solid var(--ink); background: var(--card); box-shadow: 0 5px 0 var(--ink); }
+.choosecard strong { font-family: var(--display); font-size: 22px; line-height: 1.2; }
+.choosecard:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
+.card.game[data-paused] .stage { opacity: 0.55; }
