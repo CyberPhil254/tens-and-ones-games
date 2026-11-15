@@ -381,6 +381,26 @@ h2{font-family:var(--display);font-weight:600;font-size:28px;margin:34px 0 10px}
 </main>
 
 <script>
+/* ---------- move from the old address to the new one, taking progress along ---------- */
+const NEW_HOME = 'https://tens-and-ones-puppy.philipp-79a.workers.dev/';
+if (location.hostname.endsWith('.netlify.app')) {
+  let old = '';
+  try { old = localStorage.getItem('tens-ones') || ''; } catch (e) {}
+  location.replace(NEW_HOME + (old ? '#p=' + encodeURIComponent(old) : ''));
+}
+if (location.hash.startsWith('#p=')) {
+  try {
+    if (!localStorage.getItem('tens-ones-moved')) {
+      const moved = decodeURIComponent(location.hash.slice(3));
+      JSON.parse(moved);                       // only keep it if it is valid
+      localStorage.setItem('tens-ones', moved);
+      localStorage.setItem('tens-ones-moved', '1');
+    }
+  } catch (e) {}
+  history.replaceState(null, '', location.pathname);
+}
+</script>
+<script>
 "use strict";
 /* ---------- helpers ---------- */
 const $ = (s, r = document) => r.querySelector(s);

@@ -1,0 +1,10 @@
+// Cloudflare settings for the live game. The build command copies index.html and audio/ into site/:
+//   mkdir -p site && cp -r index.html audio site/
+// The new app has its own file in app/wrangler.jsonc.
+{
+	"name": "tens-and-ones-puppy",
+	"compatibility_date": "2026-11-15",
+	"assets": {
+		"directory": "./site"
+	}
+}
