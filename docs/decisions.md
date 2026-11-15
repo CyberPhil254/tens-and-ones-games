@@ -4,16 +4,18 @@ Newest first. The planning chat adds decisions here; Claude Code adds open quest
 
 ## Decided
 
+Rows marked "proposed" are recommendations from the planning chat that Philipp has not yet confirmed.
+
 | Date | Decision | Why |
 |---|---|---|
 | 2026-11-15 | Strategy stays in the planning chat; Claude Code implements and builds | Keeps product decisions in one place |
-| 2026-11-15 | First scope for the real app: Cambridge Primary Stage 2, Number strand | It is where the first user is; one stage done well before widening |
+| 2026-11-15 | First scope for the real app: Cambridge Primary Stage 2, Number strand (proposed, Philipp to confirm) | It is where the first user is; one stage done well before widening |
 | 2026-11-15 | Hugging Face free tier is not the base for images or animation | Free credits are close to zero and the app should not generate assets while a child plays; assets are made once and shipped |
 | 2026-11-15 | Voice is pre-recorded, not browser speech | Browser voices sounded robotic and differ per device |
 | 2026-11-15 | Current voice: Kokoro `af_heart` (American, warm) | Picked by Philipp from four samples |
-| 2026-11-15 | Next voice step: rewrite the script in warmer, fuller sentences and record every sentence whole (no stitched numbers) with a directable engine | Terse wording and stitching are what still sound robotic |
-| 2026-11-15 | "Do everything" is enforced by gates plus earned free play, not a full lock | Pure compulsion works against motivation |
-| 2026-11-15 | Rewards grow with mastery, not with minutes played | Avoids rewarding time on easy games |
+| 2026-11-15 | Next voice step: rewrite the script in warmer, fuller sentences and record every sentence whole (no stitched numbers) with a directable engine (proposed, Philipp to confirm) | Terse wording and stitching are what still sound robotic |
+| 2026-11-15 | "Do everything" is enforced by gates plus earned free play, not a full lock (proposed, Philipp to confirm) | Pure compulsion works against motivation |
+| 2026-11-15 | Rewards grow with mastery, not with minutes played (proposed, Philipp to confirm) | Avoids rewarding time on easy games |
 | 2026-11-14 | Levelling: 5 or 6 bones of 6 moves up, a perfect round skips a level, 2 or fewer moves down, two good rounds at the last level finish a game, two misses in warm-ups bring it back | Judgement call, to be tuned with real use |
 | 2026-11-14 | No visible timer; timed practice only after accuracy (Quick Paws unlocks late) | Research on fluency |
 | 2026-11-14 | Code on GitHub (`CyberPhil254/tens-and-ones-games`), deployed by Netlify from `main` | |
