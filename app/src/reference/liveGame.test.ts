@@ -2,14 +2,13 @@
 import { describe, expect, it } from 'vitest';
 import { loadLiveGame, type Q } from './liveGame';
 import { asked, mathsFault, spoken, spokenFromPlay, stitchedSentences } from './rules';
+import { drawUntilSettled, summarise } from './summary';
 
 /**
  * Reference check of the live game (../index.html) as it is today.
  * Every game and level is drawn many times with a fixed random sequence, and drawing goes on
  * until no new question has turned up for twice as long as it took to find the last one.
  */
-const MIN_DRAWS = 40_000;
-const MAX_DRAWS = 1_000_000;
 const game = loadLiveGame();
 const levels = game.PATH.flatMap((id) =>
   Array.from({ length: game.MAXL[id]! }, (_, i) => ({ id, level: i + 1 })),
@@ -18,10 +17,6 @@ const catalogue = game.speechCatalogue();
 const wholeClips = new Set(catalogue.fixed);
 const fragments = new Set(catalogue.frags);
 const numbers = new Set(catalogue.numbers);
-
-/** A question without its choices: the choices are shuffled in separately. */
-const key = (q: Q) => JSON.stringify({ ...q, opts: undefined });
-const range = (xs: number[]) => (xs.length ? `${Math.min(...xs)} to ${Math.max(...xs)}` : 'none');
 
 interface Seen {
   distinct: Map<string, Q>;
@@ -36,20 +31,7 @@ function play(id: string, level: number): Seen {
   const seen: Seen = { distinct: new Map(), settled: false, faults: [], stitched: new Set() };
   const fault = (why: string, q: Q) => seen.faults.length < 5 && seen.faults.push(`${why}: ${JSON.stringify(q)}`);
 
-  let lastNew = 0;
-  for (let i = 0; i < MAX_DRAWS; i++) {
-    if (i >= MIN_DRAWS && i >= lastNew * 3) {
-      seen.settled = true;
-      break;
-    }
-    const q = game.GEN[id]!(level);
-    const k = key(q);
-    const isNew = !seen.distinct.has(k);
-    if (isNew) {
-      seen.distinct.set(k, q);
-      lastNew = i;
-    }
-
+  const drawn = drawUntilSettled(() => game.GEN[id]!(level), (q, isNew) => {
     // Choices are drawn afresh every time, so they are checked every time.
     for (const a of asked(game, id, level, q)) {
       if (!a.choices) continue;
@@ -60,7 +42,7 @@ function play(id: string, level: number): Seen {
       if (c.some((v) => !Number.isInteger(v) || v < 1 || v > 100)) fault('a choice is outside 1 to 100', q);
       if (c.some((v, j) => j > 0 && v <= c[j - 1]!)) fault('choices are not in rising order', q);
     }
-    if (!isNew) continue;
+    if (!isNew) return;
 
     const wrong = mathsFault(id, level, q);
     if (wrong) seen.faults.push(wrong);
@@ -72,7 +54,9 @@ function play(id: string, level: number): Seen {
       }
       for (const s of stitchedSentences(pieces, wholeClips)) seen.stitched.add(s);
     }
-  }
+  });
+  seen.distinct = drawn.distinct;
+  seen.settled = drawn.settled;
   return seen;
 }
 
@@ -90,16 +74,8 @@ describe('the live game, as it is today', () => {
   });
 
   it('matches the recorded summary of every game and level', async () => {
-    const summary: Record<string, unknown> = {};
-    for (const { id, level } of levels) {
-      const qs = [...results.get(`${id} ${level}`)!.distinct.values()];
-      const answers = qs.flatMap((q) => asked(game, id, level, q).map((a) => a.answer));
-      const nums = (k: string) => qs.map((q) => q[k]).filter((v): v is number => typeof v === 'number');
-      const fields: Record<string, string> = {};
-      for (const k of ['n', 'a', 'b', 's', 'whole']) if (nums(k).length) fields[k] = range(nums(k));
-      summary[`${id} ${level}`] = { questions: qs.length, answers: range(answers), ...fields };
-    }
-    await expect(JSON.stringify(summary, null, 2) + '\n').toMatchFileSnapshot('./live-game-summary.json');
+    const summary = summarise(game, levels, (id, level) => [...results.get(`${id} ${level}`)!.distinct.values()]);
+    await expect(summary).toMatchFileSnapshot('./live-game-summary.json');
   });
 
   it('counts the sentences that are stitched from pieces today', async () => {

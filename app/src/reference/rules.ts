@@ -14,13 +14,13 @@ export interface Asked {
   /** The answer the game accepts. */
   answer: number;
   /** The buttons the child chooses from; undefined when she answers by building or tapping a board. */
-  choices?: number[];
+  choices?: readonly number[];
   /** True when `choices` is the fixed 1 to 9 pad rather than four options. */
   pad?: boolean;
 }
 
 /** Each thing the child is asked within one question (Fill the Ten level 2 asks twice). */
-export function asked(game: LiveGame, id: string, level: number, q: Q): Asked[] {
+export function asked(game: { PAD: readonly number[] }, id: string, level: number, q: Q): Asked[] {
   const four = (answer: number): Asked => ({ answer, choices: q.opts });
   const pad = (answer: number): Asked => ({ answer, choices: game.PAD, pad: true });
   switch (id) {
