@@ -91,7 +91,7 @@ Sentences with a number, one clip for each number:
 
 ## Pack: core
 
-40 clips.
+41 clips.
 
 Whole sentences:
 
@@ -118,6 +118,7 @@ Whole sentences:
 - Oreo loves it. Thank you!
 - You finished a whole part of the garden! Oreo has learnt a new trick for you.
 - You have finished the whole stage. This award is for you!
+- First finish this one.
 - Oreo can give a high five!
 - Oreo can beg!
 - Oreo can spin!

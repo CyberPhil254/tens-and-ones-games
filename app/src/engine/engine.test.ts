@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { seededRng } from '../maths/random';
 import { CONFIG } from './config';
-import { LESSON, LESSONS, playable } from './curriculum';
-import { answered, chance, dueLessons, fittingStep, looksLikeGuessing, place, reviewed, roundFinished, statusOf, waitsFor, type RoundOutcome } from './rules';
-import { addDays, dayOf, lessonState, newChild, withLesson, type ChildState, type Day } from './state';
+import { LESSON, LESSONS, PATH, PATH_ORDER, playable, unitOf, UNITS } from './curriculum';
+import { answered, chance, dueLessons, fittingStep, frontier, looksLikeGuessing, passedOnce, place, reviewed, roundFinished, statusOf, waitsFor, type RoundOutcome } from './rules';
+import { addDays, dayOf, lessonState, newChild, newLesson, withLesson, type ChildState, type Day } from './state';
 import { nextPart, nextLessons, planToday, somethingLeft, type Part } from './today';
 
 const D0: Day = '2026-11-16';
@@ -61,7 +61,7 @@ describe('mastery', () => {
     r = round(r.state, 's1-ten', 6, D0); // a second good round on the same day is not mastery
     expect(r.outcome).toEqual({ kind: 'passed' });
     expect(statusOf(r.state, LESSON.get('s1-ten')!, D0)).toBe('resting');
-    expect(statusOf(r.state, LESSON.get('s1-ten')!, addDays(D0, 1))).toBe('open');
+    expect(statusOf(r.state, LESSON.get('s1-ten')!, addDays(D0, 1))).toBe('passed'); // one more good day masters it
     r = round(r.state, 's1-ten', 5, addDays(D0, 1));
     expect(r.outcome).toEqual({ kind: 'mastered' });
     expect(lessonState(r.state, 's1-ten')).toMatchObject({ mastered: addDays(D0, 1), due: addDays(D0, 2) });
@@ -104,7 +104,7 @@ describe('review', () => {
     const l = lessonState(s, 's1-ten');
     expect(l.mastered).toBeUndefined();
     expect(l.step).toBe(lastStep('s1-ten'));
-    expect(statusOf(s, LESSON.get('s1-ten')!, addDays(due, 1))).toBe('open');
+    expect(statusOf(s, LESSON.get('s1-ten')!, addDays(due, 1))).toBe('passed'); // back on the path, one good day from mastered
     // One good round on a new day masters it again.
     expect(round(s, 's1-ten', 5, addDays(due, 2)).outcome).toEqual({ kind: 'mastered' });
   });
@@ -164,9 +164,12 @@ describe('what is open', () => {
     expect(waitsFor(LESSON.get('s2-place')!).map((l) => l.id)).toEqual(['s2-count']);
     expect(waitsFor(LESSON.get('x-fill')!).map((l) => l.id).sort()).toEqual(['s2-bonds', 's2-calc']);
   });
-  it('opens a lesson once what it needs has been passed at its last step at least once', () => {
-    let s = master(newChild(), 's1-teens', addDays(D0, -3)); // what "Pack in tens" itself needs
+  it('opens the next lesson on the path once the one before has been passed at its last step, even once', () => {
+    // Everything up to "Pack in tens" is mastered: it is the next stone, and "Tens and ones" after it needs it.
+    let s = newChild();
+    for (const l of PATH.slice(0, PATH.findIndex((x) => x.id === 's2-count'))) s = master(s, l.id, addDays(D0, -3));
     const place2 = LESSON.get('s2-place')!;
+    expect(frontier(s).map((l) => l.id)).toEqual(['s2-count', 's2-names']); // "Number names to 100" needs only Stage 1: the alternative
     expect(statusOf(s, place2, D0)).toBe('locked');
     s = withLesson(s, 's2-count', { ...lessonState(s, 's2-count'), step: lastStep('s2-count') });
     s = round(s, 's2-count', 5, D0).state;
@@ -176,11 +179,66 @@ describe('what is open', () => {
   });
 });
 
+describe('the path: one order, and at most two lessons open for new learning', () => {
+  const open = (s: ChildState) => LESSONS.filter((l) => statusOf(s, l, D0) === 'open').map((l) => l.id);
+  it('is one fixed order: every lesson once, the units one after another, and each lesson after all it needs', () => {
+    const order = [...PATH_ORDER.stage1, ...PATH_ORDER.stage2, ...PATH_ORDER.stretch];
+    expect(order).toEqual(UNITS.flatMap((u) => u.lessons.map((l) => l.id))); // the same order the garden shows
+    expect(new Set(order).size).toBe(order.length);
+    expect(PATH_ORDER.stage1).toEqual(UNITS.filter((u) => u.stage === 1 && !u.stretch).flatMap((u) => u.lessons.map((l) => l.id)));
+    expect(PATH_ORDER.stage2).toEqual(UNITS.filter((u) => u.stage === 2 && !u.stretch).flatMap((u) => u.lessons.map((l) => l.id)));
+    expect(PATH_ORDER.stretch).toEqual(UNITS.filter((u) => u.stretch).flatMap((u) => u.lessons.map((l) => l.id)));
+    for (const [i, id] of order.entries()) for (const need of LESSON.get(id)!.needs) expect(order.indexOf(need), `${id} comes after ${need}`).toBeLessThan(i);
+    // A unit's lessons stand together: a unit is left only once.
+    const units = order.map((id) => unitOf(id).id);
+    expect(units.filter((u, i) => u !== units[i - 1])).toEqual(UNITS.map((u) => u.id));
+  });
+  it('a new child has two stones open, not a field of them', () => {
+    expect(open(newChild())).toEqual(['s1-count', 's1-see']);
+    expect(LESSONS.filter((l) => statusOf(newChild(), l, D0) === 'locked')).toHaveLength(LESSONS.length - 2);
+  });
+  it('the alternative is a lesson whose own needs are passed; without one, a single stone is open', () => {
+    // "Zero" and "Guess, then check" both need "Count to 20": while that is not passed, only "See how many" stands beside it.
+    let s = master(newChild(), 's1-see', D0);
+    expect(open(s)).toEqual(['s1-count']);
+    s = master(s, 's1-count', D0);
+    expect(open(s)).toEqual(['s1-zero', 's1-estimate']);
+    // The last lesson of a unit: the alternative is the first lesson of the next unit.
+    s = master(s, 's1-zero', D0);
+    expect(open(s)).toEqual(['s1-estimate', 's1-names']);
+  });
+  it('a lesson passed once is a passed stone, not an open one, and the path moves on', () => {
+    let s = withLesson(newChild(), 's1-count', { ...lessonState(newChild(), 's1-count'), step: lastStep('s1-count') });
+    s = round(s, 's1-count', 6, D0).state;
+    expect(statusOf(s, LESSON.get('s1-count')!, D0)).toBe('resting');
+    expect(statusOf(s, LESSON.get('s1-count')!, addDays(D0, 1))).toBe('passed');
+    expect(open(s)).toEqual(['s1-see', 's1-zero']);
+    // Today's games bring the passed lesson back first, to be mastered, before anything new.
+    expect(nextLessons(s, addDays(D0, 1)).map((l) => l.id)).toEqual(['s1-count', 's1-see']);
+  });
+  it('a lesson started under the old rules, further on than the path has got, waits there with its step kept', () => {
+    const s = round(newChild(), 's1-add', 6, D0).state; // two steps up, in a lesson that is not yet reached
+    expect(lessonState(s, 's1-add').step).toBeGreaterThan(0);
+    expect(statusOf(s, LESSON.get('s1-add')!, D0)).toBe('locked');
+    expect(open(s)).toEqual(['s1-count', 's1-see']);
+  });
+  it('the starting check moves the starting point forward: what is before it is known, and two stones are open after it', () => {
+    let s = newChild();
+    for (const id of PATH_ORDER.stage1) s = place(s, id, D0);
+    expect(PATH_ORDER.stage1.every((id) => statusOf(s, LESSON.get(id)!, D0) === 'mastered' && lessonState(s, id).placed)).toBe(true);
+    expect(open(s)).toEqual(['s2-count', 's2-names']);
+    // A gap in what she knew is where she starts: the path does not jump over it.
+    const gap = withLesson(s, 's1-sub', newLesson());
+    expect(frontier(gap)[0]!.id).toBe('s1-sub');
+    expect(frontier(gap).length).toBeLessThanOrEqual(2);
+  });
+});
+
 describe('the starting check', () => {
   it('marks a lesson as known, opens what needs it, and brings it back in review the next day', () => {
     const s = place(newChild(), 's2-count', D0);
     expect(lessonState(s, 's2-count')).toMatchObject({ mastered: D0, placed: true, due: addDays(D0, 1) });
-    expect(statusOf(s, LESSON.get('s2-place')!, D0)).toBe('open');
+    expect(passedOnce(lessonState(s, 's2-count'))).toBe(true); // it counts as passed for what is built on it
     expect(dueLessons(s, addDays(D0, 1)).map((l) => l.id)).toEqual(['s2-count']);
     expect(place(s, 'no-such-lesson', D0)).toEqual(s); // nothing to place in a lesson that does not exist
   });
@@ -205,7 +263,7 @@ describe("today's games", () => {
     let s = master(newChild(), 's1-count', addDays(D0, -2));
     s = master(s, 's1-see', D0);
     s = master(s, 's1-ten', addDays(D0, 5));
-    s = round(s, 's1-add', 4, addDays(D0, 5)).state; // started, not finished
+    s = round(s, 's1-estimate', 4, addDays(D0, 5)).state; // the stone beside the next one: started, not finished
     const day = addDays(D0, 6);
     const plan = planToday(s, day);
     expect(plan.map((p) => p.kind)).toEqual(['warm', 'new', 'new', 'stronger']);
@@ -215,9 +273,9 @@ describe("today's games", () => {
     // New is the first open lesson on the path she has not started: never a mastered one, never the one she is in the middle of.
     const fresh = (plan[1] as Extract<Part, { kind: 'new' }>).slot.lesson;
     expect(fresh).toBe(nextLessons(s, day)[0]!.id);
-    expect(['s1-count', 's1-see', 's1-ten', 's1-add']).not.toContain(fresh);
+    expect(['s1-count', 's1-see', 's1-ten', 's1-estimate']).not.toContain(fresh);
     expect(lessonState(s, fresh).answers).toBe(0);
-    expect(plan[3]).toMatchObject({ kind: 'stronger', counts: true, slot: { lesson: 's1-add' } });
+    expect(plan[3]).toMatchObject({ kind: 'stronger', counts: true, slot: { lesson: 's1-estimate' } });
     // With nothing else started, the stronger round is on a mastered lesson and does not move the path.
     const known = master(master(master(newChild(), 's1-count', addDays(D0, -2)), 's1-see', D0), 's1-ten', addDays(D0, 5));
     expect(planToday(known, day)[3]).toMatchObject({ kind: 'stronger', counts: false });
@@ -262,7 +320,7 @@ function simulate(pRight: number, days: number, seed: number): Run {
         }
       } else {
         const { lesson, step } = part.slot;
-        if (part.kind === 'new' && statusOf(s, LESSON.get(lesson)!, today) !== 'open') run.locked.push(lesson);
+        if (part.kind === 'new' && !['open', 'passed'].includes(statusOf(s, LESSON.get(lesson)!, today))) run.locked.push(lesson);
         let bones = 0;
         for (let i = 0; i < part.n; i++) {
           const clean = rng() < pRight;

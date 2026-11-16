@@ -213,6 +213,8 @@ export const FIXED = {
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
   'you-finished-a-whole-part-of': "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
   'you-finished-the-whole-stage-this': "You have finished the whole stage. This award is for you!",
+  // The path: a stone with a padlock was tapped, and Oreo points at the stone that opens it.
+  'first-finish-this-one': "First finish this one.",
   // Oreo's tricks, said when one is tapped on the home screen.
   'oreo-can-give-a-high-five': "Oreo can give a high five!",
   'oreo-can-beg': "Oreo can beg!",

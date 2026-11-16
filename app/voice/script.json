@@ -1317,6 +1317,13 @@
    "pack": "core"
   },
   {
+   "id": "first-finish-this-one",
+   "text": "First finish this one.",
+   "key": "First finish this one.",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "oreo-can-give-a-high-five",
    "text": "Oreo can give a high five!",
    "key": "Oreo can give a high five!",
