@@ -6,6 +6,7 @@ import { LESSON, type Activity } from '../engine/curriculum';
 import { CONFIG } from '../engine/config';
 import { looksLikeGuessing, type RoundOutcome } from '../engine/rules';
 import type { Slot } from '../engine/today';
+import { lessonState } from '../engine/state';
 import { GAMES, type GameProps } from '../games/registry';
 import { makeQuestion, type GameId } from '../maths/questions';
 import { dice } from '../maths/random';
@@ -133,6 +134,9 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
       now.current.say = pieces;
       say(pieces);
     },
+    started() {
+      now.current.t0 = performance.now();
+    },
     note(msg, kind, spoken) {
       setFb({ msg, kind: kind === 'ok' ? 'note-ok' : 'note-hint' });
       if (spoken !== false && spoken) say(spoken);
@@ -247,6 +251,8 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
     : round.kind === 'warm' ? 'Warm-up: a mix of what you know'
     : round.kind === 'check' ? 'Let’s see what you know'
     : LESSON.get(asked.lesson)!.title;
+  // The first question ever of a lesson, in a round of that lesson: the game may show how it goes before it asks.
+  const first = asked.no === 0 && round.kind !== 'check' && round.kind !== 'warm' && round.kind !== 'quick' && lessonState(data.child, asked.lesson).answers === 0;
   const Game = GAMES[asked.act.game] as React.ComponentType<GameProps<GameId>> | undefined;
 
   return (
@@ -268,7 +274,7 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
       ) : (
         <div className="card game" data-lesson={asked.lesson} data-step={asked.step} data-paused={paused || undefined} inert={paused}>
           <button className="say" type="button" aria-label="Read it to me" hidden={silent} onClick={() => say(now.current.say, 0, true)}>🔊</button>
-          {Game ? <Game key={asked.no} q={asked.q as never} level={asked.act.level} round={api} /> : null}
+          {Game ? <Game key={asked.no} q={asked.q as never} level={asked.act.level} round={api} first={first} /> : null}
           <div className="cheer">
             <Oreo key={pose} pose={pose} />
             <p className={fb ? `fb ${LOOK[fb.kind]}` : 'fb'} aria-live="polite" data-testid="feedback">{fb?.msg}</p>

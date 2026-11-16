@@ -8,7 +8,7 @@ Everything the app can say, written from `app/voice/script.json`. Do not edit th
 
 Whole sentences:
 
-- How many can you see? You do not need to count. Look for the five.
+- How many can you see? Look for the five, then see how many more there are.
 - Pack the ones in tens. Then say how many there are.
 - How many are there?
 - How many blocks do you see?
@@ -42,11 +42,11 @@ Whole sentences:
 - There are more to pack. Keep going!
 - Yes! Keep going.
 - Ten ones! They pack into a ten.
-- Not enough left for a ten. They stay ones.
+- Fewer than ten are left, so they stay ones.
 - One ten is now 10 ones.
 - Have another go.
 - Count the red tens along the line: 10, 20, 30. Then add the blue ones.
-- That is not far enough yet.
+- Walk a little further.
 - That is too far. Go back to the start.
 - Look at the blocks. Tap where they end.
 - Not quite. Count the tens along the line: 10, 20, 30.
@@ -54,12 +54,12 @@ Whole sentences:
 - Fill the ten first. Then add the rest.
 - Take the tens away first, then the ones. Use the blocks if you like.
 - Ten on: go one row down. The ones stay the same.
-- You do not need to count them all. The top row is 5. How many more are there?
-- You do not need to count them all. The dark blue ones are 5. How many more are there?
+- The top row is 5. How many more are there?
+- The dark blue ones are 5. How many more are there?
 - That is not enough yet. Add some more.
 - That is too many. Tap Start again and build it once more.
 - Count the red tens: 10, 20, 30. Then add the ones.
-- You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.
+- Count the red tens in tens: 10, 20, 30. Then add the blue ones.
 - Count the empty places, or the fingers that are down.
 - Count the empty places in the blue tower.
 - Watch the yellow ones fill up the ten. Now count the tens.
@@ -67,8 +67,8 @@ Whole sentences:
 - The tens stay. Just add the ones.
 - You have taken all the tens.
 - You have taken all the ones.
-- No ones left! Break a ten into 10 ones.
-- You have enough ones. No need to break a ten.
+- The ones are all gone! Break a ten into 10 ones.
+- You have enough ones. Take away a one.
 - Count what is left. Red tens in tens: 10, 20, 30. Then the blue ones.
 - The parts together are as long as the whole. What is missing?
 - The mystery number is the whole. Put the two parts together.
@@ -178,12 +178,12 @@ Sentences with a number, one clip for each number:
 
 ## Pack: counting
 
-15 clips.
+61 clips.
 
 Whole sentences:
 
 - How many? Look for groups you know.
-- You do not need to count them all. Look for small groups you know.
+- Look for small groups you know, and put them together.
 - Tap each one once to count them.
 - Count again. Touch each one once and say one number.
 - They have moved. How many are there now?
@@ -193,10 +193,14 @@ Whole sentences:
 - Take them all away and none are left. None is zero.
 - Zero is nothing. Adding nothing changes nothing.
 - One bone.
-- Guess how many there are. You do not need to count.
-- Let's check.
-- Let's check. Count them and see which number is nearest.
-- Let's check. Pack them in tens and see which number is nearest.
+- Look at the whole heap. Is it a little, or a lot? Now pick the number that is closest.
+- Watch Oreo first.
+- Hmm, that looks like about ten.
+- Now it is your turn.
+
+Sentences with a number, one clip for each number:
+
+- 4. That is 4 ones, so 5 is nearest. (46 clips)
 
 ## Pack: order
 

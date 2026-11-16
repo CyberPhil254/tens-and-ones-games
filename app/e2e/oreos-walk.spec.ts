@@ -32,7 +32,7 @@ test("Oreo's Walk level 2: walk her there in tens and ones", async ({ page }) =>
   const done = page.getByRole('button', { name: 'Done' });
 
   await done.click();
-  await expect(feedback(page)).toHaveText('Oreo is on 0. That is not far enough yet.');
+  await expect(feedback(page)).toHaveText('Oreo is on 0. Walk a little further.');
   for (let i = 0; i < 12; i++) await jump.click(); // never past 100
   expect(await lineShows(page)).toBe(100);
   await done.click();

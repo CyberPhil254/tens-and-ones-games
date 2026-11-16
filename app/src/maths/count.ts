@@ -3,10 +3,11 @@
  *   Count to 20        1 touch each bone once, to 10; 2 the same to 20; 3 the bones are moved: still the same number
  *   Zero               4 how many on the plate, sometimes none; 5 "5 − 5" and "5 + 0" in her head
  *   Guess, then check  6 a heap to 20, seen for a moment: which number is nearest
- *   Guess a heap       7 a heap to 100: which ten is nearest, checked by packing in tens
+ *   Guess a heap       7 a heap to 100: which ten is nearest
+ * After a guess, the same bones move into tens and ones, and that says why the answer is nearest.
  * Everything that is counted is drawn in code at places the maker gives, so the amount is exact.
  */
-import type { Piece } from '../speech/script';
+import { SP, type Piece } from '../speech/script';
 import type { Dice } from './random';
 
 export const COUNT_LEVELS = 7;
@@ -30,6 +31,27 @@ export interface CountQ {
   hint: string;
   sayHint: Piece[];
 }
+
+/**
+ * The estimating steps: the numbers to choose from, and for each the heaps that are shown for it.
+ * A heap is always clearly nearest to one choice: any other choice is at least twice as far away
+ * (see `clearlyNearest`), so a good estimator cannot fairly pick another. Sizes in between
+ * (7, 8, 13 to 16, 27 to 43, 57 to 73) are never shown.
+ */
+export const GUESS: Record<6 | 7, { opts: readonly number[]; heaps: Record<number, readonly [number, number]> }> = {
+  6: { opts: [5, 10, 20], heaps: { 5: [4, 6], 10: [9, 12], 20: [17, 20] } },
+  7: { opts: [20, 50, 80], heaps: { 20: [14, 26], 50: [44, 56], 80: [74, 86] } },
+};
+/** Every heap an estimating step can show, with its choices and the nearest of them. */
+export function guessHeaps(level: 6 | 7): { n: number; ans: number; opts: readonly number[] }[] {
+  const g = GUESS[level];
+  return g.opts.flatMap((ans) => { const [lo, hi] = g.heaps[ans]!; return Array.from({ length: hi - lo + 1 }, (_, i) => ({ n: lo + i, ans, opts: g.opts })); });
+}
+/** True when `ans` is the one nearest choice and every other choice is at least twice as far from the heap. */
+export const clearlyNearest = (n: number, ans: number, opts: readonly number[]): boolean =>
+  opts.includes(ans) && opts.every((o) => o === ans || Math.abs(o - n) >= Math.max(2 * Math.abs(ans - n), Math.abs(ans - n) + 3));
+/** The heap the first-time demonstration shows: Oreo says "about ten". */
+export const DEMO_HEAP = { n: 11, ans: 10, opts: GUESS[6].opts };
 
 function scatter(d: Dice, n: number, cols: number, rows: number, nudge: number): Spot[] {
   return d.shuffle(Array.from({ length: cols * rows }, (_, i) => i)).slice(0, n).sort((x, y) => x - y)
@@ -82,18 +104,11 @@ export function makeCount(level: number, d: Dice): CountQ {
         sayEq: first ? [n, 'frag.plus', 0, 'frag.is', n] : [0, 'frag.plus', n, 'frag.is', n],
         hint: 'Zero is nothing. Adding nothing changes nothing.', sayHint: ['zero-is-nothing-adding-nothing-changes'] };
     }
-    case 6: {
-      // Three numbers well apart; the heap is clearly nearest to one of them.
-      const opts = [5, 10, 20], ans = d.pick(opts), n = ans === 5 ? d.rnd(4, 6) : ans === 10 ? d.rnd(9, 12) : d.rnd(17, 20);
-      return { kind: 'guess', n, ans, spots: scatter(d, n, 6, 5, 6), cols: 6, opts,
-        say: ['guess-how-many-do-not-count'], sayEq: ['lets-check', n, 'frag.bones'],
-        hint: 'Let’s check. Count them and see which number is nearest.', sayHint: ['lets-check-count-them-and-see'] };
-    }
+    case 6:
     case 7: {
-      const opts = [20, 50, 80], ans = d.pick(opts), n = ans + d.rnd(-6, 6);
-      return { kind: 'guess', n, ans, spots: scatter(d, n, 12, 9, 3), cols: 12, opts,
-        say: ['guess-how-many-do-not-count'], sayEq: ['lets-check', n, 'frag.bones'],
-        hint: 'Let’s check. Pack them in tens and see which number is nearest.', sayHint: ['lets-check-pack-them-in-tens'] };
+      const g = GUESS[level], ans = d.pick(g.opts), [lo, hi] = g.heaps[ans]!, n = d.rnd(lo, hi), many = level === 7;
+      return { kind: 'guess', n, ans, spots: many ? scatter(d, n, 12, 9, 3) : scatter(d, n, 6, 5, 6), cols: many ? 12 : 6, opts: [...g.opts],
+        say: ['look-at-the-whole-heap-is'], sayEq: [`nearest.${n}`], hint: SP.nearest(n, ans), sayHint: [`nearest.${n}`] };
     }
     default: throw new RangeError(`count has levels 1 to ${COUNT_LEVELS}, got ${level}`);
   }

@@ -52,7 +52,7 @@ export function AddChild({ first, onAdd, onCancel }: {
             </button>
           </div>
         </fieldset>
-        <p className="h2note">Only this is saved, on this device: the nickname, the picture, the stage and how she gets on. No account, no email.</p>
+        <p className="h2note">Only this is saved, on this device: the nickname, the picture, the stage and how she gets on. There is no account and no email.</p>
         <div className="trow">
           <button className="next" type="submit" disabled={!nickname}>Start</button>
           {onCancel && <button className="soundbtn" type="button" onClick={onCancel}>Cancel</button>}

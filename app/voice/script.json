@@ -1,9 +1,9 @@
 {
  "clips": [
   {
-   "id": "how-many-do-not-count-look",
-   "text": "How many can you see? You do not need to count. Look for the five.",
-   "key": "How many can you see? You do not need to count. Look for the five.",
+   "id": "how-many-look-for-the-five",
+   "text": "How many can you see? Look for the five, then see how many more there are.",
+   "key": "How many can you see? Look for the five, then see how many more there are.",
    "fragment": false,
    "pack": "games"
   },
@@ -239,9 +239,9 @@
    "pack": "games"
   },
   {
-   "id": "not-enough-left-for-a-ten",
-   "text": "Not enough left for a ten. They stay ones.",
-   "key": "Not enough left for a ten. They stay ones.",
+   "id": "fewer-than-ten-are-left-so",
+   "text": "Fewer than ten are left, so they stay ones.",
+   "key": "Fewer than ten are left, so they stay ones.",
    "fragment": false,
    "pack": "games"
   },
@@ -267,9 +267,9 @@
    "pack": "games"
   },
   {
-   "id": "that-is-not-far-enough-yet",
-   "text": "That is not far enough yet.",
-   "key": "That is not far enough yet.",
+   "id": "walk-a-little-further",
+   "text": "Walk a little further.",
+   "key": "Walk a little further.",
    "fragment": false,
    "pack": "games"
   },
@@ -323,16 +323,16 @@
    "pack": "games"
   },
   {
-   "id": "do-not-count-them-all-the",
-   "text": "You do not need to count them all. The top row is 5. How many more are there?",
-   "key": "You do not need to count them all. The top row is 5. How many more are there?",
+   "id": "the-top-row-is-5-how",
+   "text": "The top row is 5. How many more are there?",
+   "key": "The top row is 5. How many more are there?",
    "fragment": false,
    "pack": "games"
   },
   {
-   "id": "do-not-count-them-all-the-dark",
-   "text": "You do not need to count them all. The dark blue ones are 5. How many more are there?",
-   "key": "You do not need to count them all. The dark blue ones are 5. How many more are there?",
+   "id": "the-dark-blue-ones-are-5",
+   "text": "The dark blue ones are 5. How many more are there?",
+   "key": "The dark blue ones are 5. How many more are there?",
    "fragment": false,
    "pack": "games"
   },
@@ -358,9 +358,9 @@
    "pack": "games"
   },
   {
-   "id": "do-not-count-every-block-count",
-   "text": "You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
-   "key": "You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
+   "id": "count-the-red-tens-in-tens",
+   "text": "Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
+   "key": "Count the red tens in tens: 10, 20, 30. Then add the blue ones.",
    "fragment": false,
    "pack": "games"
   },
@@ -414,16 +414,16 @@
    "pack": "games"
   },
   {
-   "id": "no-ones-left-break-a-ten",
-   "text": "No ones left! Break a ten into 10 ones.",
-   "key": "No ones left! Break a ten into 10 ones.",
+   "id": "the-ones-are-all-gone-break",
+   "text": "The ones are all gone! Break a ten into 10 ones.",
+   "key": "The ones are all gone! Break a ten into 10 ones.",
    "fragment": false,
    "pack": "games"
   },
   {
-   "id": "you-have-enough-ones-no-need",
-   "text": "You have enough ones. No need to break a ten.",
-   "key": "You have enough ones. No need to break a ten.",
+   "id": "you-have-enough-ones-take-away",
+   "text": "You have enough ones. Take away a one.",
+   "key": "You have enough ones. Take away a one.",
    "fragment": false,
    "pack": "games"
   },
@@ -757,9 +757,9 @@
    "pack": "counting"
   },
   {
-   "id": "do-not-count-them-all-look",
-   "text": "You do not need to count them all. Look for small groups you know.",
-   "key": "You do not need to count them all. Look for small groups you know.",
+   "id": "look-for-small-groups-you-know",
+   "text": "Look for small groups you know, and put them together.",
+   "key": "Look for small groups you know, and put them together.",
    "fragment": false,
    "pack": "counting"
   },
@@ -1247,30 +1247,30 @@
    "pack": "counting"
   },
   {
-   "id": "guess-how-many-do-not-count",
-   "text": "Guess how many there are. You do not need to count.",
-   "key": "Guess how many there are. You do not need to count.",
+   "id": "look-at-the-whole-heap-is",
+   "text": "Look at the whole heap. Is it a little, or a lot? Now pick the number that is closest.",
+   "key": "Look at the whole heap. Is it a little, or a lot? Now pick the number that is closest.",
    "fragment": false,
    "pack": "counting"
   },
   {
-   "id": "lets-check",
-   "text": "Let's check.",
-   "key": "Let's check.",
+   "id": "watch-oreo-first",
+   "text": "Watch Oreo first.",
+   "key": "Watch Oreo first.",
    "fragment": false,
    "pack": "counting"
   },
   {
-   "id": "lets-check-count-them-and-see",
-   "text": "Let's check. Count them and see which number is nearest.",
-   "key": "Let's check. Count them and see which number is nearest.",
+   "id": "hmm-that-looks-like-about-ten",
+   "text": "Hmm, that looks like about ten.",
+   "key": "Hmm, that looks like about ten.",
    "fragment": false,
    "pack": "counting"
   },
   {
-   "id": "lets-check-pack-them-in-tens",
-   "text": "Let's check. Pack them in tens and see which number is nearest.",
-   "key": "Let's check. Pack them in tens and see which number is nearest.",
+   "id": "now-it-is-your-turn",
+   "text": "Now it is your turn.",
+   "key": "Now it is your turn.",
    "fragment": false,
    "pack": "counting"
   },
@@ -4577,6 +4577,328 @@
    "key": "It is the twentieth.",
    "fragment": false,
    "pack": "order"
+  },
+  {
+   "id": "nearest.4",
+   "text": "4. That is 4 ones, so 5 is nearest.",
+   "key": "4. That is 4 ones, so 5 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.5",
+   "text": "5. That is 5 ones, so 5 is nearest.",
+   "key": "5. That is 5 ones, so 5 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.6",
+   "text": "6. That is 6 ones, so 5 is nearest.",
+   "key": "6. That is 6 ones, so 5 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.9",
+   "text": "9. That is 9 ones, nearly 1 ten, so 10 is nearest.",
+   "key": "9. That is 9 ones, nearly 1 ten, so 10 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.10",
+   "text": "10. That is 1 ten, so 10 is nearest.",
+   "key": "10. That is 1 ten, so 10 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.11",
+   "text": "11. That is 1 ten and 1 more, so 10 is nearest.",
+   "key": "11. That is 1 ten and 1 more, so 10 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.12",
+   "text": "12. That is 1 ten and 2 more, so 10 is nearest.",
+   "key": "12. That is 1 ten and 2 more, so 10 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.17",
+   "text": "17. That is 1 ten and 7 more, nearly 2 tens, so 20 is nearest.",
+   "key": "17. That is 1 ten and 7 more, nearly 2 tens, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.18",
+   "text": "18. That is 1 ten and 8 more, nearly 2 tens, so 20 is nearest.",
+   "key": "18. That is 1 ten and 8 more, nearly 2 tens, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.19",
+   "text": "19. That is 1 ten and 9 more, nearly 2 tens, so 20 is nearest.",
+   "key": "19. That is 1 ten and 9 more, nearly 2 tens, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.20",
+   "text": "20. That is 2 tens, so 20 is nearest.",
+   "key": "20. That is 2 tens, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.14",
+   "text": "14. That is 1 ten and 4 more, so 20 is nearest.",
+   "key": "14. That is 1 ten and 4 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.15",
+   "text": "15. That is 1 ten and 5 more, nearly 2 tens, so 20 is nearest.",
+   "key": "15. That is 1 ten and 5 more, nearly 2 tens, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.16",
+   "text": "16. That is 1 ten and 6 more, nearly 2 tens, so 20 is nearest.",
+   "key": "16. That is 1 ten and 6 more, nearly 2 tens, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.21",
+   "text": "21. That is 2 tens and 1 more, so 20 is nearest.",
+   "key": "21. That is 2 tens and 1 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.22",
+   "text": "22. That is 2 tens and 2 more, so 20 is nearest.",
+   "key": "22. That is 2 tens and 2 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.23",
+   "text": "23. That is 2 tens and 3 more, so 20 is nearest.",
+   "key": "23. That is 2 tens and 3 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.24",
+   "text": "24. That is 2 tens and 4 more, so 20 is nearest.",
+   "key": "24. That is 2 tens and 4 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.25",
+   "text": "25. That is 2 tens and 5 more, so 20 is nearest.",
+   "key": "25. That is 2 tens and 5 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.26",
+   "text": "26. That is 2 tens and 6 more, so 20 is nearest.",
+   "key": "26. That is 2 tens and 6 more, so 20 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.44",
+   "text": "44. That is 4 tens and 4 more, so 50 is nearest.",
+   "key": "44. That is 4 tens and 4 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.45",
+   "text": "45. That is 4 tens and 5 more, nearly 5 tens, so 50 is nearest.",
+   "key": "45. That is 4 tens and 5 more, nearly 5 tens, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.46",
+   "text": "46. That is 4 tens and 6 more, nearly 5 tens, so 50 is nearest.",
+   "key": "46. That is 4 tens and 6 more, nearly 5 tens, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.47",
+   "text": "47. That is 4 tens and 7 more, nearly 5 tens, so 50 is nearest.",
+   "key": "47. That is 4 tens and 7 more, nearly 5 tens, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.48",
+   "text": "48. That is 4 tens and 8 more, nearly 5 tens, so 50 is nearest.",
+   "key": "48. That is 4 tens and 8 more, nearly 5 tens, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.49",
+   "text": "49. That is 4 tens and 9 more, nearly 5 tens, so 50 is nearest.",
+   "key": "49. That is 4 tens and 9 more, nearly 5 tens, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.50",
+   "text": "50. That is 5 tens, so 50 is nearest.",
+   "key": "50. That is 5 tens, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.51",
+   "text": "51. That is 5 tens and 1 more, so 50 is nearest.",
+   "key": "51. That is 5 tens and 1 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.52",
+   "text": "52. That is 5 tens and 2 more, so 50 is nearest.",
+   "key": "52. That is 5 tens and 2 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.53",
+   "text": "53. That is 5 tens and 3 more, so 50 is nearest.",
+   "key": "53. That is 5 tens and 3 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.54",
+   "text": "54. That is 5 tens and 4 more, so 50 is nearest.",
+   "key": "54. That is 5 tens and 4 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.55",
+   "text": "55. That is 5 tens and 5 more, so 50 is nearest.",
+   "key": "55. That is 5 tens and 5 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.56",
+   "text": "56. That is 5 tens and 6 more, so 50 is nearest.",
+   "key": "56. That is 5 tens and 6 more, so 50 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.74",
+   "text": "74. That is 7 tens and 4 more, so 80 is nearest.",
+   "key": "74. That is 7 tens and 4 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.75",
+   "text": "75. That is 7 tens and 5 more, nearly 8 tens, so 80 is nearest.",
+   "key": "75. That is 7 tens and 5 more, nearly 8 tens, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.76",
+   "text": "76. That is 7 tens and 6 more, nearly 8 tens, so 80 is nearest.",
+   "key": "76. That is 7 tens and 6 more, nearly 8 tens, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.77",
+   "text": "77. That is 7 tens and 7 more, nearly 8 tens, so 80 is nearest.",
+   "key": "77. That is 7 tens and 7 more, nearly 8 tens, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.78",
+   "text": "78. That is 7 tens and 8 more, nearly 8 tens, so 80 is nearest.",
+   "key": "78. That is 7 tens and 8 more, nearly 8 tens, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.79",
+   "text": "79. That is 7 tens and 9 more, nearly 8 tens, so 80 is nearest.",
+   "key": "79. That is 7 tens and 9 more, nearly 8 tens, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.80",
+   "text": "80. That is 8 tens, so 80 is nearest.",
+   "key": "80. That is 8 tens, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.81",
+   "text": "81. That is 8 tens and 1 more, so 80 is nearest.",
+   "key": "81. That is 8 tens and 1 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.82",
+   "text": "82. That is 8 tens and 2 more, so 80 is nearest.",
+   "key": "82. That is 8 tens and 2 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.83",
+   "text": "83. That is 8 tens and 3 more, so 80 is nearest.",
+   "key": "83. That is 8 tens and 3 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.84",
+   "text": "84. That is 8 tens and 4 more, so 80 is nearest.",
+   "key": "84. That is 8 tens and 4 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.85",
+   "text": "85. That is 8 tens and 5 more, so 80 is nearest.",
+   "key": "85. That is 8 tens and 5 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
+  },
+  {
+   "id": "nearest.86",
+   "text": "86. That is 8 tens and 6 more, so 80 is nearest.",
+   "key": "86. That is 8 tens and 6 more, so 80 is nearest.",
+   "fragment": false,
+   "pack": "counting"
   },
   {
    "id": "frag.plus",

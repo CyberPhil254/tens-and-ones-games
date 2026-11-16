@@ -35,7 +35,7 @@ export function QuickLook({ q, level, round }: GameProps<'look'>) {
         }}
         onWrong={() => {
           setMissed(true);
-          round.wrong('You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.', ['do-not-count-every-block-count']);
+          round.wrong('Count the red tens in tens: 10, 20, 30. Then add the blue ones.', ['count-the-red-tens-in-tens']);
         }}
       />
     </>

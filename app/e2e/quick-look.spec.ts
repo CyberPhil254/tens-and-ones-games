@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { blocksNumber, bones, choice, feedback, fitsTheScreen, next, openGame, oreo, paws, tensAndOnes, watch, wrongChoice } from './helpers';
 
-const HINT = 'You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones.';
+const HINT = 'Count the red tens in tens: 10, 20, 30. Then add the blue ones.';
 
 for (const level of [1, 2, 3]) {
   test(`Quick Look level ${level}: wrong, then right, then right first time`, async ({ page }) => {

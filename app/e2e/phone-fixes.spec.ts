@@ -122,12 +122,26 @@ test('with reduced motion, a tapped trick is shown and named but does not move',
   }
 });
 
-test('the parents’ lock says what it is, and does not look like a lesson', async ({ page }) => {
+test('the button for grown-ups on the home screen says where it leads', async ({ page }) => {
+  await seed(page);
+  await page.goto('/');
+  const btn = page.getByRole('button', { name: 'For grown-ups' }), note = page.getByTestId('grown-note');
+  await expect(note).toHaveText('Progress, settings, and why the app teaches this way.');
+  await expect(btn).toBeVisible();
+  // Both are measured in one go: on a slow connection the page is still settling, and two readings a moment apart do not belong together.
+  const gap = await note.evaluate((n) => n.getBoundingClientRect().top - n.parentElement!.querySelector('button')!.getBoundingClientRect().bottom);
+  expect(gap).toBeGreaterThanOrEqual(-0.5); // under the button
+  expect(gap).toBeLessThan(24); // and close to it
+  await fitsTheScreen(page);
+});
+
+test('the parents’ lock says what to do and why, and does not look like a lesson', async ({ page }) => {
   await seed(page);
   await page.goto('/');
   await page.getByRole('button', { name: 'For grown-ups' }).click();
   const gate = page.getByTestId('gate');
-  await expect(gate.getByTestId('gate-why')).toHaveText('This part is for parents. Answer to open it.');
+  await expect(gate.locator('h1')).toHaveText('For grown-ups');
+  await expect(gate.getByTestId('gate-why')).toHaveText('To open this area, solve this sum. It keeps children out of the settings.');
   // The explanation comes before the question.
   const why = (await gate.getByTestId('gate-why').boundingBox())!, q = (await gate.getByTestId('gate-question').boundingBox())!;
   expect(why.y + why.height).toBeLessThanOrEqual(q.y + 0.5);
@@ -137,6 +151,14 @@ test('the parents’ lock says what it is, and does not look like a lesson', asy
     expect(await el.evaluate((e) => getComputedStyle(e).fontFamily)).not.toMatch(/Fredoka|Andika/);
   }
   await fitsTheScreen(page);
+  // A wrong answer: it says so, and gives another sum to try.
+  const first = await gate.getByTestId('gate-question').innerText();
+  await page.getByLabel('Your answer').fill('12');
+  await gate.getByRole('button', { name: 'Open' }).click();
+  await expect(gate.getByRole('alert')).toHaveText('That is not it. Try this one.');
+  await expect(gate.getByTestId('gate-question')).not.toHaveText(first);
+  const alert = (await gate.getByRole('alert').boundingBox())!, q2 = (await gate.getByTestId('gate-question').boundingBox())!;
+  expect(alert.y + alert.height).toBeLessThanOrEqual(q2.y + 0.5); // "try this one" stands above the new sum
   await gate.getByRole('button', { name: 'Back to the game' }).click();
   await expect(page.getByTestId('today-text')).toBeVisible();
 });

@@ -59,7 +59,7 @@ export function makeDots(level: number, d: Dice): DotsQ {
     opts: [...out, n].sort((x, y) => x - y),
     say: ['how-many-look-for-groups-you'],
     sayEq: b ? [a, 'frag.plus', b, 'frag.is', n] : ['you-just-saw-it'],
-    hint: 'You do not need to count them all. Look for small groups you know.',
-    sayHint: ['do-not-count-them-all-look'],
+    hint: 'Look for small groups you know, and put them together.',
+    sayHint: ['look-for-small-groups-you-know'],
   };
 }

@@ -47,12 +47,12 @@ function WithBlocks({ q, round, canBreak }: GameProps<'take'> & { canBreak: bool
       if (!need.ones) return round.note('You have taken all the ones.', 'hint', ['you-have-taken-all-the-ones']);
       if (!b.ones) {
         setPulse(canBreak);
-        return round.note('No ones left! Break a ten into 10 ones.', 'hint', ['no-ones-left-break-a-ten']);
+        return round.note('The ones are all gone! Break a ten into 10 ones.', 'hint', ['the-ones-are-all-gone-break']);
       }
       setB({ ...b, ones: b.ones - 1 });
       left = { ...need, ones: need.ones - 1 };
     } else {
-      if (b.ones >= need.ones) return round.note('You have enough ones. No need to break a ten.', 'hint', ['you-have-enough-ones-no-need']);
+      if (b.ones >= need.ones) return round.note('You have enough ones. Take away a one.', 'hint', ['you-have-enough-ones-take-away']);
       busy.current = true;
       broke.current = true;
       setPulse(false);

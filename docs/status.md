@@ -18,6 +18,41 @@ To confirm (all in `docs/decisions.md`, dated 2026-11-16): what counts as "confi
 
 Not done, because it was not asked: the home button still says "For grown-ups" while the lock now says "parents".
 
+## More from the phone test (2026-11-16, pull request 49)
+
+Nothing is half done and no clips are waiting to be recorded. One thing needs Philipp: the pull request that adds rule 9 to `CLAUDE.md` is open for him to merge, because that file is at the repository root.
+
+6. **Under "For grown-ups" on the home screen**: "Progress, settings, and why the app teaches this way."
+7. **The lock** (replaces fix 4): "For grown-ups", then "To open this area, solve this sum. It keeps children out of the settings.", then the sum. After a wrong answer: "That is not it. Try this one." Still a plain form without Oreo.
+8. **The estimating steps of Count and guess** (Guess, then check; Guess a heap):
+   - One "Peek again" per heap, then the button goes.
+   - After every answer the same bones move into tens and ones, each full ten in a red frame, and Oreo says the number and why: "12. That is 1 ten and 2 more, so 10 is nearest." (50 sentences, one per heap size).
+   - The instruction is "Look at the whole heap. Is it a little, or a lot? Now pick the number that is closest."
+   - The first time, Oreo shows how: a heap of 11, "Hmm, that looks like about ten.", she picks 10, the bones pack into a ten and one more.
+   - Every heap the maker can show is tested: exactly one choice is nearest, and any other is at least twice as far away.
+9. **Say what to do, never only what not to do.** A test fails if any spoken sentence or on-screen text in the games begins with "Don't", "Do not" or "No ".
+
+### Sentences changed for rule 9 (all recorded again)
+
+| Before | Now |
+|---|---|
+| How many can you see? You do not need to count. Look for the five. | How many can you see? Look for the five, then see how many more there are. |
+| You do not need to count them all. The top row is 5. How many more are there? | The top row is 5. How many more are there? |
+| You do not need to count them all. The dark blue ones are 5. How many more are there? | The dark blue ones are 5. How many more are there? |
+| You do not need to count every block. Count the red tens in tens: 10, 20, 30. Then add the blue ones. | Count the red tens in tens: 10, 20, 30. Then add the blue ones. |
+| You do not need to count them all. Look for small groups you know. | Look for small groups you know, and put them together. |
+| Guess how many there are. You do not need to count. | Look at the whole heap. Is it a little, or a lot? Now pick the number that is closest. |
+| No ones left! Break a ten into 10 ones. | The ones are all gone! Break a ten into 10 ones. |
+| You have enough ones. No need to break a ten. | You have enough ones. Take away a one. |
+| Not enough left for a ten. They stay ones. | Fewer than ten are left, so they stay ones. |
+| That is not far enough yet. | Walk a little further. |
+
+New: "Watch Oreo first.", "Hmm, that looks like about ten.", "Now it is your turn.", and the 50 "… so … is nearest." sentences. Removed, because nothing says them now: "Let's check.", "Let's check. Count them and see which number is nearest.", "Let's check. Pack them in tens and see which number is nearest."
+
+To confirm (in `docs/decisions.md`, dated 2026-11-16): the wording of the "nearest" sentences, especially "nearly 2 tens"; that the demonstration also comes before a child's first heap to 100; that the other quick-look games keep their unlimited peek; the four sentences with "not" that were left alone.
+
+I cannot listen to the recordings: the 59 new clips are checked for existing and for length only.
+
 ## "Done means", line by line
 
 | The spec says | State |
@@ -25,10 +60,10 @@ Not done, because it was not asked: the home button still says "For grown-ups" w
 | Every skill of Stages 1 and 2 has a playable lesson with all its steps | **Yes.** 41 lessons in 14 units, 25 games, 108 levels. Table below |
 | A wrong-answer explanation for every question type | **Yes.** Each lesson's pull request lists them; the browser tests play a wrong answer at every level and read the explanation |
 | A parent note for every lesson | **Yes.** 41 notes with source and strength, from `docs/research.md` in its own words; a test fails if one overstates |
-| Its sentences recorded | **Yes.** 889 clips, none missing; a test fails if a clip has no recording |
+| Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 447 unit tests, 316 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 453 unit tests, 322 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -100,7 +135,7 @@ Around the lessons:
 
 ## Decisions
 
-All 131 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 140 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -113,7 +148,7 @@ All 131 are in `docs/decisions.md` under "Decided during the build, to confirm",
 
 ## Clips
 
-- 889 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 545 keep their recording from the live game, 344 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
+- 935 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 541 keep their recording from the live game, 394 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
 - Missing: none (`app/voice/missing.json` is empty).
 - Nobody has listened to the 338 new ones. They are machine voice of the same kind as the live game's; a few will have odd stress and want recording again by ear. The stitched sentences ("8, plus, 5. How many altogether?") are the most likely to sound wrong.
 
@@ -188,6 +223,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 46 | The voice pass: twelve packs by lesson family (the first is 0.4 MB, not 7 MB), 15 clipped commands rewritten as whole sentences, Oreo's two introductions with the "Star's sister" switch, unused sentences and recordings removed |
 | 47 | The final report (this file) |
 | 48 | After the first phone test: rewards only for what she did herself (and taken back from existing profiles), named tricks that speak and move, trick pictures that fit, a parents' lock that explains itself, "why this works" under every lesson |
+| 49 | More from the phone test: a line under "For grown-ups", the lock says what to do, estimating reworked (one peek, the same bones pack into tens and ones, Oreo says why and shows how the first time), and the rule "say what to do" with its test and ten rewritten sentences |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

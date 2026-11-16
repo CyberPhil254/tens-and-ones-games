@@ -2,6 +2,7 @@
  * Every clip the voice has, each with an id. The player and the voice pack use ids only;
  * the wording behind an id can change (voice v2) without touching game code.
  */
+import { guessHeaps } from '../maths/count';
 import { SP, type Piece } from './script';
 import { FIXED, FRAGMENTS, PRAISE, PRAISE_AFTER_HELP } from './sentences';
 
@@ -66,6 +67,7 @@ function build(): Clip[] {
   [1, 5, 10, 20, 50, 100].forEach((v) => { add(`tapMoney.${v}`, SP.tapMoney(v)); add(`shillings.${v}`, SP.shillings(v)); });
   range(1, 10).forEach((k) => add(`tapNth.${k}`, SP.tapNth(k)));
   range(1, 20).forEach((k) => add(`nthPlace.${k}`, SP.nthPlace(k)));
+  for (const level of [6, 7] as const) for (const h of guessHeaps(level)) add(`nearest.${h.n}`, SP.nearest(h.n, h.ans));
   for (const [id, text] of Object.entries(FRAGMENTS)) add(`frag.${id}`, text);
   // A number sounds different in the middle of a sentence and at its end, so each has two clips.
   range(0, 100).forEach((n) => add(`num.${n}.mid`, `${n},`, `#${n},`));
@@ -98,7 +100,7 @@ const FIXED_PACK = (() => {
 const TEMPLATE_PACK: Record<string, string> = {
   num: 'numbers', frag: 'numbers', isTO: 'place', which: 'place', has: 'place', tens: 'place',
   puppyHas: 'stories', finds: 'stories', digs: 'stories', eats: 'stories', gives: 'stories',
-  hops: 'steps', tapMoney: 'money', shillings: 'money', tapNth: 'order', nthPlace: 'order',
+  nearest: 'counting', hops: 'steps', tapMoney: 'money', shillings: 'money', tapNth: 'order', nthPlace: 'order',
   friendsQ: 'games', friends: 'games', newTen: 'games', five: 'games', rows: 'games', tensOnly: 'games',
 };
 function packOf(id: string): string {

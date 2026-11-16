@@ -256,7 +256,7 @@ test('every step, right and wrong: the picture, the hint', async ({ page }) => {
   // Step 1: a wrong tap gets a hint that says what to look for, and costs the bone, not the question.
   const n1 = await shown(page);
   await page.locator('.choice').filter({ hasNotText: new RegExp(`^${n1}$`) }).first().click();
-  await expect(page.getByTestId('feedback')).toHaveText('You do not need to count them all. The dark blue ones are 5. How many more are there?');
+  await expect(page.getByTestId('feedback')).toHaveText('The dark blue ones are 5. How many more are there?');
   await expect(page.getByRole('button', { name: /^(Next|Finish)$/ })).toHaveCount(0);
   await answer(page);
   await expect(page.locator('.dots .done')).toHaveCount(1);
@@ -283,7 +283,7 @@ test('every step, right and wrong: the picture, the hint', async ({ page }) => {
   await expect(page.locator('.fiverow .frame')).toBeVisible();
   const n3 = await shown(page);
   await page.locator('.choice').filter({ hasNotText: new RegExp(`^${n3}$`) }).first().click();
-  await expect(page.getByTestId('feedback')).toHaveText('You do not need to count them all. The top row is 5. How many more are there?');
+  await expect(page.getByTestId('feedback')).toHaveText('The top row is 5. How many more are there?');
   await expect(page.locator('.cheer .pup[data-pose=not-yet]')).toBeVisible();
   await answer(page);
   await expect(page.locator('.fiverow .hands')).toBeVisible(); // the fingers come back with the answer

@@ -28,6 +28,13 @@ export const SP = {
   tensOnly: (k: number) => `${k * 10} is ${k} tens. Only the tens change.`,
   five: (k: number) => `5 and ${k} make ${5 + k}.`,
   tens: (k: number) => `${tensW(k)}.`,
+  /** After a guess: the heap packed in tens, and why that makes `ans` the nearest. "12. That is 1 ten and 2 more, so 10 is nearest." */
+  nearest: (n: number, ans: number) => {
+    const t = Math.floor(n / 10), o = n % 10;
+    const packed = t === 0 ? onesW(o) : o === 0 ? tensW(t) : `${tensW(t)} and ${o} more`;
+    const nearly = ans > n && o >= 5 && ans === (t + 1) * 10 ? `, nearly ${tensW(t + 1)}` : '';
+    return `${n}. That is ${packed}${nearly}, so ${ans} is nearest.`;
+  },
   rows: (plus: boolean, k: number) =>
     `A jump of ten goes straight ${plus ? 'down' : 'up'}. Go ${k === 1 ? 'one row' : k + ' rows'} ${plus ? 'down' : 'up'} the blue line.`,
 } as const;
