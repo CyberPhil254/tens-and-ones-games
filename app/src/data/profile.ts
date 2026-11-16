@@ -154,6 +154,12 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
   });
 }
 
+/** True when two profiles hold the same data, however each was put together. Null is only the same as null. */
+export function sameData(a: ProfileData | null, b: ProfileData | null, today: Day): boolean {
+  const plain = (d: ProfileData | null) => (d ? JSON.stringify(readProfileData(JSON.parse(JSON.stringify(d)), today)) : 'null');
+  return plain(a) === plain(b);
+}
+
 export function readSettings(raw: unknown): Settings {
   const r = obj(raw);
   return {

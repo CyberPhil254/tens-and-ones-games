@@ -93,3 +93,51 @@ export async function blocksNumber(page: Page, within = '.stage'): Promise<numbe
 export async function fitsTheScreen(page: Page): Promise<void> {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 }
+
+/**
+ * The question on the screen, as the game was given it. Read from the page's own state, which only a
+ * test does: it lets a test play any lesson right first time without knowing every game by heart.
+ */
+export const question = (page: Page) => page.evaluate(() => {
+  const card = document.querySelector('.card.game[data-lesson]') as unknown as Record<string, { child: unknown } | undefined> | null;
+  if (!card) return null;
+  const key = Object.keys(card).find((k) => k.startsWith('__reactFiber'));
+  type Fiber = { memoizedProps?: { q?: Record<string, unknown>; round?: unknown }; child?: Fiber; sibling?: Fiber };
+  let q: Record<string, unknown> | null = null;
+  const walk = (f: Fiber | undefined, depth: number) => {
+    if (!f || depth > 80 || q) return;
+    if (f.memoizedProps?.q && f.memoizedProps.round) { q = f.memoizedProps.q; return; }
+    walk(f.child, depth + 1);
+    walk(f.sibling, depth + 1);
+  };
+  walk(key ? (card[key] as Fiber) : undefined, 0);
+  return q as Record<string, unknown> | null;
+});
+
+/**
+ * Answers the question on the screen right first time and goes on to the next (or to the end of the round).
+ * Knows the kinds of question the first lessons and the Stage 1 starting check ask: counting, a number
+ * to type, a choice of numbers, shapes or coins. Throws for anything else, so a test never passes by luck.
+ */
+export async function answerRight(page: Page): Promise<void> {
+  const card = page.locator('.card.game[data-lesson]');
+  await expect(card).toBeVisible();
+  const demo = page.getByRole('button', { name: 'Now you' });
+  if (await demo.count()) { await expect(demo).toBeEnabled({ timeout: 12_000 }); await demo.click(); }
+  const q = (await question(page))!;
+  const ans = Number(q.ans ?? q.n);
+  if (await card.getByRole('button', { name: 'Move them' }).count()) await card.getByRole('button', { name: 'Move them' }).click();
+  if (q.kind === 'count') for (const b of await card.locator('.fbone').all()) await b.click();
+  if (await card.getByTestId('numpad').count()) {
+    for (const d of String(ans)) await card.getByTestId('numpad').getByRole('button', { name: d, exact: true }).click();
+    await card.getByRole('button', { name: 'That is my answer' }).click();
+  } else if (await card.locator('.moneybtn').count()) {
+    await card.locator('.moneybtn').nth((q.opts as number[]).indexOf(ans)).click();
+  } else if (await card.locator('.choice').count()) {
+    const byText = card.locator('.choice').filter({ hasText: new RegExp(`^${ans}$`) });
+    if (await byText.count()) await byText.click();
+    else await card.locator('.choice').nth((q.opts as number[]).indexOf(ans)).click(); // shapes stand in the order of the choices
+  } else throw new Error(`answerRight does not know this kind of question: ${JSON.stringify(q).slice(0, 200)}`);
+  await expect(feedback(page)).toContainText('Woof!');
+  await page.getByRole('button', { name: /^(Next|Finish)$/ }).click();
+}

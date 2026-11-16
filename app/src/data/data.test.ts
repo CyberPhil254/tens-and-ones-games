@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { place, roundFinished } from '../engine/rules';
 import { lessonState, withLesson } from '../engine/state';
-import { addAttempt, cleanNickname, exportCode, FRIENDS, importCode, KEEP_ATTEMPTS, newProfile, readProfileData, type Attempt } from './profile';
+import { addAttempt, cleanNickname, exportCode, FRIENDS, importCode, KEEP_ATTEMPTS, newProfile, readProfileData, sameData, type Attempt } from './profile';
 import { deviceStore } from './store';
 
 const TODAY = '2026-11-16';
@@ -125,5 +125,20 @@ describe('the device store', () => {
     await deviceStore(s, () => TODAY).save(played());
     expect([...s.m.keys()].sort()).toEqual(['tens-and-ones.profile.child-1', 'tens-and-ones.profiles']);
     expect(Object.keys(JSON.parse(s.m.get('tens-and-ones.profile.child-1')!)).sort()).toEqual(['attempts', 'best', 'bones', 'checked', 'child', 'profile', 'rewards']);
+  });
+});
+
+describe('telling whether two profiles hold the same data', () => {
+  it('does not mind how each was put together, and notices every real difference', () => {
+    const d = played();
+    const reread = readProfileData(JSON.parse(JSON.stringify(d)), TODAY)!;
+    const shuffled = Object.fromEntries(Object.entries(d).reverse()) as typeof d; // the same fields in another order
+    expect(sameData(d, reread, TODAY)).toBe(true);
+    expect(sameData(d, shuffled, TODAY)).toBe(true);
+    expect(sameData(null, null, TODAY)).toBe(true);
+    expect(sameData(d, null, TODAY)).toBe(false);
+    expect(sameData(d, { ...d, bones: d.bones + 1 }, TODAY)).toBe(false);
+    expect(sameData(d, newProfile(d.profile.id, d.profile.nickname, d.profile.picture, d.profile.stage, d.profile.created), TODAY)).toBe(false); // started again
+    expect(sameData(d, { ...d, profile: { ...d.profile, nickname: 'Zuri' } }, TODAY)).toBe(false);
   });
 });

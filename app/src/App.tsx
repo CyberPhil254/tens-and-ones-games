@@ -83,6 +83,13 @@ export function App() {
   }, [asking]);
 
   const home = useCallback(() => setScreen({ at: 'home' }), []);
+  // What is saved was changed in another window (a child was started again there, say): whatever this
+  // window was showing was built on data that is gone, so it goes back to the start.
+  const [seen, setSeen] = useState(data.changedElsewhere);
+  if (seen !== data.changedElsewhere) {
+    setSeen(data.changedElsewhere);
+    setScreen({ at: 'home' });
+  }
   const run = screen.at === 'play' ? screen.run + 1 : 0;
 
   if (hash === '#pieces') return <Pieces />;
