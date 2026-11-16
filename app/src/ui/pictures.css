@@ -270,6 +270,27 @@
   object-position: center bottom;
   user-select: none;
 }
+/* Oreo animated (ui/animate.ts). She fits a square of side --box, keeps her own shape, and is never clipped:
+   tails and jumps go outside the picture's own box. The tail layer lies under the body, exactly on it. */
+.pup.oreoanim {
+  --box: 96px;
+  width: min(var(--box), calc(var(--box) * var(--ratio)));
+  height: auto;
+  aspect-ratio: var(--ratio);
+  overflow: visible;
+}
+.oreoanim .oa-pic {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.pup.oreoanim img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
 /* One small hop when a happy pose appears. Nothing repeats. */
 .pup.hop {
   animation: hop 0.5s ease-out;

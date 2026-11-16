@@ -18,6 +18,22 @@ To confirm (all in `docs/decisions.md`, dated 2026-11-16): what counts as "confi
 
 Not done, because it was not asked: the home button still says "For grown-ups" while the lock now says "parents".
 
+## Oreo's animations (2026-11-16, pull request 51)
+
+Nothing is half done. No new sentences: the tricks use the six recorded in pull request 48.
+
+10. The ten animations in `art/rigs/animations.json` are built in the app with the Web Animations API (`app/src/ui/animate.ts`), from the data. The GIFs are not shipped.
+    - **Tail wags**: `wag-happy` after a right answer; `wag-proud` at the end of a round, on the treasure card and beside an award.
+    - **The hop** (`hop-celebrating`): at the end of a round with at most one miss, which covers every round that masters a lesson.
+    - **The hello rock** (`wave-hello`): once when the app is opened, and where a child first meets Oreo.
+    - **Each trick's own animation**, on the trick shelf and on the trick reward, with its spoken name.
+    - Each plays once and ends as the still picture. With reduced motion she is the still picture.
+    - **Never while a question is open**: a browser test walks all 111 game levels, taps wrong answers, and fails if anything on any picture of Oreo is moving.
+
+To confirm (in `docs/decisions.md`, dated 2026-11-16): the wagging Oreo replaces the "Oreo with a present" picture on the treasure card; the hop is tied to "at most one miss" and not to mastery separately; `wag-happy` is not also used as a home screen greeting.
+
+Not done: the waving paw, which `art/rigs/README.md` says needs a second drawing.
+
 ## More from the phone test (2026-11-16, pull request 49)
 
 Nothing is half done and no clips are waiting to be recorded. One thing needs Philipp: the pull request that adds rule 9 to `CLAUDE.md` is open for him to merge, because that file is at the repository root.
@@ -63,7 +79,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 453 unit tests, 322 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 458 unit tests, 335 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -135,7 +151,7 @@ Around the lessons:
 
 ## Decisions
 
-All 140 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 145 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -224,6 +240,8 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 47 | The final report (this file) |
 | 48 | After the first phone test: rewards only for what she did herself (and taken back from existing profiles), named tricks that speak and move, trick pictures that fit, a parents' lock that explains itself, "why this works" under every lesson |
 | 49 | More from the phone test: a line under "For grown-ups", the lock says what to do, estimating reworked (one peek, the same bones pack into tens and ones, Oreo says why and shows how the first time), and the rule "say what to do" with its test and ten rewritten sentences |
+| 50 | (open, for Philipp) `CLAUDE.md`: the rule "say what to do, never only what not to do" |
+| 51 | Oreo's ten animations from `art/rigs/`, played from the data: tail wags, the hop, the hello rock, each trick's own; never while a question is open |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

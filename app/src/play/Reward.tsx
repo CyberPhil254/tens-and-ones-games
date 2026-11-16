@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import crown from '../art/rewards/award-crown.webp';
 import rosette from '../art/rewards/award-rosette.webp';
 import trophy from '../art/rewards/award-trophy.webp';
-import gift from '../art/rewards/gift.webp';
 import beg from '../art/rewards/trick-beg.webp';
 import fetchTrick from '../art/rewards/trick-fetch.webp';
 import highFive from '../art/rewards/trick-high-five.webp';
@@ -17,6 +16,7 @@ import withKennel from '../art/rewards/with-kennel.webp';
 import withRope from '../art/rewards/with-rope-toy.webp';
 import type { Award, Earned, Treasure, Trick } from '../engine/rewards';
 import { wording } from '../speech/catalogue';
+import { OreoAnim } from '../ui/Oreo';
 import { TREASURE_NAMES, TREASURES } from './Garden';
 import { speak, voice } from './voice';
 
@@ -36,10 +36,12 @@ export function Reward({ earned, soundOff, onDone }: { earned: Earned; soundOff:
     earned.kind === 'treasure' ? (picked ? 'oreo-loves-it-thank-you' : 'oreo-gets-a-treasure-which-one')
     : earned.kind === 'trick' ? 'you-finished-a-whole-part-of'
     : 'you-finished-the-whole-stage-this';
+  // A new trick is named as well: the sentence, then what the trick is called, while Oreo does it.
+  const trick = earned.kind === 'trick' ? earned.trick : null;
   useEffect(() => {
-    if (!soundOff) speak([sentence], 0.2);
+    if (!soundOff) speak(trick ? [sentence, TRICK_SAYS[trick]] : [sentence], 0.2);
     return () => voice.stop();
-  }, [sentence, soundOff]);
+  }, [sentence, soundOff, trick]);
 
   return (
     <section>
@@ -48,7 +50,7 @@ export function Reward({ earned, soundOff, onDone }: { earned: Earned; soundOff:
         <div className="stage">
           {earned.kind === 'treasure' && !picked && (
             <>
-              <img className="rewardpic small" src={gift} alt="Oreo with a present" draggable={false} />
+              <OreoAnim name="wag-proud" className="rewardpup small" alt="Oreo is proud of you" />
               <div className="choosecards">
                 {earned.options.map((t) => (
                   <button key={t} type="button" className="choosecard treasurecard" aria-label={TREASURE_NAMES[t]} data-treasure={t} onClick={() => setPicked(t)}>
@@ -61,13 +63,16 @@ export function Reward({ earned, soundOff, onDone }: { earned: Earned; soundOff:
           {earned.kind === 'treasure' && picked && <img className="rewardpic hop" src={WITH[picked]} alt={`Oreo with ${TREASURE_NAMES[picked]}`} draggable={false} />}
           {earned.kind === 'trick' && (
             <>
-              <img className="rewardpic hop" src={TRICK_PICS[earned.trick]} alt={`Oreo’s trick: ${TRICK_NAMES[earned.trick]}`} draggable={false} />
-              <p className="sub">{TRICK_NAMES[earned.trick]}</p>
+              <OreoAnim name={`trick-${earned.trick}`} className="rewardpup" alt={`Oreo’s trick: ${TRICK_NAMES[earned.trick]}`} />
+              <p className="sub">{wording(TRICK_SAYS[earned.trick])}</p>
             </>
           )}
           {earned.kind === 'award' && (
             <>
-              <img className="rewardpic hop" src={AWARD_PICS[earned.award]} alt={AWARD_NAMES[earned.award]} draggable={false} />
+              <div className="awardrow">
+                <img className="rewardpic hop" src={AWARD_PICS[earned.award]} alt={AWARD_NAMES[earned.award]} draggable={false} />
+                <OreoAnim name="wag-proud" className="rewardpup small" />
+              </div>
               <p className="sub">{AWARD_NAMES[earned.award]}</p>
             </>
           )}
@@ -89,7 +94,7 @@ export const TRICK_SAYS: Record<Trick, string> = {
 
 /**
  * On the home screen: the tricks Oreo knows, each with its name, and the awards won. Tapping a
- * trick shows it: Oreo says what it is called and makes one small move that fits it, then is still.
+ * trick shows it: Oreo says what it is called and does it once (the trick's own animation), then is still.
  */
 export function Shelf({ tricks, awards, soundOff }: { tricks: Trick[]; awards: Award[]; soundOff: boolean }) {
   // `n` counts taps, so that tapping the same trick again does it again.
@@ -114,7 +119,7 @@ export function Shelf({ tricks, awards, soundOff }: { tricks: Trick[]; awards: A
       </div>
       {show && (
         <div className="trickshow" data-testid="trickshow">
-          <img key={show.n} className={`rewardpic move-${show.trick}`} src={TRICK_PICS[show.trick]} alt={`Oreo’s trick: ${TRICK_NAMES[show.trick]}`} draggable={false} />
+          <OreoAnim key={show.n} name={`trick-${show.trick}`} className="rewardpup" alt={`Oreo’s trick: ${TRICK_NAMES[show.trick]}`} />
           <p className="sub">{wording(TRICK_SAYS[show.trick])}</p>
         </div>
       )}

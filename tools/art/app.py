@@ -71,10 +71,39 @@ fence = scene.crop((0, round(h * 0.13), w, round(h * 0.37)))
 fence.save('app/src/art/garden/fence.webp', 'WEBP', quality=80, method=6)
 print(f"app/src/art/garden/fence.webp  {fence.width}x{fence.height}  {os.path.getsize('app/src/art/garden/fence.webp') / 1000:.1f} kB")
 
-# Rewards: Oreo with each treasure, her tricks, the awards, and the gift pose. Shown at up to 150 px.
+# Rewards: Oreo with each treasure, her tricks and the awards. Shown at up to 150 px.
 os.makedirs('app/src/art/rewards', exist_ok=True)
 for name in ('with-ball', 'with-bandana', 'with-bed', 'with-bowl', 'with-rope-toy', 'with-kennel',
-             'trick-high-five', 'trick-beg', 'trick-spin', 'trick-roll-over', 'trick-play-bow', 'trick-fetch', 'gift'):
+             'trick-high-five', 'trick-beg', 'trick-spin', 'trick-roll-over', 'trick-play-bow', 'trick-fetch'):
     shrink(f'art/puppy/{name}.png', f'app/src/art/rewards/{name}.webp', 300)
 for name in ('rosette', 'trophy', 'crown'):
     shrink(f'art/awards/{name}.png', f'app/src/art/rewards/award-{name}.webp', 240)
+
+# Oreo's animations (art/rigs/): the movements as data, and the two poses whose tail wags as a body and a
+# tail layer. Both layers are cut to the same box as the still pose, so they lie exactly on top of each
+# other, and the point the tail turns about is worked out again for that box. The GIF previews stay in art/.
+import json
+os.makedirs('app/src/art/rigs', exist_ok=True)
+anims = json.load(open('art/rigs/animations.json'))
+for a in anims:
+    pose = a['pose']
+    box = Image.open(f'art/puppy/{pose}.png').convert('RGBA').getbbox()
+    a['size'] = [box[2] - box[0], box[3] - box[1]]  # the still picture as the app has it: cut to what is drawn
+    layers = a.get('layers')
+    if not layers:
+        continue
+    w, h = layers['size']
+    for part in ('body', 'tail'):
+        im = Image.open(f"art/rigs/{layers[part]}").convert('RGBA')
+        assert im.size == (w, h), f'{layers[part]} is not the size the data says'
+        im = im.crop(box)
+        k = min(1, 380 / max(im.size))
+        im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+        out = f'app/src/art/rigs/{pose}-{part}.webp'
+        im.save(out, 'WEBP', quality=88, method=6)
+        print(f'{out}  {im.width}x{im.height}  {os.path.getsize(out) / 1000:.1f} kB')
+    ox, oy = (float(v.rstrip('%')) / 100 for v in layers['tailOrigin'].split())
+    bw, bh = box[2] - box[0], box[3] - box[1]
+    a['layers'] = {'tailOrigin': f'{(ox * w - box[0]) / bw * 100:.2f}% {(oy * h - box[1]) / bh * 100:.2f}%'}
+json.dump(anims, open('app/src/art/rigs/animations.json', 'w'), separators=(',', ':'))
+print(f'app/src/art/rigs/animations.json  {len(anims)} animations')
