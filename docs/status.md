@@ -18,6 +18,24 @@ To confirm (all in `docs/decisions.md`, dated 2026-11-16): what counts as "confi
 
 Not done, because it was not asked: the home button still says "For grown-ups" while the lock now says "parents".
 
+## Problems from the test with Philipp's daughter (2026-11-16)
+
+Four pull requests, in this order: A "Start again" (52), B the garden as a path, C rewards early and often, D change name or picture. This section is updated as each is merged.
+
+### A. "Start again" did not reset the profile (pull request 52)
+
+**I could not reproduce it the way it was described.** On one screen, the reset works. What I tried, all as browser tests in `app/e2e/reset.spec.ts`, at 400 px and laptop width:
+
+1. Exactly the described path, played for real: a child is added, the whole starting check is answered, a whole part of today's games is played and bones are earned, then Start again and confirm. Without a reload the starting check is offered again, what is saved is a new profile (same nickname, picture and stage; no lessons, no answers, bones 0, no treasures, tricks or awards), the home screen shows 0 bones, no shelf, today's games not done and a fresh path, today's games start from the first step, and it is still so after a reload. **Passes.**
+2. A Stage 2 child far along, with treasures, a trick and today's games finished. **Passes.**
+3. Remove, after the same real play: nothing of the child is left on the device, and a child added with the same name is new. **Passes.**
+4. Add a child, after the same real play: the new child is new, the first child's saved data is identical before and after, also after the second child is removed. **Passes.**
+5. **The app open in a second window on the same device while Start again is pressed in the first. This failed**, and is the only way I found to make the old progress come back: the second window kept the old progress in memory, went on showing it, and its next save (the end of a round, a reward) wrote all of it back over the reset.
+
+**Cause of 5, and the fix.** Each window reads the child's data once and afterwards saves the whole of it from memory. Nothing told a window that the saved data had been changed by another one. Now a window reads what is saved again whenever another window changes it and whenever it comes back into view; if it differs, the window takes it over and returns to the home screen (`app/src/app/useData.ts`).
+
+**What I cannot tell** is whether this is what happened on Philipp's phone. It fits if the app was open twice, for example as the installed app and in a browser tab, or in two tabs. Two things would help: whether the app is installed on the home screen as well as opened in the browser, and whether it is an iPhone. On an iPhone the installed app and Safari keep separate saved data, so a reset in one never reaches the other; that cannot be changed from inside the app, and if it is the cause, the reset has to be done in the one she plays in.
+
 ## Oreo's animations (2026-11-16, pull request 51)
 
 Nothing is half done. No new sentences: the tricks use the six recorded in pull request 48.
@@ -79,7 +97,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 458 unit tests, 335 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 459 unit tests, 345 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -151,7 +169,7 @@ Around the lessons:
 
 ## Decisions
 
-All 145 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 147 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -240,8 +258,9 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 47 | The final report (this file) |
 | 48 | After the first phone test: rewards only for what she did herself (and taken back from existing profiles), named tricks that speak and move, trick pictures that fit, a parents' lock that explains itself, "why this works" under every lesson |
 | 49 | More from the phone test: a line under "For grown-ups", the lock says what to do, estimating reworked (one peek, the same bones pack into tens and ones, Oreo says why and shows how the first time), and the rule "say what to do" with its test and ten rewritten sentences |
-| 50 | (open, for Philipp) `CLAUDE.md`: the rule "say what to do, never only what not to do" |
+| 50 | `CLAUDE.md`: the rule "say what to do, never only what not to do" (merged by Philipp) |
 | 51 | Oreo's ten animations from `art/rigs/`, played from the data: tail wags, the hop, the hello rock, each trick's own; never while a question is open |
+| 52 | "Start again", "Remove" and "Add a child" tested by real play; a second open window no longer brings old progress back |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

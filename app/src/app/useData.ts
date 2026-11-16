@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { defaultSettings, newProfile, type Friend, type Profile, type ProfileData, type Settings } from '../data/profile';
+import { defaultSettings, newProfile, sameData, type Friend, type Profile, type ProfileData, type Settings } from '../data/profile';
 import { deviceStore, type DataStore } from '../data/store';
 import { dayOf } from '../engine/state';
 
@@ -15,6 +15,11 @@ export const today = () => dayOf(new Date());
 export interface Data {
   /** False until what is saved has been read. */
   ready: boolean;
+  /**
+   * Counts the times what is saved was changed from outside this window (the app open a second time on
+   * the same device) and read in again. A screen that was built on the old data must be left.
+   */
+  changedElsewhere: number;
   settings: Settings;
   profiles: Profile[];
   /** The child who is playing. */
@@ -37,6 +42,14 @@ export function useData(): Data {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [current, setCurrent] = useState<ProfileData | null>(null);
   const settingsNow = useRef(settings);
+  const [changedElsewhere, setChangedElsewhere] = useState(0);
+  /** What this window believes is saved for the child who is playing, and whether the device took the last save. */
+  const currentNow = useRef<ProfileData | null>(null);
+  const unsaved = useRef(false);
+  const show = useCallback((d: ProfileData | null) => {
+    currentNow.current = d;
+    setCurrent(d);
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -49,13 +62,13 @@ export function useData(): Data {
       settingsNow.current = s;
       setSettings(s);
       setProfiles(list);
-      setCurrent(data);
+      show(data);
       setReady(true);
     })();
     return () => {
       alive = false;
     };
-  }, [store]);
+  }, [store, show]);
 
   const saveSettings = useCallback((s: Settings) => {
     settingsNow.current = s;
@@ -64,16 +77,54 @@ export function useData(): Data {
   }, [store]);
 
   const save = useCallback((d: ProfileData) => {
-    setCurrent(d);
+    show(d);
     setProfiles((list) => (list.some((p) => p.id === d.profile.id) ? list.map((p) => (p.id === d.profile.id ? d.profile : p)) : [...list, d.profile]));
-    void store.save(d);
-  }, [store]);
+    void store.save(d).then((ok) => { unsaved.current = !ok; });
+  }, [store, show]);
 
   const choose = useCallback((id: string | null) => {
     saveSettings({ ...settingsNow.current, current: id ?? undefined });
-    if (!id) return setCurrent(null);
-    void store.load(id).then(setCurrent);
-  }, [store, saveSettings]);
+    if (!id) return show(null);
+    void store.load(id).then(show);
+  }, [store, saveSettings, show]);
+
+  // The app can be open twice on one device: a browser tab beside the installed app, or two tabs. Each window
+  // holds the child's data in memory and saves all of it, so a window that did not notice "Start again" in
+  // the other would show the old progress and write it back with its next save. So: whenever another window
+  // changes what is saved, and whenever this one comes back into view, what is saved is read again; if it is
+  // not what this window has, this window takes it over and leaves whatever screen it was on.
+  useEffect(() => {
+    if (!ready) return;
+    let alive = true;
+    const refresh = async () => {
+      if (unsaved.current) return; // the device is not keeping saves: memory is all there is
+      const [s, list] = await Promise.all([store.settings(), store.profiles()]);
+      const had = currentNow.current?.profile.id;
+      const id = had && list.some((p) => p.id === had) ? had : list.length === 1 ? list[0]!.id : had ? undefined : list.find((p) => p.id === s.current)?.id;
+      const data = id ? await store.load(id) : null;
+      if (!alive) return;
+      const sameList = (a: Profile[], b: Profile[]) => JSON.stringify(a) === JSON.stringify(b);
+      setProfiles((old) => (sameList(old, list) ? old : list));
+      if (JSON.stringify(s) !== JSON.stringify(settingsNow.current)) {
+        settingsNow.current = s;
+        setSettings(s);
+      }
+      if (sameData(currentNow.current, data, today())) return;
+      show(data);
+      setChangedElsewhere((n) => n + 1);
+    };
+    const onStorage = (e: StorageEvent) => { if (e.key === null || e.key.startsWith('tens-and-ones.')) void refresh(); };
+    const onShow = () => { if (document.visibilityState === 'visible') void refresh(); };
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('pageshow', onShow);
+    document.addEventListener('visibilitychange', onShow);
+    return () => {
+      alive = false;
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('pageshow', onShow);
+      document.removeEventListener('visibilitychange', onShow);
+    };
+  }, [ready, store, show]);
 
   const adopt = useCallback((d: ProfileData) => {
     save(d);
@@ -94,5 +145,5 @@ export function useData(): Data {
     });
   }, [store, profiles, current, choose]);
 
-  return { ready, settings, profiles, current, saveSettings, save, choose, create, adopt, remove };
+  return { ready, changedElsewhere, settings, profiles, current, saveSettings, save, choose, create, adopt, remove };
 }
