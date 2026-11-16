@@ -9,17 +9,20 @@ import { minutesThisWeek, progressByUnit, skills, weekday } from './summary';
 
 const FACTS: [number, number][] = [[6, 7], [7, 8], [8, 9], [6, 8], [7, 9], [6, 9], [8, 8], [7, 7]];
 
-/** A simple check that a grown-up is here: a times fact well beyond the lessons. Not security, a door a six year old does not open by accident. */
+/**
+ * A simple check that a grown-up is here: a times fact well beyond the lessons. Not security, a door a six year old
+ * does not open by accident. It says what it is before it asks, and looks like a form, not like a lesson: no Oreo,
+ * no big coloured buttons, ordinary small type.
+ */
 export function Gate({ onOpen, onHome }: { onOpen: () => void; onHome: () => void }) {
   const [i, setI] = useState(() => Math.floor(Math.random() * FACTS.length));
   const [typed, setTyped] = useState('');
   const [wrong, setWrong] = useState(false);
   const [a, b] = FACTS[i]!;
   return (
-    <section className="parents">
-      <div className="gbar"><button className="back" type="button" onClick={onHome}>← Home</button></div>
+    <section className="adult">
       <form
-        className="today" data-testid="gate"
+        className="adultcard" data-testid="gate"
         onSubmit={(e) => {
           e.preventDefault();
           if (Number(typed) === a * b) return onOpen();
@@ -28,13 +31,17 @@ export function Gate({ onOpen, onHome }: { onOpen: () => void; onHome: () => voi
           setI((i + 1 + Math.floor(Math.random() * (FACTS.length - 1))) % FACTS.length);
         }}
       >
-        <h2>For grown-ups</h2>
-        <label className="field">
+        <h1>Parents’ area</h1>
+        <p data-testid="gate-why">This part is for parents. Answer to open it.</p>
+        <label>
           <span data-testid="gate-question">What is {a} × {b}?</span>
           <input value={typed} onChange={(e) => setTyped(e.target.value.replace(/\D/g, '').slice(0, 3))} inputMode="numeric" autoComplete="off" aria-label="Your answer" />
         </label>
-        {wrong && <p className="h2note" role="alert">That is not it. This part is for grown-ups.</p>}
-        <div className="trow"><button className="next" type="submit" disabled={!typed}>Open</button></div>
+        {wrong && <p className="adultnote" role="alert">That is not it. This part is for parents.</p>}
+        <div className="adultrow">
+          <button className="adultbtn main" type="submit" disabled={!typed}>Open</button>
+          <button className="adultbtn" type="button" onClick={onHome}>Back to the game</button>
+        </div>
       </form>
     </section>
   );

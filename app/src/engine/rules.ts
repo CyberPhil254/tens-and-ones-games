@@ -84,7 +84,8 @@ export function roundFinished(s: ChildState, lessonId: string, bones: number, to
 /* ---------- review ---------- */
 
 /**
- * One review question on a mastered lesson, in a mixed round. Remembered well, the next review
+ * One review question on a mastered lesson, in a mixed round. A due review answered right first
+ * time also confirms a lesson that the starting check had only marked as known. Remembered well, the next review
  * moves further away (1, 3, 7, 14, 30 days); slow or missed, it comes back sooner; missed twice
  * in a row, the lesson is reopened and has to be passed again.
  */
@@ -104,10 +105,13 @@ export function reviewed(s: ChildState, lessonId: string, a: Answer, today: Day)
   }
   // Right. The schedule moves at most once a day, and only when the review was due.
   if (l.reviewedOn === today || (l.due !== undefined && l.due > today)) return withLesson(s, lessonId, { ...l, reviewMisses: 0 });
+  // A lesson the starting check marked as known is confirmed here: from now on she has shown it by playing.
+  const { placed: _placed, ...shown } = l;
+  void _placed;
   const shaky = a.ms > CONFIG.slowMs;
   const reviews = shaky ? l.reviews : l.reviews + 1;
   const wait = CONFIG.reviewDays[Math.min(reviews, CONFIG.reviewDays.length - 1)]!;
-  return withLesson(s, lessonId, { ...l, reviewMisses: 0, reviews, due: addDays(today, shaky ? Math.max(1, Math.floor(wait / 2)) : wait), reviewedOn: today });
+  return withLesson(s, lessonId, { ...shown, reviewMisses: 0, reviews, due: addDays(today, shaky ? Math.max(1, Math.floor(wait / 2)) : wait), reviewedOn: today });
 }
 
 /* ---------- what is open ---------- */

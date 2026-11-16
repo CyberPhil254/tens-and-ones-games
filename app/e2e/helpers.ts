@@ -37,6 +37,8 @@ export interface Seed {
   soundOff?: boolean;
   /** False: the trick for a finished part of the garden has not been given yet. Treasures and tricks are otherwise in place. */
   tricks?: boolean;
+  /** Exactly these rewards, instead of the ones worked out from the lessons. */
+  rewards?: { treasures?: Record<string, string>; tricks?: Record<string, string>; awards?: Record<string, string> };
   /** False: the starting check has not been done yet. */
   checked?: boolean;
 }
@@ -50,7 +52,7 @@ export async function seed(page: Page, s: Seed = {}): Promise<void> {
   const data = {
     profile: { id: s.id ?? 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
-    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures, tricks, awards: {} }, attempts: [], checked: s.checked ?? true,
+    bones: s.bones ?? 0, best: s.best ?? 0, rewards: s.rewards ? { treasures: {}, tricks: {}, awards: {}, ...s.rewards } : { treasures, tricks, awards: {} }, attempts: [], checked: s.checked ?? true,
   };
   await page.addInitScript(([d, soundOff]) => {
     if (localStorage.getItem('tens-and-ones.profiles')) return;

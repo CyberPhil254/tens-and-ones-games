@@ -16,7 +16,7 @@ function played() {
   let child = place(d.child, 's1-see', TODAY);
   child = withLesson(child, 's1-ten', { ...lessonState(child, 's1-ten'), step: 2 });
   child = roundFinished(child, 's1-ten', 6, TODAY).state;
-  d = { ...d, child: { ...child, doneOn: TODAY }, bones: 37, best: 41, checked: true, rewards: { treasures: { 's1-see': 'ball' }, tricks: {}, awards: {} } };
+  d = { ...d, child: { ...child, doneOn: TODAY }, bones: 37, best: 41, checked: true, rewards: { treasures: { 's1-ten': 'ball' }, tricks: {}, awards: {} } }; // s1-see is only "known": it may hold no treasure
   return addAttempt(d, attempt);
 }
 

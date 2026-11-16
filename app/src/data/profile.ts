@@ -4,6 +4,7 @@
  */
 import { CONFIG } from '../engine/config';
 import { LESSON } from '../engine/curriculum';
+import { withoutPlacedRewards } from '../engine/rewards';
 import { newChild, type ChildState, type Day, type LessonState } from '../engine/state';
 
 /** The animal pictures a profile can have, from art/friends/. */
@@ -132,7 +133,11 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     const l = readLesson(id, v);
     if (l) lessons[id] = l;
   }
-  return {
+  for (const l of Object.values(lessons)) {
+    // A known lesson that a review had already confirmed before the mark was ever removed: it is hers.
+    if (l.placed && (!l.mastered || l.reviews > 0)) delete l.placed;
+  }
+  return withoutPlacedRewards({
     profile: {
       id: p.id,
       nickname: cleanNickname(p.nickname) || 'Friend',
@@ -146,7 +151,7 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     rewards: { treasures: strings(rewards.treasures), tricks: strings(rewards.tricks), awards: strings(rewards.awards) },
     attempts: Array.isArray(r.attempts) ? r.attempts.map(readAttempt).filter((a): a is Attempt => a !== null).slice(-KEEP_ATTEMPTS) : [],
     checked: r.checked === true,
-  };
+  });
 }
 
 export function readSettings(raw: unknown): Settings {

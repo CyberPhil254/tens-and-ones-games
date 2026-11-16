@@ -1,6 +1,8 @@
 /**
  * Rewards follow mastery, never minutes: a lesson mastered earns Oreo a treasure, a finished
  * unit a trick, a finished stage an award. Nothing is random and nothing can be lost.
+ * Only what she did herself counts: a lesson the starting check marked as known earns nothing
+ * until a review has confirmed it (see `reviewed` in rules.ts).
  * What is owed is worked out from the saved data, so a reward that was not collected
  * (the app was closed) is still there next time.
  */
@@ -24,8 +26,12 @@ export type Earned =
   | { kind: 'award'; stage: StageKey; award: Award };
 
 const stageKey = (u: Unit): StageKey => (u.stretch ? 'x' : u.stage === 1 ? 's1' : 's2');
-const mastered = (d: ProfileData, id: string) => !!lessonState(d.child, id).mastered;
-/** A unit is finished when every one of its lessons exists and is mastered. */
+/** Mastered by playing: not merely marked as known by the starting check. */
+const mastered = (d: ProfileData, id: string) => {
+  const l = lessonState(d.child, id);
+  return !!l.mastered && !l.placed;
+};
+/** A unit is finished when every one of its lessons exists and is mastered by playing. */
 export const unitDone = (d: ProfileData, u: Unit): boolean => u.lessons.every((l) => playable(l) && mastered(d, l.id));
 export const stageDone = (d: ProfileData, k: StageKey): boolean => UNITS.filter((u) => stageKey(u) === k).every((u) => unitDone(d, u));
 
@@ -59,12 +65,22 @@ export function give(d: ProfileData, e: Earned, pick?: Treasure): ProfileData {
 }
 
 /**
- * Gives everything owed without asking. Used after the starting check: what she already knew is
- * simply there in the garden, not ten cards in a row.
+ * Takes back what the starting check once gave. Earlier versions gave a treasure for every lesson
+ * the check marked as known, and with them tricks and awards. Run on every profile that is read:
+ * a treasure goes when its lesson is still only "known", a trick or an award when its unit or stage
+ * holds such a lesson. Nothing she earned by playing is touched, and a lesson that was reopened
+ * keeps its treasure.
  */
-export function giveAll(d: ProfileData): ProfileData {
-  for (let e = nextEarned(d), n = 0; e && n < 200; e = nextEarned(d), n++) d = give(d, e);
-  return d;
+export function withoutPlacedRewards(d: ProfileData): ProfileData {
+  const placed = (id: string) => !!lessonState(d.child, id).placed;
+  const hasPlaced = (u: Unit) => u.lessons.some((l) => placed(l.id));
+  const keep = <T,>(o: Record<string, T>, gone: (k: string) => boolean) => Object.fromEntries(Object.entries(o).filter(([k]) => !gone(k)));
+  const r = d.rewards;
+  const treasures = keep(r.treasures, placed);
+  const tricks = keep(r.tricks, (id) => UNITS.some((u) => u.id === id && hasPlaced(u)));
+  const awards = keep(r.awards, (k) => UNITS.some((u) => stageKey(u) === k && hasPlaced(u)));
+  const same = [[treasures, r.treasures], [tricks, r.tricks], [awards, r.awards]].every(([a, b]) => Object.keys(a!).length === Object.keys(b!).length);
+  return same ? d : { ...d, rewards: { treasures, tricks, awards } };
 }
 
 /** The tricks Oreo knows, in the order of the path. */

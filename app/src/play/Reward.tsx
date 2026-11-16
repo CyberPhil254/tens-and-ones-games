@@ -82,22 +82,42 @@ export function Reward({ earned, soundOff, onDone }: { earned: Earned; soundOff:
   );
 }
 
-/** On the home screen: the tricks Oreo knows and the awards won. Tapping a trick shows it. */
-export function Shelf({ tricks, awards }: { tricks: Trick[]; awards: Award[] }) {
-  const [show, setShow] = useState<Trick | null>(null);
+/** What Oreo says a trick is called, as a recorded sentence. */
+export const TRICK_SAYS: Record<Trick, string> = {
+  'high-five': 'oreo-can-give-a-high-five', beg: 'oreo-can-beg', spin: 'oreo-can-spin', 'roll-over': 'oreo-can-roll-over', 'play-bow': 'oreo-can-do-a-play-bow', fetch: 'oreo-can-fetch',
+};
+
+/**
+ * On the home screen: the tricks Oreo knows, each with its name, and the awards won. Tapping a
+ * trick shows it: Oreo says what it is called and makes one small move that fits it, then is still.
+ */
+export function Shelf({ tricks, awards, soundOff }: { tricks: Trick[]; awards: Award[]; soundOff: boolean }) {
+  // `n` counts taps, so that tapping the same trick again does it again.
+  const [show, setShow] = useState<{ trick: Trick; n: number } | null>(null);
+  useEffect(() => () => voice.stop(), []);
   if (!tricks.length && !awards.length) return null;
+  const tap = (t: Trick) => {
+    setShow((s) => ({ trick: t, n: (s?.n ?? 0) + 1 }));
+    if (!soundOff) speak([TRICK_SAYS[t]]);
+  };
   return (
     <div className="rewardshelf" data-testid="rewardshelf">
       <h2>Oreo’s tricks</h2>
       <div className="tricks">
         {tricks.map((t, i) => (
-          <button key={`${t}${i}`} type="button" className="trickbtn" aria-pressed={show === t} aria-label={TRICK_NAMES[t]} onClick={() => setShow(show === t ? null : t)}>
-            <img src={TRICK_PICS[t]} alt="" draggable={false} />
+          <button key={`${t}${i}`} type="button" className="trickbtn" aria-pressed={show?.trick === t} data-trick={t} onClick={() => tap(t)}>
+            <span className="trickframe"><img src={TRICK_PICS[t]} alt="" draggable={false} /></span>
+            <span className="trickname">{TRICK_NAMES[t]}</span>
           </button>
         ))}
         {awards.map((a) => <img key={a} className="awardpic" src={AWARD_PICS[a]} alt={AWARD_NAMES[a]} draggable={false} />)}
       </div>
-      {show && <img key={show} className="rewardpic hop" src={TRICK_PICS[show]} alt={`Oreo’s trick: ${TRICK_NAMES[show]}`} draggable={false} />}
+      {show && (
+        <div className="trickshow" data-testid="trickshow">
+          <img key={show.n} className={`rewardpic move-${show.trick}`} src={TRICK_PICS[show.trick]} alt={`Oreo’s trick: ${TRICK_NAMES[show.trick]}`} draggable={false} />
+          <p className="sub">{wording(TRICK_SAYS[show.trick])}</p>
+        </div>
+      )}
     </div>
   );
 }

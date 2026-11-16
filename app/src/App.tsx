@@ -10,6 +10,7 @@ import { choiceToday, nextPart, type Choice, type Part } from './engine/today';
 import { ALL_GAMES, LEVELS_OF, type GameId } from './maths/questions';
 import { Approach } from './parents/Approach';
 import { Gate, Parents } from './parents/Parents';
+import { Why } from './parents/Why';
 import { Pieces } from './Pieces';
 import { Home } from './play/Home';
 import { Play, type Round } from './play/Play';
@@ -36,7 +37,10 @@ type Screen =
   /** The parents' area: first its check, then the area, and the page about the approach. */
   | { at: 'gate' }
   | { at: 'parents' }
-  | { at: 'approach' }
+  /** The page about the approach; `from` is the lesson note it was opened from, when it was not the parents' area. */
+  | { at: 'approach'; from?: Lesson }
+  /** One lesson's note for parents, opened from the garden without the check. */
+  | { at: 'why'; lesson: Lesson }
   | { at: 'choose'; choice: Choice; today: Today }
   /** A reward is being given in the middle of today's games; they go on afterwards. */
   | { at: 'reward'; today: Today }
@@ -116,7 +120,14 @@ export function App() {
 
   const day = today();
   if (screen.at === 'gate') return <main><Gate onOpen={() => setScreen({ at: 'parents' })} onHome={home} /></main>;
-  if (screen.at === 'approach') return <main><Approach onBack={() => setScreen({ at: 'parents' })} /></main>;
+  if (screen.at === 'approach') {
+    const from = screen.from;
+    return <main><Approach onBack={() => setScreen(from ? { at: 'why', lesson: from } : { at: 'parents' })} /></main>;
+  }
+  if (screen.at === 'why') {
+    const lesson = screen.lesson;
+    return <main><Why lesson={lesson} onBack={home} onApproach={() => setScreen({ at: 'approach', from: lesson })} /></main>;
+  }
   if (screen.at === 'parents') {
     return (
       <main>
@@ -213,7 +224,7 @@ export function App() {
       ) : (
         <Home
           data={child} settings={data.settings} today={day} shared={data.profiles.length > 1}
-          onSettings={data.saveSettings} onToday={startToday} onLesson={freePlay} onRace={() => setScreen({ at: 'race' })} onQuick={quick}
+          onSettings={data.saveSettings} onToday={startToday} onLesson={freePlay} onWhy={(l) => setScreen({ at: 'why', lesson: l })} onRace={() => setScreen({ at: 'race' })} onQuick={quick}
           onSwitch={() => data.choose(null)} onParents={() => setScreen({ at: 'gate' })}
         />
       )}

@@ -27,7 +27,7 @@ function describe(status: LessonStatus, l: Lesson, data: ProfileData): string {
     const first = waitsFor(l).filter((n) => !lessonState(data.child, n.id).mastered && !lessonState(data.child, n.id).passedOn.length);
     return `First: ${first.map((n) => n.title).join(', ')}.`;
   }
-  if (status === 'mastered') return 'Mastered. It comes back in the warm-ups.';
+  if (status === 'mastered') return lessonState(data.child, l.id).placed ? 'You know this already. It comes back in the warm-ups.' : 'Mastered. It comes back in the warm-ups.';
   if (status === 'resting') return 'Last step done today. Once more on another day.';
   return `Step ${lessonState(data.child, l.id).step + 1} of ${l.steps.length}.`;
 }
@@ -40,6 +40,8 @@ export interface GardenProps {
   /** The lesson today's games are about: Oreo waits there. */
   here: string | null;
   onLesson: (l: Lesson) => void;
+  /** The small link for parents under a lesson: why it is built the way it is. */
+  onWhy: (l: Lesson) => void;
 }
 
 /**
@@ -47,7 +49,7 @@ export interface GardenProps {
  * per unit. A stone shows where the lesson stands: its step, a paw and a treasure when it is
  * mastered, and what comes first when it is still closed.
  */
-export function Garden({ data, today, open, here, onLesson }: GardenProps) {
+export function Garden({ data, today, open, here, onLesson, onWhy }: GardenProps) {
   let n = 0; // stones alternate sides all the way down, across the units
   return (
     <div className="garden" data-testid="garden">
@@ -80,6 +82,11 @@ export function Garden({ data, today, open, here, onLesson }: GardenProps) {
                       <span className="d">{describe(status, l, data)}</span>
                     </span>
                   </button>
+                  {status !== 'coming' && (
+                    <button className="whylink" type="button" data-why={l.id} aria-label={`For parents: why ${l.title} works`} onClick={() => onWhy(l)}>
+                      For parents: why this works
+                    </button>
+                  )}
                 </li>
               );
             })}

@@ -1,12 +1,26 @@
 import { describe, expect, it } from 'vitest';
-import { newProfile, type ProfileData } from '../data/profile';
-import { applyRound } from './apply';
-import { LESSON, UNITS, playable } from './curriculum';
-import { give, giveAll, nextEarned, stageDone, TREASURES, tricksKnown, unitDone } from './rewards';
-import { newLesson, withLesson } from './state';
+import { newProfile, readProfileData, type ProfileData } from '../data/profile';
+import { applyRound, checkLessons, type Given } from './apply';
+import { LESSON, UNITS, playable, unitOf } from './curriculum';
+import { awardsWon, give, nextEarned, stageDone, TREASURES, tricksKnown, unitDone } from './rewards';
+import { place, reviewed } from './rules';
+import { addDays, lessonState, newLesson, withLesson } from './state';
 
 const day = '2026-11-15';
 const fresh = () => newProfile('child-1', 'Amani', 'zebra', 2, day);
+const giveAll = (d: ProfileData): ProfileData => {
+  for (let e = nextEarned(d); e; e = nextEarned(d)) d = give(d, e);
+  return d;
+};
+const right = (lesson: string): Given => ({ lesson, step: LESSON.get(lesson)!.steps.length - 1, clean: true, misses: 0, hint: false, ms: 3000, at: '2026-11-15T10:00:00.000Z' });
+/** The starting check of a Stage 2 child, every question right first time. */
+const checkedAllRight = (): ProfileData => applyRound(fresh(), 'check', false, checkLessons(2, UNITS).map((l) => right(l.id)), day).data;
+const noRewards = { treasures: {}, tricks: {}, awards: {} };
+/** A due review of a lesson, answered right first time. */
+const confirm = (d: ProfileData, id: string): ProfileData => {
+  const due = lessonState(d.child, id).due!;
+  return { ...d, child: reviewed(d.child, id, { clean: true, ms: 3000 }, due) };
+};
 const master = (d: ProfileData, id: string): ProfileData => ({
   ...d,
   child: withLesson(d.child, id, { ...newLesson(), step: LESSON.get(id)!.steps.length - 1, passedOn: ['2026-11-01', '2026-11-02'], mastered: '2026-11-02', due: '2026-12-20' }),
@@ -77,15 +91,103 @@ describe('rewards follow mastery', () => {
     expect(stageDone(d, 's1') && stageDone(d, 's2')).toBe(false);
   });
 
-  it('what the starting check marks as known is given without a card', () => {
-    const d0 = fresh();
-    const { data } = applyRound(d0, 'check', false, [{ lesson: 's1-ten', step: 2, clean: true, misses: 0, hint: false, ms: 3000, at: '2026-11-15T10:00:00.000Z' }], day);
-    // Every lesson the check marked has its treasure: the lesson asked, the rest of its unit, and what they are built on.
-    const marked = Object.keys(data.child.lessons).filter((id) => data.child.lessons[id]!.mastered).sort();
-    expect(marked).toContain('s1-ten');
-    expect(marked).toContain('s1-see');
-    expect(marked.length).toBeGreaterThan(2);
-    expect(Object.keys(data.rewards.treasures).sort()).toEqual(marked);
-    expect(nextEarned(data)).toBeNull();
+});
+
+describe('rewards are only for what she did herself', () => {
+  it('the starting check gives no treasure, no trick and no award, however much it marks as known', () => {
+    const d = checkedAllRight();
+    const known = Object.values(d.child.lessons).filter((l) => l.mastered);
+    expect(known.length).toBeGreaterThan(15); // all of Stage 1 and more
+    expect(known.every((l) => l.placed)).toBe(true);
+    expect(UNITS.some((u) => u.lessons.every((l) => lessonState(d.child, l.id).mastered))).toBe(true); // whole units are known
+    expect(d.rewards).toEqual(noRewards);
+    expect(nextEarned(d)).toBeNull();
+    expect(tricksKnown(d)).toEqual([]);
+    expect(awardsWon(d)).toEqual([]);
+    expect(UNITS.some((u) => unitDone(d, u))).toBe(false);
+  });
+
+  it('a known lesson earns its treasure once a due review confirms it, and not before', () => {
+    let d: ProfileData = { ...fresh(), child: place(fresh().child, 's1-see', day) };
+    expect(nextEarned(d)).toBeNull();
+    // A review that is not yet due does not confirm it.
+    d = { ...d, child: reviewed(d.child, 's1-see', { clean: true, ms: 3000 }, day) };
+    expect(lessonState(d.child, 's1-see').placed).toBe(true);
+    expect(nextEarned(d)).toBeNull();
+    // A miss does not either.
+    d = { ...d, child: reviewed(d.child, 's1-see', { clean: false, ms: 3000 }, addDays(day, 1)) };
+    expect(nextEarned(d)).toBeNull();
+    d = confirm(d, 's1-see');
+    expect(lessonState(d.child, 's1-see').placed).toBeUndefined();
+    expect(nextEarned(d)).toMatchObject({ kind: 'treasure', lesson: 's1-see' });
+  });
+
+  it('a unit with a known lesson earns its trick only when that lesson is confirmed too', () => {
+    const unit = unitOf('s1-see');
+    const [first, ...rest] = unit.lessons;
+    let d: ProfileData = { ...fresh(), child: place(fresh().child, first!.id, day) };
+    for (const l of rest) d = master(d, l.id);
+    d = giveAll(d);
+    expect(Object.keys(d.rewards.treasures).sort()).toEqual(rest.map((l) => l.id).sort());
+    expect(unitDone(d, unit)).toBe(false);
+    expect(tricksKnown(d)).toEqual([]);
+    d = giveAll(confirm(d, first!.id));
+    expect(unitDone(d, unit)).toBe(true);
+    expect(tricksKnown(d)).toHaveLength(1);
+    expect(d.rewards.treasures[first!.id]).toBeDefined();
+  });
+
+  it('a stage earns its award only when none of it is merely known', () => {
+    let d = fresh();
+    const s1 = UNITS.filter((u) => u.stage === 1 && !u.stretch).flatMap((u) => u.lessons);
+    d = { ...d, child: place(d.child, s1[0]!.id, day) };
+    for (const l of s1.slice(1)) d = master(d, l.id);
+    d = giveAll(d);
+    expect(stageDone(d, 's1')).toBe(false);
+    expect(awardsWon(d)).toEqual([]);
+    d = giveAll(confirm(d, s1[0]!.id));
+    expect(awardsWon(d)).toEqual(['rosette']);
+  });
+});
+
+describe('a profile saved by an earlier version', () => {
+  /** What the earlier version did after the check: a treasure for every known lesson, then tricks and awards. */
+  const oldProfile = (): ProfileData => {
+    let d = checkedAllRight();
+    const r = { treasures: {} as Record<string, string>, tricks: {} as Record<string, string>, awards: {} as Record<string, string> };
+    for (const u of UNITS) {
+      for (const l of u.lessons) if (lessonState(d.child, l.id).mastered) r.treasures[l.id] = 'ball';
+      if (u.lessons.every((l) => lessonState(d.child, l.id).mastered)) r.tricks[u.id] = 'beg';
+    }
+    r.awards.s1 = 'rosette';
+    d = { ...d, rewards: r };
+    return d;
+  };
+  const reread = (d: ProfileData) => readProfileData(JSON.parse(JSON.stringify(d)), day)!;
+
+  it('loses the rewards the starting check gave it', () => {
+    const old = oldProfile();
+    expect(Object.keys(old.rewards.tricks).length).toBeGreaterThanOrEqual(5);
+    const d = reread(old);
+    expect(d.rewards).toEqual(noRewards);
+    expect(nextEarned(d)).toBeNull();
+    expect(d.child).toEqual(old.child); // what she knows is untouched
+  });
+
+  it('keeps what she earned by playing, and what a review had already confirmed', () => {
+    let old = oldProfile();
+    const unit = unitOf('s1-see');
+    // One unit she then played herself, a lesson elsewhere that a review went well on, and one that was reopened.
+    for (const l of unit.lessons) old = master(old, l.id);
+    const other = UNITS.find((u) => u !== unit && old.rewards.tricks[u.id])!;
+    const seen = other.lessons[0]!.id, reopened = other.lessons[1]!.id;
+    old = { ...old, child: withLesson(old.child, seen, { ...lessonState(old.child, seen), reviews: 1 }) };
+    old = { ...old, child: withLesson(old.child, reopened, { ...newLesson(), step: 1, passedOn: ['2026-11-10'] }) };
+    const d = reread(old);
+    expect(Object.keys(d.rewards.treasures).sort()).toEqual([...unit.lessons.map((l) => l.id), seen, reopened].sort());
+    expect(d.rewards.tricks).toEqual({ [unit.id]: 'beg' });
+    expect(d.rewards.awards).toEqual({});
+    expect(lessonState(d.child, seen).placed).toBeUndefined();
+    expect(reread(d)).toEqual(d); // reading it again changes nothing more
   });
 });

@@ -18,7 +18,10 @@ export interface LessonState {
   passedOn: Day[];
   /** The day the lesson was mastered; missing while it is not. */
   mastered?: Day;
-  /** Marked as known by the starting check, not by playing the lesson. It still comes back in review. */
+  /**
+   * Marked as known by the starting check, not by playing the lesson. It comes back in review, and the
+   * first due review answered right first time removes the mark. Until then it earns no reward.
+   */
   placed?: true;
   /** How many reviews in a row went well: the place in the review schedule. */
   reviews: number;
