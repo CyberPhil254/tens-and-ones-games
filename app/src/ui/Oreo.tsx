@@ -94,10 +94,11 @@ const LAYERS: Partial<Record<AnimName, { body: string; tail: string }>> = {
 export function OreoAnim({ name, className = '', alt = '', still = false }: { name: AnimName; className?: string; alt?: string; still?: boolean }) {
   const a = ANIMS[name], layers = LAYERS[name];
   const picture = useRef<HTMLDivElement>(null), tail = useRef<HTMLImageElement>(null);
-  const [state, setState] = useState<'still' | 'playing'>('still');
+  // What she is doing is known from the first moment she is shown: "playing" until the animation has ended, and
+  // never "still" for an instant before it starts.
+  const [state, setState] = useState<'still' | 'playing'>(() => (still || reducedMotion() ? 'still' : 'playing'));
   useEffect(() => {
     if (still || !picture.current || reducedMotion()) return;
-    setState('playing');
     return play(name, picture.current, tail.current, () => setState('still'));
   }, [name, still]);
   return (
