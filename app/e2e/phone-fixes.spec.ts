@@ -75,15 +75,20 @@ test('every trick has its name under its picture, and the picture fits inside it
     for (const [trick, name] of TRICKS) {
       const btn = shelf.locator(`[data-trick=${trick}]`);
       await expect(btn.locator('.trickname')).toHaveText(name);
-      const b = (await btn.boundingBox())!, f = (await btn.locator('.trickframe').boundingBox())!, i = (await btn.locator('img').boundingBox())!, n = (await btn.locator('.trickname').boundingBox())!;
-      const inside = (a: typeof b, o: typeof b) => a.x >= o.x - 0.5 && a.y >= o.y - 0.5 && a.x + a.width <= o.x + o.width + 0.5 && a.y + a.height <= o.y + o.height + 0.5;
-      expect(inside(i, f), `${trick} picture inside its frame at ${width} px`).toBe(true);
-      expect(inside(f, b) && inside(n, b), `${trick} frame and name inside the button at ${width} px`).toBe(true);
-      expect(n.y, `${trick}: the name is under the picture`).toBeGreaterThanOrEqual(f.y + f.height - 0.5);
+      // All four are measured in one reading: after the width changes the page is still settling, and readings a
+      // moment apart do not belong together.
+      const m = await btn.evaluate((el) => {
+        const box = (e: Element) => { const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
+        return { b: box(el), f: box(el.querySelector('.trickframe')!), i: box(el.querySelector('img')!), n: box(el.querySelector('.trickname')!) };
+      });
+      const inside = (a: typeof m.b, o: typeof m.b) => a.x >= o.x - 0.5 && a.y >= o.y - 0.5 && a.x + a.width <= o.x + o.width + 0.5 && a.y + a.height <= o.y + o.height + 0.5;
+      expect(inside(m.i, m.f), `${trick} picture inside its frame at ${width} px`).toBe(true);
+      expect(inside(m.f, m.b) && inside(m.n, m.b), `${trick} frame and name inside the button at ${width} px`).toBe(true);
+      expect(m.n.y, `${trick}: the name is under the picture`).toBeGreaterThanOrEqual(m.f.y + m.f.height - 0.5);
       // The whole picture is shown, not a cut-off part of it.
       expect(await btn.locator('img').evaluate((el) => getComputedStyle(el).objectFit)).toBe('contain');
-      expect(b.width).toBeGreaterThanOrEqual(72);
-      expect(b.height).toBeGreaterThanOrEqual(72);
+      expect(m.b.width).toBeGreaterThanOrEqual(72);
+      expect(m.b.height).toBeGreaterThanOrEqual(72);
     }
     await fitsTheScreen(page);
   }
