@@ -103,7 +103,7 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
 
   const see = garden.locator('[data-lesson=s1-see]');
   await expect(see).toHaveAttribute('data-status', 'mastered');
-  await expect(see.locator('.treasure')).toHaveAttribute('alt', 'a ball');
+  await expect(see.locator('.mark .ic.paw')).toHaveCount(1);
   await expect(see).toContainText('Mastered. It comes back in the warm-ups.');
   // Oreo waits on the next stone of the path, which is the lesson today's games are about, and nowhere else.
   await expect(garden.locator('.herepup')).toHaveCount(1);
@@ -127,39 +127,46 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
   expect(errors).toEqual([]);
 });
 
-test('a finished part of the garden: Oreo learns a trick, and it stays on the home screen', async ({ page }) => {
+test('lessons mastered: Oreo learns a trick, it is named, and it stays among her things', async ({ page }) => {
   const errors = watch(page);
   const unit = ['s2-count', 's2-place', 's2-names', 's2-regroup'];
+  // Five lessons mastered: the second and the fifth each bring a trick. Neither was collected (the app was closed, say).
   await seed(page, { lessons: Object.fromEntries(['s1-see', ...unit].map((id) => [id, mastered()])), tricks: false });
   await page.goto('/');
-  // Not collected yet (the app was closed, say): it is still owed, and comes first.
+  // Still owed, and they come first.
   const reward = page.getByTestId('reward');
   await expect(reward).toHaveAttribute('data-reward', 'trick');
-  await expect(reward.getByTestId('prompt')).toHaveText('You finished a whole part of the garden! Oreo has learnt a new trick for you.');
+  await expect(reward).toHaveAttribute('data-slot', 'm2');
+  await expect(reward.getByTestId('prompt')).toHaveText('Oreo has learnt a new trick for you!');
   // Oreo does her new trick, once, and it is named: on the screen and aloud.
-  await expect(reward.locator('.oreoanim')).toHaveAttribute('aria-label', /^Oreo’s trick: /);
-  await expect(reward.locator('.oreoanim')).toHaveAttribute('data-anim', /^trick-/);
-  await expect(reward.locator('.sub')).toHaveText(/^Oreo can .+!$/);
+  await expect(reward.locator('.oreoanim')).toHaveAttribute('aria-label', 'Oreo’s trick: High five');
+  await expect(reward.locator('.oreoanim')).toHaveAttribute('data-anim', 'trick-high-five');
+  await expect(reward.locator('.sub')).toHaveText('Oreo can give a high five!');
   await fitsTheScreen(page);
   await reward.getByRole('button', { name: 'Next' }).click();
-  // Home, with the trick on the shelf; tapping it shows it. Nothing more is owed.
-  const shelf = page.getByTestId('rewardshelf');
-  await expect(shelf.locator('.trickbtn')).toHaveCount(1);
-  await shelf.locator('.trickbtn').click();
-  await expect(shelf.locator('.oreoanim')).toBeVisible();
+  await expect(reward).toHaveAttribute('data-slot', 'm5');
+  await expect(reward.locator('.sub')).toHaveText('Oreo can beg!');
+  await reward.getByRole('button', { name: 'Next' }).click();
+  // Home, with both tricks among Oreo's things; tapping one shows it. Nothing more is owed.
+  await expect(reward).toHaveCount(0);
+  const tricks = page.getByTestId('things-tricks');
+  await expect(tricks.locator('button.trickbtn')).toHaveCount(2);
+  await tricks.locator('button.trickbtn').first().click();
+  await expect(page.getByTestId('trickshow').locator('.oreoanim')).toBeVisible();
   await page.reload();
   await expect(reward).toHaveCount(0);
-  await expect(shelf.locator('.trickbtn')).toHaveCount(1);
-  expect(Object.keys((await saved(page)).rewards.tricks)).toEqual(['s2-u1']);
+  await expect(tricks.locator('button.trickbtn')).toHaveCount(2);
+  expect((await saved(page)).rewards.tricks).toEqual({ m2: 'high-five', m5: 'beg' });
   expect(errors).toEqual([]);
 });
 
-test('no rewards for playing: a child who has mastered nothing has no shelf and is owed nothing', async ({ page }) => {
-  await seed(page, { bones: 480, lessons: { 's1-see': { step: 1, rating: 1, answers: 200 } } });
+test('no rewards for playing: a child with hundreds of answers and bones who has passed nothing has earned nothing', async ({ page }) => {
+  await seed(page, { bones: 480, lessons: { 's1-count': { step: 0, rating: 0, answers: 200 } } });
   await page.goto('/');
   await expect(page.getByTestId('today-text')).toBeVisible();
   await expect(page.getByTestId('reward')).toHaveCount(0);
-  await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
+  await expect(page.getByTestId('things').locator('.thing:not(.not), button.trickbtn')).toHaveCount(0);
+  expect((await saved(page)).rewards).toEqual({ treasures: {}, tricks: {}, awards: {} });
 });
 
 test('with the switch in the parents’ area on, Oreo is introduced as Star’s sister', async ({ page }) => {

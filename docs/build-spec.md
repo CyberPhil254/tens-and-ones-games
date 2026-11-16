@@ -134,7 +134,7 @@ After the session the child may play on, but the app suggests stopping. Short an
   - **Which first?** Two of today's parts, as two cards ("Oreo's bones" or "the number line"). Both get done; she only sets the order.
   - **Which stone?** When two lessons are open at once, she picks one. The other comes next.
   - **Which story?** The same questions dressed differently (bones, balls, stepping stones).
-  - **Which reward?** The treasure Oreo gets, or the trick she shows.
+  - **Which reward?** The treasure Oreo gets: one of two, every time.
 - There is never an option that means less work, an easier lesson than the engine chose, or no lesson. A choice she makes is always honoured: the app never shows one thing and gives another.
 - If the child is struggling, the app lowers the step and gives the picture back. It never repeats the same failed question endlessly.
 - Very fast wrong taps in a row are treated as guessing: Oreo says to take a moment, the answers pause briefly, and those answers do not count either way.
@@ -150,7 +150,16 @@ On first run the parent picks the stage. A short check (about ten questions, one
   - A locked stone shows a padlock. Tapping it opens nothing: Oreo points at the stone that opens it and says "First finish this one."
   - A passed stone shows how far it has come: its steps as dots that fill, then a paw when the lesson is mastered. A lesson known from the starting check shows a tick and "Known, to be checked in a warm-up." until a review confirms it.
 - **Oreo** is the guide. Poses and movement follow `art/README.md`: she reacts to answers and is still while the child thinks.
-- **Rewards follow mastery, never minutes.** A lesson mastered earns a treasure; a unit earns a trick; a stage earns an award. Bones stay packed in tens.
+- **Rewards come early and often, and follow what she achieves, never minutes.** The schedule is data (`app/src/engine/rewards.ts`):
+  - The first time she finishes today's games: a welcome treasure, her choice of two.
+  - **Paws:** one for every step she passes (each step of a lesson once, the last included) and one for every lesson she masters. Oreo gets a treasure, her choice of two, at the 1st, 3rd and 6th paw, then at every third.
+  - Oreo learns a trick at the 2nd, 5th, 9th, 14th, 20th and 27th lesson mastered: one for each of the six tricks.
+  - A unit finished (every lesson mastered): its badge. A stage finished: the rosette or the trophy; the stretch lessons: the crown.
+  - A lesson marked known by the starting check counts for nothing until a review has confirmed it.
+  - Nothing is random and nothing can be lost. Bones stay packed in tens.
+  - Treasures are counted in paws and not in lessons passed because a child has stretches of days in which she passes no lesson; see `docs/status.md` for the numbers.
+- **She sees what she is working towards.** "Oreo's things" on the home screen shows everything there is, earned or not: what is not hers yet is a grey shape, and each row has one plain line saying what earns the next one ("Master 2 more lessons and Oreo learns to spin."). After every round a small row of paws shows how far the next treasure is, with Oreo beside it.
+- **Every stone that changes is shown changing** at the end of the round that changed it: its steps fill in, or the paw of a lesson mastered appears, with Oreo's matching animation.
 - **Praise names what the child did** ("You filled the ten first"), not what she is ("You are clever").
 - No timers, countdowns, lives, leaderboards, streaks that can be lost, surprise prizes or anything bought.
 

@@ -21,7 +21,7 @@ export function Approach({ onBack }: { onBack: () => void }) {
         <h2>No clock, no pressure</h2>
         <p>Nothing on a child’s screen counts time. The app does notice quietly how long answers take, to see what is known but slow. The one speed game, Quick Paws, opens only for facts she has already mastered.</p>
         <h2>Rewards for what she has learnt</h2>
-        <p>Bones are for right answers and are packed in tens. Treasures, tricks and awards come only from mastering lessons, never from minutes played. There are no lives, no streaks to lose, no surprise prizes and nothing to buy.</p>
+        <p>Bones are for right answers and are packed in tens. Everything else comes from what she has achieved, never from minutes played. She gets a paw for every step she passes and every lesson she masters; Oreo gets a treasure at the first, third and sixth paw and then at every third one, and a welcome treasure the first time today’s games are finished. Oreo learns a trick at the 2nd, 5th, 9th, 14th, 20th and 27th lesson mastered. A finished part of the garden brings its badge, a finished stage its award. “Oreo’s things” on the home screen shows all of it, with a line saying what earns the next one. There are no lives, no streaks to lose, no surprise prizes and nothing to buy.</p>
         <h2>Plain screens</h2>
         <p>A question screen shows the question and nothing else. Oreo reacts to answers and is still while the child thinks. Instructions are spoken and can be heard again.</p>
         <h2>Together is better</h2>

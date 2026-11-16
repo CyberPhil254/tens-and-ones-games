@@ -184,7 +184,9 @@ describe('what she is working towards', () => {
     const d = giveAll(atStep(master(fresh(), 's1-count'), 's1-see', 1)); // 5 paws: after the 3rd, before the 6th
     expect(goals(d).find((g) => g.kind === 'treasure')).toEqual({ kind: 'treasure', more: 1, of: 3, done: 2 });
     expect(goals(d).find((g) => g.kind === 'trick')).toEqual({ kind: 'trick', trick: 'high-five', more: 1, of: 2, done: 1 });
-    expect(nextGoal(d)!.more).toBe(1);
+    // After a round she is shown one of them: the welcome treasure until a day is finished, then the paws.
+    expect(nextGoal(d)).toMatchObject({ kind: 'welcome' });
+    expect(nextGoal(giveAll(finishToday(d, day)))).toMatchObject({ kind: 'treasure', more: 1 });
   });
   it('with every trick learnt and every treasure given there is nothing left to count towards', () => {
     let d = fresh();
@@ -263,14 +265,16 @@ describe('a profile saved by an earlier version', () => {
     const unit = unitOf('s1-see');
     let old = fresh();
     for (const l of unit.lessons) old = master(old, l.id);
-    old = { ...old, rewards: { treasures: { 's1-count': 'bed', 's1-see': 'ball', 's1-zero': 'bowl', 's1-estimate': 'ball' }, tricks: { [unit.id]: 'high-five' }, awards: {} } };
+    old = { ...old, rewards: { treasures: { 's1-count': 'bed', 's1-see': 'ball', 's1-zero': 'bowl', 's1-estimate': 'ball' }, tricks: { [unit.id]: 'spin' }, awards: {} } };
     const d = reread(old);
     // Her four treasures, in the order of the path, in the first four places; her one trick in the first place for tricks.
     expect(TREASURE_AT.slice(0, 4).map((at) => d.rewards.treasures[treasureSlot(at)])).toEqual(['bed', 'ball', 'bowl', 'ball']);
     expect(Object.keys(d.rewards.treasures)).toHaveLength(4);
     expect(treasuresHad(d)).toMatchObject({ ball: 2, bed: 1, bowl: 1 });
-    expect(d.rewards.tricks).toEqual({ [trickSlot(2)]: 'high-five' });
-    expect(tricksKnown(d)).toEqual(['high-five']);
+    expect(d.rewards.tricks).toEqual({ [trickSlot(2)]: 'spin' }); // the trick she has stays the trick she has
+    expect(tricksKnown(d)).toEqual(['spin']);
+    // The next trick Oreo learns is the first one she does not know yet.
+    expect(goals(d).find((g) => g.kind === 'trick')).toMatchObject({ trick: 'high-five', more: 1 });
     // What today's rules add for the same progress is owed: more treasures for her paws, and the unit's badge. No trick twice.
     expect(paws(d)).toBe(unit.lessons.reduce((n, l) => n + l.steps.length + 1, 0));
     const more = owed(d);

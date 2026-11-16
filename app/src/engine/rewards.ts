@@ -95,7 +95,9 @@ export function nextEarned(d: ProfileData): Earned | null {
   if (finishedADay(d) && !r.treasures[WELCOME]) return { kind: 'treasure', slot: WELCOME, options: offer(d) };
   const p = paws(d), m = lessonsMastered(d);
   for (const at of TREASURE_AT) if (p >= at && !r.treasures[treasureSlot(at)]) return { kind: 'treasure', slot: treasureSlot(at), options: offer(d) };
-  for (const [i, at] of TRICK_AT.entries()) if (m >= at && !r.tricks[trickSlot(at)]) return { kind: 'trick', slot: trickSlot(at), trick: TRICKS[i]! };
+  // The next trick is the first one Oreo does not know yet (a profile from an earlier version may know them in another order).
+  const newTrick = TRICKS.find((t) => !Object.values(r.tricks).includes(t));
+  for (const at of TRICK_AT) if (m >= at && !r.tricks[trickSlot(at)] && newTrick) return { kind: 'trick', slot: trickSlot(at), trick: newTrick };
   for (const u of UNITS) if (unitDone(d, u) && !r.awards[u.id]) return { kind: 'badge', unit: u.id };
   for (const k of Object.keys(AWARDS) as StageKey[]) {
     if (stageDone(d, k) && !r.awards[k]) return { kind: 'award', stage: k, award: AWARDS[k] };
@@ -140,8 +142,10 @@ export function withoutPlacedRewards(d: ProfileData): ProfileData {
   kept.slice(0, free.length).forEach((t, i) => { treasures[free[i]!] = t; });
 
   const tricks: Record<string, string> = Object.fromEntries(Object.entries(r.tricks).filter(([k]) => !oldTrick(k)));
-  const had = UNITS.filter((u) => r.tricks[u.id] !== undefined && !hasPlaced(u)).length;
-  TRICK_AT.forEach((at, i) => { if (i < had && !tricks[trickSlot(at)]) tricks[trickSlot(at)] = TRICKS[i]!; });
+  // The tricks she has stay the ones she has, each once.
+  const had = [...new Set(UNITS.filter((u) => r.tricks[u.id] !== undefined && !hasPlaced(u)).map((u) => r.tricks[u.id]!))].filter((t) => (TRICKS as readonly string[]).includes(t));
+  const places = TRICK_AT.map(trickSlot).filter((slot) => !tricks[slot]);
+  had.slice(0, places.length).forEach((t, i) => { tricks[places[i]!] = t; });
 
   const awards = Object.fromEntries(Object.entries(r.awards).filter(([k]) => !UNITS.some((u) => (stageKey(u) === k || u.id === k) && hasPlaced(u))));
   return { ...d, rewards: { treasures, tricks, awards } };
@@ -150,8 +154,8 @@ export function withoutPlacedRewards(d: ProfileData): ProfileData {
 /** How many of each kind of treasure Oreo has. */
 export const treasuresHad = (d: ProfileData): Record<Treasure, number> =>
   Object.fromEntries(TREASURES.map((t) => [t, TREASURE_SLOTS.filter((s) => d.rewards.treasures[s] === t).length])) as Record<Treasure, number>;
-/** The tricks Oreo knows, in the order she learns them. */
-export const tricksKnown = (d: ProfileData): Trick[] => TRICKS.filter((_, i) => d.rewards.tricks[trickSlot(TRICK_AT[i]!)] !== undefined);
+/** The tricks Oreo knows, in the order they are always shown. */
+export const tricksKnown = (d: ProfileData): Trick[] => TRICKS.filter((t) => TRICK_AT.some((at) => d.rewards.tricks[trickSlot(at)] === t));
 export const badgesWon = (d: ProfileData): string[] => UNITS.filter((u) => d.rewards.awards[u.id] !== undefined).map((u) => u.id);
 export const awardsWon = (d: ProfileData): Award[] =>
   (Object.keys(AWARDS) as StageKey[]).map((k) => d.rewards.awards[k]).filter((a): a is Award => (Object.values(AWARDS) as string[]).includes(a ?? ''));
@@ -174,8 +178,12 @@ export function goals(d: ProfileData): Goal[] {
   const ti = TREASURE_AT.findIndex((at) => p < at);
   if (ti >= 0) { const from = TREASURE_AT[ti - 1] ?? 0, at = TREASURE_AT[ti]!; out.push({ kind: 'treasure', more: at - p, of: at - from, done: p - from }); }
   const ri = TRICK_AT.findIndex((at) => m < at);
-  if (ri >= 0) { const from = TRICK_AT[ri - 1] ?? 0, at = TRICK_AT[ri]!; out.push({ kind: 'trick', trick: TRICKS[ri]!, more: at - m, of: at - from, done: m - from }); }
+  const newTrick = TRICKS.find((t) => !Object.values(d.rewards.tricks).includes(t));
+  if (ri >= 0 && newTrick) { const from = TRICK_AT[ri - 1] ?? 0, at = TRICK_AT[ri]!; out.push({ kind: 'trick', trick: newTrick, more: at - m, of: at - from, done: m - from }); }
   return out;
 }
-/** The one she is nearest to: shown after every round. */
-export const nextGoal = (d: ProfileData): Goal | null => [...goals(d)].sort((a, b) => a.more - b.more)[0] ?? null;
+/**
+ * The one shown after every round: the welcome treasure until she has finished a day, then the paws
+ * towards the next treasure (they are what a round can fill), and the next trick once every treasure is given.
+ */
+export const nextGoal = (d: ProfileData): Goal | null => goals(d)[0] ?? null;
