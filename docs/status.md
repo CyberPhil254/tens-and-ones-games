@@ -88,6 +88,15 @@ The other simulated children: always right, longest gap 2 days; the child who st
 
 To confirm (in `docs/decisions.md`, dated 2026-11-16): paws instead of lessons passed for treasures; about fifty treasures, several of a kind; one line per row in "Oreo's things" instead of one per grey shape; the unit badge is the paw badge from `art/awards/`.
 
+### D. Change name or picture (pull request 55)
+
+Nothing is half done, and no new sentences.
+
+- In the parents' area, under the child's name: "Change name or picture". The nickname follows the same rules as when a child is added; the picture is one of the same nine.
+- Saving changes only those two things. Progress, bones, treasures, tricks, awards and the review schedule stay exactly as they were. The stage is not changed here.
+- The new name and picture show at once in the parents' area, on the home screen and in the profile chooser.
+- Browser test (`app/e2e/edit-profile.spec.ts`): a child plays a round and earns bones and a treasure, a second child is added, both name and picture are changed, and every other part of the saved profile is compared and is identical before and after; the other child is untouched; Cancel changes nothing; an empty name cannot be saved.
+
 ## Oreo's animations (2026-11-16, pull request 51)
 
 Nothing is half done. No new sentences: the tricks use the six recorded in pull request 48.
@@ -221,7 +230,7 @@ Around the lessons:
 
 ## Decisions
 
-All 167 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 168 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -315,6 +324,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 52 | "Start again", "Remove" and "Add a child" tested by real play; a second open window no longer brings old progress back |
 | 53 | The garden is a path: one order as data, at most two stones open, padlocks, a lit next stone, steps and paws on passed stones, free play only for passed stones |
 | 54 | Rewards early and often: the welcome treasure, treasures by paws, tricks by lessons mastered, unit badges; "Oreo's things" shows everything; paws and the changing stone after every round |
+| 55 | "Change name or picture" in the parents' area: only those two change |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { exportCode, importCode, newProfile, type Profile, type ProfileData, type Settings } from '../data/profile';
+import { cleanNickname, exportCode, FRIENDS, importCode, newProfile, type Friend, type Profile, type ProfileData, type Settings } from '../data/profile';
 import { UNITS, playable } from '../engine/curriculum';
 import { statusOf } from '../engine/rules';
 import { lessonState, type Day } from '../engine/state';
@@ -47,6 +47,56 @@ export function Gate({ onOpen, onHome }: { onOpen: () => void; onHome: () => voi
   );
 }
 
+/**
+ * "Change name or picture", under the child's name. It changes the nickname (the same rules as when a
+ * child is added) and the animal picture, and nothing else: progress, bones, rewards and the review
+ * schedule are saved exactly as they were. The stage is changed under Settings.
+ */
+function EditProfile({ data, onSave }: { data: ProfileData; onSave: (d: ProfileData) => void }) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState(data.profile.nickname);
+  const [picture, setPicture] = useState<Friend>(data.profile.picture);
+  const nickname = cleanNickname(name);
+  const start = () => {
+    setName(data.profile.nickname);
+    setPicture(data.profile.picture);
+    setOpen(true);
+  };
+  if (!open) return <p className="pedit"><button className="soundbtn" type="button" onClick={start}>Change name or picture</button></p>;
+  return (
+    <form
+      className="pcard setup" data-testid="p-edit"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!nickname) return;
+        onSave({ ...data, profile: { ...data.profile, nickname, picture } });
+        setOpen(false);
+      }}
+    >
+      <h2>Change name or picture</h2>
+      <label className="field">
+        <span>A nickname</span>
+        <input value={name} onChange={(e) => setName(e.target.value)} maxLength={24} autoComplete="off" />
+      </label>
+      <fieldset className="field">
+        <legend>A picture</legend>
+        <div className="friends">
+          {FRIENDS.map((f) => (
+            <button key={f} type="button" className="friendbtn" aria-pressed={picture === f} aria-label={f} onClick={() => setPicture(f)}>
+              <FriendPicture friend={f} />
+            </button>
+          ))}
+        </div>
+      </fieldset>
+      <p className="h2note">Only the name and the picture change. Everything {data.profile.nickname} has done stays as it is.</p>
+      <div className="trow">
+        <button className="next" type="submit" disabled={!nickname}>Save</button>
+        <button className="soundbtn" type="button" onClick={() => setOpen(false)}>Cancel</button>
+      </div>
+    </form>
+  );
+}
+
 export interface ParentsProps {
   data: ProfileData;
   profiles: Profile[];
@@ -89,6 +139,7 @@ export function Parents({ data, profiles, settings, today, onSettings, onSave, o
     <section className="parents" data-testid="parents">
       <div className="gbar"><button className="back" type="button" onClick={onHome}>← Home</button></div>
       <h1 className="ptitle"><FriendPicture friend={data.profile.picture} size={44} /> {name}: for grown-ups</h1>
+      <EditProfile data={data} onSave={onSave} />
 
       <div className="pcard" data-testid="p-week">
         <h2>This week</h2>

@@ -342,6 +342,8 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 
 /* Pages for adults that a child can reach: the parents' check and a lesson's note. They look like a form or a
    letter, not like a lesson: ordinary type, grey lines, no picture, no big coloured button. */
+.pedit { margin: -6px 0 14px; }
+.pcard.setup input { width: min(100%, 300px); }
 .grownnote { margin: 6px 0 0; font: 13px/1.4 system-ui, sans-serif; color: #5a6478; }
 .adult { max-width: 460px; margin: 24px auto; font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif; color: #1f2937; }
 .adultcard { background: #fff; border: 1px solid #9aa3b2; border-radius: 6px; padding: 18px 18px 16px; }
