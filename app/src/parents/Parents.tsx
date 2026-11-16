@@ -128,7 +128,7 @@ export function Parents({ data, profiles, settings, today, onSettings, onSave, o
               const where =
                 status === 'coming' ? 'Not built yet'
                 : status === 'mastered' ? (st.placed ? 'Known at the starting check' : `Mastered on ${st.mastered}`)
-                : status === 'locked' ? 'Further along the path'
+                : status === 'locked' ? (st.answers ? `Step ${Math.min(st.step, l.steps.length - 1) + 1} of ${l.steps.length}, kept; further along the path` : 'Further along the path')
                 : status === 'passed' || status === 'resting' ? 'Every step done once; one more good day masters it'
                 : st.answers ? `Step ${Math.min(st.step, l.steps.length - 1) + 1} of ${l.steps.length}` : 'Not started';
               return (
