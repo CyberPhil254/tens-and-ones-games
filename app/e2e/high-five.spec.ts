@@ -329,13 +329,13 @@ test('Oreo listens while the question is read, then thinks, and reacts only to a
   await page.waitForTimeout(600);
   await expect(oreo).toHaveAttribute('data-pose', 'not-yet');
 
-  // The right answer: happy, with one hop.
+  // The right answer: happy, and her tail wags once.
   await choice(page, n).click();
   await expect(oreo).toHaveAttribute('data-pose', 'happy');
-  expect(await oreo.evaluate((e) => getComputedStyle(e).animationName)).toBe('hop');
+  await expect(oreo).toHaveAttribute('data-anim', 'wag-happy');
 
   // Her pictures are loaded and shown whole.
-  const img = oreo.locator('img');
+  const img = oreo.locator('img.oa-body');
   // The picture of a new pose arrives a moment after the pose changes.
   await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 100)).toBe(true);
 });

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { Lesson } from '../engine/curriculum';
 import type { Choice } from '../engine/today';
 import { wording } from '../speech/catalogue';
-import { Oreo } from '../ui/Oreo';
+import { Oreo, OreoAnim } from '../ui/Oreo';
 import { speak, voice } from './voice';
 
 /**
@@ -49,7 +49,7 @@ export function StartCheck({ name, n, soundOff, starsSister, onStart, onSkip }: 
       <div className="card game" data-testid="startcheck">
         <p className="prompt" data-testid="prompt">{wording('lets-see-what-you-know')}</p>
         <div className="stage">
-          <Oreo pose="hello" className="endpup" />
+          <OreoAnim name="wave-hello" className="endpup" />
           <p className="sub" data-testid="intro">{wording(intro)}</p>
           <p className="sub">{n === 1 ? 'One question' : `${n} questions`} for {name}. What she gets right first time, she does not have to learn again; it still comes back in the warm-ups.</p>
         </div>

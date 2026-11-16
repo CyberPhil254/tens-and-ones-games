@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ProfileData, Settings } from '../data/profile';
 import { doneToday } from '../engine/apply';
 import { LESSON, type Lesson } from '../engine/curriculum';
@@ -8,7 +8,7 @@ import { chime } from '../speech/chime';
 import { Blocks } from '../ui/Blocks';
 import { FriendPicture } from '../ui/FriendPicture';
 import { Num } from '../ui/Num';
-import { Bone, Oreo } from '../ui/Oreo';
+import { Bone, Oreo, OreoAnim } from '../ui/Oreo';
 import { awardsWon, tricksKnown } from '../engine/rewards';
 import { Garden } from './Garden';
 import { Shelf } from './Reward';
@@ -39,8 +39,16 @@ export interface HomeProps {
   onParents: () => void;
 }
 
+/** Oreo has said hello since the app was opened. */
+let greeted = false;
+
 export function Home({ data, settings, today, shared, onSettings, onToday, onLesson, onWhy, onRace, onQuick, onSwitch, onParents }: HomeProps) {
   const done = doneToday(data, today);
+  // Oreo says hello once, when the app is opened: coming back to this screen later, she is still.
+  const [greet] = useState(() => !greeted);
+  useEffect(() => {
+    greeted = true;
+  }, []);
   const plan = planToday(data.child, today);
   const silent = useVoiceSilent();
   const total = data.bones, crates = Math.floor(total / 100), boxes = Math.floor((total % 100) / 10), loose = total % 10;
@@ -61,7 +69,7 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
     <section>
       <div className="top">
         <h1 className="title"><span className="t">Tens</span> <span className="amp">&amp;</span> <span className="o">Ones</span></h1>
-        <Oreo pose={done ? 'sleeping' : 'hello'} className="toppup" />
+        {done ? <Oreo pose="sleeping" className="toppup" /> : <OreoAnim name="wave-hello" className="toppup" still={!greet} />}
       </div>
       <button type="button" className="whoami" onClick={onSwitch} disabled={!shared} aria-label={shared ? `${data.profile.nickname}. Change who is playing` : data.profile.nickname}>
         <FriendPicture friend={data.profile.picture} size={40} />

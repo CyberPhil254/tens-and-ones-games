@@ -82,31 +82,38 @@ test('every trick has its name under its picture, and the picture fits inside it
   }
 });
 
-test('tapping a trick: Oreo says its name in a recorded sentence and makes one move, then is still', async ({ page }) => {
+/** The animations running on Oreo's pictures inside an element, as the browser reports them. */
+const moving = (el: Element) => el.getAnimations({ subtree: true }).filter((x) => x.playState === 'running').map((x) => ({ ms: Number(x.effect!.getTiming().duration), times: x.effect!.getTiming().iterations, fill: x.effect!.getTiming().fill }));
+
+test('tapping a trick: Oreo says its name in a recorded sentence and does the trick’s own animation once, then is still', async ({ page }) => {
   const errors = watch(page);
   await seed(page, { rewards: sixTricks });
   await page.goto('/');
   const shelf = page.getByTestId('rewardshelf');
-  const moves = new Set<string>();
   for (const [trick, name, says] of TRICKS) {
     await shelf.locator(`[data-trick=${trick}]`).click();
     const show = shelf.getByTestId('trickshow');
     await expect(show.locator('.sub')).toHaveText(says);
-    const pic = show.locator('.rewardpic');
-    await expect(pic).toHaveAttribute('alt', `Oreo’s trick: ${name}`);
-    const a = await pic.evaluate((el) => { const c = getComputedStyle(el); return { name: c.animationName, times: c.animationIterationCount, ms: parseFloat(c.animationDuration) * 1000 }; });
-    expect(a.name).toBe(`trick-${trick}`);
-    expect(a.times).toBe('1');
-    expect(a.ms).toBeLessThanOrEqual(1000);
-    moves.add(a.name);
-    // The move ends, and then nothing on the picture is moving.
-    await expect.poll(() => pic.evaluate((el) => el.getAnimations().filter((x) => x.playState === 'running').length)).toBe(0);
+    const pic = show.locator('.oreoanim');
+    await expect(pic).toHaveAttribute('data-anim', `trick-${trick}`); // each trick has its own animation
+    await expect(pic).toHaveAttribute('aria-label', `Oreo’s trick: ${name}`);
+    await expect(pic).toHaveAttribute('data-anim-state', 'playing');
+    const runs = await pic.evaluate(moving);
+    expect(runs.length).toBeGreaterThan(0);
+    for (const r of runs) {
+      expect(r.times).toBe(1); // once
+      expect(r.fill).toBe('none'); // and nothing is left behind
+      expect(r.ms).toBeLessThanOrEqual(2000);
+    }
+    // It ends, and then she is the still picture: nothing on her is moving or turned.
+    await expect(pic).toHaveAttribute('data-anim-state', 'still', { timeout: 4000 });
+    expect(await pic.evaluate((el) => el.getAnimations({ subtree: true }).length)).toBe(0);
+    expect(await pic.locator('.oa-pic').evaluate((el) => { const c = getComputedStyle(el); return [c.rotate, c.scale, c.translate, c.transform].join(' '); })).toBe('none none none none');
     await fitsTheScreen(page);
   }
-  expect(moves.size).toBe(6); // each trick has its own move
   // Tapping the same trick again does it again.
   await shelf.locator('[data-trick=fetch]').click();
-  await expect.poll(() => shelf.locator('.rewardpic').evaluate((el) => el.getAnimations().length)).toBe(0);
+  await expect(shelf.locator('.oreoanim')).toHaveAttribute('data-anim-state', 'playing');
   expect(errors).toEqual([]); // a sentence without a recording would be reported here
 });
 
@@ -118,7 +125,11 @@ test('with reduced motion, a tapped trick is shown and named but does not move',
   for (const [trick, , says] of TRICKS) {
     await shelf.locator(`[data-trick=${trick}]`).click();
     await expect(shelf.getByTestId('trickshow').locator('.sub')).toHaveText(says);
-    expect(await shelf.locator('.rewardpic').evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
+    const pic = shelf.locator('.oreoanim');
+    await expect(pic).toHaveAttribute('data-anim', `trick-${trick}`);
+    await expect(pic).toHaveAttribute('data-anim-state', 'still');
+    expect(await pic.evaluate((el) => el.getAnimations({ subtree: true }).length)).toBe(0);
+    await expect(pic.locator('img.oa-body')).toBeVisible(); // the still picture
   }
 });
 

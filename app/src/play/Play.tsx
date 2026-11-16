@@ -14,7 +14,7 @@ import { wording } from '../speech/catalogue';
 import { chime } from '../speech/chime';
 import type { Piece } from '../speech/script';
 import { PRAISE, PRAISE_AFTER_HELP } from '../speech/sentences';
-import { Bone, Oreo, Paw, preloadPoses, type Pose } from '../ui/Oreo';
+import { Bone, Oreo, OreoAnim, Paw, preloadPoses, type Pose } from '../ui/Oreo';
 import { quickFinished } from './quick';
 import type { RoundApi } from './round';
 import { speak, useVoiceSilent, useVoiceSpeaking, voice, warmFor } from './voice';
@@ -276,7 +276,8 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
           <button className="say" type="button" aria-label="Read it to me" hidden={silent} onClick={() => say(now.current.say, 0, true)}>🔊</button>
           {Game ? <Game key={asked.no} q={asked.q as never} level={asked.act.level} round={api} first={first} /> : null}
           <div className="cheer">
-            <Oreo key={pose} pose={pose} />
+            {/* A right answer closes the question: only then does she wag, once. While it is open she is a still picture. */}
+            {fb?.kind === 'right' ? <OreoAnim key={`right-${fb.no}`} name="wag-happy" /> : <Oreo key={pose} pose={pose} />}
             <p className={fb ? `fb ${LOOK[fb.kind]}` : 'fb'} aria-live="polite" data-testid="feedback">{fb?.msg}</p>
           </div>
           {silent && <VoiceRetry />}
@@ -317,7 +318,8 @@ function End({ round, end, onHome, onNext, onAgain }: {
     <div className="card game" data-testid="end">
       <p className="prompt">{wording(head)}</p>
       <div className="stage">
-        <Oreo pose={check ? 'proud' : bones >= round.n - 1 ? 'celebrating' : 'proud'} className="endpup" />
+        {/* A lesson mastered or a nearly perfect round: she jumps. Any other round: she is proud, and her tail wags. */}
+        <OreoAnim name={!check && bones >= round.n - 1 ? 'hop-celebrating' : 'wag-proud'} className="endpup" />
         {seconds !== undefined && <p className="timebig" data-testid="time">{seconds} seconds</p>}
         {!check && (
           <div className="endstars" role="img" aria-label={`${bones} bones out of ${round.n}`}>

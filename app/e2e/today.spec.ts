@@ -134,14 +134,17 @@ test('a finished part of the garden: Oreo learns a trick, and it stays on the ho
   const reward = page.getByTestId('reward');
   await expect(reward).toHaveAttribute('data-reward', 'trick');
   await expect(reward.getByTestId('prompt')).toHaveText('You finished a whole part of the garden! Oreo has learnt a new trick for you.');
-  await expect(reward.locator('.rewardpic')).toHaveAttribute('alt', /^Oreo’s trick: /);
+  // Oreo does her new trick, once, and it is named: on the screen and aloud.
+  await expect(reward.locator('.oreoanim')).toHaveAttribute('aria-label', /^Oreo’s trick: /);
+  await expect(reward.locator('.oreoanim')).toHaveAttribute('data-anim', /^trick-/);
+  await expect(reward.locator('.sub')).toHaveText(/^Oreo can .+!$/);
   await fitsTheScreen(page);
   await reward.getByRole('button', { name: 'Next' }).click();
   // Home, with the trick on the shelf; tapping it shows it. Nothing more is owed.
   const shelf = page.getByTestId('rewardshelf');
   await expect(shelf.locator('.trickbtn')).toHaveCount(1);
   await shelf.locator('.trickbtn').click();
-  await expect(shelf.locator('.rewardpic')).toBeVisible();
+  await expect(shelf.locator('.oreoanim')).toBeVisible();
   await page.reload();
   await expect(reward).toHaveCount(0);
   await expect(shelf.locator('.trickbtn')).toHaveCount(1);
