@@ -127,9 +127,11 @@ test('the button for grown-ups on the home screen says where it leads', async ({
   await page.goto('/');
   const btn = page.getByRole('button', { name: 'For grown-ups' }), note = page.getByTestId('grown-note');
   await expect(note).toHaveText('Progress, settings, and why the app teaches this way.');
-  const b = (await btn.boundingBox())!, n = (await note.boundingBox())!;
-  expect(n.y).toBeGreaterThanOrEqual(b.y + b.height - 0.5); // under the button
-  expect(n.y - (b.y + b.height)).toBeLessThan(24); // and close to it
+  await expect(btn).toBeVisible();
+  // Both are measured in one go: on a slow connection the page is still settling, and two readings a moment apart do not belong together.
+  const gap = await note.evaluate((n) => n.getBoundingClientRect().top - n.parentElement!.querySelector('button')!.getBoundingClientRect().bottom);
+  expect(gap).toBeGreaterThanOrEqual(-0.5); // under the button
+  expect(gap).toBeLessThan(24); // and close to it
   await fitsTheScreen(page);
 });
 
