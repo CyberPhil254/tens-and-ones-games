@@ -1,11 +1,13 @@
-import { expect, test } from '@playwright/test';
-import { day, fitsTheScreen, mastered, saved, seed, watch } from './helpers';
+import { expect, test, type Page } from '@playwright/test';
+import { day, fitsTheScreen, mastered, saved, seed, watch, collect } from './helpers';
 
 /** A lesson the starting check marked as known, as an earlier version saved it. */
 const known = (more: Record<string, unknown> = {}) => ({
   step: 9, passedOn: [], mastered: day(-3), placed: true, reviews: 0, due: day(20), reviewMisses: 0, rating: 3, answers: 0, recent: [], slow: false, ...more,
 });
 const UNIT = ['s2-count', 's2-place', 's2-names', 's2-regroup'];
+/** Nothing is earned yet: every treasure, trick, badge and award among Oreo's things is still a grey shape. */
+const nothingEarned = (page: Page) => page.getByTestId('things').evaluate((el) => el.querySelectorAll('.thing:not(.not), button.trickbtn').length === 0 && el.querySelectorAll('.thing.not, .trickbtn.not').length === 6 + 6 + 14 + 3);
 const TRICKS = [
   ['high-five', 'High five', 'Oreo can give a high five!'], ['beg', 'Beg', 'Oreo can beg!'], ['spin', 'Spin', 'Oreo can spin!'],
   ['roll-over', 'Roll over', 'Oreo can roll over!'], ['play-bow', 'Play bow', 'Oreo can do a play bow!'], ['fetch', 'Fetch', 'Oreo can fetch!'],
@@ -23,45 +25,50 @@ test('a profile that got rewards from the starting check loses them, and is owed
   await page.goto('/');
   await expect(page.getByTestId('today-text')).toBeVisible();
   await expect(page.getByTestId('reward')).toHaveCount(0);
-  await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
+  await expect(nothingEarned(page)).resolves.toBe(true);
   const garden = page.getByTestId('garden');
-  await expect(garden.locator('.treasure')).toHaveCount(0);
   // She still knows the lessons: they are not taken away, only the rewards.
   for (const id of UNIT) await expect(garden.locator(`[data-lesson=${id}]`)).toHaveAttribute('data-status', 'known');
   await expect(garden.locator('[data-lesson=s2-count] .d')).toHaveText('Known, to be checked in a warm-up.');
-  // The next thing saved writes the cleaned rewards to the device.
-  await page.getByRole('button', { name: /Sound o/ }).click();
+  // And it is so every time the app is opened.
   await page.reload();
-  await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
+  await expect(page.getByTestId('things')).toBeVisible();
+  await expect(nothingEarned(page)).resolves.toBe(true);
   expect(errors).toEqual([]);
 });
 
-test('a unit she finished by playing keeps its trick, next to one that was only known', async ({ page }) => {
+test('a unit she finished by playing keeps its trick and treasure, next to one that was only known', async ({ page }) => {
+  // As an earlier version saved it: treasures per lesson, tricks per unit; one unit played, one only known from the check.
   await seed(page, {
     lessons: { ...Object.fromEntries(UNIT.map((id) => [id, mastered()])), 's2-bonds': known(), 's2-inverse': known(), 's2-calc': known() },
     rewards: { treasures: { 's2-count': 'ball', 's2-bonds': 'bed' }, tricks: { 's2-u1': 'spin', 's2-u4': 'beg' } },
   });
   await page.goto('/');
-  // Three of the unit's treasures were never collected: those are still owed, and given first.
-  for (let i = 0; i < 3; i++) {
-    const reward = page.getByTestId('reward');
-    await expect(reward).toHaveAttribute('data-reward', 'treasure');
-    await reward.locator('.treasurecard').first().click();
-    await reward.getByRole('button', { name: 'Next' }).click();
-  }
+  // What today's rules add for the same progress is owed and comes first: more treasures for her paws, and the unit's badge.
+  const got = await collect(page);
+  expect(got.filter((g) => g.startsWith('treasure')).length).toBeGreaterThan(2);
+  expect(got).toContain('badge');
+  expect(got.filter((g) => g.startsWith('trick'))).toEqual([]); // no trick twice
   await expect(page.getByTestId('reward')).toHaveCount(0);
-  await expect(page.getByTestId('rewardshelf').locator('.trickbtn')).toHaveCount(1);
-  await expect(page.getByTestId('rewardshelf').locator('.trickbtn')).toHaveAttribute('data-trick', 'spin');
+  // Her trick is still "spin"; the trick the check gave is gone.
+  const tricks = page.getByTestId('things-tricks');
+  await expect(tricks.locator('button.trickbtn')).toHaveCount(1);
+  await expect(tricks.locator('button.trickbtn')).toHaveAttribute('data-trick', 'spin');
+  await expect(tricks.locator('.trickbtn.not')).toHaveCount(5);
   const s = await saved(page);
-  expect(Object.keys(s.rewards.tricks)).toEqual(['s2-u1']);
-  expect(Object.keys(s.rewards.treasures).sort()).toEqual([...UNIT].sort());
+  expect(s.rewards.tricks).toEqual({ m2: 'spin' });
+  expect(s.rewards.treasures.w1).toBe('ball'); // the treasure she had, in the first place treasures have now
+  expect(Object.keys(s.rewards.treasures).every((k) => /^w\d+$/.test(k))).toBe(true);
+  expect(Object.values(s.rewards.treasures)).not.toContain(undefined);
+  expect(s.rewards.awards).toEqual({ 's2-u1': 'badge' });
+  await expect(page.getByTestId('things-badges').locator('.thing.badge:not(.not)')).toHaveCount(1);
 });
 
 test('every trick has its name under its picture, and the picture fits inside its frame', async ({ page }) => {
   await seed(page, { rewards: sixTricks });
   await page.goto('/');
-  const shelf = page.getByTestId('rewardshelf');
-  await expect(shelf.locator('.trickbtn')).toHaveCount(6);
+  const shelf = page.getByTestId('things');
+  await expect(shelf.locator('button.trickbtn')).toHaveCount(6);
   await expect.poll(() => shelf.locator('img').evaluateAll((all) => all.every((i) => (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0))).toBe(true);
   for (const width of [320, 360, 400, 768, 1280]) {
     await page.setViewportSize({ width, height: 800 });
@@ -89,7 +96,7 @@ test('tapping a trick: Oreo says its name in a recorded sentence and does the tr
   const errors = watch(page);
   await seed(page, { rewards: sixTricks });
   await page.goto('/');
-  const shelf = page.getByTestId('rewardshelf');
+  const shelf = page.getByTestId('things');
   for (const [trick, name, says] of TRICKS) {
     await shelf.locator(`[data-trick=${trick}]`).click();
     const show = shelf.getByTestId('trickshow');
@@ -121,7 +128,7 @@ test('with reduced motion, a tapped trick is shown and named but does not move',
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await seed(page, { rewards: sixTricks });
   await page.goto('/');
-  const shelf = page.getByTestId('rewardshelf');
+  const shelf = page.getByTestId('things');
   for (const [trick, , says] of TRICKS) {
     await shelf.locator(`[data-trick=${trick}]`).click();
     await expect(shelf.getByTestId('trickshow').locator('.sub')).toHaveText(says);
@@ -178,6 +185,7 @@ test('“why this works” under a lesson opens its note without the lock, with 
   const errors = watch(page);
   await seed(page, { lessons: { 's1-see': mastered() } });
   await page.goto('/');
+  const before = await saved(page);
   const garden = page.getByTestId('garden');
   // Every lesson has the link; it is small and quiet next to the lesson itself.
   await expect(garden.locator('.whylink')).toHaveCount(await garden.locator('.stone').count());
@@ -206,7 +214,7 @@ test('“why this works” under a lesson opens its note without the lock, with 
   await expect(why).toHaveAttribute('data-lesson', 's1-teens');
   await why.getByRole('button', { name: 'Back to the game' }).click();
   await expect(page.getByTestId('today-text')).toBeVisible();
-  expect(await saved(page)).toMatchObject({ rewards: { treasures: { 's1-see': 'ball' } } }); // nothing was changed
+  expect(await saved(page)).toEqual(before); // nothing was changed
   expect(errors).toEqual([]);
 });
 

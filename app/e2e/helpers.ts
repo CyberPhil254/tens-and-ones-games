@@ -1,4 +1,6 @@
 import { expect, type Page } from '@playwright/test';
+import { readProfileData } from '../src/data/profile';
+import { give, nextEarned } from '../src/engine/rewards';
 
 /** Collects console errors: a sentence without a recording is reported there too. */
 export function watch(page: Page): string[] {
@@ -35,31 +37,54 @@ export interface Seed {
   id?: string;
   stage?: 1 | 2;
   soundOff?: boolean;
-  /** False: the trick for a finished part of the garden has not been given yet. Treasures and tricks are otherwise in place. */
+  /** False: the tricks she has earned have not been given yet. Everything else she has earned is in place. */
   tricks?: boolean;
   /** Exactly these rewards, instead of the ones worked out from the lessons. */
   rewards?: { treasures?: Record<string, string>; tricks?: Record<string, string>; awards?: Record<string, string> };
   /** False: the starting check has not been done yet. */
   checked?: boolean;
 }
-/** Puts a child on the device before the app starts. Later reloads keep whatever the app has saved since. */
+/**
+ * Puts a child on the device before the app starts. Later reloads keep whatever the app has saved since.
+ * What her progress has earned is already hers, worked out by the app's own rules, so that a test starts
+ * on the home screen and not on a row of reward cards. `tricks: false` leaves the tricks to be given;
+ * `rewards` gives exactly those and nothing else.
+ */
 export async function seed(page: Page, s: Seed = {}): Promise<void> {
-  // What mastery has earned is already in the garden, unless the test is about giving it.
-  const known = Object.keys(s.lessons ?? {}).filter((id) => s.lessons![id]!.mastered);
-  const treasures = Object.fromEntries(known.map((id) => [id, 'ball']));
-  const built: Record<string, string[]> = { 's2-u1': ['s2-count', 's2-place', 's2-names', 's2-regroup'], 's2-u4': ['s2-bonds', 's2-inverse', 's2-calc'], 'x-u1': ['x-fill', 'x-break', 'x-line'] };
-  const tricks = s.tricks === false ? {} : Object.fromEntries(Object.entries(built).filter(([, ls]) => ls.every((l) => known.includes(l))).map(([u]) => [u, 'spin']));
-  const data = {
+  const base = {
     profile: { id: s.id ?? 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
-    bones: s.bones ?? 0, best: s.best ?? 0, rewards: s.rewards ? { treasures: {}, tricks: {}, awards: {}, ...s.rewards } : { treasures, tricks, awards: {} }, attempts: [], checked: s.checked ?? true,
+    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true,
   };
+  let rewards: Record<string, Record<string, string>> = { treasures: {}, tricks: {}, awards: {}, ...s.rewards };
+  if (!s.rewards) {
+    let d = readProfileData(JSON.parse(JSON.stringify(base)), day())!;
+    for (let e = nextEarned(d), n = 0; e && n < 400; e = nextEarned(d), n++) d = give(d, e);
+    rewards = { ...d.rewards, ...(s.tricks === false ? { tricks: {} } : {}) };
+  }
+  const data = { ...base, rewards };
   await page.addInitScript(([d, soundOff]) => {
     if (localStorage.getItem('tens-and-ones.profiles')) return;
     localStorage.setItem('tens-and-ones.profiles', JSON.stringify([d.profile.id]));
     localStorage.setItem(`tens-and-ones.profile.${d.profile.id}`, JSON.stringify(d));
     if (soundOff) localStorage.setItem('tens-and-ones.settings', JSON.stringify({ soundOff: true }));
   }, [data, s.soundOff ?? false] as const);
+}
+/**
+ * Takes every reward card that is on the screen, one after the other (a treasure: the first of the two),
+ * and returns what they were, for example ["treasure w1", "trick m2"].
+ */
+export async function collect(page: Page): Promise<string[]> {
+  const got: string[] = [];
+  for (let i = 0; i < 20; i++) {
+    const card = page.getByTestId('reward');
+    // A card may take a moment to follow the screen before it.
+    if (!(await card.count())) { await page.waitForTimeout(150); if (!(await card.count())) break; }
+    got.push(`${await card.getAttribute('data-reward')} ${(await card.getAttribute('data-slot')) ?? ''}`.trim());
+    if (await card.locator('.treasurecard').count()) await card.locator('.treasurecard').first().click();
+    await card.getByRole('button', { name: 'Next' }).click();
+  }
+  return got;
 }
 /** Starts today's games; `pick` is the lesson to tap when the choice card comes. */
 export async function playToday(page: Page, pick?: string): Promise<void> {

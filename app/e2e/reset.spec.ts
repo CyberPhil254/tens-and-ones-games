@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { answerRight, day, fitsTheScreen, mastered, seed, watch } from './helpers';
+import { answerRight, collect, day, fitsTheScreen, mastered, seed, watch } from './helpers';
 
 async function openParents(page: Page) {
   await page.getByRole('button', { name: 'For grown-ups' }).click();
@@ -26,10 +26,7 @@ async function playADay(page: Page) {
   for (let i = 0; i < n; i++) await answerRight(page);
   await page.getByRole('button', { name: 'Back to the start' }).click();
   // Rewards the app owes come first, whatever they are; then today's games.
-  for (let i = 0; i < 12 && (await page.getByTestId('reward').count()); i++) {
-    if (await page.locator('.treasurecard').count()) await page.locator('.treasurecard').first().click();
-    await page.getByTestId('reward').getByRole('button', { name: 'Next' }).click();
-  }
+  await collect(page);
   await page.getByRole('button', { name: 'Play today’s games' }).click();
   if (await page.getByTestId('choice').count()) await page.getByTestId('choice').locator('[data-lesson]').first().click();
   // One whole part of today's games (the warm-up, if she has one), and then she stops.
@@ -42,13 +39,13 @@ async function playADay(page: Page) {
 async function expectFresh(page: Page, name: string) {
   await expect(page.locator('.whoami')).toContainText(name);
   await expect(page.getByTestId('store')).toHaveAttribute('aria-label', '0 bones');
-  await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
+  // Nothing among Oreo's things is hers yet: every one is a grey shape.
+  await expect(page.getByTestId('things').locator('.thing:not(.not), button.trickbtn')).toHaveCount(0);
   await expect(page.getByTestId('reward')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Play today’s games' })).toBeVisible(); // today's games are not done
   await expect(page.getByTestId('free-note')).toBeVisible();
   const garden = page.getByTestId('garden');
   await expect(garden.locator('.stone.mastered, .stone.resting')).toHaveCount(0);
-  await expect(garden.locator('.treasure')).toHaveCount(0);
   // A fresh path: the first two stones open at their first step, with no step done; everything else behind a padlock.
   expect(await garden.locator('.stone.open').evaluateAll((all) => all.map((e) => `${e.getAttribute('data-lesson')} ${e.getAttribute('data-steps')}`))).toEqual(['s1-count 0/3', 's1-see 0/3']);
   await expect(garden.locator('.stone.passed, .stone.known')).toHaveCount(0);
@@ -171,7 +168,7 @@ async function startAgain(page: Page) {
 test('Start again for a Stage 2 child far along, with today’s games done: everything is gone at once', async ({ page }) => {
   await seed(page, farAlong);
   await page.goto('/');
-  await expect(page.getByTestId('rewardshelf')).toBeVisible();
+  await expect(page.getByTestId('things').locator('.thing:not(.not)').first()).toBeVisible(); // she has things to lose
   await expect(page.getByRole('button', { name: 'Play again anyway' })).toBeVisible();
   await startAgain(page);
   await page.getByTestId('startcheck').getByRole('button', { name: /skip/ }).click();
@@ -194,7 +191,7 @@ test('Start again while the app is open in a second window: the other window doe
   // The second window shows the new child too, without being reloaded...
   await other.bringToFront();
   await expect(other.getByTestId('store')).toHaveAttribute('aria-label', '0 bones');
-  await expect(other.getByTestId('rewardshelf')).toHaveCount(0);
+  await expect(other.getByTestId('things').locator('.thing:not(.not), button.trickbtn')).toHaveCount(0);
   // ...and whatever is done there saves the new child, not the old one it once had in memory.
   await other.getByRole('button', { name: 'Play today’s games' }).click();
   if (await other.getByTestId('choice').count()) await other.getByTestId('choice').locator('[data-lesson]').first().click();
@@ -207,6 +204,7 @@ test('Start again while the app is open in a second window: the other window doe
   expect(saved.rewards).toEqual({ treasures: {}, tricks: {}, awards: {} });
   // Back in the first window, after a reload: still the new child.
   await page.reload();
+  expect(await collect(page)).toEqual(['treasure w1']); // what that one round earned the new child: her first paw's treasure
   await expect(page.getByTestId('store')).toHaveAttribute('aria-label', `${n} bones`);
-  await expect(page.getByTestId('rewardshelf')).toHaveCount(0);
+  await expect(page.getByTestId('things').locator('button.trickbtn')).toHaveCount(0);
 });

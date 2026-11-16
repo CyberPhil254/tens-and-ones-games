@@ -22,7 +22,6 @@ import { speak } from './voice';
 /** The treasures Oreo can be given, from art/props/. */
 export const TREASURES: Record<Treasure, string> = { ball, bandana, bed, bowl, 'rope-toy': rope, kennel: kennelToy };
 export const TREASURE_NAMES: Record<Treasure, string> = { ball: 'a ball', bandana: 'a bandana', bed: 'a bed', bowl: 'a bowl', 'rope-toy': 'a rope toy', kennel: 'a kennel' };
-export const isTreasure = (v: string | undefined): v is Treasure => !!v && v in TREASURES;
 
 /** What a stone is for the child: the engine's status, with "known from the starting check" told apart from mastered by playing. */
 type Look = LessonStatus | 'known';
@@ -98,7 +97,6 @@ export function Garden({ data, today, open, soundOff, onLesson, onWhy }: GardenP
               // Free play is for what she has passed at least once, never for what is still ahead.
               const canPlay = open && ['passed', 'resting', 'mastered', 'known'].includes(look);
               const stepsDone = ['passed', 'resting'].includes(look) ? l.steps.length : look === 'open' ? Math.min(st.step, l.steps.length) : 0;
-              const treasure = data.rewards.treasures[l.id];
               const side = n++ % 2 ? 'right' : 'left';
               return (
                 <li key={l.id} className={side}>
@@ -114,7 +112,6 @@ export function Garden({ data, today, open, soundOff, onLesson, onWhy }: GardenP
                           <span className="pips">{l.steps.map((_, i) => <i key={i} className={i < stepsDone ? 'on' : undefined} />)}</span>
                         )}
                       </span>
-                      {look === 'mastered' && isTreasure(treasure) && <img className="treasure" src={TREASURES[treasure]} alt={TREASURE_NAMES[treasure]} draggable={false} />}
                       {isNext && <Oreo key={pointing ? 'pointing' : 'standing'} pose={pointing ? 'pointing' : 'standing'} className="herepup" />}
                     </span>
                     <span className="cap">

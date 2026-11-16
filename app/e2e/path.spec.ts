@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { day, fitsTheScreen, mastered, saved, seed, watch } from './helpers';
+import { collect, day, fitsTheScreen, mastered, saved, seed, watch } from './helpers';
 
 const garden = (page: Page) => page.getByTestId('garden');
 const stone = (page: Page, id: string) => garden(page).locator(`.stone[data-lesson=${id}]`);
@@ -102,6 +102,7 @@ test('free play after today’s games is only for stones she has passed, never f
   // After them.
   await page.evaluate((d) => { const k = 'tens-and-ones.profile.child-test'; const p = JSON.parse(localStorage.getItem(k)!); p.child.doneOn = d; localStorage.setItem(k, JSON.stringify(p)); }, day());
   await page.reload();
+  await collect(page); // today's games finished for the first time: the welcome treasure
   await expect(page.getByTestId('free-note')).toHaveText('Tap a stone you have passed to play it again.');
   await expect(stone(page, 's1-count')).toBeEnabled(); // mastered
   await expect(stone(page, 's1-see')).toBeEnabled(); // passed once
@@ -129,7 +130,6 @@ test('after the starting check: what is before her starting point is known, to b
   await expect(stone(page, 's1-add')).toContainText('Known, to be checked in a warm-up.');
   await expect(stone(page, 's1-add').locator('.mark .ic.tick')).toHaveCount(1);
   await expect(stone(page, 's1-add').locator('.mark .ic.paw')).toHaveCount(0); // not a paw: she has not shown it by playing
-  await expect(stone(page, 's1-add').locator('.treasure')).toHaveCount(0);
   await expect(stone(page, 's2-count')).toHaveAttribute('data-next', 'true');
   await expect(stone(page, 's2-count').locator('.herepup')).toHaveCount(1);
   await expect(page.getByTestId('today-text')).toContainText('Pack in tens');

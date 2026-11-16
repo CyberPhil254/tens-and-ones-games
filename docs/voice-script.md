@@ -91,7 +91,7 @@ Sentences with a number, one clip for each number:
 
 ## Pack: core
 
-41 clips.
+43 clips.
 
 Whole sentences:
 
@@ -116,7 +116,9 @@ Whole sentences:
 - This is Oreo, Star's sister. She loves bones and numbers, and she is going to learn with you.
 - Oreo gets a treasure. Which one shall she have?
 - Oreo loves it. Thank you!
-- You finished a whole part of the garden! Oreo has learnt a new trick for you.
+- You finished today's games! Oreo gets a treasure. Which one shall she have?
+- Oreo has learnt a new trick for you!
+- You finished a whole part of the garden! This badge is for you.
 - You have finished the whole stage. This award is for you!
 - First finish this one.
 - Oreo can give a high five!

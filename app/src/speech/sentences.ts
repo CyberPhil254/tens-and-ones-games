@@ -211,7 +211,9 @@ export const FIXED = {
   // Rewards: a treasure for a lesson, a trick for a part of the garden, an award for a stage.
   'oreo-gets-a-treasure-which-one': "Oreo gets a treasure. Which one shall she have?",
   'oreo-loves-it-thank-you': "Oreo loves it. Thank you!",
-  'you-finished-a-whole-part-of': "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
+  'you-finished-todays-games-oreo-gets': "You finished today's games! Oreo gets a treasure. Which one shall she have?",
+  'oreo-has-learnt-a-new-trick': "Oreo has learnt a new trick for you!",
+  'you-finished-a-whole-part-of': "You finished a whole part of the garden! This badge is for you.",
   'you-finished-the-whole-stage-this': "You have finished the whole stage. This award is for you!",
   // The path: a stone with a padlock was tapped, and Oreo points at the stone that opens it.
   'first-finish-this-one': "First finish this one.",

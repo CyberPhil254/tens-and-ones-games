@@ -292,6 +292,38 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .awardpic { width: 72px; height: auto; }
 .trickshow { padding: 16px 0 0; }
 .trickshow .sub { text-align: center; }
+/* "Oreo's things": everything there is to earn. What she does not have yet is a grey shape. */
+.things h3 { font-family: var(--display); font-weight: 600; font-size: 17px; margin: 14px 0 6px; color: var(--soft); }
+.thingrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+.thing { position: relative; display: grid; place-items: center; width: 60px; height: 60px; background: var(--card); border: 2px solid var(--ink); border-radius: 14px; }
+.thing img { max-width: 44px; max-height: 44px; display: block; }
+.thing b { position: absolute; right: -6px; bottom: -6px; min-width: 24px; padding: 0 4px; background: var(--ink); color: #fff; border-radius: 999px; font: 600 14px/22px var(--display); text-align: center; }
+.thing.badge, .thing.award { width: 44px; height: 44px; border-radius: 50%; }
+.thing.badge img, .thing.award img { max-width: 32px; max-height: 32px; }
+.thing.award { width: 60px; height: 60px; border-radius: 14px; }
+.thing.award img { max-width: 44px; max-height: 44px; }
+.thing.not, .trickbtn.not { border-style: dashed; border-color: #9aa3b2; background: transparent; }
+.thing.not img, .trickbtn.not img { filter: grayscale(1) brightness(0); opacity: 0.16; }
+.trickbtn.not .trickname { color: #7a8494; }
+.thingline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 16px; line-height: 1.35; }
+.thingline.small { font-size: 14px; color: var(--soft); }
+/* The row of paws that fills up towards the next reward. */
+.pawrow { display: inline-flex; gap: 4px; flex: none; }
+.pawrow span { display: grid; place-items: center; width: 26px; height: 26px; }
+.pawrow .ic { width: 22px; height: 22px; fill: #c9d2e0; }
+.pawrow .on .ic { fill: var(--ok); }
+.pawrow .on.new { animation: paw-in 0.5s ease-out 0.5s both; }
+@keyframes paw-in { from { transform: scale(0.2); opacity: 0; } 60% { transform: scale(1.25); } }
+/* The end of a round: Oreo, the stone that changed, and the paws towards the next reward. */
+.endrow { display: flex; align-items: flex-end; justify-content: center; gap: 14px; }
+.endstone { display: grid; justify-items: center; gap: 2px; font-family: var(--display); font-size: 15px; max-width: 140px; text-align: center; }
+.endstone .stonepic { width: 116px; height: 66px; }
+.endstone .pips i.new { animation: pip-in 0.5s ease-out 0.7s both; }
+@keyframes pip-in { from { background: transparent; transform: scale(0.4); } 60% { transform: scale(1.4); } }
+.endstone .pawin { display: grid; animation: paw-in 0.6s ease-out 0.7s both; }
+.endgoal { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 10px 0 0; font-size: 17px; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .pawrow .on.new, .endstone .pips i.new, .endstone .pawin { animation: none; } }
+
 /* Oreo on the reward screen and the trick shelf: her animations come from ui/animate.ts. */
 .pup.oreoanim.rewardpup { --box: min(56vw, 190px); display: block; margin: 12px auto 4px; }
 .pup.oreoanim.rewardpup.small { --box: 110px; }

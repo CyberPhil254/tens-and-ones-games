@@ -52,6 +52,42 @@ The whole-path results did not change: the engine already gave her the first les
 
 To confirm (in `docs/decisions.md`, dated 2026-11-16): the rule for the alternative stone; that a lesson begun earlier and lying further on than the path has got is locked until she reaches it (its progress is kept); that Oreo stands on the next stone also after today's games are done.
 
+### C. Rewards early and often (pull request 54)
+
+Nothing is half done. Three sentences recorded (two new, one changed).
+
+**What she gets now**
+- The first time she finishes today's games: a welcome treasure, her choice of two.
+- A **paw** for every step she passes and every lesson she masters. A treasure at the 1st, 3rd and 6th paw, then at every third.
+- A trick at the 2nd, 5th, 9th, 14th, 20th and 27th lesson mastered.
+- A badge for every unit finished, the rosette or trophy for a stage, the crown for the stretch lessons.
+- Lessons known from the starting check count only once a review has confirmed them, as before.
+
+**What she sees**
+- "Oreo's things" on the home screen shows everything, earned or not; what is not hers yet is a grey shape, and each row has a line saying what earns the next one.
+- After every round: a row of paws filling up towards the next treasure, with Oreo beside it.
+- The stone that changed is shown changing at the end of the round, with Oreo's matching animation.
+
+**The whole-path test, for the child who is right 3 times in 4** (`app/src/engine/path.test.ts`; days are days of play)
+
+| | As asked (treasures at the 1st, 3rd, 6th, 10th, 15th, 21st lesson passed) | As built (treasures by paws) |
+|---|---|---|
+| First treasure | day 1 (the welcome treasure) | day 1 |
+| First trick | day 4 | day 4 |
+| Longest gap between two rewards | 14 days | **6 days** |
+| Gaps longer than 5 days | 8 | 2 |
+| Rewards on the whole path | 30 | 73 |
+
+**The gap is not 5 or less, and I could not make it so with a schedule.** I changed the schedule as asked, and this is how far it goes:
+- Treasures are now counted in paws instead of lessons passed. That is the change I chose.
+- I ran the same child ten times with different luck. As asked: the longest gap was 13 to 21 days. As built: 5 to 10, usually 6; in four runs of ten no gap was longer than 5.
+- Even a reward for every single step, every lesson passed and every lesson mastered (145 rewards) leaves a gap of 6 in three runs of ten. The cause is not the schedule: this child has stretches of up to 9 days in which she passes nothing new.
+- Two things would close it, and both are yours to decide: a reward for something that grows every day whatever she achieves (which rewards minutes, and the spec rules that out), or a change to the engine so that a child at 3 in 4 is not stuck on one step for a week.
+
+The other simulated children: always right, longest gap 2 days; the child who starts at 85 percent and fades with every step, 14 days and seven gaps longer than 5 (she is stuck for longer); the child at 60 percent keeps no lesson mastered and gets 11 rewards in 200 days, four of them in her first week. For her the rewards do not come often, because she achieves little; that is the engine holding her back, as it should, and the reward schedule cannot and should not hide it.
+
+To confirm (in `docs/decisions.md`, dated 2026-11-16): paws instead of lessons passed for treasures; about fifty treasures, several of a kind; one line per row in "Oreo's things" instead of one per grey shape; the unit badge is the paw badge from `art/awards/`.
+
 ## Oreo's animations (2026-11-16, pull request 51)
 
 Nothing is half done. No new sentences: the tricks use the six recorded in pull request 48.
@@ -113,7 +149,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 469 unit tests, 357 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 479 unit tests, 367 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -185,7 +221,7 @@ Around the lessons:
 
 ## Decisions
 
-All 156 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 167 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -278,6 +314,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 51 | Oreo's ten animations from `art/rigs/`, played from the data: tail wags, the hop, the hello rock, each trick's own; never while a question is open |
 | 52 | "Start again", "Remove" and "Add a child" tested by real play; a second open window no longer brings old progress back |
 | 53 | The garden is a path: one order as data, at most two stones open, padlocks, a lit next stone, steps and paws on passed stones, free play only for passed stones |
+| 54 | Rewards early and often: the welcome treasure, treasures by paws, tricks by lessons mastered, unit badges; "Oreo's things" shows everything; paws and the changing stone after every round |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
