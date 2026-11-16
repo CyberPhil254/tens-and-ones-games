@@ -75,7 +75,7 @@ test('Break a Ten level 3: not enough ones, so a ten is broken', async ({ page }
   for (let i = 0; i < q.ao; i++) await btn(page, 'Take a one').click();
   // The ones have run out.
   await btn(page, 'Take a one').click();
-  await expect(feedback(page)).toHaveText('No ones left! Break a ten into 10 ones.');
+  await expect(feedback(page)).toHaveText('The ones are all gone! Break a ten into 10 ones.');
   await expect(btn(page, 'Break a ten')).toHaveClass(/pulse/);
   // The button pulses to draw the eye; the test tool would wait for it to hold still, a child would not.
   await btn(page, 'Break a ten').click({ force: true });
@@ -83,7 +83,7 @@ test('Break a Ten level 3: not enough ones, so a ten is broken', async ({ page }
   await expect(blocks(page).locator('.cube')).toHaveCount(10);
   // Breaking another when there are enough ones is refused, with the reason.
   await btn(page, 'Break a ten').click();
-  await expect(feedback(page)).toHaveText('You have enough ones. No need to break a ten.');
+  await expect(feedback(page)).toHaveText('You have enough ones. Take away a one.');
   for (let i = 0; i < q.bo - q.ao; i++) await btn(page, 'Take a one').click();
   await expect(blocks(page)).toHaveAttribute('aria-label', shows(q.r));
   await choice(page, q.r).click();

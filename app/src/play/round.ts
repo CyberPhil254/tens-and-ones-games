@@ -15,6 +15,8 @@ export interface RoundApi {
   note(msg: ReactNode, kind: 'ok' | 'hint', say?: Piece[] | false): void;
   /** Takes the remark away again, when the child starts over. */
   clear(): void;
+  /** The question starts only now (something was shown first): the time she takes is counted from here. */
+  started(): void;
   /** She asked for the help picture: the question no longer earns a bone. */
   helped(): void;
 }

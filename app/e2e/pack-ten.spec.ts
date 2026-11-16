@@ -32,7 +32,7 @@ async function packAll(page: Page): Promise<number> {
     }
   }
   // The last ones are fewer than ten: they stay ones, and only then is she asked.
-  await expect(feedback(page)).toHaveText(`Only ${n % 10} left. Not enough for a ten, so they stay ones.`);
+  await expect(feedback(page)).toHaveText(`Only ${n % 10} left. That is fewer than ten, so they stay ones.`);
   await expect(page.getByTestId('prompt')).toHaveText('How many?');
   await expect(heap.locator('.cube')).toHaveCount(0);
   await expect(blocks(page)).toHaveAttribute('aria-label', `${tensW(tens)} and ${onesW(n % 10)}`);

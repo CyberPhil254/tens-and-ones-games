@@ -145,6 +145,7 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
 
       <div className="grown">
         <button className="soundbtn" type="button" onClick={onParents}>For grown-ups</button>
+        <p className="grownnote" data-testid="grown-note">Progress, settings, and why the app teaches this way.</p>
       </div>
     </section>
   );

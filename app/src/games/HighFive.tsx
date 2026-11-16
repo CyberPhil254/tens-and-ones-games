@@ -25,12 +25,12 @@ export function HighFive({ q, level, round }: GameProps<'five'>) {
   };
   const wrong = () =>
     level === 3
-      ? round.wrong('You do not need to count them all. The top row is 5. How many more are there?', ['do-not-count-them-all-the'])
-      : round.wrong('You do not need to count them all. The dark blue ones are 5. How many more are there?', ['do-not-count-them-all-the-dark']);
+      ? round.wrong('The top row is 5. How many more are there?', ['the-top-row-is-5-how'])
+      : round.wrong('The dark blue ones are 5. How many more are there?', ['the-dark-blue-ones-are-5']);
 
   return (
     <>
-      <Prompt round={round} say={['how-many-do-not-count-look']}>How many?</Prompt>
+      <Prompt round={round} say={['how-many-look-for-the-five']}>How many?</Prompt>
       <Stage>
         <div className="fiverow">
           {(level === 1 || done) && <Hands n={n} />}

@@ -35,7 +35,7 @@ function Walk({ q, round }: GameProps<'walk'>) {
   const done = () => {
     if (round.over) return;
     if (at === q.n) round.win(`${tensW(q.t)} and ${onesW(q.o)}. Oreo is on ${q.n}.`, [`isTO.${q.n}`]);
-    else if (at < q.n) round.wrong(`Oreo is on ${at}. That is not far enough yet.`, ['frag.the-puppy-is-on', at, 'that-is-not-far-enough-yet']);
+    else if (at < q.n) round.wrong(`Oreo is on ${at}. Walk a little further.`, ['frag.the-puppy-is-on', at, 'walk-a-little-further']);
     else round.wrong(`Oreo is on ${at}. That is too far. Go back to the start.`, ['frag.the-puppy-is-on', at, 'that-is-too-far-go-back']);
   };
   return (

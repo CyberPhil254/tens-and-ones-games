@@ -30,6 +30,8 @@ export interface GameProps<G extends GameId> {
   q: QuestionOf[G];
   level: number;
   round: RoundApi;
+  /** She has never answered a question of this lesson, and this is the first of the round: a game may show how it goes. */
+  first?: boolean;
 }
 
 /** The games that exist in the new app so far. The rest are still only in the live game. */

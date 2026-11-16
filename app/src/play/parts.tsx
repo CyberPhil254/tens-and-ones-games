@@ -67,10 +67,12 @@ export function Choices({ opts, ans, pad, round, onRight, onWrong }: {
 
 /**
  * Shows a picture for a moment, then covers it, so it is seen and not counted.
- * A button lets her peek again. `stay` uncovers it for good, once she has answered.
+ * A button lets her peek again: as often as she likes, or `peeks` times, after which the button goes.
+ * `stay` uncovers it for good, once she has answered.
  */
-export function Flash({ stay, children }: { stay: boolean; children: ReactNode }) {
+export function Flash({ stay, peeks, children }: { stay: boolean; peeks?: number; children: ReactNode }) {
   const [covered, setCovered] = useState(false);
+  const [used, setUsed] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   useEffect(() => {
     timer.current = setTimeout(() => setCovered(true), 1900);
@@ -79,12 +81,13 @@ export function Flash({ stay, children }: { stay: boolean; children: ReactNode }
   const peek = () => {
     clearTimeout(timer.current);
     setCovered(false);
+    setUsed((u) => u + 1);
     timer.current = setTimeout(() => setCovered(true), 1600);
   };
   return (
     <>
       <div className={covered && !stay ? 'flash covered' : 'flash'} data-testid="flash">{children}</div>
-      {!stay && <button type="button" className="ghostbtn" onClick={peek}>Peek again</button>}
+      {!stay && (peeks === undefined || used < peeks) && <button type="button" className="ghostbtn" onClick={peek}>Peek again</button>}
     </>
   );
 }

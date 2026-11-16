@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { bones, choice, feedback, fitsTheScreen, next, openGame, paws, watch, wrongChoice } from './helpers';
+import { bones, choice, feedback, fitsTheScreen, next, onesW, openGame, paws, seed, tensW, watch, wrongChoice } from './helpers';
 
 const type = async (page: Page, n: number) => {
   for (const d of String(n)) await page.getByTestId('numpad').getByRole('button', { name: d, exact: true }).click();
@@ -99,25 +99,110 @@ test('Zero in her head: taking everything away, and adding nothing', async ({ pa
 });
 
 for (const [level, title, opts] of [[6, 'Guess, then check', [5, 10, 20]], [7, 'Guess a heap', [20, 50, 80]]] as const) {
-  test(`${title}: a heap seen for a moment; a miss counts or packs it`, async ({ page }) => {
+  /** Goes past Oreo's demonstration, which comes before a child's first heap. */
+  const pastDemo = async (page: Page) => {
+    await expect(page.getByTestId('demo')).toHaveAttribute('data-step', 'packed', { timeout: 10_000 });
+    await page.getByRole('button', { name: 'Now you' }).click();
+  };
+  const nearest = (n: number, ans: number) => {
+    const t = Math.floor(n / 10), o = n % 10;
+    const packed = t === 0 ? onesW(o) : o === 0 ? tensW(t) : `${tensW(t)} and ${o} more`;
+    return `${n}. That is ${packed}${ans > n && o >= 5 ? `, nearly ${tensW(t + 1)}` : ''}, so ${ans} is nearest.`;
+  };
+
+  test(`${title}: one more peek and no more; after a miss and after the right answer the same bones pack into tens and ones`, async ({ page }) => {
     const errors = watch(page);
     await openGame(page, 'count', level);
     await expect(page.getByTestId('title')).toHaveText(title);
+    await pastDemo(page);
+    await expect(page.getByTestId('prompt')).toHaveText('About how many?');
+    await expect(page.locator('.card.game .sub').first()).toHaveText('Pick the number that is closest.');
     const heap = page.getByTestId('heap');
     const n = Number(await heap.getAttribute('data-n'));
     await expect(heap.locator('.hbone')).toHaveCount(n); // exactly as many as it says
     expect((await page.locator('.choice').allInnerTexts()).map(Number)).toEqual([...opts]);
     const ans = [...opts].sort((a, b) => Math.abs(a - n) - Math.abs(b - n))[0]!;
-    await expect(page.getByTestId('flash')).toHaveClass(/covered/, { timeout: 4000 });
+    // Seen for a moment, then covered. One peek, and the button is gone: she cannot count them.
+    const flash = page.getByTestId('flash'), peek = page.getByRole('button', { name: 'Peek again' });
+    await expect(flash).toHaveClass(/covered/, { timeout: 4000 });
+    await peek.click();
+    await expect(flash).not.toHaveClass(/covered/);
+    await expect(peek).toHaveCount(0);
+    await expect(flash).toHaveClass(/covered/, { timeout: 4000 });
+    // Mark every bone, to see afterwards that the packed ones are the very same.
+    await heap.locator('.hbone').evaluateAll((all) => all.forEach((b, i) => ((b as HTMLElement).dataset.seen = String(i))));
+    const before = await heap.locator('.hbone').evaluateAll((all) => all.map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.x), Math.round(r.y)]; }));
+
     await wrongChoice(page, ans).click();
-    await expect(feedback(page)).toContainText('Let’s check.');
-    const checked = page.getByTestId('checked');
-    await expect(checked).toContainText(said(n));
-    if (level === 6) await expect(checked.locator('.frames .dot')).toHaveCount(n);
-    else await expect(checked.locator('.blocks')).toHaveAttribute('aria-label', new RegExp(`^${Math.floor(n / 10)} tens? and ${n % 10} ones?$`));
+    await expect(feedback(page)).toHaveText(nearest(n, ans));
+    await expect(flash).not.toHaveClass(/covered/);
+    await expect(heap).toHaveAttribute('data-packed', 'true');
+    await expect(heap.locator('.hbone[data-seen]')).toHaveCount(n); // the same bones, not new ones
+    await expect(heap.locator('.hbone')).toHaveCount(n);
+    await expect(heap.locator('.tenbox')).toHaveCount(Math.floor(n / 10));
+    await expect(heap).toHaveAttribute('aria-label', new RegExp(`: ${Math.floor(n / 10)} tens? and ${n % 10} more$`));
+    await expect(page.getByTestId('checked')).toHaveCount(0); // no separate picture takes their place
+    // They have moved, and come to rest in columns: each full ten is ten bones in one frame.
+    await expect.poll(() => heap.locator('.hbone').evaluateAll((all) => all.every((b) => b.getAnimations().length === 0))).toBe(true);
+    const after = await heap.locator('.hbone').evaluateAll((all) => all.map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.x + r.width / 2), Math.round(r.y + r.height / 2)]; }));
+    expect(after.map(([x, y]) => `${x},${y}`).join(' ')).not.toBe(before.map(([x, y]) => `${x},${y}`).join(' '));
+    const boxes = await heap.locator('.tenbox').evaluateAll((all) => all.map((b) => { const r = b.getBoundingClientRect(); return { l: r.left, r: r.right, t: r.top, b: r.bottom }; }));
+    const field = (await heap.boundingBox())!;
+    for (const [i, box] of boxes.entries()) {
+      expect(after.filter(([x, y]) => x! > box.l && x! < box.r && y! > box.t && y! < box.b), `ten ${i + 1} holds ten bones`).toHaveLength(10);
+      expect(box.l >= field.x - 1 && box.r <= field.x + field.width + 1).toBe(true);
+    }
+    expect(after.filter(([x, y]) => !boxes.some((box) => x! > box.l && x! < box.r && y! > box.t && y! < box.b))).toHaveLength(n % 10);
+    expect(new Set(after.map(([x, y]) => `${x},${y}`)).size).toBe(n); // no two on top of each other
+    for (const [x, y] of after) expect(x! > field.x && x! < field.x + field.width && y! > field.y && y! < field.y + field.height).toBe(true);
+    await expect(peek).toHaveCount(0);
+
     await choice(page, ans).click();
-    await expect(feedback(page)).toHaveText(`Woof! Let’s check. ${said(n)}: nearest to ${ans}.`);
+    await expect(feedback(page)).toHaveText(`Woof! ${nearest(n, ans)}`);
+    await expect(heap.locator('.hbone[data-seen]')).toHaveCount(n);
     await fitsTheScreen(page);
+
+    // The next heap: answered right straight away, it packs just the same.
+    await next(page);
+    await expect(page.getByTestId('demo')).toHaveCount(0); // the demonstration comes once
+    const n2 = Number(await heap.getAttribute('data-n'));
+    const ans2 = [...opts].sort((a, b) => Math.abs(a - n2) - Math.abs(b - n2))[0]!;
+    await expect(heap).not.toHaveAttribute('data-packed', 'true');
+    await choice(page, ans2).click();
+    await expect(feedback(page)).toHaveText(`Woof! ${nearest(n2, ans2)}`);
+    await expect(heap).toHaveAttribute('data-packed', 'true');
+    await expect(heap.locator('.tenbox')).toHaveCount(Math.floor(n2 / 10));
+    await expect(heap.locator('.hbone')).toHaveCount(n2);
     expect(errors).toEqual([]);
   });
 }
+
+test('the first heap ever: Oreo shows how, guesses about ten, and the bones pack into a ten to show she was close', async ({ page }) => {
+  const errors = watch(page);
+  await openGame(page, 'count', 6);
+  const demo = page.getByTestId('demo'), heap = page.getByTestId('heap'), go = page.getByRole('button', { name: 'Now you' });
+  await expect(page.getByTestId('prompt')).toHaveText('Watch Oreo first');
+  await expect(page.locator('.card.game .sub').first()).toHaveText('“Hmm, that looks like about ten.”');
+  await expect(heap.locator('.hbone')).toHaveCount(11);
+  await expect(go).toBeDisabled();
+  await expect(page.locator('.choice')).toHaveCount(0); // nothing to answer yet
+  expect(await demo.locator('span').allInnerTexts()).toEqual(['5', '10', '20']);
+  await expect(demo.locator('.picked')).toHaveText('10', { timeout: 8000 });
+  await expect(demo).toHaveAttribute('data-step', 'packed', { timeout: 8000 });
+  await expect(heap.locator('.tenbox')).toHaveCount(1);
+  await expect(heap.locator('.hbone')).toHaveCount(11);
+  await expect(feedback(page)).toHaveText('11. That is 1 ten and 1 more, so 10 is nearest.');
+  await fitsTheScreen(page);
+  await go.click();
+  await expect(page.getByTestId('prompt')).toHaveText('About how many?');
+  await expect(feedback(page)).toHaveText('');
+  await expect(page.locator('.choice')).toHaveCount(3);
+  expect(errors).toEqual([]);
+});
+
+test('a child who has guessed heaps before gets no demonstration', async ({ page }) => {
+  await seed(page, { lessons: { 's1-estimate': { step: 0, rating: 0, answers: 6 } } });
+  await page.goto('/#try=count.6');
+  await expect(page.getByTestId('prompt')).toHaveText('About how many?');
+  await expect(page.getByTestId('demo')).toHaveCount(0);
+});

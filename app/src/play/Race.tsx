@@ -44,6 +44,7 @@ export function Race({ soundOff, onHome }: { soundOff: boolean; onHome: () => vo
   // Race has no rounds; this is just enough of a round for the shared question heading.
   const round: RoundApi = useMemo(() => ({
     over: false,
+    started: () => {},
     ask: (pieces) => { setLastSaid(pieces); say(pieces); },
     win: () => {}, wrong: () => {}, note: () => {}, clear: () => {}, helped: () => {},
   }), [say]);

@@ -11,7 +11,7 @@ const FACTS: [number, number][] = [[6, 7], [7, 8], [8, 9], [6, 8], [7, 9], [6, 9
 
 /**
  * A simple check that a grown-up is here: a times fact well beyond the lessons. Not security, a door a six year old
- * does not open by accident. It says what it is before it asks, and looks like a form, not like a lesson: no Oreo,
+ * does not open by accident. It says what to do and why before it asks, and looks like a form, not like a lesson: no Oreo,
  * no big coloured buttons, ordinary small type.
  */
 export function Gate({ onOpen, onHome }: { onOpen: () => void; onHome: () => void }) {
@@ -31,13 +31,13 @@ export function Gate({ onOpen, onHome }: { onOpen: () => void; onHome: () => voi
           setI((i + 1 + Math.floor(Math.random() * (FACTS.length - 1))) % FACTS.length);
         }}
       >
-        <h1>Parents’ area</h1>
-        <p data-testid="gate-why">This part is for parents. Answer to open it.</p>
+        <h1>For grown-ups</h1>
+        <p data-testid="gate-why">To open this area, solve this sum. It keeps children out of the settings.</p>
+        {wrong && <p className="adultnote" role="alert">That is not it. Try this one.</p>}
         <label>
           <span data-testid="gate-question">What is {a} × {b}?</span>
           <input value={typed} onChange={(e) => setTyped(e.target.value.replace(/\D/g, '').slice(0, 3))} inputMode="numeric" autoComplete="off" aria-label="Your answer" />
         </label>
-        {wrong && <p className="adultnote" role="alert">That is not it. This part is for parents.</p>}
         <div className="adultrow">
           <button className="adultbtn main" type="submit" disabled={!typed}>Open</button>
           <button className="adultbtn" type="button" onClick={onHome}>Back to the game</button>

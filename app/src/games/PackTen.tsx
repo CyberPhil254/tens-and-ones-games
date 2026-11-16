@@ -53,7 +53,7 @@ function Pack({ q, round }: GameProps<'pack'>) {
       packing.current = false;
       return;
     }
-    round.note(`Only ${left} left. Not enough for a ten, so they stay ones.`, 'ok', ['not-enough-left-for-a-ten']);
+    round.note(`Only ${left} left. That is fewer than ten, so they stay ones.`, 'ok', ['fewer-than-ten-are-left-so']);
     await wait(500);
     await move(left, 90);
     setAsking(true);
