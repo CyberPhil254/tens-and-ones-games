@@ -99,19 +99,16 @@ export async function fitsTheScreen(page: Page): Promise<void> {
  * test does: it lets a test play any lesson right first time without knowing every game by heart.
  */
 export const question = (page: Page) => page.evaluate(() => {
-  const card = document.querySelector('.card.game[data-lesson]') as unknown as Record<string, { child: unknown } | undefined> | null;
-  if (!card) return null;
-  const key = Object.keys(card).find((k) => k.startsWith('__reactFiber'));
-  type Fiber = { memoizedProps?: { q?: Record<string, unknown>; round?: unknown }; child?: Fiber; sibling?: Fiber };
-  let q: Record<string, unknown> | null = null;
-  const walk = (f: Fiber | undefined, depth: number) => {
-    if (!f || depth > 80 || q) return;
-    if (f.memoizedProps?.q && f.memoizedProps.round) { q = f.memoizedProps.q; return; }
-    walk(f.child, depth + 1);
-    walk(f.sibling, depth + 1);
-  };
-  walk(key ? (card[key] as Fiber) : undefined, 0);
-  return q as Record<string, unknown> | null;
+  // Start from an element the game itself has just drawn (its question line) and climb to the game: that way
+  // the question read is the one on the screen now, not the one before it.
+  const from = document.querySelector('.card.game[data-lesson] .prompt') as unknown as Record<string, unknown> | null;
+  if (!from) return null;
+  const key = Object.keys(from).find((k) => k.startsWith('__reactFiber'));
+  type Fiber = { memoizedProps?: { q?: Record<string, unknown>; round?: unknown }; return?: Fiber };
+  for (let f = key ? (from[key] as Fiber) : undefined, up = 0; f && up < 40; f = f.return, up++) {
+    if (f.memoizedProps?.q && f.memoizedProps.round) return f.memoizedProps.q;
+  }
+  return null;
 });
 
 /**
@@ -124,7 +121,11 @@ export async function answerRight(page: Page): Promise<void> {
   await expect(card).toBeVisible();
   const demo = page.getByRole('button', { name: 'Now you' });
   if (await demo.count()) { await expect(demo).toBeEnabled({ timeout: 12_000 }); await demo.click(); }
-  const q = (await question(page))!;
+  // The question is on the screen and not yet answered: nothing is said under it.
+  await expect(card.locator('.prompt')).toBeVisible();
+  await expect(feedback(page)).toHaveText('');
+  const q = await question(page);
+  if (!q) throw new Error('answerRight could not read the question on the screen');
   const ans = Number(q.ans ?? q.n);
   if (await card.getByRole('button', { name: 'Move them' }).count()) await card.getByRole('button', { name: 'Move them' }).click();
   if (q.kind === 'count') for (const b of await card.locator('.fbone').all()) await b.click();
