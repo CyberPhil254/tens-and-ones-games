@@ -4,7 +4,7 @@
  * See docs/build-spec.md, section 3.
  */
 import { CONFIG } from './config';
-import { LESSON, LESSONS, playable, type Lesson } from './curriculum';
+import { LESSON, LESSONS, PATH, playable, unitOf, type Lesson } from './curriculum';
 import { addDays, lessonState, withLesson, type ChildState, type Day, type LessonState } from './state';
 
 /* ---------- rating ---------- */
@@ -119,15 +119,18 @@ export function reviewed(s: ChildState, lessonId: string, a: Answer, today: Day)
 export type LessonStatus =
   /** Nothing to play yet. */
   | 'coming'
-  /** Needs other lessons first. */
+  /** Further along the path: it opens when she gets there. */
   | 'locked'
+  /** Open for new learning: the next stone on the path, or the one alternative beside it. Never more than two. */
   | 'open'
   /** The last step was passed today; it needs another day to be mastered. */
   | 'resting'
+  /** The last step was passed on an earlier day; one more good day masters it. */
+  | 'passed'
   | 'mastered';
 
 /** Passed at least once at its last step, mastered, or marked known by the starting check. */
-const passedOnce = (l: LessonState) => !!l.mastered || !!l.placed || l.passedOn.length > 0;
+export const passedOnce = (l: LessonState) => !!l.mastered || !!l.placed || l.passedOn.length > 0;
 
 /** The lessons a lesson really waits for: a prerequisite with nothing to play yet is looked through to its own. */
 export function waitsFor(lesson: Lesson): Lesson[] {
@@ -143,16 +146,40 @@ export function waitsFor(lesson: Lesson): Lesson[] {
   return [...out];
 }
 
+/**
+ * The lessons open for new learning: at most two. The first is the next stone, the first lesson on the
+ * path she has not yet passed. The second, where the order allows, is one alternative, so that she can
+ * choose: the first lesson after it that she has not passed and whose own needs are all passed, in the
+ * same unit, or the first lesson of the unit after when the next stone is the last of its unit.
+ * Everything further on is locked until she gets there.
+ */
+export function frontier(s: ChildState): Lesson[] {
+  const ahead = PATH.filter((l) => playable(l) && !passedOnce(lessonState(s, l.id)));
+  const next = ahead[0];
+  if (!next) return [];
+  const ready = (l: Lesson) => waitsFor(l).every((n) => passedOnce(lessonState(s, n.id)));
+  const unit = unitOf(next.id), later = ahead.slice(1);
+  const inUnit = later.filter((l) => unitOf(l.id) === unit);
+  const alt = inUnit.length ? inUnit.find(ready) : later[0] && ready(later[0]) ? later[0] : undefined;
+  return alt ? [next, alt] : [next];
+}
+
 export function statusOf(s: ChildState, lesson: Lesson, today: Day): LessonStatus {
   if (!playable(lesson)) return 'coming';
   const l = lessonState(s, lesson.id);
   if (l.mastered) return 'mastered';
-  if (!waitsFor(lesson).every((n) => passedOnce(lessonState(s, n.id)))) return 'locked';
-  return l.passedOn.includes(today) ? 'resting' : 'open';
+  if (l.passedOn.length) return l.passedOn.includes(today) ? 'resting' : 'passed';
+  return frontier(s).includes(lesson) ? 'open' : 'locked';
 }
 
-/** The lessons she could start or go on with today, in path order. */
-export const openLessons = (s: ChildState, today: Day): Lesson[] => LESSONS.filter((l) => statusOf(s, l, today) === 'open');
+/** The lesson that opens a locked one: the next stone on the path. */
+export const opens = (s: ChildState): Lesson | null => frontier(s)[0] ?? null;
+
+/**
+ * The lessons she could go on with today, in path order: those that need one more good day,
+ * and the one or two that are open for new learning.
+ */
+export const openLessons = (s: ChildState, today: Day): Lesson[] => PATH.filter((l) => ['open', 'passed'].includes(statusOf(s, l, today)));
 export const masteredLessons = (s: ChildState): Lesson[] => LESSONS.filter((l) => lessonState(s, l.id).mastered);
 /** Mastered lessons whose review is due, the longest overdue first. */
 export const dueLessons = (s: ChildState, today: Day): Lesson[] =>

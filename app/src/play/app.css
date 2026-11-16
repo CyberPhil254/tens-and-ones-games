@@ -248,10 +248,29 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .stone .cap strong { display: block; font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.15; }
 .stone .cap .d { font-size: 15px; color: #33415f; }
 .stone.locked .stonepic > img:first-child, .stone.coming .stonepic > img:first-child { opacity: 0.45; }
+/* A path, not a field: the next stone is larger and lit, a locked one carries a padlock, a passed one shows its steps. */
+.stonepic .mark .ic.lock { width: 26px; height: 26px; fill: #6b5a48; }
+.stonepic .mark .ic.tick { width: 28px; height: 28px; fill: #6b7f3a; }
+.pips { display: flex; gap: 5px; }
+.pips i { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #4a2f17; background: transparent; }
+.pips i.on { background: #4a2f17; }
+.stone.nextstone { grid-template-columns: 140px 1fr; min-height: 96px; }
+.stones li.right .stone.nextstone { grid-template-columns: 1fr 140px; }
+.stone.nextstone .stonepic { width: 140px; height: 80px; }
+/* Named twice so that it wins over the plain shadow every open stone has. */
+.stone.nextstone.nextstone .stonepic > img:first-child { filter: drop-shadow(0 0 7px #fff3b0) drop-shadow(0 0 3px #ffd54a) drop-shadow(0 4px 0 #6b7f3a); }
+.stone.nextstone .cap strong { font-size: 22px; }
+.stone.nextstone .stonepic .herepup { left: 2px; bottom: 24px; width: 66px; }
+.stone.nextstone .stonepic .mark { inset: 0 0 14px 56px; }
+.stone.nextstone .cap .d { font-weight: 700; }
+.stone.known .stonepic > img:first-child { opacity: 0.8; }
+.stone[data-locked] { cursor: pointer; }
+.pointsay { margin: -2px 0 2px 128px; padding: 5px 12px; background: #fff; border: 2px solid var(--ink); border-radius: 12px; font-family: var(--display); font-weight: 600; font-size: 17px; }
+.stones li.right .pointsay { margin: -2px 128px 2px 0; }
 .stone.coming .cap, .stone.locked .cap { opacity: 0.75; }
 .stone:disabled { cursor: default; }
 .stone:not(:disabled):active .stonepic { transform: translateY(3px); }
-.stone.open .stonepic > img:first-child, .stone.resting .stonepic > img:first-child { filter: drop-shadow(0 4px 0 #6b7f3a); }
+.stone.open .stonepic > img:first-child, .stone.resting .stonepic > img:first-child, .stone.passed .stonepic > img:first-child { filter: drop-shadow(0 4px 0 #6b7f3a); }
 .plot .bush { position: absolute; right: 8px; bottom: 0; width: 64px; height: auto; opacity: 0.9; }
 .plot:nth-child(odd) .bush { right: auto; left: 8px; }
 .garden .kennel { display: block; width: 110px; height: auto; margin: 4px auto 8px; }

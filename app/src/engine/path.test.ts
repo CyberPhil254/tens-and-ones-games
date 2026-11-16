@@ -26,6 +26,9 @@ interface Log {
   passedOn: Record<string, number>;
   /** Rounds of a lesson that was not open when it was given. */
   locked: string[];
+  /** The most lessons that were open for new learning at once, looked at after every round, and how often there were two. */
+  mostOpen: number;
+  twoOpen: number;
   /** Days with something left to learn and nothing to do. */
   emptyDays: number;
   ups: number; skips: number; downs: number; reopened: number;
@@ -44,7 +47,7 @@ interface Log {
 function play(p: number, seed: number, harderBy = 0): Log {
   const rng = seededRng(seed);
   let data = newProfile('child-sim', 'Sim', 'owl', 2, D0);
-  const log: Log = { data, masteredOn: {}, passedOn: {}, locked: [], emptyDays: 0, ups: 0, skips: 0, downs: 0, reopened: 0, mostRounds: 0, reviewGaps: [], firstReview: [], rewards: [], days: DAYS };
+  const log: Log = { data, masteredOn: {}, passedOn: {}, locked: [], mostOpen: 0, twoOpen: 0, emptyDays: 0, ups: 0, skips: 0, downs: 0, reopened: 0, mostRounds: 0, reviewGaps: [], firstReview: [], rewards: [], days: DAYS };
   const answer = (lesson: string, step: number, day: Day, i: number): Given => {
     const clean = rng() < Math.max(0.05, p - harderBy * step);
     return { lesson, step, clean, misses: clean ? 0 : 1, hint: false, ms: 4000, at: `${day}T15:00:${String(i).padStart(2, '0')}.000Z` };
@@ -71,8 +74,8 @@ function play(p: number, seed: number, harderBy = 0): Log {
       if (part.kind === 'warm') given = Array.from({ length: part.n }, (_, i) => { const s = part.slots[i % part.slots.length]!; return answer(s.lesson, s.step, today, i); });
       else {
         const { lesson, step } = part.slot;
-        if (part.kind === 'new' && statusOf(before, LESSON.get(lesson)!, today) !== 'open') log.locked.push(`${lesson} on day ${d}`);
-        if (chosen && part.kind === 'new' && lessonState(before, chosen).mastered === undefined && statusOf(before, LESSON.get(chosen)!, today) === 'open') expect(lesson, 'the lesson she chose is the one she gets').toBe(chosen);
+        if (part.kind === 'new' && !['open', 'passed'].includes(statusOf(before, LESSON.get(lesson)!, today))) log.locked.push(`${lesson} on day ${d}`);
+        if (chosen && part.kind === 'new' && lessonState(before, chosen).mastered === undefined && ['open', 'passed'].includes(statusOf(before, LESSON.get(chosen)!, today))) expect(lesson, 'the lesson she chose is the one she gets').toBe(chosen);
         given = Array.from({ length: part.n }, (_, i) => answer(lesson, step, today, i));
       }
       const counts = part.kind === 'new' || (part.kind === 'stronger' && part.counts);
@@ -90,6 +93,9 @@ function play(p: number, seed: number, harderBy = 0): Log {
           log.reviewGaps.push(Math.round((Date.parse(now.due) - Date.parse(today)) / 86_400_000));
         }
       }
+      const openNow = LESSONS.filter((l) => statusOf(data.child, l, today) === 'open').length;
+      log.mostOpen = Math.max(log.mostOpen, openNow);
+      if (openNow === 2) log.twoOpen++;
       done.push(part.kind);
       // Rewards she has earned are given straight away, as the app does after the round.
       for (let e = nextEarned(data); e; e = nextEarned(data)) {
@@ -116,6 +122,10 @@ const fading = play(0.85, 14, 0.07);
 const all = { always, mostly, often, fading };
 
 describe('the whole path: gating', () => {
+  it.each(Object.entries(all))('%s: at no point are more than two lessons open for new learning', (_n, l) => {
+    expect(l.mostOpen).toBeLessThanOrEqual(2);
+    expect(l.twoOpen).toBeGreaterThan(0); // and two do stand open at times, so that she can choose
+  });
   it.each(Object.entries(all))('%s: never given a lesson that is not open, and never a day with nothing to do', (_n, l) => {
     expect(l.locked).toEqual([]);
     expect(l.emptyDays).toBe(0);

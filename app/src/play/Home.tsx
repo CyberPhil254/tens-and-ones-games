@@ -118,8 +118,8 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
       </div>
 
       <h2>The path</h2>
-      {!done && <p className="h2note" data-testid="free-note">Free play opens when today’s games are done.</p>}
-      <Garden data={data} today={today} open={done} here={!done && fresh && 'slot' in fresh ? fresh.slot.lesson : null} onLesson={onLesson} onWhy={onWhy} />
+      <p className="h2note" data-testid="free-note">{done ? 'Tap a stone you have passed to play it again.' : 'Free play opens when today’s games are done.'}</p>
+      <Garden data={data} today={today} open={done} soundOff={settings.soundOff} onLesson={onLesson} onWhy={onWhy} />
 
       <Shelf tricks={tricksKnown(data)} awards={awardsWon(data)} soundOff={settings.soundOff} />
 

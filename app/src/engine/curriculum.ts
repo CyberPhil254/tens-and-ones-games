@@ -154,8 +154,36 @@ export const UNITS: Unit[] = [
 ];
 
 /** Every lesson in path order. */
+/**
+ * The path: one fixed order of lessons for each stage, and for the stretch lessons after Stage 2.
+ * A child walks it from the top: Stage 1, then Stage 2, then the stretch lessons, one unit after another.
+ * Every lesson stands after all the lessons it needs. A test holds this list and the units to each other.
+ */
+export const PATH_ORDER: { stage1: string[]; stage2: string[]; stretch: string[] } = {
+  stage1: [
+    's1-count', 's1-see', 's1-zero', 's1-estimate', // Counting
+    's1-names', 's1-teens', 's1-compare', 's1-ordinal', // Numbers to 20
+    's1-pattern', 's1-skip', 's1-oddeven', // Patterns and steps
+    's1-add', 's1-sub', 's1-ten', 's1-doubles', 's1-calc20', // Adding and taking away to 20
+    's1-half', // Halves
+    's1-money', // Money
+  ],
+  stage2: [
+    's2-count', 's2-place', 's2-names', 's2-regroup', // Tens and ones
+    's2-see', 's2-estimate', 's2-compare', 's2-ordinal', 's2-round', // Comparing and estimating
+    's2-skip', 's2-oddeven', 's2-sequence', // Number patterns
+    's2-bonds', 's2-inverse', 's2-calc', // Adding and taking away to 100
+    's2-times', 's2-tables', 's2-divide', // Equal groups
+    's2-quarter', // Quarters
+    's2-money', // Money
+  ],
+  stretch: ['x-fill', 'x-break', 'x-line'],
+};
+
 export const LESSONS: Lesson[] = UNITS.flatMap((u) => u.lessons);
 export const LESSON: ReadonlyMap<string, Lesson> = new Map(LESSONS.map((l) => [l.id, l]));
 export const unitOf = (lessonId: string): Unit => UNITS.find((u) => u.lessons.some((l) => l.id === lessonId))!;
 /** A lesson that has something to play. */
 export const playable = (l: Lesson): boolean => l.steps.length > 0;
+/** The path as lessons, in order. */
+export const PATH: Lesson[] = [...PATH_ORDER.stage1, ...PATH_ORDER.stage2, ...PATH_ORDER.stretch].map((id) => LESSON.get(id)!);
