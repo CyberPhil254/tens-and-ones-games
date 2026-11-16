@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { today as todayNow } from '../app/useData';
 import type { ProfileData } from '../data/profile';
-import { applyRound, lessonOfActivity, type Given, type RoundKind } from '../engine/apply';
-import { LESSON, type Activity } from '../engine/curriculum';
+import { applyRound, finishToday, lessonOfActivity, type Given, type RoundKind } from '../engine/apply';
+import { LESSON, type Activity, type Lesson } from '../engine/curriculum';
 import { CONFIG } from '../engine/config';
 import { looksLikeGuessing, type RoundOutcome } from '../engine/rules';
 import type { Slot } from '../engine/today';
 import { lessonState } from '../engine/state';
+import stone from '../art/garden/stepping-stone.webp';
+import { nextEarned, nextGoal, paws, type Goal } from '../engine/rewards';
 import { GAMES, type GameProps } from '../games/registry';
+import { goalLine, PawRow } from './Reward';
 import { makeQuestion, type GameId } from '../maths/questions';
 import { dice } from '../maths/random';
 import { wording } from '../speech/catalogue';
@@ -101,7 +104,7 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
   /** `no` counts remarks, so Oreo reacts afresh to each one. */
   const [fb, setFbState] = useState<{ msg: ReactNode; kind: Remark; no: number } | null>(null);
   const setFb = useCallback((f: { msg: ReactNode; kind: Remark } | null) => setFbState((old) => (f ? { ...f, no: (old?.no ?? 0) + 1 } : null)), []);
-  const [end, setEnd] = useState<{ note: string; bones: number; seconds?: number; more: boolean; lastToday: boolean } | null>(null);
+  const [end, setEnd] = useState<EndOf | null>(null);
   const silent = useVoiceSilent();
   const speaking = useVoiceSpeaking();
   useEffect(() => preloadPoses(), []);
@@ -237,7 +240,12 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
     voice.stop();
     say([head, ...noteSay, tail].filter(Boolean), 0.2);
     setFb(null);
-    setEnd({ note, bones, seconds, more, lastToday });
+    // What she sees at the end: the stone that changed, and how far she is from the next reward.
+    const after = lastToday ? finishToday(out, todayNow()) : out;
+    const single = 'slot' in round ? LESSON.get(round.slot.lesson)! : null;
+    const moved = single && applied.outcome && ['up', 'passed', 'mastered'].includes(applied.outcome.kind);
+    const change = single && moved ? { lesson: single, before: stepsDone(data, single), after: stepsDone(out, single), mastered: applied.outcome!.kind === 'mastered' } : null;
+    setEnd({ note, bones, seconds, more, lastToday, change, goal: nextGoal(after), owed: nextEarned(after) !== null, fresh: Math.max(0, paws(out) - paws(data)) });
   };
   useEffect(() => {
     goOn.current = next;
@@ -303,9 +311,26 @@ export function VoiceRetry() {
   );
 }
 
+/** The steps of a lesson she has done, as its stone shows them: all of them once the last one is passed. */
+const stepsDone = (d: ProfileData, l: Lesson): number => {
+  const st = lessonState(d.child, l.id);
+  return st.mastered || st.passedOn.length ? l.steps.length : Math.min(st.step, l.steps.length);
+};
+
+interface EndOf {
+  note: string; bones: number; seconds?: number; more: boolean; lastToday: boolean;
+  /** The stone of the lesson this round was about, when the round moved it: its steps before and after. */
+  change: { lesson: Lesson; before: number; after: number; mastered: boolean } | null;
+  /** What she is nearest to earning now, and whether she has just earned something (its card comes next). */
+  goal: Goal | null;
+  owed: boolean;
+  /** The paws this round won. */
+  fresh: number;
+}
+
 function End({ round, end, onHome, onNext, onAgain }: {
   round: Round;
-  end: { note: string; bones: number; seconds?: number; more: boolean; lastToday: boolean };
+  end: EndOf;
   onHome: () => void; onNext: () => void; onAgain: () => void;
 }) {
   const { bones, note, seconds, more, lastToday } = end;
@@ -319,7 +344,23 @@ function End({ round, end, onHome, onNext, onAgain }: {
       <p className="prompt">{wording(head)}</p>
       <div className="stage">
         {/* A lesson mastered or a nearly perfect round: she jumps. Any other round: she is proud, and her tail wags. */}
-        <OreoAnim name={!check && bones >= round.n - 1 ? 'hop-celebrating' : 'wag-proud'} className="endpup" />
+        <div className="endrow">
+          <OreoAnim name={!check && (bones >= round.n - 1 || end.change?.mastered) ? 'hop-celebrating' : 'wag-proud'} className="endpup" />
+          {/* The stone that changed, shown changing: a step filled in, or the paw of a lesson mastered. */}
+          {end.change && (
+            <div className="endstone" data-testid="endstone" data-lesson={end.change.lesson.id} data-before={end.change.before} data-after={end.change.after} data-mastered={end.change.mastered || undefined}>
+              <span className="stonepic">
+                <img src={stone} alt="" draggable={false} />
+                <span className="mark">
+                  {end.change.mastered ? <span className="pawin"><Paw /></span> : (
+                    <span className="pips">{end.change.lesson.steps.map((_, i) => <i key={i} className={i < end.change!.after ? (i >= end.change!.before ? 'on new' : 'on') : undefined} />)}</span>
+                  )}
+                </span>
+              </span>
+              <strong>{end.change.lesson.title}</strong>
+            </div>
+          )}
+        </div>
         {seconds !== undefined && <p className="timebig" data-testid="time">{seconds} seconds</p>}
         {!check && (
           <div className="endstars" role="img" aria-label={`${bones} bones out of ${round.n}`}>
@@ -328,6 +369,12 @@ function End({ round, end, onHome, onNext, onAgain }: {
           </div>
         )}
         <p className="sub">{lines.filter(Boolean).join(' ')}</p>
+        {/* How far she is from the next reward: a row of paws filling up. */}
+        {!check && round.kind !== 'quick' && (end.owed ? (
+          <p className="endgoal" data-testid="endgoal" data-owed="true">Oreo has something for you!</p>
+        ) : end.goal && (
+          <p className="endgoal" data-testid="endgoal"><PawRow goal={end.goal} fresh={end.goal.kind === 'treasure' ? Math.min(end.fresh, end.goal.done) : 0} /> {goalLine(end.goal)}</p>
+        ))}
       </div>
       <div className="controls">
         {more ? (

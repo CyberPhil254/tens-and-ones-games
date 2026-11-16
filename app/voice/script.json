@@ -1303,9 +1303,23 @@
    "pack": "core"
   },
   {
+   "id": "you-finished-todays-games-oreo-gets",
+   "text": "You finished today's games! Oreo gets a treasure. Which one shall she have?",
+   "key": "You finished today's games! Oreo gets a treasure. Which one shall she have?",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-has-learnt-a-new-trick",
+   "text": "Oreo has learnt a new trick for you!",
+   "key": "Oreo has learnt a new trick for you!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "you-finished-a-whole-part-of",
-   "text": "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
-   "key": "You finished a whole part of the garden! Oreo has learnt a new trick for you.",
+   "text": "You finished a whole part of the garden! This badge is for you.",
+   "key": "You finished a whole part of the garden! This badge is for you.",
    "fragment": false,
    "pack": "core"
   },

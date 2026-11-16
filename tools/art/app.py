@@ -76,7 +76,7 @@ os.makedirs('app/src/art/rewards', exist_ok=True)
 for name in ('with-ball', 'with-bandana', 'with-bed', 'with-bowl', 'with-rope-toy', 'with-kennel',
              'trick-high-five', 'trick-beg', 'trick-spin', 'trick-roll-over', 'trick-play-bow', 'trick-fetch'):
     shrink(f'art/puppy/{name}.png', f'app/src/art/rewards/{name}.webp', 300)
-for name in ('rosette', 'trophy', 'crown'):
+for name in ('rosette', 'trophy', 'crown', 'paw-badge'):  # paw-badge: the badge for a finished unit
     shrink(f'art/awards/{name}.png', f'app/src/art/rewards/award-{name}.webp', 240)
 
 # Oreo's animations (art/rigs/): the movements as data, and the two poses whose tail wags as a body and a

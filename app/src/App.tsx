@@ -4,7 +4,7 @@ import { newProfile, type ProfileData } from './data/profile';
 import { checkLessons, finishToday } from './engine/apply';
 import { CONFIG } from './engine/config';
 import { UNITS, type Activity, type Lesson } from './engine/curriculum';
-import { give, nextEarned } from './engine/rewards';
+import { earnedKey, give, nextEarned } from './engine/rewards';
 import { lessonState } from './engine/state';
 import { choiceToday, nextPart, type Choice, type Part } from './engine/today';
 import { ALL_GAMES, LEVELS_OF, type GameId } from './maths/questions';
@@ -177,7 +177,7 @@ export function App() {
     return (
       <main>
         <Reward
-          key={owed.kind === 'treasure' ? owed.lesson : owed.kind === 'trick' ? owed.unit : owed.stage} earned={owed} soundOff={data.settings.soundOff}
+          key={earnedKey(owed)} earned={owed} soundOff={data.settings.soundOff}
           onDone={(pick) => {
             const d = give(child, owed, pick);
             data.save(d);
