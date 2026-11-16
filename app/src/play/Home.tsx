@@ -30,6 +30,8 @@ export interface HomeProps {
   onToday: () => void;
   /** Free play of a lesson, at the step she is on. */
   onLesson: (lesson: Lesson) => void;
+  /** The note for parents about a lesson. */
+  onWhy: (lesson: Lesson) => void;
   onRace: () => void;
   onQuick: () => void;
   onSwitch: () => void;
@@ -37,7 +39,7 @@ export interface HomeProps {
   onParents: () => void;
 }
 
-export function Home({ data, settings, today, shared, onSettings, onToday, onLesson, onRace, onQuick, onSwitch, onParents }: HomeProps) {
+export function Home({ data, settings, today, shared, onSettings, onToday, onLesson, onWhy, onRace, onQuick, onSwitch, onParents }: HomeProps) {
   const done = doneToday(data, today);
   const plan = planToday(data.child, today);
   const silent = useVoiceSilent();
@@ -109,9 +111,9 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
 
       <h2>The path</h2>
       {!done && <p className="h2note" data-testid="free-note">Free play opens when today’s games are done.</p>}
-      <Garden data={data} today={today} open={done} here={!done && fresh && 'slot' in fresh ? fresh.slot.lesson : null} onLesson={onLesson} />
+      <Garden data={data} today={today} open={done} here={!done && fresh && 'slot' in fresh ? fresh.slot.lesson : null} onLesson={onLesson} onWhy={onWhy} />
 
-      <Shelf tricks={tricksKnown(data)} awards={awardsWon(data)} />
+      <Shelf tricks={tricksKnown(data)} awards={awardsWon(data)} soundOff={settings.soundOff} />
 
       <h2>Play together</h2>
       <ol className="stations">

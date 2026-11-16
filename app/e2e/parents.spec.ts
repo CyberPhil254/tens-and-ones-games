@@ -19,9 +19,9 @@ test('the parents’ area is behind a check a small child does not pass by tappi
   await expect(gate.getByRole('button', { name: 'Open' })).toBeDisabled();
   await page.getByLabel('Your answer').fill('12');
   await gate.getByRole('button', { name: 'Open' }).click();
-  await expect(gate.getByRole('alert')).toHaveText('That is not it. This part is for grown-ups.');
+  await expect(gate.getByRole('alert')).toHaveText('That is not it. This part is for parents.');
   await expect(page.getByTestId('parents')).toHaveCount(0);
-  await page.getByRole('button', { name: '← Home' }).click();
+  await page.getByRole('button', { name: 'Back to the game' }).click();
   await expect(page.getByTestId('today-text')).toBeVisible();
 });
 

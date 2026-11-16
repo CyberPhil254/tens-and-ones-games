@@ -1317,6 +1317,48 @@
    "pack": "core"
   },
   {
+   "id": "oreo-can-give-a-high-five",
+   "text": "Oreo can give a high five!",
+   "key": "Oreo can give a high five!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-can-beg",
+   "text": "Oreo can beg!",
+   "key": "Oreo can beg!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-can-spin",
+   "text": "Oreo can spin!",
+   "key": "Oreo can spin!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-can-roll-over",
+   "text": "Oreo can roll over!",
+   "key": "Oreo can roll over!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-can-do-a-play-bow",
+   "text": "Oreo can do a play bow!",
+   "key": "Oreo can do a play bow!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
+   "id": "oreo-can-fetch",
+   "text": "Oreo can fetch!",
+   "key": "Oreo can fetch!",
+   "fragment": false,
+   "pack": "core"
+  },
+  {
    "id": "yes",
    "text": "Yes!",
    "key": "Yes!",

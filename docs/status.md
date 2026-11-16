@@ -4,6 +4,20 @@ The full build of `docs/build-spec.md` is finished: every line of its "Done mean
 
 The new app: https://tens-and-ones-app.philipp-79a.workers.dev. The live game at the repository root was not touched.
 
+## After the first test on a phone (2026-11-16, pull request 48)
+
+Five fixes from Philipp's first test. Nothing is half done and no clips are waiting to be recorded.
+
+1. **Rewards only for what she did herself.** A lesson the starting check marks as known gives no treasure, and does not count towards a trick or an award, until a due review of it is answered right first time. The starting check no longer hands anything out. Profiles that already held rewards from the check lose exactly those when they are next opened; lessons, bones and progress stay. Tests: `app/src/engine/rewards.test.ts` (the check gives nothing; a unit with a known lesson earns its trick only after that lesson is confirmed; old profiles are cleaned, and what was played is kept) and `app/e2e/phone-fixes.spec.ts`.
+2. **Tricks have names and do something.** Each trick on the shelf shows its name. Tapped, Oreo says it ("Oreo can beg!") and makes one move that fits, then is still. Six new sentences, recorded with `tools/voice/`. Reduced motion: no move.
+3. **Trick pictures fit their frames** at every width (tested from 320 to 1280 px).
+4. **The parents' lock explains itself**: "This part is for parents. Answer to open it." above the question, as a plain form without Oreo.
+5. **"For parents: why this works"** under every lesson in the garden opens that lesson's note and leads on to the approach page, without the lock.
+
+To confirm (all in `docs/decisions.md`, dated 2026-11-16): what counts as "confirmed in review" (the first due review answered right first time, slow or not); the six trick sentences; the link under every lesson, closed ones too.
+
+Not done, because it was not asked: the home button still says "For grown-ups" while the lock now says "parents".
+
 ## "Done means", line by line
 
 | The spec says | State |
@@ -11,10 +25,10 @@ The new app: https://tens-and-ones-app.philipp-79a.workers.dev. The live game at
 | Every skill of Stages 1 and 2 has a playable lesson with all its steps | **Yes.** 41 lessons in 14 units, 25 games, 108 levels. Table below |
 | A wrong-answer explanation for every question type | **Yes.** Each lesson's pull request lists them; the browser tests play a wrong answer at every level and read the explanation |
 | A parent note for every lesson | **Yes.** 41 notes with source and strength, from `docs/research.md` in its own words; a test fails if one overstates |
-| Its sentences recorded | **Yes.** 883 clips, none missing; a test fails if a clip has no recording |
+| Its sentences recorded | **Yes.** 889 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 442 unit tests, 300 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 447 unit tests, 316 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -86,7 +100,7 @@ Around the lessons:
 
 ## Decisions
 
-All 124 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 131 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -99,7 +113,7 @@ All 124 are in `docs/decisions.md` under "Decided during the build, to confirm",
 
 ## Clips
 
-- 883 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 545 keep their recording from the live game, 338 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
+- 889 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 545 keep their recording from the live game, 344 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
 - Missing: none (`app/voice/missing.json` is empty).
 - Nobody has listened to the 338 new ones. They are machine voice of the same kind as the live game's; a few will have odd stress and want recording again by ear. The stitched sentences ("8, plus, 5. How many altogether?") are the most likely to sound wrong.
 
@@ -173,6 +187,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 45 | The whole-path test: four simulated children play 200 days through the app's own rules; gating, mastery, review and rewards are checked for each |
 | 46 | The voice pass: twelve packs by lesson family (the first is 0.4 MB, not 7 MB), 15 clipped commands rewritten as whole sentences, Oreo's two introductions with the "Star's sister" switch, unused sentences and recordings removed |
 | 47 | The final report (this file) |
+| 48 | After the first phone test: rewards only for what she did herself (and taken back from existing profiles), named tricks that speak and move, trick pictures that fit, a parents' lock that explains itself, "why this works" under every lesson |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |
