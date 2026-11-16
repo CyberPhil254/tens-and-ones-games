@@ -39,6 +39,7 @@ Strategy and product decisions are made by Philipp, usually in a separate planni
 - Decoration must not compete with the maths. The puppy reacts to answers; it does not move while the child is thinking.
 - Child data: collect the minimum (nickname, stage, progress). No child email, no free text from children, no third-party analytics or ads.
 - Do not use the Cambridge logo or the word "endorsed". Write learning objectives in our own words; do not copy text from the framework.
+- Every instruction and hint says what to do, never only what not to do: "Look at the whole heap", not "Do not count"; "Try the bigger one", not "Not that one". A test fails if a sentence the app says or shows begins with "Don't", "Do not" or "No ".
 - All spoken text must come from recorded clips, as whole sentences. If you add or change a sentence, add it to the speech script and say in `docs/status.md` that clips need recording.
 
 ## Checks before you say something is done
