@@ -105,13 +105,15 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
   await expect(see).toHaveAttribute('data-status', 'mastered');
   await expect(see.locator('.treasure')).toHaveAttribute('alt', 'a ball');
   await expect(see).toContainText('Mastered. It comes back in the warm-ups.');
-  // Oreo waits at the lesson today's games are about, and nowhere else.
+  // Oreo waits on the next stone of the path, which is the lesson today's games are about, and nowhere else.
   await expect(garden.locator('.herepup')).toHaveCount(1);
   const here = garden.locator('.stone', { has: page.locator('.herepup') });
   await expect(here).toHaveAttribute('data-status', 'open');
+  await expect(here).toHaveAttribute('data-next', 'true');
   await expect(page.getByTestId('today-text')).toContainText((await here.locator('strong').innerText()).trim()); // the lesson today's games name
-  await expect(garden.locator('[data-lesson=s1-ten]')).toContainText('Step 2 of 3.');
-  await expect(garden.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
+  // A lesson begun under the earlier rules, further on than the path has got, waits behind its padlock.
+  await expect(garden.locator('[data-lesson=s1-ten]')).toContainText('Further along the path.');
+  await expect(garden.locator('[data-lesson=s2-place]')).toContainText('Further along the path.');
   await expect(garden.locator('[data-status=coming]')).toHaveCount(0); // every lesson is built
 
   // Every stone is big enough for a small finger, and the pictures have loaded.

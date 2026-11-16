@@ -36,6 +36,22 @@ Four pull requests, in this order: A "Start again" (52), B the garden as a path,
 
 **What I cannot tell** is whether this is what happened on Philipp's phone. It fits if the app was open twice, for example as the installed app and in a browser tab, or in two tabs. Two things would help: whether the app is installed on the home screen as well as opened in the browser, and whether it is an iPhone. On an iPhone the installed app and Safari keep separate saved data, so a reset in one never reaches the other; that cannot be changed from inside the app, and if it is the cause, the reset has to be done in the one she plays in.
 
+### B. The garden is a path (pull request 53)
+
+Nothing is half done. One new sentence, recorded: "First finish this one."
+
+1. **One fixed order** per stage, as data (`PATH_ORDER`), respecting every prerequisite, units one after another. It is the order the garden already had; a test now holds it.
+2. **At most two lessons open for new learning**: the next stone and, where the order allows, one alternative. A new child sees two open stones and 39 padlocks, where she saw a dozen open stones before.
+3. **A locked stone** shows a padlock. Tapped, it opens nothing: Oreo points at the stone that opens it and says "First finish this one.", and that stone comes into view.
+4. **The next stone** is larger, softly lit, with Oreo on it. **Passed stones** show their steps as dots that fill, then a paw when mastered.
+5. **Free play** after today's games is only for stones she has passed at least once.
+6. **After the starting check**, what lies before her starting point shows a tick and "Known, to be checked in a warm-up."
+- **Test with the simulated children**: after every round of 200 days, for all four children, at most two lessons are open for new learning, and two do stand open at times.
+
+The whole-path results did not change: the engine already gave her the first lessons in path order; what changed is what is open, what is shown and what can be tapped.
+
+To confirm (in `docs/decisions.md`, dated 2026-11-16): the rule for the alternative stone; that a lesson begun earlier and lying further on than the path has got is locked until she reaches it (its progress is kept); that Oreo stands on the next stone also after today's games are done.
+
 ## Oreo's animations (2026-11-16, pull request 51)
 
 Nothing is half done. No new sentences: the tricks use the six recorded in pull request 48.
@@ -169,7 +185,7 @@ Around the lessons:
 
 ## Decisions
 
-All 147 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 155 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -261,6 +277,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 50 | `CLAUDE.md`: the rule "say what to do, never only what not to do" (merged by Philipp) |
 | 51 | Oreo's ten animations from `art/rigs/`, played from the data: tail wags, the hop, the hello rock, each trick's own; never while a question is open |
 | 52 | "Start again", "Remove" and "Add a child" tested by real play; a second open window no longer brings old progress back |
+| 53 | The garden is a path: one order as data, at most two stones open, padlocks, a lit next stone, steps and paws on passed stones, free play only for passed stones |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

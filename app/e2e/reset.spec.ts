@@ -49,7 +49,10 @@ async function expectFresh(page: Page, name: string) {
   const garden = page.getByTestId('garden');
   await expect(garden.locator('.stone.mastered, .stone.resting')).toHaveCount(0);
   await expect(garden.locator('.treasure')).toHaveCount(0);
-  expect(new Set(await garden.locator('.stone.open .mark').allInnerTexts())).toEqual(new Set(['1'])); // every open lesson is at its first step
+  // A fresh path: the first two stones open at their first step, with no step done; everything else behind a padlock.
+  expect(await garden.locator('.stone.open').evaluateAll((all) => all.map((e) => `${e.getAttribute('data-lesson')} ${e.getAttribute('data-steps')}`))).toEqual(['s1-count 0/3', 's1-see 0/3']);
+  await expect(garden.locator('.stone.passed, .stone.known')).toHaveCount(0);
+  await expect(garden.locator('.stone.locked')).toHaveCount(39);
   await expect(garden.locator('[data-lesson=s1-count]')).toHaveAttribute('data-status', 'open');
 }
 

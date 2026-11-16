@@ -109,7 +109,9 @@ For every answer: skill, step, right first time or not, hint used, response time
 
 ### What comes next
 
-- A lesson unlocks when the lessons it needs (the "Needs first" column) are mastered or at least passed once at their last step.
+- **The path is one fixed order of lessons** for each stage (`PATH_ORDER` in `app/src/engine/curriculum.ts`): Stage 1, then Stage 2, then the stretch lessons, one unit after another. Every lesson stands after the lessons it needs (the "Needs first" column).
+- **At most two lessons are open for new learning at any time.** The first is the next stone: the first lesson on the path she has not yet passed at its last step. The second, where the order allows, is one alternative whose own needs are passed: the next such lesson in the same unit, or the first lesson of the unit after when nothing else in the unit is ahead. Everything further on is locked until she gets there.
+- A lesson passed once at its last step is a passed stone, not an open one: the path moves on, and today's games bring it back first, on another day, to be mastered.
 - **Review comes back on a schedule:** 1, 3, 7, 14 and 30 days after mastery, sooner if it was slow or shaky.
 - **New skills are practised on their own first, then mixed.** Review rounds mix questions from different mastered lessons, so the child has to work out which idea is needed.
 
@@ -127,7 +129,7 @@ After the session the child may play on, but the app suggests stopping. Short an
 ### Not skippable, without force
 
 - There is no skip button. Leaving a round counts for nothing.
-- The path only moves forward through mastery. Free play (any unlocked lesson, Race to 100, the number machine, Quick Paws) opens only after today's games.
+- The path only moves forward by passing lessons. Free play opens only after today's games, and on the path only for lessons she has already passed at least once, never for a lesson still ahead (the next stone and its alternative included). Race to 100, the number machine and Quick Paws open then too.
 - **The child gets to choose, but only between things the app has already decided she will do.** Every option on a choice card is something the engine wants today, so whatever she picks is right. Once or twice a session, not on every screen, and two or three options at most:
   - **Which first?** Two of today's parts, as two cards ("Oreo's bones" or "the number line"). Both get done; she only sets the order.
   - **Which stone?** When two lessons are open at once, she picks one. The other comes next.
@@ -139,11 +141,14 @@ After the session the child may play on, but the app suggests stopping. Short an
 
 ### Where to start
 
-On first run the parent picks the stage. A short check (about ten questions, one per unit of the earlier stage and the first lessons of this one) marks what the child already knows, so a Stage 2 child does not start at counting to five. Anything marked this way still comes back in review.
+On first run the parent picks the stage. A short check (about ten questions, one per unit of the earlier stage and the first lessons of this one) marks what the child already knows, so a Stage 2 child does not start at counting to five. It moves her starting point forward along the path; what lies before it shows as "known, to be checked", not as open stones, and still comes back in review. A lesson before her starting point that the check did not mark is where she starts: the path does not jump over a gap.
 
 ## 4. The game around it
 
-- **The path** is a garden walk: one stepping stone per lesson, one part of the garden per unit, built in code from `art/props/` so stones can change as lessons are mastered. Locked stones show what they need.
+- **The path** is a garden walk: one stepping stone per lesson, one part of the garden per unit, built in code from `art/props/` so stones can change as lessons are mastered. It is a path, not a field of open stones:
+  - The next stone is unmistakable: larger, gently lit, with Oreo standing on it. At most one more stone is open beside it.
+  - A locked stone shows a padlock. Tapping it opens nothing: Oreo points at the stone that opens it and says "First finish this one."
+  - A passed stone shows how far it has come: its steps as dots that fill, then a paw when the lesson is mastered. A lesson known from the starting check shows a tick and "Known, to be checked in a warm-up." until a review confirms it.
 - **Oreo** is the guide. Poses and movement follow `art/README.md`: she reacts to answers and is still while the child thinks.
 - **Rewards follow mastery, never minutes.** A lesson mastered earns a treasure; a unit earns a trick; a stage earns an award. Bones stay packed in tens.
 - **Praise names what the child did** ("You filled the ten first"), not what she is ("You are clever").

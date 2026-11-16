@@ -257,7 +257,8 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .stone.nextstone { grid-template-columns: 140px 1fr; min-height: 96px; }
 .stones li.right .stone.nextstone { grid-template-columns: 1fr 140px; }
 .stone.nextstone .stonepic { width: 140px; height: 80px; }
-.stone.nextstone .stonepic > img:first-child { filter: drop-shadow(0 0 7px #fff3b0) drop-shadow(0 0 3px #ffd54a) drop-shadow(0 4px 0 #6b7f3a); }
+/* Named twice so that it wins over the plain shadow every open stone has. */
+.stone.nextstone.nextstone .stonepic > img:first-child { filter: drop-shadow(0 0 7px #fff3b0) drop-shadow(0 0 3px #ffd54a) drop-shadow(0 4px 0 #6b7f3a); }
 .stone.nextstone .cap strong { font-size: 22px; }
 .stone.nextstone .stonepic .herepup { left: 2px; bottom: 24px; width: 66px; }
 .stone.nextstone .stonepic .mark { inset: 0 0 14px 56px; }

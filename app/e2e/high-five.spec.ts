@@ -121,14 +121,14 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
     await expect(page.locator('.storecap')).toHaveText('1 box of ten and 1 bone. That is 11 bones!');
     await expect(page.locator('[data-lesson=s1-see]')).toContainText('Last step done today. Once more on another day.');
     await expect(page.locator('[data-lesson=s1-see]')).toBeEnabled();
-    // The last step passed once opens what is built on it; what needs more stays closed and says what comes first.
-    await expect(page.locator('[data-lesson=s1-ten]')).toContainText('Step 1 of 3.');
-    await expect(page.locator('[data-lesson=s1-ten]')).toBeEnabled();
-    await expect(page.locator('[data-lesson=s2-place]')).toContainText('First: Pack in tens.');
-    await expect(page.locator('[data-lesson=s2-place]')).toBeDisabled();
-    await expect(page.locator('[data-lesson=s1-count]')).toContainText('Step 1 of 3.'); // the other lesson she could have chosen
+    // The path has not moved past the other lesson she could have chosen: it is the next stone, and all further on is locked.
+    await expect(page.locator('[data-lesson=s1-count]')).toContainText('Next. Step 1 of 3.');
+    await expect(page.locator('[data-lesson=s1-count]')).toBeDisabled(); // not for free play: it is still ahead of her
+    await expect(page.locator('[data-lesson=s1-ten]')).toHaveAttribute('data-status', 'locked');
+    await expect(page.locator('[data-lesson=s2-place]')).toContainText('Further along the path.');
+    await expect(page.locator('[data-status=open]')).toHaveCount(1);
     await expect(page.locator('[data-status=coming]')).toHaveCount(0); // every lesson is built
-    await expect(page.getByTestId('free-note')).toHaveCount(0);
+    await expect(page.getByTestId('free-note')).toHaveText('Tap a stone you have passed to play it again.');
     await expect(page.getByTestId('machine')).toBeVisible();
   };
   await home();
@@ -209,7 +209,8 @@ test('a weak round moves down a step, and the picture is back', async ({ page })
 });
 
 test('free play after today’s games: a lesson at her step, and it changes neither the step nor the day', async ({ page }) => {
-  await seed(page, { lessons: { 's1-see': { step: 1, rating: 1, answers: 6 } }, doneOn: day(), soundOff: true });
+  // Free play is for a lesson she has passed at least once; this one she passed yesterday and is at its second step.
+  await seed(page, { lessons: { 's1-see': { step: 1, rating: 1, answers: 12, passedOn: [day(-1)] } }, doneOn: day(), soundOff: true });
   await page.goto('/');
   await page.locator('[data-lesson=s1-see]').click();
   await expect(game(page)).toHaveAttribute('data-step', '1');
@@ -222,6 +223,8 @@ test('free play after today’s games: a lesson at her step, and it changes neit
   await expect(end).not.toContainText('step');
   const s = await saved(page);
   expect(s.child.lessons['s1-see'].step).toBe(1);
+  expect(s.child.lessons['s1-see'].passedOn).toEqual([day(-1)]); // free play is not a good day towards mastery
+  expect(s.child.lessons['s1-see'].mastered).toBeUndefined();
   expect(s.bones).toBe(6);
   await end.getByRole('button', { name: 'Play again' }).click();
   await expect(page.locator('.dots .star, .dots .done')).toHaveCount(0);
@@ -307,7 +310,7 @@ test('without the voice pack the game is silent, playable, and offers to try aga
 });
 
 test('Oreo listens while the question is read, then thinks, and reacts only to answers', async ({ page }) => {
-  await seed(page, { doneOn: day() });
+  await seed(page, { doneOn: day(), lessons: { 's1-see': { step: 0, rating: 1, answers: 12, passedOn: [day(-1)] } } }); // a lesson she has passed, so it is open for free play
   await page.goto('/');
   await expect(page.locator('.toppup')).toHaveAttribute('data-pose', 'sleeping'); // today's games are done
   await page.locator('[data-lesson=s1-see]').click();
@@ -341,7 +344,7 @@ test('Oreo listens while the question is read, then thinks, and reacts only to a
 });
 
 test('with the sound off Oreo goes straight to thinking', async ({ page }) => {
-  await seed(page, { doneOn: day() });
+  await seed(page, { doneOn: day(), lessons: { 's1-see': { step: 0, rating: 1, answers: 12, passedOn: [day(-1)] } } }); // a lesson she has passed, so it is open for free play
   await page.goto('/');
   await page.getByRole('button', { name: 'Sound on' }).click();
   await page.locator('[data-lesson=s1-see]').click();

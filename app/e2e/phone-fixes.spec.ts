@@ -27,8 +27,8 @@ test('a profile that got rewards from the starting check loses them, and is owed
   const garden = page.getByTestId('garden');
   await expect(garden.locator('.treasure')).toHaveCount(0);
   // She still knows the lessons: they are not taken away, only the rewards.
-  for (const id of UNIT) await expect(garden.locator(`[data-lesson=${id}]`)).toHaveAttribute('data-status', 'mastered');
-  await expect(garden.locator('[data-lesson=s2-count] .d')).toHaveText('You know this already. It comes back in the warm-ups.');
+  for (const id of UNIT) await expect(garden.locator(`[data-lesson=${id}]`)).toHaveAttribute('data-status', 'known');
+  await expect(garden.locator('[data-lesson=s2-count] .d')).toHaveText('Known, to be checked in a warm-up.');
   // The next thing saved writes the cleaned rewards to the device.
   await page.getByRole('button', { name: /Sound o/ }).click();
   await page.reload();
