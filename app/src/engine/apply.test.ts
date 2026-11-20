@@ -5,7 +5,7 @@ import { applyRound, CHECK_ASKS, checkLessons, doneToday, finishToday, lessonOfA
 import { LESSON, LESSONS, UNITS, unitOf } from './curriculum';
 import { CONFIG } from './config';
 import { builtOn, frontier, neededBy, passedOnce, pathFor, place, plotOf, reviewed, roundFinished, statusOf, stepBack } from './rules';
-import { nextEarned, paws } from './rewards';
+import { owedNext, paws } from './rewards';
 import { addDays, lessonState, newLesson, withLesson, type ChildState } from './state';
 import { nextLessons } from './today';
 
@@ -139,7 +139,7 @@ describe('the starting check for a Stage 2 child: she starts in Stage 2', () => 
     expect(sums.step).toBeGreaterThan(0);
     // The steps she was let off are not steps she passed: the gap earns nothing by itself.
     expect(sums.from).toBe(sums.step);
-    expect([paws(d), nextEarned(d)]).toEqual([0, null]);
+    expect([paws(d), owedNext(d)]).toEqual([0, null]);
     expect(paws({ ...d, child: withLesson(d.child, 's1-calc20', { ...sums, step: sums.step + 1 }) })).toBe(1); // the next step, played, is her first paw
     // "Tens and ones sums" waits for it; when the path gets there, the step back is the next stone.
     let child = d.child;
@@ -197,7 +197,7 @@ describe('existing profiles are placed again by these rules', () => {
     for (const id of ['s1-see', 's1-zero', 's1-estimate', 's1-names', 's1-teens']) child = place(child, id, '2026-11-10');
     child = withLesson(child, 's1-count', { ...newLesson(), step: 2, passedOn: ['2026-11-11', '2026-11-12'], mastered: '2026-11-12', due: '2026-11-19', reviews: 2, answers: 30, rating: 2 });
     child = withLesson(child, 's1-add', { ...newLesson(), step: 1, answers: 12, rating: 0.8 });
-    const old = { ...fresh(), child, checked: true, bones: 41, rewards: { treasures: { w1: 'ball' }, tricks: {}, awards: {} } };
+    const old = { ...fresh(), child, checked: true, bones: 41, rewards: { treasures: { t1: 'ball' }, tricks: {}, awards: {} } };
     const d = reread(old);
     // She starts in Stage 2.
     expect(frontier(d.child)[0]!.id).toBe('s2-count');

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { day, playToday, saved, seed, collect } from './helpers';
+import { answerRight, day, playToday, saved, seed, collect } from './helpers';
 
 /** Fails the test on any console error: a sentence without a recording is reported there too. */
 function watch(page: Page): string[] {
@@ -100,15 +100,15 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
   await expect(end).toContainText('Oreo got 6 bones. Every one right first time! You jump ahead a step. Ready for the next one?');
   // Leaving now keeps the round that is finished.
   expect((await saved(page)).child.lessons['s1-see'].step).toBe(2);
-  // The stone is shown changing: two steps filled in. And her first paws have earned Oreo something.
+  // The stone is shown changing: two steps filled in. The line says what brings Oreo her first treasure.
   await expect(end.getByTestId('endstone')).toHaveAttribute('data-lesson', 's1-see');
   await expect(end.getByTestId('endstone')).toHaveAttribute('data-before', '0');
   await expect(end.getByTestId('endstone')).toHaveAttribute('data-after', '2');
   await expect(end.getByTestId('endstone').locator('.pips i.on.new')).toHaveCount(2);
-  await expect(end.getByTestId('endgoal')).toHaveText('Oreo has something for you!');
+  await expect(end.getByTestId('endgoal')).toHaveText('Finish today’s games and Oreo gets a treasure.');
   await end.getByRole('button', { name: 'Keep going' }).click();
-  // The first step passed: her first treasure, straight away, on day one.
-  expect(await collect(page)).toEqual(['treasure w1']);
+  // Nothing is handed over in the middle of today's games.
+  expect(await collect(page)).toEqual([]);
 
   // Round 2, the last step: a ten frame, seen for a moment. One miss, so five bones and a paw: passed.
   await expect(game(page)).toHaveAttribute('data-step', '2');
@@ -121,8 +121,8 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
   await expect(end).toContainText('All done for today!');
   await expect(end).toContainText('Oreo got 5 bones. You did the last step! Do it once more on another day, and this lesson is yours. Time to stop. See you tomorrow!');
   await end.getByRole('button', { name: 'Back to the start' }).click();
-  // Today's games finished for the first time: the welcome treasure. And the third paw: another one.
-  expect(await collect(page)).toEqual(['treasure welcome', 'treasure w3']);
+  // Today's games finished for the first time: the welcome treasure, and nothing else on the same day.
+  expect(await collect(page)).toEqual(['treasure welcome']);
 
   // Home: today is done, 11 bones packed as a box of ten and one loose, the lesson rests until another day, and free play is open.
   const home = async () => {
@@ -151,10 +151,10 @@ test("today's games for a new child: two rounds of See how many, a step up, bone
 
 test('the last step passed today, and again on another day: the lesson is mastered, and its stone gets a paw', async ({ page }) => {
   // She has five paws: two steps of "Count to 20" and all three of "See how many", passed yesterday. Mastering it is the sixth.
-  await seed(page, { lessons: { 's1-count': { step: 2, rating: 1, answers: 12 }, 's1-see': { step: 2, passedOn: [day(-1)], rating: 2, answers: 18 } }, soundOff: true });
+  await seed(page, { doneOn: day(-1), lessons: { 's1-count': { step: 2, rating: 1, answers: 12 }, 's1-see': { step: 2, passedOn: [day(-1)], rating: 2, answers: 18 } }, soundOff: true });
   await page.goto('/');
   const before = (await saved(page)).rewards.treasures;
-  expect(Object.keys(before).sort()).toEqual(['w1', 'w3']);
+  expect(Object.keys(before).sort()).toEqual(['welcome']);
   await playToday(page, 's1-see');
   await expect(game(page)).toHaveAttribute('data-step', '2');
   for (let i = 0; i < 6; i++) {
@@ -169,13 +169,26 @@ test('the last step passed today, and again on another day: the lesson is master
   await expect(end.getByTestId('endstone')).toHaveAttribute('data-mastered', 'true');
   await expect(end.getByTestId('endstone').locator('.ic.paw')).toHaveCount(1);
   await expect(end.locator('.oreoanim')).toHaveAttribute('data-anim', 'hop-celebrating');
-  await expect(end.getByTestId('endgoal')).toHaveText('Oreo has something for you!');
-  await page.getByRole('button', { name: /Keep going|Back to the start/ }).click();
+  // The sixth paw earns Oreo a treasure: the row of paws is full, and it comes when today's games are finished.
+  await expect(end.getByTestId('endgoal')).toHaveText(/Finish today’s games and Oreo gets a treasure\.|Oreo has something for you!/);
+  if ((await end.getByRole('button', { name: 'Keep going' }).count()) > 0) {
+    await expect(end.getByTestId('pawrow')).toHaveAttribute('data-done', '6');
+    await expect(end.getByTestId('pawrow')).toHaveAttribute('data-of', '6');
+    await end.getByRole('button', { name: 'Keep going' }).click();
+    await expect(page.getByTestId('reward')).toHaveCount(0); // not in the middle of today's games
+    for (let round = 0; round < 4 && !(await page.getByTestId('reward').count()); round++) {
+      if (await page.getByTestId('choice').count()) await page.getByTestId('choice').locator('[data-lesson]').first().click();
+      const n = await page.locator('.dots > span').count();
+      for (let i = 0; i < n; i++) await answerRight(page);
+      await page.getByTestId('end').getByRole('button', { name: /Keep going|Back to the start/ }).click();
+      await page.locator('.card.game, [data-testid=choice], [data-testid=reward]').first().waitFor();
+    }
+  } else await end.getByRole('button', { name: 'Back to the start' }).click();
 
-  // The sixth paw earns Oreo a treasure. She picks one of two; both are real, and the pick is honoured.
+  // She picks one of two; both are real, and the pick is honoured.
   const reward = page.getByTestId('reward');
   await expect(reward).toHaveAttribute('data-reward', 'treasure');
-  await expect(reward).toHaveAttribute('data-slot', 'w6');
+  await expect(reward).toHaveAttribute('data-slot', 't1');
   await expect(reward.getByTestId('prompt')).toHaveText('Oreo gets a treasure. Which one shall she have?');
   await expect(reward.locator('.treasurecard')).toHaveCount(2);
   await expect(reward.getByRole('button', { name: 'Next' })).toHaveCount(0); // no way past without choosing
@@ -190,11 +203,11 @@ test('the last step passed today, and again on another day: the lesson is master
   await expect(reward.getByAltText(`Oreo with ${name}`)).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
   await reward.getByRole('button', { name: 'Next' }).click();
-  // Today's games go on where they were.
+  // Today's games are done: home.
   await expect(reward).toHaveCount(0);
-  await expect(page.locator('.card.game')).toBeVisible();
-  expect((await saved(page)).rewards.treasures).toEqual({ ...before, w6: offered[1] });
-  await page.getByRole('button', { name: '← Home' }).click();
+  await expect(page.getByTestId('today-text')).toBeVisible();
+  expect((await saved(page)).rewards.treasures).toEqual({ ...before, t1: offered[1] });
+  expect((await saved(page)).rewards.lastOn).toBe(day());
   // Home: the stone has its paw, and the treasure is among Oreo's things.
   await expect(page.locator('.stone[data-lesson=s1-see] .mark .ic.paw')).toHaveCount(1);
   await expect(page.getByTestId('things-treasures').locator(`[data-treasure=${offered[1]}]`)).toHaveAttribute('data-count', '1');

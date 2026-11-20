@@ -20,9 +20,14 @@ export interface LessonState {
   mastered?: Day;
   /**
    * Marked as known by the starting check, not by playing the lesson. It comes back in review, and the
-   * first due review answered right first time removes the mark. Until then it earns no reward.
+   * first due review answered right first time turns the mark into `known`. It earns no reward.
    */
   placed?: true;
+  /**
+   * The starting check marked it as known and a review has confirmed it. She knew it before she came here:
+   * it counts for nothing in the rewards, which are for what she learns by playing.
+   */
+  known?: true;
   /**
    * A lesson of the stage below the one she started in. While it is known it stays out of the way. If it has to
    * be learned (the starting check found a gap, or a review reopened it) it is "a quick step back": it stands on

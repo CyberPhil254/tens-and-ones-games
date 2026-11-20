@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 import { readProfileData } from '../src/data/profile';
-import { give, nextEarned } from '../src/engine/rewards';
+import { give, owedNext } from '../src/engine/rewards';
 
 /** Collects console errors: a sentence without a recording is reported there too. */
 export function watch(page: Page): string[] {
@@ -56,10 +56,11 @@ export async function seed(page: Page, s: Seed = {}): Promise<void> {
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
     bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true,
   };
-  let rewards: Record<string, Record<string, string>> = { treasures: {}, tricks: {}, awards: {}, ...s.rewards };
+  let rewards: Record<string, unknown> = { treasures: {}, tricks: {}, awards: {}, ...s.rewards };
   if (!s.rewards) {
     let d = readProfileData(JSON.parse(JSON.stringify(base)), day())!;
-    for (let e = nextEarned(d), n = 0; e && n < 400; e = nextEarned(d), n++) d = give(d, e);
+    // Given before today, so that today's reward, if a test earns one, can still come.
+    for (let e = owedNext(d), n = 0; e && n < 400; e = owedNext(d), n++) d = give(d, e, day(-1));
     rewards = { ...d.rewards, ...(s.tricks === false ? { tricks: {} } : {}) };
   }
   const data = { ...base, rewards };
@@ -72,7 +73,7 @@ export async function seed(page: Page, s: Seed = {}): Promise<void> {
 }
 /**
  * Takes every reward card that is on the screen, one after the other (a treasure: the first of the two),
- * and returns what they were, for example ["treasure w1", "trick m2"].
+ * and returns what they were, for example ["treasure t1"] or ["trick k1"].
  */
 export async function collect(page: Page): Promise<string[]> {
   const got: string[] = [];
@@ -85,6 +86,49 @@ export async function collect(page: Page): Promise<string[]> {
     await card.getByRole('button', { name: 'Next' }).click();
   }
   return got;
+}
+/**
+ * Plays today's games to their end from wherever she is in them, every answer right, and returns the reward
+ * taken at the end (never more than one a day). `pick` is the lesson to tap when the choice card comes.
+ */
+export async function playOut(page: Page, pick?: string): Promise<string[]> {
+  for (let round = 0; round < 8; round++) {
+    await page.locator('.card.game, [data-testid=choice], [data-testid=reward], [data-testid=today-text]').first().waitFor();
+    if (await page.getByTestId('choice').count()) {
+      const wanted = pick ? page.getByTestId('choice').locator(`[data-lesson=${pick}]`) : page.getByTestId('choice').locator('[data-lesson]').first();
+      await ((await wanted.count()) ? wanted : page.getByTestId('choice').locator('[data-lesson]').first()).click();
+    }
+    if (!(await page.locator('.card.game').count())) return collect(page);
+    const n = await page.locator('.dots > span').count();
+    for (let i = 0; i < n; i++) await answerRight(page);
+    const end = page.getByTestId('end');
+    await expect(end).toBeVisible();
+    const last = (await end.getByRole('button', { name: 'Back to the start' }).count()) > 0;
+    await end.getByRole('button', { name: last ? 'Back to the start' : 'Keep going' }).click();
+    if (last) return collect(page);
+  }
+  throw new Error('today’s games never end');
+}
+/**
+ * The next morning: what was done and given today is now of yesterday. Reloads the app.
+ * `finished`: and she has finished that day's games already (for a child whose games the test cannot play).
+ */
+export async function nextDay(page: Page, finished = false): Promise<void> {
+  await page.evaluate(([today, yesterday, finished]) => {
+    for (const id of JSON.parse(localStorage.getItem('tens-and-ones.profiles') ?? '[]')) {
+      const k = `tens-and-ones.profile.${id}`, d = JSON.parse(localStorage.getItem(k)!);
+      if (d.child.doneOn === today) d.child.doneOn = yesterday;
+      if (d.rewards.lastOn === today) d.rewards.lastOn = yesterday;
+      if (finished) d.child.doneOn = today;
+      for (const l of Object.values(d.child.lessons) as { passedOn?: string[]; mastered?: string; reviewedOn?: string; due?: string }[]) {
+        l.passedOn = (l.passedOn ?? []).map((x) => (x === today ? yesterday : x));
+        if (l.mastered === today) l.mastered = yesterday;
+        if (l.reviewedOn === today) l.reviewedOn = yesterday;
+      }
+      localStorage.setItem(k, JSON.stringify(d));
+    }
+  }, [day(), day(-1), finished] as const);
+  await page.reload();
 }
 /** Starts today's games; `pick` is the lesson to tap when the choice card comes. */
 export async function playToday(page: Page, pick?: string): Promise<void> {

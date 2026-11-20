@@ -31,7 +31,7 @@ function describe(look: Look, l: Lesson, data: ProfileData, next: boolean): stri
   switch (look) {
     case 'coming': return 'Coming soon.';
     case 'locked': return 'Further along the path.';
-    case 'known': return 'Known, to be checked in a warm-up.';
+    case 'known': return st.known ? 'Known, and checked in a warm-up.' : 'Known, to be checked in a warm-up.';
     case 'mastered': return 'Mastered. It comes back in the warm-ups.';
     case 'resting': return 'Last step done today. Once more on another day.';
     case 'passed': return 'Every step done. Once more to master it.';
@@ -96,7 +96,7 @@ export function Garden({ data, today, open, soundOff, onLesson, onWhy }: GardenP
         <ol className="stones">
           {lessons.map((l) => {
             const status = statusOf(child, l, today), st = lessonState(child, l.id);
-            const look: Look = status === 'mastered' && st.placed ? 'known' : status;
+            const look: Look = status === 'mastered' && (st.placed || st.known) ? 'known' : status;
             const isNext = nextLesson?.id === l.id, locked = look === 'locked', back = stepBack(child, l);
             // Free play is for what she has passed at least once, never for what is still ahead.
             const canPlay = open && ['passed', 'resting', 'mastered', 'known'].includes(look);

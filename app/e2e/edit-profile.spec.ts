@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { answerRight, collect, fitsTheScreen, watch } from './helpers';
+import { fitsTheScreen, playOut, watch } from './helpers';
 
 async function openParents(page: Page) {
   await page.getByRole('button', { name: 'For grown-ups' }).click();
@@ -23,15 +23,12 @@ test('change name or picture: only those two change; progress, bones, rewards an
   test.setTimeout(120_000);
   const errors = watch(page);
   await page.goto('/');
-  // A child plays a round of today's games and earns bones, a step and her first treasure.
+  // A child plays today's games and earns bones, steps and her first treasure.
   await addChild(page, 'Amani', 'zebra');
   await page.getByRole('button', { name: 'Play today’s games' }).click();
-  await page.getByTestId('choice').locator('[data-lesson=s1-count]').click();
-  const n = await page.locator('.dots > span').count();
-  for (let i = 0; i < n; i++) await answerRight(page);
-  await page.getByRole('button', { name: 'Keep going' }).click();
-  expect(await collect(page)).toEqual(['treasure w1']);
-  await page.getByRole('button', { name: '← Home' }).click();
+  expect(await playOut(page, 's1-count')).toEqual(['treasure welcome']);
+  const n = Number((await page.getByTestId('store').getAttribute('aria-label'))!.split(' ')[0]);
+  expect(n).toBeGreaterThan(5);
   await expect(page.getByTestId('store')).toHaveAttribute('aria-label', `${n} bones`);
   // A second child on the device, so that there is a profile chooser; then back to Amani.
   await openParents(page);
@@ -46,7 +43,7 @@ test('change name or picture: only those two change; progress, bones, rewards an
   expect(before.bones).toBe(n);
   expect(Object.keys(before.child as object)).toContain('lessons');
   expect((before.attempts as unknown[]).length).toBe(n);
-  expect(before.rewards).toMatchObject({ treasures: { w1: expect.any(String) } });
+  expect(before.rewards).toMatchObject({ treasures: { welcome: expect.any(String) } });
 
   await openParents(page);
   // Under the child's name.

@@ -4,7 +4,7 @@
  */
 import { CONFIG } from '../engine/config';
 import { LESSON } from '../engine/curriculum';
-import { withoutPlacedRewards } from '../engine/rewards';
+import { upToDate } from '../engine/rewards';
 import { startInStage } from '../engine/rules';
 import { newChild, type ChildState, type Day, type LessonState } from '../engine/state';
 
@@ -46,6 +46,13 @@ export interface Rewards {
   tricks: Record<string, string>;
   /** Awards, one per finished stage. */
   awards: Record<string, string>;
+  /** The day a reward was last given. Never more than one on one day. */
+  lastOn?: Day;
+  /**
+   * What a profile from before today's schedule was ahead by: paws and lessons counted on top of hers,
+   * so that she keeps the treasures and tricks she has and the next one comes at today's pace.
+   */
+  credit?: { paws: number; lessons: number };
 }
 
 export interface ProfileData {
@@ -112,6 +119,7 @@ function readLesson(id: string, raw: unknown): LessonState | null {
   };
   if (isDay(r.mastered)) out.mastered = r.mastered;
   if (r.placed === true) out.placed = true;
+  if (r.known === true) out.known = true;
   if (r.back === true) out.back = true;
   if (count(r.from, 10) > 0) out.from = Math.min(count(r.from, 10), Math.max(0, lesson.steps.length - 1));
   if (isDay(r.due)) out.due = r.due;
@@ -137,14 +145,16 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     if (l) lessons[id] = l;
   }
   for (const l of Object.values(lessons)) {
-    // A known lesson that a review had already confirmed before the mark was ever removed: it is hers.
-    if (l.placed && (!l.mastered || l.reviews > 0)) delete l.placed;
+    // A known lesson that a review had already confirmed before the mark was changed: known, and confirmed.
+    if (l.placed && (!l.mastered || l.reviews > 0)) { delete l.placed; if (l.mastered) l.known = true; }
+    // Mastered without ever passing its last step: the starting check marked it, and a review confirmed it, before that was written down.
+    if (l.mastered && !l.placed && l.passedOn.length === 0) l.known = true;
   }
   // A child who started in Stage 2 before the path began there: Stage 1 is known, except what she is in the
   // middle of, which becomes a quick step back. What she has played is not touched. Doing it again changes nothing.
   const stage = p.stage === 1 ? 1 : 2;
   const placedNow = r.checked === true && stage === 2 ? startInStage({ lessons }, 2, [], today).lessons : lessons;
-  return withoutPlacedRewards({
+  return upToDate({
     profile: {
       id: p.id,
       nickname: cleanNickname(p.nickname) || 'Friend',
@@ -155,7 +165,11 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     child: { lessons: placedNow, ...(isDay(child.doneOn) ? { doneOn: child.doneOn } : {}) },
     bones: count(r.bones),
     best: count(r.best, 100_000),
-    rewards: { treasures: strings(rewards.treasures), tricks: strings(rewards.tricks), awards: strings(rewards.awards) },
+    rewards: {
+      treasures: strings(rewards.treasures), tricks: strings(rewards.tricks), awards: strings(rewards.awards),
+      ...(isDay(rewards.lastOn) ? { lastOn: rewards.lastOn } : {}),
+      ...(count(obj(rewards.credit).paws, 500) || count(obj(rewards.credit).lessons, 100) ? { credit: { paws: count(obj(rewards.credit).paws, 500), lessons: count(obj(rewards.credit).lessons, 100) } } : {}),
+    },
     attempts: Array.isArray(r.attempts) ? r.attempts.map(readAttempt).filter((a): a is Attempt => a !== null).slice(-KEEP_ATTEMPTS) : [],
     checked: r.checked === true,
   });

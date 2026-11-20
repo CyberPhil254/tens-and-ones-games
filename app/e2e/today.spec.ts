@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { feedback, fitsTheScreen, mastered, saved, seed, watch } from './helpers';
+import { day, feedback, fitsTheScreen, mastered, saved, seed, watch } from './helpers';
 
 const game = (page: Page) => page.locator('.card.game');
 /** How many High Five shows, read as a screen reader would. */
@@ -129,14 +129,14 @@ test('the path is a garden: a stone per lesson, a part of the garden per unit, a
 
 test('lessons mastered: Oreo learns a trick, it is named, and it stays among her things', async ({ page }) => {
   const errors = watch(page);
-  const unit = ['s2-count', 's2-place', 's2-names', 's2-regroup'];
-  // Five lessons mastered: the second and the fifth each bring a trick. Neither was collected (the app was closed, say).
-  await seed(page, { lessons: Object.fromEntries(['s1-see', ...unit].map((id) => [id, mastered()])), tricks: false });
+  const unit = ['s1-count', 's1-see', 's1-zero', 's1-estimate', 's1-names', 's1-teens', 's1-compare'];
+  // Seven lessons mastered: the seventh brings the first trick. Today's games are finished, and it was not collected (the app was closed, say).
+  await seed(page, { doneOn: day(), lessons: Object.fromEntries(unit.map((id) => [id, mastered()])), tricks: false });
   await page.goto('/');
-  // Still owed, and they come first.
+  // Still owed, and it comes first.
   const reward = page.getByTestId('reward');
   await expect(reward).toHaveAttribute('data-reward', 'trick');
-  await expect(reward).toHaveAttribute('data-slot', 'm2');
+  await expect(reward).toHaveAttribute('data-slot', 'k1');
   await expect(reward.getByTestId('prompt')).toHaveText('Oreo has learnt a new trick for you!');
   // Oreo does her new trick, once, and it is named: on the screen and aloud.
   await expect(reward.locator('.oreoanim')).toHaveAttribute('aria-label', 'Oreo’s trick: High five');
@@ -144,19 +144,17 @@ test('lessons mastered: Oreo learns a trick, it is named, and it stays among her
   await expect(reward.locator('.sub')).toHaveText('Oreo can give a high five!');
   await fitsTheScreen(page);
   await reward.getByRole('button', { name: 'Next' }).click();
-  await expect(reward).toHaveAttribute('data-slot', 'm5');
-  await expect(reward.locator('.sub')).toHaveText('Oreo can beg!');
-  await reward.getByRole('button', { name: 'Next' }).click();
-  // Home, with both tricks among Oreo's things; tapping one shows it. Nothing more is owed.
+  // Home, with the trick among Oreo's things; tapping it shows it. Nothing more today.
   await expect(reward).toHaveCount(0);
   const tricks = page.getByTestId('things-tricks');
-  await expect(tricks.locator('button.trickbtn')).toHaveCount(2);
+  await expect(tricks.locator('button.trickbtn')).toHaveCount(1);
+  await expect(page.getByTestId('line-trick')).toContainText('Master 6 more lessons and Oreo learns to beg.');
   await tricks.locator('button.trickbtn').first().click();
   await expect(page.getByTestId('trickshow').locator('.oreoanim')).toBeVisible();
   await page.reload();
   await expect(reward).toHaveCount(0);
-  await expect(tricks.locator('button.trickbtn')).toHaveCount(2);
-  expect((await saved(page)).rewards.tricks).toEqual({ m2: 'high-five', m5: 'beg' });
+  await expect(tricks.locator('button.trickbtn')).toHaveCount(1);
+  expect((await saved(page)).rewards.tricks).toEqual({ k1: 'high-five' });
   expect(errors).toEqual([]);
 });
 

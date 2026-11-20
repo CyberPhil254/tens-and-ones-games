@@ -37,6 +37,33 @@ Found on the way and fixed: a step back handed out a treasure by itself, because
 
 To confirm (in `docs/decisions.md`, dated 2026-11-20): the check is 24 questions, which is nearer four minutes than three for a slow child; a step back for a two-step lesson starts at its first step; a Stage 2 child has a warm-up from day one.
 
+### B. Rewards come at a steady pace, one a day (pull request 57)
+
+Nothing is half done, and no new sentences: the new lines under the row of paws are shown, not spoken.
+
+1. **Known lessons count for nothing.** A lesson the starting check marked as known brings no paw and does not count towards a trick, also after a review has confirmed it. This was the cause of "three treasures and a trick after one round": a warm-up confirmed several known lessons at once, and each then counted as if she had learnt it. Found on the way: a known lesson that review reopened gave all its lower steps as paws at once; it now counts from the step she plays it at.
+2. **Never more than one reward on one day.** A reward is handed over when she has finished today's games. If she has earned more, the rest wait and come one a day, on the next days she finishes today's games: a trick first, then a badge, then an award, then a treasure.
+3. **The schedule, retuned** (`app/src/engine/rewards.ts`): a treasure at every 6th paw for the first six, then at every 8th (19, and the welcome treasure); a trick at the 7th, 13th, 20th, 27th, 34th and 40th lesson mastered.
+4. **Progress after every round, as before**: the row of paws fills, and new paws pop in. When the row is full the line says when the treasure comes: "Finish today's games and Oreo gets a treasure.", or "Finish tomorrow's games ..." if she has had a reward today.
+5. **Existing profiles keep everything they have.** The earlier schedules gave more, so such a child is ahead of this one; how far is stored once, and her next treasure or trick takes as many new paws or lessons as it takes anyone.
+
+**The numbers** (`app/src/engine/path.test.ts`; days are days of play, counted until she masters her last lesson)
+
+| Simulated child | Welcome treasure | A treasure every (first six) | A treasure every (after that) | A trick every | Longest wait for any reward | Most on one day | Rewards |
+|---|---|---|---|---|---|---|---|
+| Right 3 times in 4 (the one you asked about) | day 1 | 4.0 days | 7.2 days | 20.7 days | **9 days** | 1 | 42 in 126 days |
+| Always right | day 1 | 2.7 days | 3.4 days | 9.8 days | 4 days | 1 | 41 in 60 days |
+| 85 percent at the first step, 7 points less each step | day 1 | 4.7 days | 10.8 days | 28.7 days | 16 days | 1 | 42 in 177 days |
+| Right 3 times in 5, at every step | day 1 | 38 days (she gets three) | none | none | 57 days | 1 | 5 in 200 days |
+
+Asked for, for the child who is right 3 times in 4: the welcome treasure on day 1 (yes), a treasure about every 4 to 6 days early on (4.0) and every 7 to 10 later (7.2), a trick about every 3 weeks (20.7 days), never more than 10 days without a reward (9).
+
+**What is not met, and why**
+- **"Never more than 10 days" holds for the child written into the test, not for every child like her.** I ran her ten times with different luck: a treasure every 4.0 to 6.3 days early on and every 6.7 to 8.5 later, a trick every 20 to 26 days, and a longest wait of 8 to 13 days, longer than 10 in four runs of ten. I compared 72 schedules; none brings that below three runs of ten. The cause is the one found on 2026-11-16: she has stretches in which she passes nothing new. A reserve would close it (hold back one earned treasure and hand it over once she has waited 10 days), but it changes what the row of paws promises. Yours to decide.
+- **The weaker children wait much longer.** The child who fades with every step waits up to 16 days; the child at 3 in 5 gets five rewards in 200 days (before this change: eleven). She achieves little, so a schedule tied to achievement gives her little. This is the child a "stuck" sign for the parent, or the engine change noted below, would help more than any schedule.
+
+To confirm (in `docs/decisions.md`, dated 2026-11-20): a reward only at the end of today's games, also when it is the only one; the order when several wait; badges and awards when a unit holds known lessons; the reserve, or not.
+
 ## Problems from the test with Philipp's daughter (2026-11-16)
 
 Four pull requests, in this order: A "Start again" (52), B the garden as a path, C rewards early and often, D change name or picture. This section is updated as each is merged.
@@ -177,7 +204,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 487 unit tests, 375 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 498 unit tests, 379 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -270,15 +297,15 @@ All 178 are in `docs/decisions.md` under "Decided during the build, to confirm",
 
 | Child | Mastered | Steps up (jumped) | Steps down | Reopened by review | Tricks |
 |---|---|---|---|---|---|
-| Always right | 41 of 41, the last on day 59 | 40 (23) | 0 | 0 | 14 |
-| Right 3 times in 4 | 41 of 41, the last on day 122 | 62 (8) | 7 | 46 | 14 |
-| Right 3 times in 5, at every step | 0 of 41 at the end | 69 (8) | 73 | 58 | 1 |
-| 85 percent at the first step, 7 points less each step | 38 of 41 | 92 (14) | 46 | 52 | 14 |
+| Always right | 41 of 41, the last on day 60 | 40 (23) | 0 | 0 | 6 |
+| Right 3 times in 4 | 41 of 41, the last on day 126 | 57 (10) | 4 | 46 | 6 |
+| Right 3 times in 5, at every step | 0 of 41 at the end | 62 (8) | 62 | 67 | 0 |
+| 85 percent at the first step, 7 points less each step | 39 of 41 | 88 (17) | 45 | 38 | 6 |
 
 For all four: never a lesson that was not open, never a day with nothing to do, never more than four rounds a day, no lesson mastered on the day its last step was first passed, reviews at 1, 3, 7, 14 and 30 days, each reward once and only for mastery.
 
 What it shows, honestly:
-- **A child who is right only three times in five at every step keeps nothing.** She masters lessons and loses them again in review (two misses in a row reopen a lesson), and is given a step back 73 times. The app holds her back as the spec says, but it does not help her forward, and nothing tells her parent. A real child is not equally weak at every step, so this is the worst case; still, a "stuck" sign in the parents' area is the first thing I would add.
+- **A child who is right only three times in five at every step keeps nothing.** She masters lessons and loses them again in review (two misses in a row reopen a lesson), and is given a step back 62 times. The app holds her back as the spec says, but it does not help her forward, and nothing tells her parent. A real child is not equally weak at every step, so this is the worst case; still, a "stuck" sign in the parents' area is the first thing I would add.
 - **Reopening is frequent even for a good child**: 46 times in 200 days at 75 percent. Each costs only one good day to win back, but it may feel like going backwards. Worth trying "two misses on two different days" instead of two in a row.
 - A child who is always right needs about two months at one session a day for all 41 lessons.
 
@@ -345,6 +372,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 54 | Rewards early and often: the welcome treasure, treasures by paws, tricks by lessons mastered, unit badges; "Oreo's things" shows everything; paws and the changing stone after every round |
 | 55 | "Change name or picture" in the parents' area: only those two change |
 | 56 | A Stage 2 child starts in Stage 2: the check looks for gaps (two questions a lesson), a gap is a quick step back, Stage 1 is a folded banner, existing profiles placed again |
+| 57 | Rewards at a steady pace: known lessons count for nothing, one reward a day at the end of today's games, the schedule retuned, existing profiles keep what they have |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

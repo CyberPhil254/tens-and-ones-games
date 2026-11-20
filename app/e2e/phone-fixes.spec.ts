@@ -39,16 +39,15 @@ test('a profile that got rewards from the starting check loses them, and is owed
 
 test('a unit she finished by playing keeps its trick and treasure, next to one that was only known', async ({ page }) => {
   // As an earlier version saved it: treasures per lesson, tricks per unit; one unit played, one only known from the check.
+  // She has finished today's games.
   await seed(page, {
+    doneOn: day(),
     lessons: { ...Object.fromEntries(UNIT.map((id) => [id, mastered()])), 's2-bonds': known(), 's2-inverse': known(), 's2-calc': known() },
-    rewards: { treasures: { 's2-count': 'ball', 's2-bonds': 'bed' }, tricks: { 's2-u1': 'spin', 's2-u4': 'beg' } },
+    rewards: { treasures: { welcome: 'bowl', 's2-count': 'ball', 's2-bonds': 'bed' }, tricks: { 's2-u1': 'spin', 's2-u4': 'beg' } },
   });
   await page.goto('/');
-  // What today's rules add for the same progress is owed and comes first: more treasures for her paws, and the unit's badge.
-  const got = await collect(page);
-  expect(got.filter((g) => g.startsWith('treasure')).length).toBeGreaterThan(2);
-  expect(got).toContain('badge');
-  expect(got.filter((g) => g.startsWith('trick'))).toEqual([]); // no trick twice
+  // What is new since then for the same progress is the unit's badge: it is owed and comes first. Nothing else today, and no trick twice.
+  expect(await collect(page)).toEqual(['badge']);
   await expect(page.getByTestId('reward')).toHaveCount(0);
   // Her trick is still "spin"; the trick the check gave is gone.
   const tricks = page.getByTestId('things-tricks');
@@ -56,9 +55,11 @@ test('a unit she finished by playing keeps its trick and treasure, next to one t
   await expect(tricks.locator('button.trickbtn')).toHaveAttribute('data-trick', 'spin');
   await expect(tricks.locator('.trickbtn.not')).toHaveCount(5);
   const s = await saved(page);
-  expect(s.rewards.tricks).toEqual({ m2: 'spin' });
-  expect(s.rewards.treasures.w1).toBe('ball'); // the treasure she had, in the first place treasures have now
-  expect(Object.keys(s.rewards.treasures).every((k) => /^w\d+$/.test(k))).toBe(true);
+  expect(s.rewards.tricks).toEqual({ k1: 'spin' });
+  expect(s.rewards.treasures).toEqual({ welcome: 'bowl', t1: 'ball' }); // the treasure she had, in the first place treasures have now
+  // She has more paws than the one treasure stands for: the next ones are owed, and wait for the next days, one a day.
+  await expect(page.getByTestId('line-treasure').getByTestId('pawrow')).toHaveAttribute('data-done', '6');
+  await expect(page.getByTestId('line-treasure')).toContainText('Finish tomorrow’s games and Oreo gets a treasure.');
   expect(Object.values(s.rewards.treasures)).not.toContain(undefined);
   expect(s.rewards.awards).toEqual({ 's2-u1': 'badge' });
   await expect(page.getByTestId('things-badges').locator('.thing.badge:not(.not)')).toHaveCount(1);

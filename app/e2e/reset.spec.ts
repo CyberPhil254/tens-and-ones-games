@@ -204,7 +204,7 @@ test('Start again while the app is open in a second window: the other window doe
   expect(saved.rewards).toEqual({ treasures: {}, tricks: {}, awards: {} });
   // Back in the first window, after a reload: still the new child.
   await page.reload();
-  expect(await collect(page)).toEqual(['treasure w1']); // what that one round earned the new child: her first paw's treasure
+  expect(await collect(page)).toEqual([]); // one round is not today's games finished: nothing is handed over yet
   await expect(page.getByTestId('store')).toHaveAttribute('aria-label', `${n} bones`);
   await expect(page.getByTestId('things').locator('button.trickbtn')).toHaveCount(0);
 });

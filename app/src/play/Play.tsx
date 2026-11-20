@@ -245,7 +245,7 @@ export function Play({ round, data, soundOff, onFinish, onHome, onNext, onAgain 
     const single = 'slot' in round ? LESSON.get(round.slot.lesson)! : null;
     const moved = single && applied.outcome && ['up', 'passed', 'mastered'].includes(applied.outcome.kind);
     const change = single && moved ? { lesson: single, before: stepsDone(data, single), after: stepsDone(out, single), mastered: applied.outcome!.kind === 'mastered' } : null;
-    setEnd({ note, bones, seconds, more, lastToday, change, goal: nextGoal(after), owed: nextEarned(after) !== null, fresh: Math.max(0, paws(out) - paws(data)) });
+    setEnd({ note, bones, seconds, more, lastToday, change, goal: nextGoal(after, todayNow()), owed: nextEarned(after, todayNow()) !== null, fresh: Math.max(0, paws(out) - paws(data)) });
   };
   useEffect(() => {
     goOn.current = next;
