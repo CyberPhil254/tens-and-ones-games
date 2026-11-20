@@ -52,7 +52,7 @@ export interface Seed {
  */
 export async function seed(page: Page, s: Seed = {}): Promise<void> {
   const base = {
-    profile: { id: s.id ?? 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 2, created: day(-30) },
+    profile: { id: s.id ?? 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 1, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
     bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true,
   };

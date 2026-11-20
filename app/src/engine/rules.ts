@@ -4,7 +4,7 @@
  * See docs/build-spec.md, section 3.
  */
 import { CONFIG } from './config';
-import { LESSON, LESSONS, PATH, playable, unitOf, type Lesson } from './curriculum';
+import { LESSON, LESSONS, PATH, UNITS, playable, unitOf, type Lesson } from './curriculum';
 import { addDays, lessonState, withLesson, type ChildState, type Day, type LessonState } from './state';
 
 /* ---------- rating ---------- */
@@ -146,20 +146,63 @@ export function waitsFor(lesson: Lesson): Lesson[] {
   return [...out];
 }
 
+/** A lesson of the stage she started in, or beyond: not one from the stage below. */
+const ownStage = (s: ChildState, l: Lesson) => !lessonState(s, l.id).back;
 /**
- * The lessons open for new learning: at most two. The first is the next stone, the first lesson on the
+ * A step back she is taking: a lesson from the stage below that is not (or no longer) known and not yet
+ * mastered. Once mastered it is simply a lesson of the stage below again.
+ */
+export const stepBack = (s: ChildState, l: Lesson) => {
+  const st = lessonState(s, l.id);
+  return !!st.back && !st.placed && !st.mastered;
+};
+
+/**
+ * The lesson of her own stage that a step back stands before: the first one on the path that needs it.
+ * Null when nothing of her own stage needs it (then it simply comes next).
+ */
+export function neededBy(s: ChildState, back: Lesson): Lesson | null {
+  return PATH.find((l) => ownStage(s, l) && l.needs.includes(back.id)) ?? null;
+}
+
+/**
+ * Her path: the fixed order, with every step back that has to be taken moved to stand directly before the
+ * lesson of her own stage that needs it. For a child who started at the first stone this is simply the path.
+ */
+export function pathFor(s: ChildState): Lesson[] {
+  const moved = PATH.filter((l) => stepBack(s, l));
+  if (!moved.length) return PATH;
+  const out = PATH.filter((l) => !moved.includes(l));
+  for (const b of moved) {
+    const before = neededBy(s, b);
+    // Nothing ahead needs it: it comes before the first lesson of her own stage she has not passed.
+    let at = before ? out.indexOf(before) : out.findIndex((l) => ownStage(s, l) && playable(l) && !passedOnce(lessonState(s, l.id)));
+    if (at < 0) at = out.length;
+    out.splice(at, 0, b);
+  }
+  return out;
+}
+/** The part of the garden a lesson stands in for her: its own unit, or for a step back the unit of the lesson that needs it. */
+export function plotOf(s: ChildState, l: Lesson) {
+  if (!stepBack(s, l)) return unitOf(l.id);
+  const order = pathFor(s), after = order[order.indexOf(l) + 1];
+  return unitOf((neededBy(s, l) ?? after ?? l).id);
+}
+
+/**
+ * The lessons open for new learning: at most two. The first is the next stone, the first lesson on her
  * path she has not yet passed. The second, where the order allows, is one alternative, so that she can
  * choose: the first lesson after it that she has not passed and whose own needs are all passed, in the
  * same unit, or the first lesson of the unit after when the next stone is the last of its unit.
  * Everything further on is locked until she gets there.
  */
 export function frontier(s: ChildState): Lesson[] {
-  const ahead = PATH.filter((l) => playable(l) && !passedOnce(lessonState(s, l.id)));
+  const ahead = pathFor(s).filter((l) => playable(l) && !passedOnce(lessonState(s, l.id)));
   const next = ahead[0];
   if (!next) return [];
   const ready = (l: Lesson) => waitsFor(l).every((n) => passedOnce(lessonState(s, n.id)));
-  const unit = unitOf(next.id), later = ahead.slice(1);
-  const inUnit = later.filter((l) => unitOf(l.id) === unit);
+  const unit = plotOf(s, next), later = ahead.slice(1);
+  const inUnit = later.filter((l) => plotOf(s, l) === unit);
   const alt = inUnit.length ? inUnit.find(ready) : later[0] && ready(later[0]) ? later[0] : undefined;
   return alt ? [next, alt] : [next];
 }
@@ -179,7 +222,7 @@ export const opens = (s: ChildState): Lesson | null => frontier(s)[0] ?? null;
  * The lessons she could go on with today, in path order: those that need one more good day,
  * and the one or two that are open for new learning.
  */
-export const openLessons = (s: ChildState, today: Day): Lesson[] => PATH.filter((l) => ['open', 'passed'].includes(statusOf(s, l, today)));
+export const openLessons = (s: ChildState, today: Day): Lesson[] => pathFor(s).filter((l) => ['open', 'passed'].includes(statusOf(s, l, today)));
 export const masteredLessons = (s: ChildState): Lesson[] => LESSONS.filter((l) => lessonState(s, l.id).mastered);
 /** Mastered lessons whose review is due, the longest overdue first. */
 export const dueLessons = (s: ChildState, today: Day): Lesson[] =>
@@ -198,6 +241,41 @@ export function place(s: ChildState, lessonId: string, today: Day): ChildState {
     due: addDays(today, CONFIG.reviewDays[0]), rating: difficulty(lesson.steps.length - 1) + 1,
   });
 }
+
+/**
+ * A gap: a lesson of the stage below that she lacks. It is not marked as known; it becomes a quick step back,
+ * and starts at the step that fits: one below the last step, which is the one the check asked and she missed.
+ */
+export function gap(s: ChildState, lessonId: string): ChildState {
+  const lesson = LESSON.get(lessonId);
+  if (!lesson || !playable(lesson) || passedOnce(lessonState(s, lessonId))) return s;
+  const at = Math.max(0, lesson.steps.length - 2);
+  return withLesson(s, lessonId, { ...lessonState(s, lessonId), back: true, step: at, ...(at > 0 ? { from: at } : {}), rating: difficulty(at) });
+}
+
+/**
+ * A child starts in the stage her parent picked. Every lesson of the stage below is known (it comes back in
+ * review like anything else that is known), except the gaps the starting check found, which become quick steps
+ * back. A lesson she has already played is never changed: it keeps its step and its place in the review schedule.
+ */
+export function startInStage(s: ChildState, stage: 1 | 2, gaps: readonly string[], today: Day): ChildState {
+  if (stage === 1) return s;
+  for (const u of UNITS) {
+    if (u.stretch || u.stage >= stage) continue;
+    for (const l of u.lessons.filter(playable)) {
+      const st = lessonState(s, l.id);
+      const midway = !passedOnce(st) && (st.answers > 0 || st.step > 0); // she is in the middle of it: it stays exactly as it is
+      if (gaps.includes(l.id) && !midway) s = gap(s, l.id);
+      else if (!midway) s = place(s, l.id, today);
+      s = withLesson(s, l.id, { ...lessonState(s, l.id), back: true });
+    }
+  }
+  return s;
+}
+
+/** The lessons of the stage below that her own stage builds on directly: what the starting check looks at for gaps. */
+export const builtOn = (stage: 1 | 2): Lesson[] =>
+  PATH.filter((l) => !unitOf(l.id).stretch && unitOf(l.id).stage < stage && playable(l) && LESSONS.some((x) => (unitOf(x.id).stretch || unitOf(x.id).stage >= stage) && x.needs.includes(l.id)));
 
 /** Very fast wrong taps in a row are guesses, not answers. `gaps` are the times between her last taps. */
 export const looksLikeGuessing = (gaps: readonly number[]): boolean =>

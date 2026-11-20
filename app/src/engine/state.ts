@@ -23,6 +23,14 @@ export interface LessonState {
    * first due review answered right first time removes the mark. Until then it earns no reward.
    */
   placed?: true;
+  /**
+   * A lesson of the stage below the one she started in. While it is known it stays out of the way. If it has to
+   * be learned (the starting check found a gap, or a review reopened it) it is "a quick step back": it stands on
+   * her path directly before the lesson of her own stage that needs it, not at the start of the path.
+   */
+  back?: true;
+  /** The step a quick step back started at. The steps below it were never played, so they count for nothing. */
+  from?: number;
   /** How many reviews in a row went well: the place in the review schedule. */
   reviews: number;
   /** The day the next review is due. */

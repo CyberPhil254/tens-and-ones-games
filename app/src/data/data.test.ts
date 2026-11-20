@@ -12,7 +12,7 @@ const memory = () => {
 const attempt: Attempt = { lesson: 's1-ten', step: 1, part: 'new', clean: true, misses: 0, hint: false, ms: 2300, at: '2026-11-16T15:04:05.000Z' };
 /** A profile with some real progress in it. */
 function played() {
-  let d = newProfile('child-1', 'Amani', 'zebra', 2, TODAY);
+  let d = newProfile('child-1', 'Amani', 'zebra', 1, TODAY);
   let child = place(d.child, 's1-see', TODAY);
   child = withLesson(child, 's1-ten', { ...lessonState(child, 's1-ten'), step: 2 });
   child = roundFinished(child, 's1-ten', 6, TODAY).state;
