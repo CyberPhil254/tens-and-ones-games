@@ -156,7 +156,7 @@ test('Add a child: the new child is new, and the first child keeps everything', 
 });
 
 /** A child well into the app: lessons mastered and half done, bones, treasures, a trick, today's games finished. */
-const farAlong = { stage: 2 as const, bones: 137, best: 31, doneOn: day(), lessons: { 's1-see': mastered(), 's1-count': mastered(), 's2-count': mastered(), 's2-place': mastered(), 's2-names': mastered(), 's2-regroup': mastered(), 's1-ten': { step: 1, rating: 1, answers: 40, passedOn: [] } } };
+const farAlong = { stage: 1 as const, bones: 137, best: 31, doneOn: day(), lessons: { 's1-see': mastered(), 's1-count': mastered(), 's2-count': mastered(), 's2-place': mastered(), 's2-names': mastered(), 's2-regroup': mastered(), 's1-ten': { step: 1, rating: 1, answers: 40, passedOn: [] } } };
 async function startAgain(page: Page) {
   await openParents(page);
   await page.getByTestId('p-settings').getByRole('button', { name: 'Start again' }).click();

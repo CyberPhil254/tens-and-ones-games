@@ -5,6 +5,7 @@
 import { CONFIG } from '../engine/config';
 import { LESSON } from '../engine/curriculum';
 import { withoutPlacedRewards } from '../engine/rewards';
+import { startInStage } from '../engine/rules';
 import { newChild, type ChildState, type Day, type LessonState } from '../engine/state';
 
 /** The animal pictures a profile can have, from art/friends/. */
@@ -111,6 +112,8 @@ function readLesson(id: string, raw: unknown): LessonState | null {
   };
   if (isDay(r.mastered)) out.mastered = r.mastered;
   if (r.placed === true) out.placed = true;
+  if (r.back === true) out.back = true;
+  if (count(r.from, 10) > 0) out.from = Math.min(count(r.from, 10), Math.max(0, lesson.steps.length - 1));
   if (isDay(r.due)) out.due = r.due;
   if (isDay(r.reviewedOn)) out.reviewedOn = r.reviewedOn;
   return out;
@@ -137,6 +140,10 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     // A known lesson that a review had already confirmed before the mark was ever removed: it is hers.
     if (l.placed && (!l.mastered || l.reviews > 0)) delete l.placed;
   }
+  // A child who started in Stage 2 before the path began there: Stage 1 is known, except what she is in the
+  // middle of, which becomes a quick step back. What she has played is not touched. Doing it again changes nothing.
+  const stage = p.stage === 1 ? 1 : 2;
+  const placedNow = r.checked === true && stage === 2 ? startInStage({ lessons }, 2, [], today).lessons : lessons;
   return withoutPlacedRewards({
     profile: {
       id: p.id,
@@ -145,7 +152,7 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
       stage: p.stage === 1 ? 1 : 2,
       created: isDay(p.created) ? p.created : today,
     },
-    child: { lessons, ...(isDay(child.doneOn) ? { doneOn: child.doneOn } : {}) },
+    child: { lessons: placedNow, ...(isDay(child.doneOn) ? { doneOn: child.doneOn } : {}) },
     bones: count(r.bones),
     best: count(r.best, 100_000),
     rewards: { treasures: strings(rewards.treasures), tricks: strings(rewards.tricks), awards: strings(rewards.awards) },

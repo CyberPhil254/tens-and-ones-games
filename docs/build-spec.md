@@ -141,7 +141,14 @@ After the session the child may play on, but the app suggests stopping. Short an
 
 ### Where to start
 
-On first run the parent picks the stage. A short check (about ten questions, one per unit of the earlier stage and the first lessons of this one) marks what the child already knows, so a Stage 2 child does not start at counting to five. It moves her starting point forward along the path; what lies before it shows as "known, to be checked", not as open stones, and still comes back in review. A lesson before her starting point that the check did not mark is where she starts: the path does not jump over a gap.
+On first run the parent picks the stage, and **that stage is where new learning starts**.
+
+- **A Stage 1 child** starts at the first stone. A short check, one question about the first lesson of each Stage 1 unit, marks what she already knows.
+- **A Stage 2 child starts at the first Stage 2 lesson**, whatever the check finds, and also when a parent skips it. Every Stage 1 lesson counts as known and comes back in review like anything else that is known.
+- **For her the check looks for gaps.** For each Stage 1 lesson that a Stage 2 lesson builds on directly (twelve of them), it asks two questions at the lesson's last step, in two passes so that the same lesson never comes twice running: 24 questions, three to four minutes. A lesson is a gap only if she misses most of what was asked about it, which with two questions means both. One wrong answer changes nothing.
+- **A gap is "a quick step back", not a detour through Stage 1.** That one lesson is not marked as known. It stands on her path directly before the first Stage 2 lesson that needs it, and starts one step below its last step, not at step one. The steps below its start were never played and count for nothing.
+- A known Stage 1 lesson that review reopens (missed twice) becomes a quick step back in the same way.
+- In the garden a Stage 2 child sees the Stage 2 path. Stage 1 is one folded banner, "Year 1: known", that a parent can open.
 
 ## 4. The game around it
 

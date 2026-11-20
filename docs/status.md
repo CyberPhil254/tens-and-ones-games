@@ -18,6 +18,25 @@ To confirm (all in `docs/decisions.md`, dated 2026-11-16): what counts as "confi
 
 Not done, because it was not asked: the home button still says "For grown-ups" while the lock now says "parents".
 
+## Two problems from Philipp's testing (2026-11-20)
+
+Two pull requests: A a Stage 2 child starts in Stage 2 (56), B rewards come too thick (57). This section is updated as each is merged.
+
+### A. A Stage 2 child starts in Stage 2 (pull request 56)
+
+Nothing is half done, and no new sentences.
+
+1. **The stage the parent picks is where new learning starts.** A Stage 2 child's next stone is the first Stage 2 lesson, whatever the check finds and also when it is skipped.
+2. **The check looks for gaps properly**: two questions about each of the twelve Stage 1 lessons a Stage 2 lesson builds on, 24 questions. A lesson is a gap only if she misses both. One wrong answer changes nothing.
+3. **A gap is a quick step back**: that one lesson stands on her path directly before the Stage 2 lesson that needs it, tagged "A quick step back", and starts one step below its last step.
+4. **The garden**: a Stage 2 child sees the Stage 2 path; Stage 1 is one folded banner, "Year 1: known", that a parent can open.
+5. **Tests** (`app/src/engine/apply.test.ts`, `app/e2e/path.spec.ts`): everything right starts at the first Stage 2 lesson; a single miss, in any of the twelve lessons or one in each, still starts in Stage 2 with nothing of Stage 1 on her path; a child who misses both questions about "Sums to 20" gets exactly that lesson directly before "Tens and ones sums".
+6. **Existing profiles** are placed again by these rules when they are opened; what she earned by playing, her bones and her rewards are untouched.
+
+Found on the way and fixed: a step back handed out a treasure by itself, because the steps it starts above were counted as passed.
+
+To confirm (in `docs/decisions.md`, dated 2026-11-20): the check is 24 questions, which is nearer four minutes than three for a slow child; a step back for a two-step lesson starts at its first step; a Stage 2 child has a warm-up from day one.
+
 ## Problems from the test with Philipp's daughter (2026-11-16)
 
 Four pull requests, in this order: A "Start again" (52), B the garden as a path, C rewards early and often, D change name or picture. This section is updated as each is merged.
@@ -158,7 +177,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 479 unit tests, 369 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 487 unit tests, 375 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -230,7 +249,7 @@ Around the lessons:
 
 ## Decisions
 
-All 168 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
+All 178 are in `docs/decisions.md` under "Decided during the build, to confirm", each with its reason. The ones I would look at first, because they change what a child meets:
 
 1. **The starting check** marks a whole Stage 1 unit as known when a Stage 2 child answers its one question right, and each unit is asked about through one lesson I chose (Count to 20, Ten and some more, Steps of one two and ten, Sums to 20). One right tap carries a lot.
 2. **One game level is one lesson step**, and where a lesson would have had nine steps, levels share a step ("Tens and ones sums" has six).
@@ -325,6 +344,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 53 | The garden is a path: one order as data, at most two stones open, padlocks, a lit next stone, steps and paws on passed stones, free play only for passed stones |
 | 54 | Rewards early and often: the welcome treasure, treasures by paws, tricks by lessons mastered, unit badges; "Oreo's things" shows everything; paws and the changing stone after every round |
 | 55 | "Change name or picture" in the parents' area: only those two change |
+| 56 | A Stage 2 child starts in Stage 2: the check looks for gaps (two questions a lesson), a gap is a quick step back, Stage 1 is a folded banner, existing profiles placed again |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
 | 22 | Quick Paws. The port is complete: eleven path games, Race to 100, Quick Paws, the number machine |

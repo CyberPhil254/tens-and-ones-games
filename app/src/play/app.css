@@ -264,6 +264,12 @@ main > section > h2 { font-family: var(--display); font-weight: 600; font-size: 
 .stone.nextstone .stonepic .mark { inset: 0 0 14px 56px; }
 .stone.nextstone .cap .d { font-weight: 700; }
 .stone.known .stonepic > img:first-child { opacity: 0.8; }
+/* A child who started in Stage 2: Stage 1 is one folded banner, and a lesson she lacks is a quick step back on her path. */
+.year1 { margin: 8px 12px 0; border: 2px solid #6b3f1d; border-radius: 12px; background: #e6eec8; }
+.year1 > summary { padding: 10px 14px; font-family: var(--display); font-weight: 600; font-size: 17px; color: #3a2410; cursor: pointer; }
+.year1note { margin: 0 14px 4px; font: 13px/1.4 system-ui, sans-serif; color: #5a6478; }
+.year1 .plot { padding-left: 4px; padding-right: 4px; }
+.backtag { display: inline-block; margin-bottom: 2px; padding: 1px 8px; border-radius: 999px; background: #fff3b0; border: 1px solid #b58900; font: 600 12px/1.5 var(--display); color: #5a4300; }
 .stone[data-locked] { cursor: pointer; }
 .pointsay { margin: -2px 0 2px 128px; padding: 5px 12px; background: #fff; border: 2px solid var(--ink); border-radius: 12px; font-family: var(--display); font-weight: 600; font-size: 17px; }
 .stones li.right .pointsay { margin: -2px 128px 2px 0; }

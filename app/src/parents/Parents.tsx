@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { cleanNickname, exportCode, FRIENDS, importCode, newProfile, type Friend, type Profile, type ProfileData, type Settings } from '../data/profile';
 import { UNITS, playable } from '../engine/curriculum';
+import { withStage } from '../engine/apply';
 import { statusOf } from '../engine/rules';
 import { lessonState, type Day } from '../engine/state';
 import { FriendPicture } from '../ui/FriendPicture';
@@ -227,7 +228,7 @@ export function Parents({ data, profiles, settings, today, onSettings, onSave, o
           <span>{name}’s stage</span>
           <span className="stages">
             {([1, 2] as const).map((s) => (
-              <button key={s} type="button" className="stagebtn small" aria-pressed={data.profile.stage === s} onClick={() => onSave({ ...data, profile: { ...data.profile, stage: s } })}>Stage {s}</button>
+              <button key={s} type="button" className="stagebtn small" aria-pressed={data.profile.stage === s} onClick={() => onSave(withStage(data, s, today))}>Stage {s}</button>
             ))}
           </span>
         </div>

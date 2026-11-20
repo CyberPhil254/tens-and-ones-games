@@ -70,7 +70,8 @@ const passed = (d: ProfileData, id: string) => {
 export const stepsPassed = (d: ProfileData): number =>
   LESSONS.reduce((n, l) => {
     const st = lessonState(d.child, l.id);
-    return n + (st.placed ? 0 : passed(d, l.id) ? l.steps.length : Math.min(st.step, l.steps.length));
+    // A quick step back starts part of the way up: the steps below its start were never played.
+    return n + (st.placed ? 0 : Math.max(0, (passed(d, l.id) ? l.steps.length : Math.min(st.step, l.steps.length)) - (st.from ?? 0)));
   }, 0);
 /** The paws she has: steps passed and lessons mastered, by playing. */
 export const paws = (d: ProfileData): number => stepsPassed(d) + lessonsMastered(d);

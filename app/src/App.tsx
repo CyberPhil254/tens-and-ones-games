@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { today, useData } from './app/useData';
 import { newProfile, type ProfileData } from './data/profile';
-import { checkLessons, finishToday } from './engine/apply';
+import { checkLessons, finishToday, skipCheck } from './engine/apply';
 import { CONFIG } from './engine/config';
 import { UNITS, type Activity, type Lesson } from './engine/curriculum';
 import { earnedKey, give, nextEarned } from './engine/rewards';
@@ -148,7 +148,7 @@ export function App() {
   }
   const lessons = child.checked ? [] : checkLessons(child.profile.stage, UNITS);
   if (lessons.length && screen.at !== 'play') {
-    const skip = () => data.save({ ...child, checked: true });
+    const skip = () => data.save(skipCheck(child, today()));
     return (
       <main>
         <StartCheck

@@ -11,9 +11,9 @@ import bowl from '../art/garden/treasure-bowl.webp';
 import kennelToy from '../art/garden/treasure-kennel.webp';
 import rope from '../art/garden/treasure-rope-toy.webp';
 import type { ProfileData } from '../data/profile';
-import { UNITS, type Lesson } from '../engine/curriculum';
+import { UNITS, type Lesson, type Unit } from '../engine/curriculum';
 import type { Treasure } from '../engine/rewards';
-import { opens, statusOf, type LessonStatus } from '../engine/rules';
+import { opens, pathFor, plotOf, statusOf, stepBack, type LessonStatus } from '../engine/rules';
 import { lessonState, type Day } from '../engine/state';
 import { wording } from '../speech/catalogue';
 import { Oreo, Paw } from '../ui/Oreo';
@@ -80,58 +80,75 @@ export function Garden({ data, today, open, soundOff, onLesson, onWhy }: GardenP
     root.current?.querySelector(`[data-lesson="${nextLesson.id}"]`)?.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
   };
   let n = 0; // stones alternate sides all the way down, across the units
+  const child = data.child, order = pathFor(child);
+  // A child who started in Stage 2 sees the Stage 2 path. Stage 1 is folded away under one banner that a parent can open.
+  const below = data.profile.stage === 2 ? UNITS.filter((u) => u.stage === 1 && !u.stretch) : [];
+  const onPath = UNITS.filter((u) => !below.includes(u));
+  const plot = (u: Unit) => {
+    const lessons = order.filter((l) => plotOf(child, l) === u);
+    if (!lessons.length) return null;
+    return (
+      <section key={u.id} className="plot" data-unit={u.id}>
+        <h3 className="post">
+          <img src={signpost} alt="" draggable={false} />
+          <span>{u.stretch ? `Stretch: ${u.title}` : `Stage ${u.stage}: ${u.title}`}</span>
+        </h3>
+        <ol className="stones">
+          {lessons.map((l) => {
+            const status = statusOf(child, l, today), st = lessonState(child, l.id);
+            const look: Look = status === 'mastered' && st.placed ? 'known' : status;
+            const isNext = nextLesson?.id === l.id, locked = look === 'locked', back = stepBack(child, l);
+            // Free play is for what she has passed at least once, never for what is still ahead.
+            const canPlay = open && ['passed', 'resting', 'mastered', 'known'].includes(look);
+            const stepsDone = ['passed', 'resting'].includes(look) ? l.steps.length : look === 'open' ? Math.min(st.step, l.steps.length) : 0;
+            const side = n++ % 2 ? 'right' : 'left';
+            return (
+              <li key={l.id} className={side}>
+                <button
+                  className={['stone', look, isNext && 'nextstone', back && 'back'].filter(Boolean).join(' ')} type="button" data-lesson={l.id} data-status={look} data-next={isNext || undefined} data-back={back || undefined}
+                  data-steps={['open', 'passed', 'resting'].includes(look) ? `${stepsDone}/${l.steps.length}` : undefined}
+                  disabled={!canPlay && !locked} data-locked={locked || undefined} onClick={() => (locked ? point() : onLesson(l))}
+                >
+                  <span className="stonepic">
+                    <img src={stone} alt="" draggable={false} />
+                    <span className="mark">
+                      {look === 'mastered' ? <Paw /> : look === 'known' ? <Tick /> : locked ? <Padlock /> : look === 'coming' ? '' : (
+                        <span className="pips">{l.steps.map((_, i) => <i key={i} className={i < stepsDone ? 'on' : undefined} />)}</span>
+                      )}
+                    </span>
+                    {isNext && <Oreo key={pointing ? 'pointing' : 'standing'} pose={pointing ? 'pointing' : 'standing'} className="herepup" />}
+                  </span>
+                  <span className="cap">
+                    {back && <span className="backtag">A quick step back</span>}
+                    <strong>{l.title}</strong>
+                    <span className="d">{describe(look, l, data, isNext)}</span>
+                  </span>
+                </button>
+                {isNext && pointing > 0 && <p key={pointing} className="pointsay" role="status" data-testid="pointsay">{wording('first-finish-this-one')}</p>}
+                {look !== 'coming' && (
+                  <button className="whylink" type="button" data-why={l.id} aria-label={`For parents: why ${l.title} works`} onClick={() => onWhy(l)}>
+                    For parents: why this works
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+        <img className="bush" src={bush} alt="" draggable={false} />
+      </section>
+    );
+  };
   return (
     <div className="garden" data-testid="garden" ref={root}>
       <img className="fence" src={fence} alt="" draggable={false} />
-      {UNITS.map((u) => (
-        <section key={u.id} className="plot" data-unit={u.id}>
-          <h3 className="post">
-            <img src={signpost} alt="" draggable={false} />
-            <span>{u.stretch ? `Stretch: ${u.title}` : `Stage ${u.stage}: ${u.title}`}</span>
-          </h3>
-          <ol className="stones">
-            {u.lessons.map((l) => {
-              const status = statusOf(data.child, l, today), st = lessonState(data.child, l.id);
-              const look: Look = status === 'mastered' && st.placed ? 'known' : status;
-              const isNext = nextLesson?.id === l.id, locked = look === 'locked';
-              // Free play is for what she has passed at least once, never for what is still ahead.
-              const canPlay = open && ['passed', 'resting', 'mastered', 'known'].includes(look);
-              const stepsDone = ['passed', 'resting'].includes(look) ? l.steps.length : look === 'open' ? Math.min(st.step, l.steps.length) : 0;
-              const side = n++ % 2 ? 'right' : 'left';
-              return (
-                <li key={l.id} className={side}>
-                  <button
-                    className={['stone', look, isNext && 'nextstone'].filter(Boolean).join(' ')} type="button" data-lesson={l.id} data-status={look} data-next={isNext || undefined}
-                    data-steps={['open', 'passed', 'resting'].includes(look) ? `${stepsDone}/${l.steps.length}` : undefined}
-                    disabled={!canPlay && !locked} data-locked={locked || undefined} onClick={() => (locked ? point() : onLesson(l))}
-                  >
-                    <span className="stonepic">
-                      <img src={stone} alt="" draggable={false} />
-                      <span className="mark">
-                        {look === 'mastered' ? <Paw /> : look === 'known' ? <Tick /> : locked ? <Padlock /> : look === 'coming' ? '' : (
-                          <span className="pips">{l.steps.map((_, i) => <i key={i} className={i < stepsDone ? 'on' : undefined} />)}</span>
-                        )}
-                      </span>
-                      {isNext && <Oreo key={pointing ? 'pointing' : 'standing'} pose={pointing ? 'pointing' : 'standing'} className="herepup" />}
-                    </span>
-                    <span className="cap">
-                      <strong>{l.title}</strong>
-                      <span className="d">{describe(look, l, data, isNext)}</span>
-                    </span>
-                  </button>
-                  {isNext && pointing > 0 && <p key={pointing} className="pointsay" role="status" data-testid="pointsay">{wording('first-finish-this-one')}</p>}
-                  {look !== 'coming' && (
-                    <button className="whylink" type="button" data-why={l.id} aria-label={`For parents: why ${l.title} works`} onClick={() => onWhy(l)}>
-                      For parents: why this works
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-          <img className="bush" src={bush} alt="" draggable={false} />
-        </section>
-      ))}
+      {below.length > 0 && (
+        <details className="year1" data-testid="year1">
+          <summary>Year 1: known</summary>
+          <p className="year1note">For parents: the Stage 1 lessons. They come back in the warm-ups, and any she turns out to lack become a quick step back on her path.</p>
+          {below.map(plot)}
+        </details>
+      )}
+      {onPath.map(plot)}
       <img className="kennel" src={kennel} alt="" draggable={false} />
     </div>
   );

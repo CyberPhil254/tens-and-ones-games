@@ -4,8 +4,8 @@
  * A round that is left before its end is never handed over: leaving counts for nothing.
  */
 import { addAttempt, type ProfileData } from '../data/profile';
-import { LESSON, LESSONS, playable, unitOf, type Activity, type Lesson } from './curriculum';
-import { answered, place, reviewed, roundFinished, waitsFor, type RoundOutcome } from './rules';
+import { LESSON, LESSONS, playable, type Activity, type Lesson } from './curriculum';
+import { answered, builtOn, place, reviewed, roundFinished, startInStage, waitsFor, type RoundOutcome } from './rules';
 import type { Day } from './state';
 import type { Part } from './today';
 
@@ -45,14 +45,18 @@ export function applyRound(data: ProfileData, kind: RoundKind, counts: boolean, 
     ({ state: child, outcome } = roundFinished(child, given[0]!.lesson, bones, today));
   }
   if (kind === 'check') {
-    // What she got right first time she already knows, and so does she what it is built on.
-    for (const g of given) {
-      if (!g.clean) continue;
-      // A unit of a stage below her own is known as a whole when its question is right: she is not sent
-      // back through its other lessons. In her own stage only that lesson is marked.
-      const unit = unitOf(g.lesson);
-      const whole = !unit.stretch && unit.stage < data.profile.stage;
-      for (const l of whole ? unit.lessons.filter(playable) : [LESSON.get(g.lesson)!]) child = placeWithNeeds(child, l.id, today);
+    if (data.profile.stage === 2) {
+      // She starts in Stage 2. A Stage 1 lesson is a gap only if she missed most of what was asked about it.
+      const asked = new Map<string, { n: number; missed: number }>();
+      for (const g of given) {
+        const a = asked.get(g.lesson) ?? { n: 0, missed: 0 };
+        asked.set(g.lesson, { n: a.n + 1, missed: a.missed + (g.clean ? 0 : 1) });
+      }
+      const gaps = [...asked].filter(([, a]) => a.n >= 2 && a.missed > a.n / 2).map(([id]) => id);
+      child = startInStage(child, 2, gaps, today);
+    } else {
+      // What she got right first time she already knows, and so does she what it is built on.
+      for (const g of given) if (g.clean) child = placeWithNeeds(child, g.lesson, today);
     }
   }
   const done: ProfileData = { ...out, child, bones: data.bones + (kind === 'check' ? 0 : bones), ...(kind === 'check' ? { checked: true } : {}) };
@@ -72,22 +76,39 @@ function placeWithNeeds(child: ProfileData['child'], lessonId: string, today: Da
 export const finishToday = (data: ProfileData, today: Day): ProfileData => ({ ...data, child: { ...data.child, doneOn: today } });
 export const doneToday = (data: ProfileData, today: Day): boolean => data.child.doneOn === today;
 
+/** How many questions the starting check asks about each lesson of the stage below. */
+export const CHECK_ASKS = 2;
+
 /**
- * The lessons the starting check asks about, one question each at the lesson's last step:
- * one lesson from every unit of the stage below, and the first lesson of every unit of her own stage.
- * About ten at most. A parent may skip the check; then she starts at the beginning.
+ * The questions of the starting check, each at its lesson's last step. A parent may skip the check.
+ * Stage 1: the first lesson of every unit, one question each; what she gets right is marked as known.
+ * Stage 2: she starts in Stage 2 whatever she answers. The check looks for gaps: two questions about each
+ * Stage 1 lesson that a Stage 2 lesson builds on, asked in two passes so that the same lesson never comes
+ * twice running. About two dozen questions, three to four minutes.
  */
 export function checkLessons(stage: 1 | 2, units: readonly { stage: 1 | 2; stretch?: true; probe?: string; lessons: Lesson[] }[]): Lesson[] {
+  if (stage === 2) {
+    const below = builtOn(2);
+    return Array.from({ length: CHECK_ASKS }, () => below).flat();
+  }
   const out: Lesson[] = [];
   for (const u of units) {
-    if (u.stretch) continue;
+    if (u.stretch || u.stage !== stage) continue;
     const ready = u.lessons.filter(playable);
-    if (!ready.length) continue;
-    // A unit below her stage is asked about through the lesson that shows it best; her own, through their first lessons.
-    if (u.stage < stage) out.push(ready.find((l) => l.id === u.probe) ?? ready[ready.length - 1]!);
-    else if (u.stage === stage) out.push(ready[0]!);
+    if (ready.length) out.push(ready[0]!);
   }
   return out.slice(0, 10);
+}
+
+/** A parent skipped the starting check: she starts in her stage, with nothing marked as a gap. */
+export const skipCheck = (data: ProfileData, today: Day): ProfileData => ({ ...data, child: startInStage(data.child, data.profile.stage, [], today), checked: true });
+
+/** A parent changes the stage: going up, the stage below becomes known, except what she is in the middle of. */
+export function withStage(data: ProfileData, stage: 1 | 2, today: Day): ProfileData {
+  if (stage === 2) return { ...data, child: data.checked ? startInStage(data.child, 2, [], today) : data.child, profile: { ...data.profile, stage } };
+  // Going down: nothing is a step back any more; the lessons of Stage 1 are her own stage again.
+  const lessons = Object.fromEntries(Object.entries(data.child.lessons).map(([id, { back: _b, ...l }]) => { void _b; return [id, l]; }));
+  return { ...data, child: { ...data.child, lessons }, profile: { ...data.profile, stage } };
 }
 
 /** The lesson a game level belongs to. Every level belongs to exactly one. */
