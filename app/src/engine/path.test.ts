@@ -10,7 +10,7 @@ import { seededRng } from '../maths/random';
 import { applyRound, doneToday, finishToday, type Given } from './apply';
 import { CONFIG } from './config';
 import { LESSON, LESSONS, UNITS } from './curriculum';
-import { TREASURE_AT, TRICK_AT, TRICKS, WELCOME, awardsWon, badgesWon, earnedKey, give, nextEarned, paws, stageDone, stepsPassed, treasureSlot, tricksKnown, unitDone } from './rewards';
+import { TREASURE_AT, TRICK_AT, TRICKS, WELCOME, awardsWon, badgesWon, earnedKey, give, nextEarned, owedNext, paws, stageDone, stepsPassed, treasureSlot, tricksKnown, unitDone } from './rewards';
 import { statusOf, waitsFor } from './rules';
 import { addDays, lessonState, type Day } from './state';
 import { choiceToday, nextPart, type Part } from './today';
@@ -31,6 +31,8 @@ interface Log {
   twoOpen: number;
   /** Every reward, with the day it came on (counted from 0) and the how-manieth day of play that was (counted from 1). */
   rewardOn: { what: string; day: number; play: number }[];
+  /** The most rewards handed over on one day. */
+  mostOnADay: number;
   stepDays: number[];
   sDays: number[];
   /** Days on which she played. */
@@ -55,18 +57,21 @@ function play(p: number, seed: number, harderBy = 0): Log {
   // Which treasure she picks has its own dice, so that the same child gives the same answers whatever the rewards are.
   const pick = seededRng(seed + 1000);
   let data = newProfile('child-sim', 'Sim', 'owl', 2, D0);
-  const log: Log = { data, masteredOn: {}, passedOn: {}, locked: [], mostOpen: 0, twoOpen: 0, emptyDays: 0, ups: 0, skips: 0, downs: 0, reopened: 0, mostRounds: 0, reviewGaps: [], firstReview: [], rewards: [], rewardOn: [], stepDays: [], sDays: [], daysPlayed: 0, days: DAYS };
+  const log: Log = { data, masteredOn: {}, passedOn: {}, locked: [], mostOpen: 0, twoOpen: 0, emptyDays: 0, ups: 0, skips: 0, downs: 0, reopened: 0, mostRounds: 0, reviewGaps: [], firstReview: [], rewards: [], rewardOn: [], mostOnADay: 0, stepDays: [], sDays: [], daysPlayed: 0, days: DAYS };
   const answer = (lesson: string, step: number, day: Day, i: number): Given => {
     const clean = rng() < Math.max(0.05, p - harderBy * step);
     return { lesson, step, clean, misses: clean ? 0 : 1, hint: false, ms: 4000, at: `${day}T15:00:${String(i).padStart(2, '0')}.000Z` };
   };
-  /** Rewards she has earned are given straight away, as the app does after a round and at the end of today's games. */
-  const collect = (d: number) => {
-    for (let e = nextEarned(data); e; e = nextEarned(data)) {
+  /** A reward is handed over when today's games are finished, one a day, as the app does. */
+  const collect = (d: number, today: Day) => {
+    let n = 0;
+    for (let e = nextEarned(data, today); e; e = nextEarned(data, today)) {
       log.rewards.push(earnedKey(e));
       log.rewardOn.push({ what: earnedKey(e), day: d, play: log.daysPlayed + 1 });
-      data = give(data, e, e.kind === 'treasure' ? e.options[pick() < 0.5 ? 0 : 1] : undefined);
+      data = give(data, e, today, e.kind === 'treasure' ? e.options[pick() < 0.5 ? 0 : 1] : undefined);
+      n++;
     }
+    log.mostOnADay = Math.max(log.mostOnADay, n);
   };
   for (let d = 0; d < DAYS; d++) {
     const today = addDays(D0, d);
@@ -113,14 +118,14 @@ function play(p: number, seed: number, harderBy = 0): Log {
       log.mostOpen = Math.max(log.mostOpen, openNow);
       if (openNow === 2) log.twoOpen++;
       done.push(part.kind);
-      // Rewards she has earned are given straight away, as the app does after the round.
       while (log.sDays.length < stepsPassed(data)) log.sDays.push(d + 1);
-      collect(d);
+      // Nothing is handed over in the middle of today's games.
+      expect(nextEarned(data, today)).toBeNull();
       if (done.length > 12) throw new Error(`day ${d} never ends`);
     }
     if (done.length) {
       data = finishToday(data, today);
-      collect(d); // the welcome treasure comes with the first day finished
+      collect(d, today);
       log.daysPlayed++;
     }
     else if (LESSONS.some((l) => !lessonState(data.child, l.id).mastered)) log.emptyDays++;
@@ -131,16 +136,21 @@ function play(p: number, seed: number, harderBy = 0): Log {
   return log;
 }
 
-/** The day of play (counted from 1) on which she got her first reward of a kind. */
-const first = (l: Log, kind: string) => l.rewardOn.find((r) => r.what.startsWith(kind))?.play;
-/** The days of play between one reward and the next, up to the day she mastered her last lesson. */
-const gaps = (l: Log) => {
-  const end = Math.max(...Object.values(l.masteredOn)) + 1;
-  const days = l.rewardOn.map((r) => r.play).filter((p) => p <= end);
+/** The last day of play on which she mastered something new. */
+const lastNew = (l: Log) => Math.max(...Object.values(l.masteredOn)) + 1;
+/** The days of play between one reward and the next, up to the day she mastered her last lesson. `kind` narrows it to one kind of reward. */
+const gaps = (l: Log, kind = '') => {
+  const days = l.rewardOn.filter((r) => r.what.startsWith(kind)).map((r) => r.play).filter((p) => p <= lastNew(l));
   return days.map((p, i) => p - (days[i - 1] ?? 0));
 };
+const mean = (a: number[]) => Math.round((a.reduce((x, y) => x + y, 0) / Math.max(1, a.length)) * 10) / 10;
+/** How the rewards came for one child: the numbers docs/status.md reports. The first six treasures after the welcome treasure are "early". */
+const pace = (l: Log) => {
+  const t = gaps(l, 'treasure').slice(1), k = gaps(l, 'trick'), g = gaps(l);
+  return { rewards: g.length, early: mean(t.slice(0, 6)), later: mean(t.slice(6)), tricks: k.length, trickEvery: mean(k), longest: Math.max(...g), mostOnADay: l.mostOnADay };
+};
 /** The child who is right three times in four, with this schedule. */
-const REPORT = { firstTreasure: 1, firstTrick: 4, rewards: 73, longest: 6, over5: 2 };
+const REPORT = { rewards: 42, early: 4, later: 7.2, tricks: 6, trickEvery: 20.7, longest: 9, mostOnADay: 1 };
 const count = (l: Log) => LESSONS.filter((x) => lessonState(l.data.child, x.id).mastered).length;
 const always = play(1, 11);
 const mostly = play(0.75, 12);
@@ -227,7 +237,7 @@ describe('the whole path: review', () => {
 
 describe('the whole path: rewards and the record', () => {
   it('always right: every treasure, all six tricks, a badge for every unit, an award for both stages and the stretch lessons', () => {
-    expect(Object.keys(always.data.rewards.treasures).sort()).toEqual([WELCOME, ...TREASURE_AT.map(treasureSlot)].sort());
+    expect(Object.keys(always.data.rewards.treasures).sort()).toEqual([WELCOME, ...TREASURE_AT.map((_, i) => treasureSlot(i + 1))].sort());
     expect(UNITS.every((u) => unitDone(always.data, u))).toBe(true);
     expect(tricksKnown(always.data)).toEqual([...TRICKS]);
     expect(badgesWon(always.data)).toEqual(UNITS.map((u) => u.id));
@@ -236,33 +246,44 @@ describe('the whole path: rewards and the record', () => {
   });
   it.each(Object.entries(all))('%s: each reward once, none before it is earned, and nothing left owed', (_n, l) => {
     expect(new Set(l.rewards).size).toBe(l.rewards.length);
-    expect(nextEarned(l.data)).toBeNull();
+    expect(owedNext(l.data)).toBeNull();
     // Treasures never run ahead of her paws, tricks never ahead of the lessons she has mastered.
     const got = (prefix: string) => l.rewards.filter((r) => r.startsWith(prefix) && r !== `treasure ${WELCOME}`).length;
     // (A step given back after a hard round, or a lesson reopened by review, lowers her paws; a treasure once given stays.)
-    expect(got('treasure w')).toBeGreaterThanOrEqual(TREASURE_AT.filter((at) => at <= paws(l.data)).length);
-    expect(got('treasure w')).toBeLessThanOrEqual(TREASURE_AT.filter((at) => at <= l.sDays.length + Object.keys(l.masteredOn).length).length);
+    expect(got('treasure')).toBeGreaterThanOrEqual(TREASURE_AT.filter((at) => at <= paws(l.data)).length);
+    expect(got('treasure')).toBeLessThanOrEqual(TREASURE_AT.filter((at) => at <= l.sDays.length + Object.keys(l.masteredOn).length).length);
     expect(got('trick')).toBeLessThanOrEqual(TRICK_AT.filter((at) => at <= Object.keys(l.masteredOn).length).length);
     expect(got('badge')).toBe(UNITS.filter((u) => u.lessons.every((x) => l.masteredOn[x.id] !== undefined)).length);
     // Rewards come in the order they are earned: the day never goes back.
     expect(l.rewardOn.map((r) => r.play)).toEqual([...l.rewardOn.map((r) => r.play)].sort((x, y) => x - y));
   });
-  it('rewards come early: every child has a treasure on her first day of play, and the first trick within days', () => {
-    for (const l of Object.values(all)) expect(first(l, 'treasure')).toBe(1);
-    expect(first(always, 'trick')).toBeLessThanOrEqual(4);
-    expect(first(mostly, 'trick')).toBeLessThanOrEqual(7);
-    expect(first(fading, 'trick')).toBeLessThanOrEqual(10);
+  it.each(Object.entries(all))('%s: never more than one reward on one day, and the welcome treasure on her first day', (_n, l) => {
+    expect(l.mostOnADay).toBe(1);
+    expect(new Set(l.rewardOn.map((r) => r.day)).size).toBe(l.rewardOn.length);
+    expect(l.rewardOn[0]).toMatchObject({ what: `treasure ${WELCOME}`, play: 1 });
   });
-  it('and often: for the child who is right three times in four, how long she waits between two rewards', () => {
-    const g = gaps(mostly);
-    // Written down so that a change to the engine or the schedule shows here. See docs/status.md for what it means.
-    expect({ firstTreasure: first(mostly, 'treasure'), firstTrick: first(mostly, 'trick'), rewards: g.length, longest: Math.max(...g), over5: g.filter((x) => x > 5).length }).toEqual(REPORT);
-    // With treasures counted in lessons, as first planned, she waited longer than twice as long at some point.
-    expect(Math.max(...g)).toBeLessThanOrEqual(10);
-    // The longest wait is a stretch in which she passed nothing new: no step, no lesson.
-    const worst = g.indexOf(Math.max(...g)), to = mostly.rewardOn[worst]!.play, from = mostly.rewardOn[worst - 1]?.play ?? 0;
+  it('the pace, for the child who is right three times in four: a treasure every 4 to 6 days of play at first, every 7 to 10 later, a trick about every three weeks, never more than 10 days without a reward', () => {
+    const p = pace(mostly);
+    // Written down so that a change to the engine or the schedule shows here. See docs/status.md for all four children.
+    expect(p).toEqual(REPORT);
+    expect(p.early).toBeGreaterThanOrEqual(4);
+    expect(p.early).toBeLessThanOrEqual(6);
+    expect(p.later).toBeGreaterThanOrEqual(7);
+    expect(p.later).toBeLessThanOrEqual(10);
+    expect(p.trickEvery).toBeGreaterThanOrEqual(17);
+    expect(p.trickEvery).toBeLessThanOrEqual(25);
+    expect(p.longest).toBeLessThanOrEqual(10);
+    // Her longest wait is a stretch in which she passed little that was new: fewer paws than a treasure takes.
+    const g = gaps(mostly), worst = g.indexOf(p.longest), to = mostly.rewardOn[worst]!.play, from = mostly.rewardOn[worst - 1]?.play ?? 0;
     const achieved = [...mostly.sDays, ...Object.values(mostly.masteredOn).map((d) => d + 1)].filter((d) => d > from && d < to).length;
-    expect(achieved).toBeLessThan(3); // fewer than the three paws a treasure takes
+    expect(achieved).toBeLessThanOrEqual(8);
+  });
+  it('reports the pace of every simulated child (for docs/status.md)', () => {
+    const line = (name: string, l: Log) => {
+      const p = pace(l);
+      return `${name}: ${p.rewards} rewards in ${lastNew(l)} days of play; after the welcome treasure a treasure every ${p.early} days at first and every ${p.later} later; ${p.tricks} tricks, one every ${p.trickEvery} days; longest wait ${p.longest} days; most on one day ${p.mostOnADay}`;
+    };
+    console.info([line('always right', always), line('about 75 percent', mostly), line('about 60 percent', often), line('85 percent, 7 points less per step', fading)].join('\n'));
   });
   it.each(Object.entries(all))('%s: bones are the answers right first time, and nothing else', (_n, l) => {
     expect(l.data.bones).toBeGreaterThan(0);

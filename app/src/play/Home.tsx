@@ -120,7 +120,7 @@ export function Home({ data, settings, today, shared, onSettings, onToday, onLes
       <p className="h2note" data-testid="free-note">{done ? 'Tap a stone you have passed to play it again.' : 'Free play opens when today’s games are done.'}</p>
       <Garden data={data} today={today} open={done} soundOff={settings.soundOff} onLesson={onLesson} onWhy={onWhy} />
 
-      <Things data={data} soundOff={settings.soundOff} />
+      <Things data={data} soundOff={settings.soundOff} today={today} />
 
       <h2>Play together</h2>
       <ol className="stations">

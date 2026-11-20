@@ -153,7 +153,7 @@ test('hello at the start of a session: she rocks once when the app opens, and no
 });
 
 test('the reward screen: her tail wags for a treasure and for an award', async ({ page }) => {
-  await seed(page, { lessons: { 's1-see': mastered() }, rewards: {} });
+  await seed(page, { lessons: { 's1-see': mastered() }, rewards: {}, doneOn: day() });
   await page.goto('/');
   const reward = page.getByTestId('reward');
   await expect(reward).toHaveAttribute('data-reward', 'treasure');
@@ -178,7 +178,7 @@ test('with reduced motion Oreo is the still picture everywhere: answer, end of r
   }
   await expect(page.getByTestId('end').locator('.oreoanim')).toHaveAttribute('data-anim-state', 'still');
   await none();
-  await seed(page, { lessons: { 's1-see': mastered() }, rewards: {}, doneOn: day(-1) });
+  await seed(page, { lessons: { 's1-see': mastered() }, rewards: {}, doneOn: day() });
   await page.goto('/');
   await expect(page.getByTestId('reward').locator('.oreoanim')).toHaveAttribute('data-anim-state', 'still');
   await none();

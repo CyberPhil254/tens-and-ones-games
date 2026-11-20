@@ -171,17 +171,17 @@ export function App() {
   };
   const startToday = () => goOn(child, { done: [], asked: false });
 
-  // A reward she has earned and not yet been given comes before anything else, except a round in play.
-  const owed = screen.at === 'play' ? null : nextEarned(child);
+  // A reward comes when today's games are finished, one a day. It comes before anything else, except a round in play.
+  const owed = screen.at === 'play' ? null : nextEarned(child, day);
   if (owed) {
     return (
       <main>
         <Reward
           key={earnedKey(owed)} earned={owed} soundOff={data.settings.soundOff}
           onDone={(pick) => {
-            const d = give(child, owed, pick);
+            const d = give(child, owed, day, pick);
             data.save(d);
-            if (!nextEarned(d) && screen.at === 'reward') goOn(d, screen.today);
+            if (screen.at === 'reward') goOn(d, screen.today);
           }}
         />
       </main>
@@ -223,7 +223,7 @@ export function App() {
           onNext={() => {
             if (!screen.today) return home();
             const t = after(screen.today, screen.round.kind);
-            if (nextEarned(child)) setScreen({ at: 'reward', today: t });
+            if (nextEarned(child, day)) setScreen({ at: 'reward', today: t });
             else goOn(child, t);
           }}
           onAgain={() => setScreen({ ...screen, run })}

@@ -194,7 +194,7 @@ test('when the path gets there the step back is the next stone, at the step that
 test('an existing Stage 2 profile that one wrong answer had sent back to Stage 1 is placed again, and keeps what she earned by playing', async ({ page }) => {
   // As the earlier check left her: started at the first Stage 1 stone, has since mastered "Count to 20" by playing and
   // is half way through "See how many". She has bones and treasures.
-  await seed(page, { stage: 2, soundOff: true, bones: 34, lessons: { 's1-count': mastered(), 's1-see': { step: 1, rating: 1, answers: 12, passedOn: [] } } });
+  await seed(page, { stage: 2, soundOff: true, bones: 34, doneOn: day(-1), lessons: { 's1-count': mastered(), 's1-see': { step: 1, rating: 1, answers: 12, passedOn: [] } } });
   await page.goto('/');
   const before = await saved(page);
   await expect(page.getByTestId('store')).toHaveAttribute('aria-label', '34 bones');

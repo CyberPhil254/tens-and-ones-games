@@ -16,7 +16,7 @@ function played() {
   let child = place(d.child, 's1-see', TODAY);
   child = withLesson(child, 's1-ten', { ...lessonState(child, 's1-ten'), step: 2 });
   child = roundFinished(child, 's1-ten', 6, TODAY).state;
-  d = { ...d, child: { ...child, doneOn: TODAY }, bones: 37, best: 41, checked: true, rewards: { treasures: { w1: 'ball' }, tricks: {}, awards: {} } };
+  d = { ...d, child: { ...child, doneOn: TODAY }, bones: 37, best: 41, checked: true, rewards: { treasures: { t1: 'ball' }, tricks: {}, awards: {} } };
   return addAttempt(d, attempt);
 }
 

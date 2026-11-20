@@ -16,8 +16,9 @@ import withKennel from '../art/rewards/with-kennel.webp';
 import withRope from '../art/rewards/with-rope-toy.webp';
 import badge from '../art/rewards/award-paw-badge.webp';
 import type { ProfileData } from '../data/profile';
+import type { Day } from '../engine/state';
 import { UNITS } from '../engine/curriculum';
-import { AWARDS, TREASURES as KINDS, TRICKS, WELCOME, awardsWon, badgesWon, goals, lessonsMastered, stageDone, treasuresHad, tricksKnown, unitDone, type Award, type Earned, type Goal, type StageKey, type Treasure, type Trick } from '../engine/rewards';
+import { AWARDS, TREASURES as KINDS, TRICKS, WELCOME, awardsWon, badgesWon, goals, lessonsMastered, stageToWin, treasuresHad, tricksKnown, unitToWin, type Award, type Earned, type Goal, type StageKey, type Treasure, type Trick } from '../engine/rewards';
 import { opens } from '../engine/rules';
 import { unitOf } from '../engine/curriculum';
 import { Paw } from '../ui/Oreo';
@@ -41,8 +42,10 @@ const more = (n: number, one: string, many: string) => `${n} more ${n === 1 ? on
 /** One plain line: what earns the thing she is working towards. */
 export function goalLine(g: Goal): string {
   if (g.kind === 'welcome') return 'Finish today’s games and Oreo gets a treasure.';
-  if (g.kind === 'treasure') return `${more(g.more, 'paw', 'paws')} and Oreo gets a treasure.`;
-  return `Master ${more(g.more, 'lesson', 'lessons')} and Oreo learns to ${TRICK_DOES[g.trick!]}.`;
+  // Earned already: it comes when today's games are done, or, if she had a reward today, with tomorrow's.
+  const when = g.waits === 'next' ? 'Finish tomorrow’s games' : 'Finish today’s games';
+  if (g.kind === 'treasure') return g.waits ? `${when} and Oreo gets a treasure.` : `${more(g.more, 'paw', 'paws')} and Oreo gets a treasure.`;
+  return g.waits ? `${when} and Oreo learns to ${TRICK_DOES[g.trick!]}.` : `Master ${more(g.more, 'lesson', 'lessons')} and Oreo learns to ${TRICK_DOES[g.trick!]}.`;
 }
 
 /**
@@ -140,7 +143,7 @@ export function PawRow({ goal, fresh = 0 }: { goal: Goal; fresh?: number }) {
  * have yet is a grey shape, and each row has one plain line saying what earns the next one. Tapping
  * a trick Oreo knows shows it: she says what it is called and does it once.
  */
-export function Things({ data, soundOff }: { data: ProfileData; soundOff: boolean }) {
+export function Things({ data, soundOff, today }: { data: ProfileData; soundOff: boolean; today: Day }) {
   // `n` counts taps, so that tapping the same trick again does it again.
   const [show, setShow] = useState<{ trick: Trick; n: number } | null>(null);
   useEffect(() => () => voice.stop(), []);
@@ -149,13 +152,14 @@ export function Things({ data, soundOff }: { data: ProfileData; soundOff: boolea
     if (!soundOff) speak([TRICK_SAYS[t]]);
   };
   const had = treasuresHad(data), known = tricksKnown(data), badges = badgesWon(data), awards = awardsWon(data);
-  const all = goals(data);
+  const all = goals(data, today);
   const treasureGoal = all.find((g) => g.kind === 'welcome') ?? all.find((g) => g.kind === 'treasure');
   const trickGoal = all.find((g) => g.kind === 'trick');
   // The badge she is working towards: the part of the garden her next stone is in, or the first one not yet won.
   const next = opens(data.child);
-  const nextUnit = (next && !unitDone(data, unitOf(next.id)) ? unitOf(next.id) : undefined) ?? UNITS.find((u) => !unitDone(data, u));
-  const nextStage = (Object.keys(AWARDS) as StageKey[]).find((k) => !stageDone(data, k));
+  // A part she knew entirely before she came earns no badge, so it is never the one she is working towards.
+  const nextUnit = (next && unitToWin(data, unitOf(next.id)) ? unitOf(next.id) : undefined) ?? UNITS.find((u) => unitToWin(data, u));
+  const nextStage = (Object.keys(AWARDS) as StageKey[]).find((k) => stageToWin(data, k));
   return (
     <div className="things" data-testid="things">
       <h2>Oreo’s things</h2>

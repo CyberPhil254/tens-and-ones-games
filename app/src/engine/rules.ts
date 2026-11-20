@@ -97,17 +97,19 @@ export function reviewed(s: ChildState, lessonId: string, a: Answer, today: Day)
     if (misses >= CONFIG.reopenAfter) {
       // Reopened: back on the path at its last step, one good day from mastered, as in the live game.
       const lesson = LESSON.get(lessonId)!;
-      const { mastered: _m, placed: _p, due: _d, ...rest } = l;
-      void _m; void _p; void _d;
-      return withLesson(s, lessonId, { ...rest, step: lesson.steps.length - 1, passedOn: l.passedOn.slice(-1).filter((d) => d !== today), reviews: 0, reviewMisses: 0, recent: [] });
+      const { mastered: _m, placed: _p, known: _k, due: _d, ...rest } = l;
+      void _m; void _p; void _k; void _d;
+      // A lesson she never played here starts at its last step: the steps below it count for nothing.
+      const from = l.placed || l.known ? { from: lesson.steps.length - 1 } : {};
+      return withLesson(s, lessonId, { ...rest, ...from, step: lesson.steps.length - 1, passedOn: l.passedOn.slice(-1).filter((d) => d !== today), reviews: 0, reviewMisses: 0, recent: [] });
     }
     return withLesson(s, lessonId, { ...l, reviewMisses: misses, reviews: Math.max(0, l.reviews - 1), due: addDays(today, 1), reviewedOn: today });
   }
   // Right. The schedule moves at most once a day, and only when the review was due.
   if (l.reviewedOn === today || (l.due !== undefined && l.due > today)) return withLesson(s, lessonId, { ...l, reviewMisses: 0 });
-  // A lesson the starting check marked as known is confirmed here: from now on she has shown it by playing.
-  const { placed: _placed, ...shown } = l;
-  void _placed;
+  // A lesson the starting check marked as known is confirmed here: known for sure, and still not learnt here.
+  const { placed: _placed, ...rest } = l;
+  const shown: LessonState = _placed ? { ...rest, known: true } : rest;
   const shaky = a.ms > CONFIG.slowMs;
   const reviews = shaky ? l.reviews : l.reviews + 1;
   const wait = CONFIG.reviewDays[Math.min(reviews, CONFIG.reviewDays.length - 1)]!;
