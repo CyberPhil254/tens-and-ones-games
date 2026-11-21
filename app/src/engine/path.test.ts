@@ -150,7 +150,7 @@ const pace = (l: Log) => {
   return { rewards: g.length, early: mean(t.slice(0, 6)), later: mean(t.slice(6)), tricks: k.length, trickEvery: mean(k), longest: Math.max(...g), mostOnADay: l.mostOnADay };
 };
 /** The child who is right three times in four, with this schedule. */
-const REPORT = { rewards: 42, early: 4, later: 7.2, tricks: 6, trickEvery: 20.7, longest: 9, mostOnADay: 1 };
+const REPORT = { rewards: 42, early: 4, later: 7.3, tricks: 6, trickEvery: 21.3, longest: 10, mostOnADay: 1 };
 const count = (l: Log) => LESSONS.filter((x) => lessonState(l.data.child, x.id).mastered).length;
 const always = play(1, 11);
 const mostly = play(0.75, 12);
@@ -253,7 +253,9 @@ describe('the whole path: rewards and the record', () => {
     expect(got('treasure')).toBeGreaterThanOrEqual(TREASURE_AT.filter((at) => at <= paws(l.data)).length);
     expect(got('treasure')).toBeLessThanOrEqual(TREASURE_AT.filter((at) => at <= l.sDays.length + Object.keys(l.masteredOn).length).length);
     expect(got('trick')).toBeLessThanOrEqual(TRICK_AT.filter((at) => at <= Object.keys(l.masteredOn).length).length);
-    expect(got('badge')).toBe(UNITS.filter((u) => u.lessons.every((x) => l.masteredOn[x.id] !== undefined)).length);
+    // A badge needs every lesson of the unit mastered at the same time: a lesson review reopened in between holds it back.
+    expect(got('badge')).toBeLessThanOrEqual(UNITS.filter((u) => u.lessons.every((x) => l.masteredOn[x.id] !== undefined)).length);
+    expect(got('badge')).toBeGreaterThanOrEqual(UNITS.filter((u) => unitDone(l.data, u)).length);
     // Rewards come in the order they are earned: the day never goes back.
     expect(l.rewardOn.map((r) => r.play)).toEqual([...l.rewardOn.map((r) => r.play)].sort((x, y) => x - y));
   });

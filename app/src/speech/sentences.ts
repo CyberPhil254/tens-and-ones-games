@@ -109,6 +109,15 @@ export const FIXED = {
   'both-rows-are-the-same-count': "Both rows are the same. Count one row, then count on.",
   'go-down-to-ten-first-then': "Go down to ten first. Then take away the rest.",
   'first-down-to-ten-then-take': "First down to ten, then take away the rest.",
+  // Taking away through ten, step by step.
+  'first-take-away-the-ones-tap': "First take away the ones. Tap the blue ones.",
+  'how-many-more-do-you-still': "How many more do you still have to take away?",
+  'look-at-the-row-of-dots': "Look at the row of dots. The ticked ones are taken. Count the ones still to take.",
+  'now-take-the-rest-from-the': "Now take the rest from the ten.",
+  // Friends of 20, step by step.
+  'look-at-the-blue-ones-count': "Look at the blue ones. Count the empty places up to ten.",
+  'count-the-yellow-ones-that-is': "Count the yellow ones. That is how many you added.",
+  'the-ones-first': "Look at the ones first.",
   // Tens and ones sums.
   'add-the-tens-to-the-tens': "Add the tens to the tens. Add the ones to the ones.",
   'tens-with-tens-and-ones-with': "Tens with tens, and ones with ones.",

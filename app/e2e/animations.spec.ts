@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { day, fitsTheScreen, mastered, seed, watch } from './helpers';
 
-const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 3, teens: 3, regroup: 2, hear: 3, dots: 2, more: 8, skip: 9, groups: 5, share: 3, parts: 7, money: 5, count: 7, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
+const LEVELS: Record<string, number> = { sums: 12, plus: 3, bonds: 4, teens: 3, regroup: 2, hear: 3, dots: 2, more: 8, skip: 9, groups: 5, share: 3, parts: 7, money: 5, count: 7, five: 3, pack: 3, look: 3, names: 3, walk: 3, friends: 3, jump: 4, fill: 4, take: 4, mystery: 3, story: 3 };
 
 /**
  * Everything that is moving on any picture of Oreo, by whatever means: her own animations (the Web

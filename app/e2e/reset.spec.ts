@@ -77,7 +77,7 @@ test('Start again: a child who did the starting check and part of today’s game
   // What is saved is a new profile: the same child, nothing else.
   const after = Object.values(await profiles(page));
   expect(after).toHaveLength(1);
-  expect(after[0]).toEqual({ profile: before.profile, child: { lessons: {} }, bones: 0, best: 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: false });
+  expect(after[0]).toEqual({ profile: before.profile, child: { lessons: {} }, bones: 0, best: 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: false, shape: 2 });
   await page.getByTestId('startcheck').getByRole('button', { name: /skip/ }).click();
   await expectFresh(page, 'Amani');
   await expect(page.getByTestId('today-text')).toHaveText('Two rounds of Count to 20. About ten minutes.');

@@ -4,7 +4,7 @@
  *   Adding        1 see, 2 count on, 3 in her head
  *   Taking away   4 see, 5 the difference, 6 in her head
  *   Doubles       7 see, 8 in her head
- *   Sums to 20    9 add through ten, 10 take away through ten, 11 in her head, 12 a story
+ *   Sums to 20    9 add through ten, 10 take away through ten step by step, 11 in her head, 12 a story
  * The question says everything the screen needs: the numbers, the answer, and what is spoken.
  */
 import { SP, type Piece } from '../speech/script';
@@ -22,6 +22,8 @@ export interface SumsQ {
   via?: { first: number; rest: number };
   /** Four choices; missing when the answer is typed on the number pad. */
   opts?: number[];
+  /** Taking away through ten, step by step: the choices for "how many more to take away?" (the answer is `via.rest`). */
+  restOpts?: number[];
   /** A story, for the last level. */
   story?: string;
   /** The number sentence with its answer, as shown once she is right: "8 + 5 = 13". */
@@ -121,7 +123,11 @@ export function makeSums(level: number, d: Dice): SumsQ {
     case 7: return double(d, d.rnd(1, 10), false);
     case 8: return double(d, d.rnd(1, 10), true);
     case 9: { const [a, b] = throughAdd(d); return add(d, a, b, false); }
-    case 10: { const [a, b] = throughSub(d); return sub(d, a, b, false); }
+    case 10: {
+      // Step by step: the ones first, then the rest from the ten. Two small questions lead to the answer.
+      const [a, b] = throughSub(d), q = sub(d, a, b, false), rest = q.via!.rest;
+      return { ...q, restOpts: choices(d, rest, [b, a - 10, rest + 1, rest - 1, 10 - rest].filter((c) => c >= 1 && c <= 9)) };
+    }
     case 11: {
       // In her head, everything to 20: through ten, and the easier ones that stay on one side of it.
       const r = d.rnd(0, 5);

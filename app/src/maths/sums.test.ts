@@ -73,6 +73,24 @@ describe('Sums to 20: every question the maker can make', () => {
     }
   });
 
+  it('level 10, step by step: "how many more to take away?" has one right answer, the rest after the ones', () => {
+    for (const q of many(10)) {
+      const { first, rest } = q.via!;
+      expect(first).toBe(q.a - 10);
+      expect(10 - rest).toBe(q.ans);
+      expect(q.restOpts).toHaveLength(4);
+      expect(new Set(q.restOpts).size).toBe(4);
+      expect(q.restOpts!.filter((c) => c === rest)).toHaveLength(1);
+      expect([...q.restOpts!].sort((x, y) => x - y)).toEqual(q.restOpts);
+      for (const c of q.restOpts!) expect(c >= 0 && c <= 20).toBe(true);
+      // What the three steps say has a clip.
+      clipIds([q.a, 'frag.take-away', q.b, 'first-take-away-the-ones-tap']);
+      clipIds([q.a, 'frag.take-away', first, 'frag.is', 10, 'how-many-more-do-you-still', 'look-at-the-row-of-dots']);
+      clipIds(['now-take-the-rest-from-the', 10, 'frag.take-away', rest, 'how-many-are-left']);
+    }
+    for (const l of [4, 6, 9, 11, 12]) expect(many(l, 100).every((q) => !q.restOpts)).toBe(true);
+  });
+
   it('in her head: adding and taking away, through ten and not, all turn up', () => {
     const qs = many(11);
     for (const kind of ['add', 'sub'] as const) {

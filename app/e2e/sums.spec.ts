@@ -211,22 +211,82 @@ test.describe('Sums to 20', () => {
     expect(errors).toEqual([]);
   });
 
-  test('step 1: taking away through ten crosses out down to ten, then the rest', async ({ page }) => {
+  test('step 2: taking away through ten, step by step in the blocks: the ones, how many more, the rest from the ten', async ({ page }) => {
     const errors = watch(page);
     await openGame(page, 'sums', 10);
+    await expect(page.getByTestId('title')).toHaveText('Sums to 20');
     const s = await sum(page);
     expect(through(s)).toBe(true);
-    const frames = page.locator('.frames');
-    // Everything in the second frame is gone, and some of the first.
-    await expect(frames.locator('.frame').nth(1).locator('.dot:not(.gone)')).toHaveCount(0);
-    await expect(frames.locator('.frame').first().locator('.dot.gone')).toHaveCount(10 - s.ans);
+    const first = s.a - 10, rest = s.b - first;
+    const pic = page.getByTestId('downten'), blocks = pic.locator('.blocks'), dots = pic.locator('.totake .tk i');
+    // A red ten and the blue ones; a dot for each one to take away, none taken yet; nothing to answer yet.
+    await expect(blocks.locator('.rod')).toHaveCount(1);
+    await expect(blocks.locator('.cube')).toHaveCount(first);
+    await expect(dots).toHaveCount(s.b);
+    await expect(pic.locator('.totake .tk i.took')).toHaveCount(0);
+    await expect(page.getByTestId('stepsub')).toHaveText('First take away the ones. Tap the blue ones.');
+    await expect(page.locator('.choice')).toHaveCount(0);
+    await expect(pic.getByTestId('steplines').locator('li')).toHaveCount(0);
+
+    // 1. She taps the blue ones: all of them go at once, crossed out, and the first little sum stands under the blocks.
+    await blocks.locator('.ones').click();
+    await expect(pic).toHaveAttribute('data-step', '1');
+    await expect(blocks.locator('.cube.gone')).toHaveCount(first);
+    await expect(pic.locator('.totake .tk i.took')).toHaveCount(first);
+    await expect(pic.getByTestId('steplines').locator('li')).toHaveText([`${s.a} − ${first} = 10`]);
+    await expect(page.getByTestId('stepsub')).toHaveText('How many more do you still have to take away?');
+    await fitsTheScreen(page);
+
+    // 2. How many more? A miss points at the row of dots; the right one breaks the ten into ten ones.
+    await wrongChoice(page, rest).click();
+    await expect(feedback(page)).toHaveText(`You took away ${first} of the ${s.b}. Look at the row of dots. Count the ones still to take.`);
+    await choice(page, rest).click();
+    await expect(pic).toHaveAttribute('data-step', '2');
+    await expect(blocks.locator('.rod')).toHaveCount(0);
+    await expect(blocks.locator('.cube')).toHaveCount(10);
+    await expect(blocks.locator('.cube.gone')).toHaveCount(0);
+    await expect(page.getByTestId('stepsub')).toHaveText(`Now take the rest from the ten. 10 − ${rest} = ?`);
+    await expect(feedback(page)).toHaveText('');
+
+    // 3. Ten take away the rest. A miss crosses the rest out; the right answer leaves both little sums on the screen.
     await wrongChoice(page, s.ans).click();
-    await expect(feedback(page)).toHaveText('Go down to ten first. Then take away the rest.');
-    await expect(frames).toHaveAttribute('data-gone', String(s.a - 10));
-    await expect(frames).toHaveAttribute('data-gone', String(s.b), { timeout: 8000 });
+    await expect(feedback(page)).toHaveText('The crossed-out ones are gone. Count the ones that are left.');
+    await expect(blocks.locator('.cube.gone')).toHaveCount(rest);
+    await expect(blocks.locator('.cube:not(.gone)')).toHaveCount(s.ans);
     await choice(page, s.ans).click();
-    await expect(feedback(page)).toHaveText(`Woof! First down to 10, then ${10 - s.ans} more. ${s.a} − ${s.b} = ${s.ans}.`);
+    await expect(feedback(page)).toHaveText(`Woof! ${s.a} − ${first} = 10. 10 − ${rest} = ${s.ans}. So ${s.a} − ${s.b} = ${s.ans}.`);
+    await expect(pic.getByTestId('steplines').locator('li')).toHaveText([`${s.a} − ${first} = 10`, `10 − ${rest} = ${s.ans}`]);
+    await expect(pic.locator('.totake .tk i.took')).toHaveCount(s.b);
+    await expect(paws(page)).toHaveCount(1); // two misses on the way: a paw, not a bone
+    await fitsTheScreen(page);
+
+    // The next one, without a miss, by the button under the picture: a bone.
+    await next(page);
+    const s2 = await sum(page), first2 = s2.a - 10;
+    await page.getByRole('button', { name: first2 === 1 ? 'Take away the one' : `Take away the ${first2} ones` }).click();
+    await choice(page, s2.b - first2).click();
+    await expect(pic).toHaveAttribute('data-step', '2');
+    await choice(page, s2.ans).click();
+    await expect(bones(page)).toHaveCount(1);
     expect(errors).toEqual([]);
+  });
+
+  test('in her head, taking away through ten: a miss replays it step by step in the blocks', async ({ page }) => {
+    await openGame(page, 'sums', 11);
+    for (let i = 0; i < 6; i++) {
+      const s = await sum(page);
+      if (s.op === '−' && through(s)) {
+        await type(page, s.ans === 9 ? 8 : s.ans + 1);
+        await expect(feedback(page)).toHaveText('Go down to ten first. Then take away the rest.');
+        const pic = page.getByTestId('downten');
+        await expect(pic).toHaveAttribute('data-step', '3', { timeout: 8000 });
+        await expect(pic.getByTestId('steplines').locator('li')).toHaveText([`${s.a} − ${s.a - 10} = 10`, `10 − ${s.b - (s.a - 10)} = ${s.ans}`]);
+        await expect(page.locator('.frames')).toHaveCount(0);
+        return;
+      }
+      await type(page, s.ans);
+      await next(page);
+    }
   });
 
   test('step 2, in her head: a whole round on the number pad, each miss told what fits that sum', async ({ page }) => {
@@ -234,11 +294,12 @@ test.describe('Sums to 20', () => {
     await openGame(page, 'sums', 11);
     for (let i = 0; i < 6; i++) {
       const s = await sum(page);
-      await expect(page.locator('.frames')).toHaveCount(0);
+      await expect(page.locator('.frames, [data-testid=downten]')).toHaveCount(0);
       if (i % 2 === 0) {
         await type(page, s.ans === 20 ? 19 : s.ans + 1);
         await expect(feedback(page)).toHaveText(hintFor(s));
-        await expect(page.locator('.frames')).toBeVisible();
+        // The picture comes back: ten frames, or the blocks, step by step, when she takes away through ten.
+        await expect(page.locator(s.op === '−' && through(s) ? '[data-testid=downten]' : '.frames')).toBeVisible();
       }
       await type(page, s.ans);
       await expect(feedback(page)).toContainText('Woof!');
@@ -257,7 +318,8 @@ test.describe('Sums to 20', () => {
     await expect(page.getByTestId('prompt')).toContainText(s.op === '+' ? 'How many bones does she have now?' : 'How many bones are left?');
     await type(page, s.ans === 20 ? 19 : s.ans + 1);
     await expect(feedback(page)).toHaveText(hintFor(s));
-    await expect(page.locator('.frames')).toBeVisible();
+    // The picture comes back: ten frames, or the blocks, step by step, when she takes away through ten.
+    await expect(page.locator(s.op === '−' && through(s) ? '[data-testid=downten]' : '.frames')).toBeVisible();
     await type(page, s.ans);
     await expect(page.getByTestId('equation')).toHaveText(`${s.a} ${s.op} ${s.b} = ${s.ans}`);
     await fitsTheScreen(page);
