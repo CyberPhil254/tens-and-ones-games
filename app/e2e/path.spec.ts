@@ -185,8 +185,8 @@ test('when the path gets there the step back is the next stone, at the step that
   const back = stone(page, 's1-calc20');
   await expect(back).toHaveAttribute('data-next', 'true');
   await expect(back).toContainText('A quick step back');
-  await expect(back).toContainText('Next. Step 2 of 3.'); // not step one
-  await expect(back).toHaveAttribute('data-steps', '1/3');
+  await expect(back).toContainText('Next. Step 2 of 4.'); // not step one
+  await expect(back).toHaveAttribute('data-steps', '1/4');
   await expect(stone(page, 's2-calc')).toHaveAttribute('data-status', 'locked');
   await expect(page.getByTestId('today-text')).toContainText('Sums to 20');
 });

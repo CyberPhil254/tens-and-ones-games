@@ -54,7 +54,7 @@ export async function seed(page: Page, s: Seed = {}): Promise<void> {
   const base = {
     profile: { id: s.id ?? 'child-test', nickname: s.nickname ?? 'Amani', picture: 'zebra', stage: s.stage ?? 1, created: day(-30) },
     child: { lessons: s.lessons ?? {}, ...(s.doneOn ? { doneOn: s.doneOn } : {}) },
-    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true,
+    bones: s.bones ?? 0, best: s.best ?? 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: s.checked ?? true, shape: 2,
   };
   let rewards: Record<string, unknown> = { treasures: {}, tricks: {}, awards: {}, ...s.rewards };
   if (!s.rewards) {
@@ -198,6 +198,16 @@ export async function answerRight(page: Page): Promise<void> {
   const ans = Number(q.ans ?? q.n);
   if (await card.getByRole('button', { name: 'Move them' }).count()) await card.getByRole('button', { name: 'Move them' }).click();
   if (q.kind === 'count') for (const b of await card.locator('.fbone').all()) await b.click();
+  // Step by step: the small steps first, then the answer like any other.
+  const one = (n: number) => card.locator('.choice').filter({ hasText: new RegExp(`^${n}$`) });
+  if (await card.getByRole('button', { name: /^Take away the (one|\d ones)$/ }).count()) {
+    await card.getByRole('button', { name: /^Take away the (one|\d ones)$/ }).click();
+    await one((q.via as { rest: number }).rest).click();
+    await expect(card.getByTestId('downten')).toHaveAttribute('data-step', '2');
+  } else if (await card.getByTestId('upto20').count()) {
+    await one(ans).click();
+    await expect(card.getByTestId('upto20')).toHaveAttribute('data-step', '1');
+  }
   if (await card.getByTestId('numpad').count()) {
     for (const d of String(ans)) await card.getByTestId('numpad').getByRole('button', { name: d, exact: true }).click();
     await card.getByRole('button', { name: 'That is my answer' }).click();

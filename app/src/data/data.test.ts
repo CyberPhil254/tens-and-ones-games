@@ -124,7 +124,7 @@ describe('the device store', () => {
     const s = memory();
     await deviceStore(s, () => TODAY).save(played());
     expect([...s.m.keys()].sort()).toEqual(['tens-and-ones.profile.child-1', 'tens-and-ones.profiles']);
-    expect(Object.keys(JSON.parse(s.m.get('tens-and-ones.profile.child-1')!)).sort()).toEqual(['attempts', 'best', 'bones', 'checked', 'child', 'profile', 'rewards']);
+    expect(Object.keys(JSON.parse(s.m.get('tens-and-ones.profile.child-1')!)).sort()).toEqual(['attempts', 'best', 'bones', 'checked', 'child', 'profile', 'rewards', 'shape']);
   });
 });
 
@@ -140,5 +140,59 @@ describe('telling whether two profiles hold the same data', () => {
     expect(sameData(d, { ...d, bones: d.bones + 1 }, TODAY)).toBe(false);
     expect(sameData(d, newProfile(d.profile.id, d.profile.nickname, d.profile.picture, d.profile.stage, d.profile.created), TODAY)).toBe(false); // started again
     expect(sameData(d, { ...d, profile: { ...d.profile, nickname: 'Zuri' } }, TODAY)).toBe(false);
+  });
+});
+
+describe('a profile from before the step-by-step steps', () => {
+  const D = TODAY;
+  const state = (step: number, more: Record<string, unknown> = {}) => ({ step, passedOn: [], reviews: 0, reviewMisses: 0, rating: 2, answers: 30, recent: [true, true], slow: false, ...more });
+  const old = (lessons: Record<string, unknown>, more: Record<string, unknown> = {}) => {
+    const { shape: _s, ...d } = JSON.parse(JSON.stringify(newProfile('child-1', 'Amani', 'zebra', 1, D))) as Record<string, unknown>;
+    void _s;
+    return { ...d, child: { lessons }, bones: 80, checked: true, rewards: { treasures: { welcome: 'ball', t1: 'bed' }, tricks: {}, awards: {} }, ...more };
+  };
+  const read = (raw: unknown) => readProfileData(raw, D)!;
+
+  it('a child who was past the new step goes to it, and the lesson has to be passed again; bones and rewards stay', () => {
+    const d = read(old({
+      's1-calc20': state(2), // was at the story step
+      's2-bonds': state(3, { passedOn: ['2026-11-01', '2026-11-02'], mastered: '2026-11-02', due: '2026-12-01', reviews: 2 }), // mastered
+      's1-add': state(2, { passedOn: ['2026-11-01', '2026-11-02'], mastered: '2026-11-02', due: '2026-12-01' }),
+    }));
+    expect(d.child.lessons['s1-calc20']).toMatchObject({ step: 1, passedOn: [], rating: 2, answers: 30 });
+    expect(d.child.lessons['s2-bonds']).toMatchObject({ step: 2, passedOn: [], reviews: 0 });
+    expect(d.child.lessons['s2-bonds']!.mastered).toBeUndefined();
+    expect(d.child.lessons['s2-bonds']!.due).toBeUndefined();
+    expect(d.child.lessons['s1-add']!.mastered).toBe('2026-11-02'); // every other lesson is as it was
+    expect(d.bones).toBe(80);
+    expect(d.rewards.treasures).toEqual({ welcome: 'ball', t1: 'bed' });
+    expect(d.shape).toBe(2);
+  });
+
+  it('a child who had not reached the new step stays where she is', () => {
+    const d = read(old({ 's1-calc20': state(0), 's2-bonds': state(1) }));
+    expect(d.child.lessons['s1-calc20']!.step).toBe(0);
+    expect(d.child.lessons['s2-bonds']!.step).toBe(1);
+  });
+
+  it('a child at the old step in her head lands on the new step, which now stands there', () => {
+    const d = read(old({ 's1-calc20': state(1), 's2-bonds': state(2) }));
+    expect(d.child.lessons['s1-calc20']).toMatchObject({ step: 1, recent: [] });
+    expect(d.child.lessons['s2-bonds']).toMatchObject({ step: 2, recent: [] });
+  });
+
+  it('a lesson only known from the starting check is left as it is', () => {
+    const known = { step: 9, passedOn: [], mastered: '2026-11-10', placed: true, reviews: 0, due: '2026-12-01', reviewMisses: 0, rating: 3, answers: 0, recent: [], slow: false };
+    const d = read(old({ 's1-calc20': known, 's2-bonds': known }));
+    expect(d.child.lessons['s1-calc20']).toMatchObject({ mastered: '2026-11-10', placed: true });
+    expect(d.child.lessons['s2-bonds']).toMatchObject({ mastered: '2026-11-10', placed: true });
+  });
+
+  it('it is done once: a profile saved since then is not moved again', () => {
+    const once = read(old({ 's1-calc20': state(2) }));
+    // She plays on and passes the lesson; reading it again leaves it alone.
+    const later = { ...once, child: { lessons: { 's1-calc20': { ...once.child.lessons['s1-calc20']!, step: 3, passedOn: ['2026-11-14'] } } } };
+    const again = read(JSON.parse(JSON.stringify(later)));
+    expect(again.child.lessons['s1-calc20']).toMatchObject({ step: 3, passedOn: ['2026-11-14'] });
   });
 });

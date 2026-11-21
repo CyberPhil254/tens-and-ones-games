@@ -67,6 +67,11 @@ export interface ProfileData {
   attempts: Attempt[];
   /** The starting check has been done (or skipped by a parent). */
   checked: boolean;
+  /**
+   * Which lessons this profile was last saved with. 2: "Sums to 20" and "Friends of 20 and 100" have their
+   * step-by-step steps. A profile without it is brought up to date when it is read (see `withNewSteps`).
+   */
+  shape: 2;
 }
 
 /** Settings for the whole device, changed in the parents' area. */
@@ -89,7 +94,7 @@ export const cleanNickname = (raw: string): string => raw.replace(/[^\p{L}\p{N} 
 export function newProfile(id: string, nickname: string, picture: Friend, stage: 1 | 2, today: Day): ProfileData {
   return {
     profile: { id, nickname: cleanNickname(nickname) || 'Friend', picture, stage, created: today },
-    child: newChild(), bones: 0, best: 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: false,
+    child: newChild(), bones: 0, best: 0, rewards: { treasures: {}, tricks: {}, awards: {} }, attempts: [], checked: false, shape: 2,
   };
 }
 
@@ -134,6 +139,24 @@ function readAttempt(raw: unknown): Attempt | null {
   return { lesson: r.lesson, step: count(r.step, 10), part, clean: r.clean === true, misses: count(r.misses, 99), hint: r.hint === true, ms: count(r.ms, 3_600_000), at: r.at };
 }
 
+/**
+ * Two lessons got a step in which she works the sum out step by step in the blocks: "Sums to 20" (taking away
+ * through ten, its second step) and "Friends of 20 and 100" (the ones first, its third step).
+ * A child who was at or past that place when it was added has never done it: she goes to that step, and the
+ * lesson has to be passed again from there. Her bones and rewards stay; the lesson's paws are won again.
+ * A lesson only known from the starting check is left as it is. Done once: the profile is then saved as shape 2.
+ */
+function withNewSteps(lessons: Record<string, LessonState>): void {
+  // The lesson, and the place of its new step counted from 0.
+  for (const [id, at] of [['s1-calc20', 1], ['s2-bonds', 2]] as const) {
+    const l = lessons[id];
+    if (!l || l.placed || l.known || !(l.step >= at || l.passedOn.length > 0 || l.mastered)) continue;
+    const { mastered: _m, due: _d, reviewedOn: _r, from: _f, ...rest } = l;
+    void _m; void _d; void _r; void _f;
+    lessons[id] = { ...rest, step: at, passedOn: [], recent: [], reviews: 0, reviewMisses: 0 };
+  }
+}
+
 /** Builds a profile from stored or pasted data, keeping only what is well formed. Null when it is not a profile at all. */
 export function readProfileData(raw: unknown, today: Day): ProfileData | null {
   const r = obj(raw), p = obj(r.profile);
@@ -150,6 +173,7 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     // Mastered without ever passing its last step: the starting check marked it, and a review confirmed it, before that was written down.
     if (l.mastered && !l.placed && l.passedOn.length === 0) l.known = true;
   }
+  if (r.shape !== 2) withNewSteps(lessons);
   // A child who started in Stage 2 before the path began there: Stage 1 is known, except what she is in the
   // middle of, which becomes a quick step back. What she has played is not touched. Doing it again changes nothing.
   const stage = p.stage === 1 ? 1 : 2;
@@ -172,6 +196,7 @@ export function readProfileData(raw: unknown, today: Day): ProfileData | null {
     },
     attempts: Array.isArray(r.attempts) ? r.attempts.map(readAttempt).filter((a): a is Attempt => a !== null).slice(-KEEP_ATTEMPTS) : [],
     checked: r.checked === true,
+    shape: 2,
   });
 }
 

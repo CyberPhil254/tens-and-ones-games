@@ -90,7 +90,7 @@ export const UNITS: Unit[] = [
       lesson('s1-sub', 'Taking away', 'Subtracting as taking away, counting back and finding the difference', ['s1-add'], [see(a('sums', 4)), sketch(a('sums', 5)), head(a('sums', 6))]),
       lesson('s1-ten', 'Friends of ten', 'Pairs that make 10', ['s1-see'], [see(a('friends', 1)), head(a('friends', 2)), apply(a('story', 1, 2))]),
       lesson('s1-doubles', 'Doubles', 'Doubles up to double 10', ['s1-add'], [see(a('sums', 7)), head(a('sums', 8))]),
-      lesson('s1-calc20', 'Sums to 20', 'Add and subtract with answers to 20', ['s1-add', 's1-sub', 's1-ten'], [see(a('sums', 9), a('sums', 10)), head(a('sums', 11)), apply(a('sums', 12))]),
+      lesson('s1-calc20', 'Sums to 20', 'Add and subtract with answers to 20', ['s1-add', 's1-sub', 's1-ten'], [see(a('sums', 9)), see(a('sums', 10)), head(a('sums', 11)), apply(a('sums', 12))]),
     ],
   },
   { id: 's1-u5', stage: 1, title: 'Halves', lessons: [lesson('s1-half', 'Halves', 'Halves: equal and unequal parts, half of a shape, half of a set, two halves make a whole', ['s1-doubles'], [see(a('parts', 1)), see(a('parts', 2)), head(a('parts', 3))])] },
@@ -125,7 +125,7 @@ export const UNITS: Unit[] = [
   {
     id: 's2-u4', stage: 2, title: 'Adding and taking away to 100',
     lessons: [
-      lesson('s2-bonds', 'Friends of 20 and 100', 'Pairs that make 20; pairs of tens that make 100', ['s1-ten'], [see(a('friends', 3)), see(a('bonds', 1)), see(a('bonds', 2)), head(a('bonds', 3))]),
+      lesson('s2-bonds', 'Friends of 20 and 100', 'Pairs that make 20; pairs of tens that make 100', ['s1-ten'], [see(a('friends', 3)), see(a('bonds', 1)), see(a('bonds', 4)), see(a('bonds', 2)), head(a('bonds', 3))]),
       lesson('s2-inverse', 'Mystery numbers', 'Adding and subtracting undo each other', ['s1-add', 's1-sub'], [see(a('mystery', 1)), see(a('mystery', 2)), head(a('mystery', 3))]),
       lesson('s2-calc', 'Tens and ones sums', 'Add and subtract two-digit numbers where no ten has to be made or broken', ['s2-place', 's1-calc20'], [
         see(a('jump', 1), a('jump', 2)), see(a('plus', 1)), sketch(a('plus', 2)), see(a('take', 1), a('take', 2)), head(a('jump', 4), a('plus', 3)),

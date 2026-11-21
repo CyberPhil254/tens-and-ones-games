@@ -4,6 +4,28 @@ The full build of `docs/build-spec.md` is finished: every line of its "Done mean
 
 The new app: https://tens-and-ones-app.philipp-79a.workers.dev. The live game at the repository root was not touched.
 
+## Two concepts she had not understood: step-by-step exercises (2026-11-21, pull request 59)
+
+From Philipp's work with his daughter: she gets sums like 17 − 9 and 13 + ? = 20 right only by counting on her fingers, and the pictures did not show her a way. Nothing is half done. Seven new sentences, all recorded.
+
+1. **Taking away through ten, step by step** (a new second step of "Sums to 20"; try it at `#try=sums.10`). 17 − 9 is a red ten and 7 blue ones, with a row of nine dots for what is to be taken away.
+   - She taps the blue ones: all seven go at once, crossed out, and "17 − 7 = 10" appears under the blocks. Seven dots are ticked.
+   - "How many more do you still have to take away?" (2). A miss points at the row of dots.
+   - The ten breaks into ten ones. "10 − 2 = ?" A miss crosses the two out.
+   - Both little sums stay on the screen: 17 − 7 = 10, 10 − 2 = 8.
+2. **The same picture wherever she takes away through ten in her head** (the steps "in her head" and "a story" of that lesson): after a miss, or when she asks for a picture, it is replayed step by step in the blocks. The two ten frames with crossed-out counters are gone for these sums. Adding still uses the ten frames.
+3. **Friends of 20, step by step** (a new third step of "Friends of 20 and 100"; `#try=bonds.4`). 13 + ? = 20 is a red ten and 3 blue ones with seven empty places.
+   - "Look at the ones first. 3 and how many more make ten?" (7).
+   - The seven arrive in yellow: 3 + 7 = 10. "So 13 and how many more make 20?"
+   - The ten ones become a second red ten: 20. "The same friends: 3 and 7."
+4. **Children who were already past these places are taken back to them, once.** A child who was at or past the new step of either lesson, or had passed or mastered the lesson by playing, stands at the new step when she next opens the app and passes the lesson again from there. Bones, treasures, tricks, badges: all kept. A lesson only known from the starting check is not touched.
+
+New sentences (recorded with `tools/voice`, 945 clips now): "First take away the ones. Tap the blue ones." / "How many more do you still have to take away?" / "Look at the row of dots. The ticked ones are taken. Count the ones still to take." / "Now take the rest from the ten." / "Look at the blue ones. Count the empty places up to ten." / "Count the yellow ones. That is how many you added." / "Look at the ones first."
+
+To confirm (in `docs/decisions.md`, dated 2026-11-21): taking children back to the new steps; the ones go in one tap, not one by one; the blocks instead of ten frames for taking away through ten; adding through ten and the tens that make 100 are left as they were.
+
+The whole-path test with the two longer lessons, for the child who is right 3 times in 4: 130 days of play, a treasure every 4.0 days at first and 7.3 later, a trick every 21.3 days, longest wait 10 days.
+
 ## After the first test on a phone (2026-11-16, pull request 48)
 
 Five fixes from Philipp's first test. Nothing is half done and no clips are waiting to be recorded.
@@ -204,7 +226,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Its sentences recorded | **Yes.** 935 clips, none missing; a test fails if a clip has no recording |
 | A child who answers correctly goes from an empty profile to the end of Stage 2 | **Yes.** All 41 lessons, the last on day 59 |
 | A child at about 60 percent is held back, given easier steps and review, and never has nothing to do | **Yes, with a warning.** She is held back and never has an empty day, but she keeps nothing mastered. See the whole-path test below |
-| All checks in "Checks for every lesson" pass | **Yes.** 498 unit tests, 379 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
+| All checks in "Checks for every lesson" pass | **Yes.** 506 unit tests, 383 browser tests at 400 px and laptop width, on every pull request and on its Cloudflare preview |
 | The live game is untouched and still works | **Yes.** No commit of this build touches `index.html`, `audio/`, `wrangler.jsonc` or `netlify.toml`. The reference test still reads the live game and compares the eleven ported games with it, draw by draw |
 
 ## What was built, by unit
@@ -226,7 +248,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Stage 1: Adding and taking away to 20 | Taking away (s1-sub) | 3: see, sketch, head | Sums to 20 |
 | Stage 1: Adding and taking away to 20 | Friends of ten (s1-ten) | 3: see, head, use | Friends of Ten, Oreo's Stories |
 | Stage 1: Adding and taking away to 20 | Doubles (s1-doubles) | 2: see, head | Sums to 20 |
-| Stage 1: Adding and taking away to 20 | Sums to 20 (s1-calc20) | 3: see, head, use | Sums to 20 |
+| Stage 1: Adding and taking away to 20 | Sums to 20 (s1-calc20) | 4: see, see (step by step), head, use | Sums to 20 |
 | Stage 1: Halves | Halves (s1-half) | 3: see, see, head | Halves and quarters |
 | Stage 1: Money | Coins and notes (s1-money) | 2: see, head | Money |
 | Stage 2: Tens and ones | Pack in tens (s2-count) | 2: see, see | Pack Ten |
@@ -241,7 +263,7 @@ I cannot listen to the recordings: the 59 new clips are checked for existing and
 | Stage 2: Counting in steps | Steps of two, five and ten (s2-skip) | 3: see, see, head | Jump in Tens, Skip and spot |
 | Stage 2: Counting in steps | Odd and even to 100 (s2-oddeven) | 1: head | Skip and spot |
 | Stage 2: Counting in steps | Number patterns (s2-sequence) | 1: head | Skip and spot |
-| Stage 2: Adding and taking away to 100 | Friends of 20 and 100 (s2-bonds) | 4: see, see, see, head | Friends of Ten, Friends of 20 and 100 |
+| Stage 2: Adding and taking away to 100 | Friends of 20 and 100 (s2-bonds) | 5: see, see, see (step by step), see, head | Friends of Ten, Friends of 20 and 100 |
 | Stage 2: Adding and taking away to 100 | Mystery numbers (s2-inverse) | 3: see, see, head | Mystery Box |
 | Stage 2: Adding and taking away to 100 | Tens and ones sums (s2-calc) | 6: see, see, sketch, see, head, use | Jump in Tens, Tens and ones sums, Break a Ten, Oreo's Stories |
 | Stage 2: Equal groups | Equal groups (s2-times) | 3: see, sketch, head | Equal groups |
@@ -289,7 +311,7 @@ All 178 are in `docs/decisions.md` under "Decided during the build, to confirm",
 
 ## Clips
 
-- 935 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 541 keep their recording from the live game, 394 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
+- 945 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 541 keep their recording from the live game, 404 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
 - Missing: none (`app/voice/missing.json` is empty).
 - Nobody has listened to the 338 new ones. They are machine voice of the same kind as the live game's; a few will have odd stress and want recording again by ear. The stitched sentences ("8, plus, 5. How many altogether?") are the most likely to sound wrong.
 
@@ -372,6 +394,8 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 54 | Rewards early and often: the welcome treasure, treasures by paws, tricks by lessons mastered, unit badges; "Oreo's things" shows everything; paws and the changing stone after every round |
 | 55 | "Change name or picture" in the parents' area: only those two change |
 | 56 | A Stage 2 child starts in Stage 2: the check looks for gaps (two questions a lesson), a gap is a quick step back, Stage 1 is a folded banner, existing profiles placed again |
+| 59 | Step-by-step exercises in the blocks: taking away through ten ("Sums to 20") and friends of 20 from the ones ("Friends of 20 and 100"); children past those places are taken back to them once |
+| 58 | The three reward decisions recorded |
 | 57 | Rewards at a steady pace: known lessons count for nothing, one reward a day at the end of today's games, the schedule retuned, existing profiles keep what they have |
 | 24 | The engine's rules as pure functions (`app/src/engine/`): rating, steps, mastery on two days, review after 1, 3, 7, 14, 30 days, reopening, what is open, the starting-check marking, guessing, today's parts. Tested with three simulated children |
 | 23 | The curriculum as data: 2 stages, 14 units, 41 lessons (38 skills and 3 stretch lessons), steps pointing at game levels. Tests hold it to `skill-map.md` and the unit tables of the spec |
