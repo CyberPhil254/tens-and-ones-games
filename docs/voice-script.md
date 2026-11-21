@@ -141,7 +141,7 @@ Whole sentences:
 
 ## Pack: sums
 
-21 clips.
+20 clips.
 
 Whole sentences:
 
@@ -160,7 +160,6 @@ Whole sentences:
 - Look at the row of dots. The ticked ones are taken. Count the ones still to take.
 - Now take the rest from the ten.
 - Look at the blue ones. Count the empty places up to ten.
-- Count the yellow ones. That is how many you added.
 - Look at the ones first.
 - Add the tens to the tens. Add the ones to the ones.
 - Tens with tens, and ones with ones.

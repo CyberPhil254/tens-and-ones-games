@@ -6,7 +6,7 @@ The new app: https://tens-and-ones-app.philipp-79a.workers.dev. The live game at
 
 ## Two concepts she had not understood: step-by-step exercises (2026-11-21, pull request 59)
 
-From Philipp's work with his daughter: she gets sums like 17 − 9 and 13 + ? = 20 right only by counting on her fingers, and the pictures did not show her a way. Nothing is half done. Seven new sentences, all recorded.
+From Philipp's work with his daughter: she gets sums like 17 − 9 and 13 + ? = 20 right only by counting on her fingers, and the pictures did not show her a way. Nothing is half done. Six new sentences, all recorded.
 
 1. **Taking away through ten, step by step** (a new second step of "Sums to 20"; try it at `#try=sums.10`). 17 − 9 is a red ten and 7 blue ones, with a row of nine dots for what is to be taken away.
    - She taps the blue ones: all seven go at once, crossed out, and "17 − 7 = 10" appears under the blocks. Seven dots are ticked.
@@ -15,12 +15,12 @@ From Philipp's work with his daughter: she gets sums like 17 − 9 and 13 + ? = 
    - Both little sums stay on the screen: 17 − 7 = 10, 10 − 2 = 8.
 2. **The same picture wherever she takes away through ten in her head** (the steps "in her head" and "a story" of that lesson): after a miss, or when she asks for a picture, it is replayed step by step in the blocks. The two ten frames with crossed-out counters are gone for these sums. Adding still uses the ten frames.
 3. **Friends of 20, step by step** (a new third step of "Friends of 20 and 100"; `#try=bonds.4`). 13 + ? = 20 is a red ten and 3 blue ones with seven empty places.
-   - "Look at the ones first. 3 and how many more make ten?" (7).
-   - The seven arrive in yellow: 3 + 7 = 10. "So 13 and how many more make 20?"
-   - The ten ones become a second red ten: 20. "The same friends: 3 and 7."
+   - One question: "Look at the ones first. 3 and how many more make ten?" (7).
+   - Then she watches: the seven arrive in yellow, 3 + 7 = 10; the ten ones become a second red ten; the sum at the top is complete, 13 + 7 = 20. "The same friends: 3 and 7."
+   - (Pull request 60: at first it asked a second time, "So 13 and how many more make 20?", with the same answer. Philipp found that confusing, rightly: it is now shown, not asked.)
 4. **Children who were already past these places are taken back to them, once.** A child who was at or past the new step of either lesson, or had passed or mastered the lesson by playing, stands at the new step when she next opens the app and passes the lesson again from there. Bones, treasures, tricks, badges: all kept. A lesson only known from the starting check is not touched.
 
-New sentences (recorded with `tools/voice`, 945 clips now): "First take away the ones. Tap the blue ones." / "How many more do you still have to take away?" / "Look at the row of dots. The ticked ones are taken. Count the ones still to take." / "Now take the rest from the ten." / "Look at the blue ones. Count the empty places up to ten." / "Count the yellow ones. That is how many you added." / "Look at the ones first."
+New sentences (recorded with `tools/voice`, 944 clips now): "First take away the ones. Tap the blue ones." / "How many more do you still have to take away?" / "Look at the row of dots. The ticked ones are taken. Count the ones still to take." / "Now take the rest from the ten." / "Look at the blue ones. Count the empty places up to ten." / "Look at the ones first."
 
 To confirm (in `docs/decisions.md`, dated 2026-11-21): taking children back to the new steps; the ones go in one tap, not one by one; the blocks instead of ten frames for taking away through ten; adding through ten and the tens that make 100 are left as they were.
 
@@ -311,7 +311,7 @@ All 178 are in `docs/decisions.md` under "Decided during the build, to confirm",
 
 ## Clips
 
-- 945 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 541 keep their recording from the live game, 404 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
+- 944 clips (`app/voice/script.json`; readable as `docs/voice-script.md`): 541 keep their recording from the live game, 403 were recorded for the app with `tools/voice/` (Kokoro, voice `af_heart`).
 - Missing: none (`app/voice/missing.json` is empty).
 - Nobody has listened to the 338 new ones. They are machine voice of the same kind as the live game's; a few will have odd stress and want recording again by ear. The stitched sentences ("8, plus, 5. How many altogether?") are the most likely to sound wrong.
 
@@ -394,6 +394,7 @@ New or changed sentences: `npm run voice:todo`, record with `tools/voice/record.
 | 54 | Rewards early and often: the welcome treasure, treasures by paws, tricks by lessons mastered, unit badges; "Oreo's things" shows everything; paws and the changing stone after every round |
 | 55 | "Change name or picture" in the parents' area: only those two change |
 | 56 | A Stage 2 child starts in Stage 2: the check looks for gaps (two questions a lesson), a gap is a quick step back, Stage 1 is a folded banner, existing profiles placed again |
+| 60 | Friends of 20, step by step, asks once: the second question had the same answer as the first |
 | 59 | Step-by-step exercises in the blocks: taking away through ten ("Sums to 20") and friends of 20 from the ones ("Friends of 20 and 100"); children past those places are taken back to them once |
 | 58 | The three reward decisions recorded |
 | 57 | Rewards at a steady pace: known lessons count for nothing, one reward a day at the end of today's games, the schedule retuned, existing profiles keep what they have |

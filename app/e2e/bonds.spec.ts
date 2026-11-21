@@ -76,7 +76,7 @@ test('in her head: both kinds, typed; the picture after a miss', async ({ page }
   expect(errors).toEqual([]);
 });
 
-test('friends of 20, step by step in the blocks: the ones first, then the same friend makes 20', async ({ page }) => {
+test('friends of 20, step by step in the blocks: one question about the ones, and the blocks show the same friend makes 20', async ({ page }) => {
   const errors = watch(page);
   await openGame(page, 'bonds', 4);
   await expect(page.getByTestId('title')).toHaveText('Friends of 20 and 100');
@@ -88,31 +88,25 @@ test('friends of 20, step by step in the blocks: the ones first, then the same f
   await expect(blocks.locator('.rod')).toHaveCount(1);
   await expect(blocks.locator('.cube')).toHaveCount(o);
   await expect(page.getByTestId('stepsub')).toHaveText(`Look at the ones first. ${o} and how many more make ten?`);
-  // 1. The friend of ten. A miss points at the empty places.
+  // The friend of ten. A miss points at the empty places.
   await wrongChoice(page, p.ans).click();
   await expect(feedback(page)).toHaveText('Look at the blue ones. Count the empty places up to ten.');
   await choice(page, p.ans).click();
-  await expect(pic).toHaveAttribute('data-step', '1');
-  await expect(blocks.locator('.cube.sun')).toHaveCount(p.ans); // the friend arrives in yellow and fills the ten
-  await expect(blocks.locator('.cube')).toHaveCount(10);
-  await expect(pic.getByTestId('steplines').locator('li')).toHaveText([`${o} + ${p.ans} = 10`]);
-  await expect(page.getByTestId('stepsub')).toHaveText(`So ${p.n} and how many more make 20?`);
-  await fitsTheScreen(page);
-  // 2. The whole sum: the same friend. A miss points at the yellow ones.
-  await wrongChoice(page, p.ans).click();
-  await expect(feedback(page)).toHaveText('Count the yellow ones. That is how many you added.');
-  await choice(page, p.ans).click();
+  // That is the whole answer: she is asked once. The friend arrives in yellow and fills the ten ...
   await expect(feedback(page)).toHaveText(`Woof! ${o} + ${p.ans} = 10, so ${p.n} + ${p.ans} = 20. The same friends: ${o} and ${p.ans}.`);
-  // The ten ones become a second red ten.
+  await expect(page.getByTestId('prompt')).toContainText(`${p.n} + ${p.ans} = 20`);
+  await expect(pic.getByTestId('steplines').locator('li').first()).toHaveText(`${o} + ${p.ans} = 10`);
+  // ... and the ten ones become a second red ten, with both little sums under the blocks.
+  await expect(pic).toHaveAttribute('data-step', '2');
   await expect(blocks.locator('.rod')).toHaveCount(2);
   await expect(pic.getByTestId('steplines').locator('li')).toHaveText([`${o} + ${p.ans} = 10`, `${p.n} + ${p.ans} = 20`]);
+  await expect(page.locator('.choice:not([disabled])')).toHaveCount(0); // nothing more is asked
   await expect(paws(page)).toHaveCount(1);
   await fitsTheScreen(page);
   await next(page);
   const p2 = await pair(page);
   await choice(page, p2.ans).click();
-  await expect(pic).toHaveAttribute('data-step', '1');
-  await choice(page, p2.ans).click();
+  await expect(page.getByTestId('upto20').locator('.cube.sun')).toHaveCount(p2.ans); // the yellow ones are seen before they turn red
   await expect(bones(page)).toHaveCount(1);
   expect(errors).toEqual([]);
 });
