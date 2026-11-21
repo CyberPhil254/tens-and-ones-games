@@ -116,7 +116,6 @@ export const FIXED = {
   'now-take-the-rest-from-the': "Now take the rest from the ten.",
   // Friends of 20, step by step.
   'look-at-the-blue-ones-count': "Look at the blue ones. Count the empty places up to ten.",
-  'count-the-yellow-ones-that-is': "Count the yellow ones. That is how many you added.",
   'the-ones-first': "Look at the ones first.",
   // Tens and ones sums.
   'add-the-tens-to-the-tens': "Add the tens to the tens. Add the ones to the ones.",

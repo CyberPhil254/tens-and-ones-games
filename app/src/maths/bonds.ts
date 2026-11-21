@@ -2,7 +2,8 @@
  * Friends of 20 and 100: the pairs that make 20, and the pairs of tens that make 100.
  * Both are the friends of ten again: 13 + 7 is 3 + 7 with a ten beside it, 30 + 70 is 3 + 7 in tens.
  * Level 1: to 20, on two ten frames. Level 2: tens to 100, as rods. Level 3: both, in her head.
- * Level 4: to 20 from a teen number, step by step in the blocks: the ones first (3 and 7 make a ten), then the whole sum.
+ * Level 4: to 20 from a teen number, step by step in the blocks: one question about the ones (3 and how many more
+ * make ten?), and the blocks show that the same friend makes 20.
  */
 import type { Piece } from '../speech/script';
 import type { Dice } from './random';
@@ -16,7 +17,7 @@ export interface BondsQ {
   whole: 20 | 100;
   ans: number;
   opts?: number[];
-  /** Step by step: the choices for "the ones and how many more make ten?" (the answer is `ans` again). */
+  /** Step by step: the choices for "the ones and how many more make ten?" (the answer is `ans`). */
   onesOpts?: number[];
   eq: string;
   say: Piece[];
@@ -68,11 +69,9 @@ export function makeBonds(level: number, d: Dice): BondsQ {
   if (level === 4) {
     // A teen number with ones: 13 + ? = 20 is 3 + ? = 10 with a ten beside it.
     const n = d.rnd(11, 19), o = n - 10, ans = 10 - o;
-    const ok = (c: number) => c >= 1 && c <= 19;
     return {
       kind: 'to20', n, whole: 20, ans,
       onesOpts: pick(d, ans, [ans + 1, ans - 1, o, ans + 2, ans - 2, 10], (c) => c >= 1 && c <= 10),
-      opts: pick(d, ans, [ans + 10, o, n, ans + 1, ans - 1], ok),
       eq: `${n} + ${ans} = 20`,
       say: [n, 'frag.and-how-many-more-make', 20],
       sayEq: [n, 'frag.plus', ans, 'frag.is', 20],

@@ -47,10 +47,9 @@ describe('Friends of 20 and 100: every question the maker can make', () => {
       expect(new Set(q.onesOpts).size).toBe(4);
       expect(q.onesOpts!.filter((c) => c === q.ans)).toHaveLength(1);
       expect([...q.onesOpts!].sort((x, y) => x - y)).toEqual(q.onesOpts);
-      expect(q.opts).toBeDefined();
       // What the two steps say has a clip: the ones and their friend, and the new ten.
       clipIds([q.n, 'frag.and-how-many-more-make', 20, 'the-ones-first', `friendsQ.${o}`]);
-      clipIds([`newTen.${o}`, 'count-the-yellow-ones-that-is']);
+      clipIds([`newTen.${o}`, ...q.sayEq]);
     }
     expect(many(1, 200).every((q) => !q.onesOpts)).toBe(true);
   });

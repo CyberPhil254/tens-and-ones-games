@@ -204,9 +204,6 @@ export async function answerRight(page: Page): Promise<void> {
     await card.getByRole('button', { name: /^Take away the (one|\d ones)$/ }).click();
     await one((q.via as { rest: number }).rest).click();
     await expect(card.getByTestId('downten')).toHaveAttribute('data-step', '2');
-  } else if (await card.getByTestId('upto20').count()) {
-    await one(ans).click();
-    await expect(card.getByTestId('upto20')).toHaveAttribute('data-step', '1');
   }
   if (await card.getByTestId('numpad').count()) {
     for (const d of String(ans)) await card.getByTestId('numpad').getByRole('button', { name: d, exact: true }).click();
